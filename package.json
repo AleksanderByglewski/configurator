@@ -16,7 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.155.0"
+    "lil-gui": "^0.18.2",
+    "three": "^0.155.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.3",

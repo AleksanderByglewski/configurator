@@ -1,8 +1,7 @@
-export function setupAnimation(composer, cube) {
+export function setupAnimation(composer, system) {
     return function animate(time) {
         time = new Date().getTime() * 0.001; // you can get time here
-        cube.position.x = Math.sin(time);
-        cube.position.y = Math.cos(time);
+        system.handleEvent('iterationStep');
         composer.render();
         requestAnimationFrame(animate);
     };

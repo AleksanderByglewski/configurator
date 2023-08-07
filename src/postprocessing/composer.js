@@ -40,9 +40,17 @@ function setupComposer(renderer, scene, camera) {
   const renderPass = new RenderPass(scene, camera);
   composer.addPass(renderPass);
 
-  const bokehPass = new BokehPass(scene, camera, {
+  let bokehPass = new BokehPass(scene, camera, {
     focus: 1.0,
-    aperture: 0.025,
+    aperture: 0.0125,
+    maxblur: 1.0,
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+
+  bokehPass = new BokehPass(scene, camera, {
+    focus: 1.0,
+    aperture: 0.00225,
     maxblur: 1.0,
     width: window.innerWidth,
     height: window.innerHeight

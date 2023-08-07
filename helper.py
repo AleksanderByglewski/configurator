@@ -5,7 +5,7 @@ def display_tree(start_path, depth, max_depth=2, prefix=''):
         return
     
     for entry in sorted(os.listdir(start_path)):
-        if entry == 'node_modules':  # Skip node_modules folder
+        if entry == 'node_modules' or entry =='.git':  # Skip node_modules folder
             continue
         
         path = os.path.join(start_path, entry)
