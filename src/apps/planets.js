@@ -6,7 +6,6 @@ import {setupControls} from '../renderer/controls'
 import {handleResize} from '../renderer/resize'
 import {populateScene} from '../scenes/planets/scene.js'
 import {setupAnimation} from '../scenes/planets/animation.js'
-
 import {setupGuiHelper} from '../helpers/quick-gui'
 
 

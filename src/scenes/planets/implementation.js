@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import {Generic,genericGui,genericState,genericObject,genericDisplay, genericController } from './base'
+
 class PlanetObject extends genericObject {
     constructor() {
         super();
@@ -15,7 +16,11 @@ class PlanetObject extends genericObject {
         sphere.position.set(attributes.position_x, attributes.position_y, 0); // Assuming z-position is always 0, adjust if needed
 
         this.set(sphere); // Save the mesh into the model using the parent class method
+        this.model.material.color.set( 0x4488aa)
+        
+        //Here is your task I would like for this to be a standard hex color string use
     }
+
     update(attributes){
         if (!this.model) return; // Exit if model is not set.
 
@@ -23,8 +28,12 @@ class PlanetObject extends genericObject {
         if (attributes.position_x !== undefined && attributes.position_y !== undefined) {
             this.model.position.set(attributes.position_x, attributes.position_y, 0); // Assuming z-position is always 0
         }
-
+        if(attributes.color!==undefined){
+            this.model.material.color=new THREE.Color(attributes.color)
+        }
     }
+
+    generalChange
 }
 class Planet extends genericController {
     constructor() {
@@ -63,7 +72,7 @@ class Planet extends genericController {
                 break;
             // Handle other events...
             case 'creationStep':
-            
+                
                 this.model.create(this.state.state); // Passing entire state to the create function
                 // Step 2: Retrieve the mesh using the get_model method
                 const planetMesh = this.model.get_model();
@@ -73,7 +82,10 @@ class Planet extends genericController {
                 // this.state.update('position_y', 0);
                 this.display.add_to_scene(planetMesh);
                 break;
-
+            case 'stateChange':
+                this.model.update(this.state.state)
+                
+                break;
             default:
                 super.handleEvent(event, data); // Call the parent's handleEvent for other events
                 break;
@@ -162,4 +174,3 @@ class System extends genericController {
 }
 
 export {System, Planet }
-
