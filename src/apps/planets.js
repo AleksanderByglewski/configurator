@@ -9,7 +9,6 @@ import {setupAnimation} from '../scenes/planets/animation.js'
 import {setupGuiHelper} from '../helpers/quick-gui'
 
 
-
 function initScene(){
   //Initialization and population of the scene
   const scene = new THREE.Scene();

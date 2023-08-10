@@ -20,21 +20,30 @@ class PlanetGui extends genericGui{
         return content;
     }
  
-    createInputMarkup(attributes) {
+  
+    createInputMarkup(attributes){
         let inputs = 'Control system for a body';
-
-        
-
         for (const key in attributes) {
             if (attributes.hasOwnProperty(key)) {
                 inputs += `
-                    <div class="input-group">
-                        <label for="${key}">${key}</label>
-                        <input type="text" id="${key}" name="${key}" value="${attributes[key]}">
+                    <div class="input-group align-items-center">
+                        <label class="pe-2" for="${key}">${key}</label>
+                        <input class="flex-grow-1" type="text" id="${key}" name="${key}" value="${attributes[key]}">
                     </div>`;
             }
         }
-        return inputs;
+
+        return `
+          <div class="accordion" id="parent-inputs-accordion-${this.id}">
+            <div class="accordion-item rounded-0 border-end-0 border-top-0 border-start-0">
+              <h3 class="accordion-header" id="headingTwo-${this.id}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo-${this.id}" aria-expanded="false" aria-controls="collapseTwo-${this.id}">${this.id}</button>
+              </h3>
+              <div id="collapseTwo-${this.id}" class="accordion-collapse collapse" aria-labelledby="headingTwo-${this.id}" data-bs-parent="#parent-inputs-accordion-${this.id}">
+                <div class="accordion-body">${inputs}</div>
+              </div>
+            </div>
+          </div>`;
     }
 
 
@@ -230,5 +239,4 @@ class System extends genericController {
         }
     }
 }
-
 export {System, Planet }
