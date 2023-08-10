@@ -49,7 +49,7 @@ function createThickGrid(size, divisions, color1, color2, lineWidth) {
 
 function setupGuiHelper(scene){
     const gui = new GUI();
-    gui.add( document, 'title' );
+    gui.add( { x: "Solar system simulation" }, 'x' ).name( 'Project' );
 
     // obj = {
     //     myBoolean: true,
@@ -80,7 +80,7 @@ function setupGuiHelper(scene){
     // gui.add( element, 'myBoolean' ); 	// checkbox
     // gui.add( element, 'myString' ); 	// text field
     // gui.add( element, 'myNumber' ); 	// number field
-    gui.add( element, 'myFunction' ); 	// button
+    gui.add( element, 'myFunction').name("toggleGrid"); 	// button
     
 
 

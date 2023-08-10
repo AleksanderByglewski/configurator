@@ -1,7 +1,44 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import {Generic,genericGui,genericState,genericObject,genericDisplay, genericController } from './base'
+class PlanetGui extends genericGui{
+    constructor() {
+        super();
+  
+    }
+  
+  
+   
+    createGuiMarkup(attributes){
+        let content=""
+        for (const key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                content += `<div class="attribute"><strong>${key}:</strong> ${attributes[key]}</div>`;
+            }
+        }  
 
+        return content;
+    }
+ 
+    createInputMarkup(attributes) {
+        let inputs = 'Control system for a body';
+
+        
+
+        for (const key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                inputs += `
+                    <div class="input-group">
+                        <label for="${key}">${key}</label>
+                        <input type="text" id="${key}" name="${key}" value="${attributes[key]}">
+                    </div>`;
+            }
+        }
+        return inputs;
+    }
+
+
+}
 class PlanetObject extends genericObject {
     constructor() {
         super();
@@ -16,7 +53,7 @@ class PlanetObject extends genericObject {
         sphere.position.set(attributes.position_x, attributes.position_y, 0); // Assuming z-position is always 0, adjust if needed
 
         this.set(sphere); // Save the mesh into the model using the parent class method
-        this.model.material.color.set( 0x4488aa)
+        this.model.material.color.set(0x4488aa)
         
         //Here is your task I would like for this to be a standard hex color string use
     }
@@ -39,31 +76,39 @@ class Planet extends genericController {
     constructor() {
         super(); 
         this.model = new PlanetObject();
+        this.gui=new PlanetGui();
+        this.gui.set_mediator(this)
     }
   
     modifyState(iterationStepLength = 0.1) {
         // Calculate new positions using kinematic equations
-        const newPositionX = this.state.get('position_x') + this.state.get('speed_x') * iterationStepLength + 0.5 * this.state.get('acceleration_x') * iterationStepLength ** 2;
-        const newPositionY = this.state.get('position_y') + this.state.get('speed_y') * iterationStepLength + 0.5 * this.state.get('acceleration_y') * iterationStepLength ** 2;
-    
+        const newPositionX = parseFloat(this.state.get('position_x')) + parseFloat(this.state.get('speed_x')) * parseFloat(iterationStepLength) + 0.5 * parseFloat(this.state.get('acceleration_x')) * Math.pow(parseFloat(iterationStepLength), 2);
+        const newPositionY = parseFloat(this.state.get('position_y')) + parseFloat(this.state.get('speed_y')) * parseFloat(iterationStepLength) + 0.5 * parseFloat(this.state.get('acceleration_y')) * Math.pow(parseFloat(iterationStepLength), 2);
+
         // Update the state with the new positions
-        this.state.update('position_x', newPositionX);
-        this.state.update('position_y', newPositionY);
-    
+        this.state.update('position_x', parseFloat(newPositionX));
+        this.state.update('position_y', parseFloat(newPositionY));
+        
         // Update speed based on acceleration. 
         // This is using the formula: new speed = old speed + acceleration * time
-        const newSpeedX = this.state.get('speed_x') + this.state.get('acceleration_x') * iterationStepLength;
-        const newSpeedY = this.state.get('speed_y') + this.state.get('acceleration_y') * iterationStepLength;
-    
+        const newSpeedX = parseFloat(this.state.get('speed_x')) + parseFloat(this.state.get('acceleration_x')) * parseFloat(iterationStepLength);
+        const newSpeedY = parseFloat(this.state.get('speed_y')) + parseFloat(this.state.get('acceleration_y')) * parseFloat(iterationStepLength);
+        
         // Update the state with the new speeds
-        this.state.update('speed_x', newSpeedX);
-        this.state.update('speed_y', newSpeedY);
+        this.state.update('speed_x', parseFloat(newSpeedX));
+        this.state.update('speed_y', parseFloat(newSpeedY));
+  
 
  
     }
 
     handleEvent(event, data) {
         switch (event) {
+            case 'guiInputChange':
+                Object.entries(data).forEach(([name, value]) => {
+                    this.state.update(name, value);  // Call update for each input
+                });
+
             case 'iterationStep':
                 // Here, you can add code to execute during each iteration step, if necessary.
                 // console.log(`${this.constructor.name} is processing iteration step.`);
@@ -84,7 +129,9 @@ class Planet extends genericController {
                 break;
             case 'stateChange':
                 this.model.update(this.state.state)
-                
+                break;
+            case 'guiChange':
+                this.notify('stateChange')
                 break;
             default:
                 super.handleEvent(event, data); // Call the parent's handleEvent for other events
@@ -154,6 +201,8 @@ class System extends genericController {
         // You can add additional event handling specific to System if needed
         switch (event) {
             // Example:
+          
+
             case 'iterationStep':
                 this.planets.forEach(planet => {
                     planet.handleEvent('iterationStep', data);
@@ -161,10 +210,19 @@ class System extends genericController {
                 this.planets.forEach(planet => {
                     this.calculateChanges(planet, this.planets)
                 });
-                break;
+                this.planets.forEach(planet => {
+                    planet.gui.generateChanges(planet.state.state)
+                });
 
+                break;
+            
             case 'planetAdded':
                 console.log(`Planet ${data.name} added to the system.`);
+                break;
+            case 'generateInputs':
+                this.planets.forEach(planet => {
+                    planet.gui.generateInputs(planet.state.state)
+                });
                 break;
             // ... other events
             default:

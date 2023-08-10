@@ -24,15 +24,112 @@ class genericGui extends Generic {
         this.id = uuidv4();
     }
 
-    // render_GUI(for_target) {
-    //     // Implementation as per your code
-    //     // ...
-    //     myInput.addEventListener('change', () => {
-    //         let inputValue = myInput.value;
-    //         this.notify('stateChange', { key: 'position.x', value: inputValue });
-    //     });
-    //     // ...
-    // }
+    insertContent(content, selector = "*", classes = "attribute-values", id = "") {
+        this.waitForDOM(() => {
+            const container = this.getContainer(selector);
+            container.innerHTML = content;
+            container.classList.add(classes);
+            container.id = 'id-' + id;
+        });
+    }
+    waitForDOM(callback) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', callback);
+        } else {
+            callback();
+        }
+    }
+    generateChanges(attributes) {
+        const markup = this.createGuiMarkup(attributes);
+        const escapedId = '#id-' + this.id + '.attribute-values';
+        this.insertContent(markup, escapedId, "attribute-values", this.id);
+    }
+    createGuiMarkup(attributes) {
+        let content = ""
+        for (const key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                content += `<div class="attribute"><strong>${key}:</strong> ${attributes[key]}</div>`;
+            }
+        }
+
+        return content;
+    }
+    generateInputs(attributes) {
+        const markup = this.createInputMarkup(attributes)
+        const escapedId = '#id-' + this.id + '.input-values';
+        this.insertContent(markup, escapedId, 'input-values', this.id)
+        this.listenToChanges()
+    }
+    createInputMarkup(attributes) {
+        let inputs = 'Control system for a body';
+        for (const key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                inputs += `
+                    <div class="input-group">
+                        <label for="${key}">${key}</label>
+                        <input type="text" id="${key}" name="${key}" value="${attributes[key]}">
+                    </div>`;
+            }
+        }
+        return inputs;
+    }
+    listenToChanges() {
+        const container = document.getElementById('id-' + this.id);
+        if (!container) {
+            console.error('Container not found.');
+            return;
+        }
+
+        const inputs = container.querySelectorAll('.input-values input');
+        const newState = {};
+        inputs.forEach(input => {
+            newState[input.name] = parseFloat(input.value);
+        });
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const newState = this.getInputValues();  // assuming you have the getInputValues method
+                this.mediator.handleEvent("guiInputChange", newState);
+            });
+        });
+
+
+    }
+    getInputValues() {
+        const container = document.getElementById('id-' + this.id);
+
+        // Check if the container exists
+        if (!container) {
+            console.error('Container not found.');
+            return {};
+        }
+
+        const inputs = container.querySelectorAll('.input-values input');
+        const values = {};
+
+        // Iterate over each input and store its name and value in the dictionary
+        inputs.forEach(input => {
+            values[input.name] = input.value;
+        });
+
+        return values;
+    }
+    getContainer(selector = `#${this.id}`, parent_container = this.getMenu()) {
+        let container = document.querySelector(selector);
+
+        if (!container) {
+            let child_container = document.createElement('div');
+            parent_container.appendChild(child_container);
+            return child_container;
+        }
+
+        return container;
+    }
+    getMenu() {
+        return document.querySelector('.side-menu')
+    }
+    setMenuSelector(selector = '.side-menu') {
+        this.menuSelector = ".side-menu"
+    }
 }
 
 class genericState extends Generic {
@@ -55,33 +152,33 @@ class genericObject extends Generic {
     constructor(model) {
         super()
         this.model = model
-      }
-    
-      set(model) {
+    }
+
+    set(model) {
         this.model = model
-      }
-      get_model() {
+    }
+    get_model() {
         return this.model;
-      }
-      create() {
+    }
+    create() {
         this.model.create(newState)
-      }
+    }
 }
 
 class genericDisplay extends Generic {
     constructor(scene = undefined) {
         super()
         this.scene = scene
-      }
-      add_to_scene(model) {
+    }
+    add_to_scene(model) {
         this.scene.add(model)
-      }
-      set_scene(scene) {
+    }
+    set_scene(scene) {
         this.scene = scene
-      }
-      get_scene() {
+    }
+    get_scene() {
         return this.scene
-      }
+    }
 }
 
 class genericController extends Generic {
@@ -96,7 +193,7 @@ class genericController extends Generic {
     handleEvent(event, data) {
         switch (event) {
             case 'stateChange':
-                this.state.update(data.key, data.value);
+                // this.state.update(data.key, data.value);
                 break;
             // Handle other events...
             default:
@@ -105,4 +202,4 @@ class genericController extends Generic {
     }
 }
 
-export {Generic,genericGui,genericState,genericObject,genericDisplay, genericController } 
+export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } 
