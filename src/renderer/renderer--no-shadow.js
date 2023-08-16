@@ -2,7 +2,7 @@ import * as THREE from 'three';
 export function setupRenderer()
 {
 const canvasContainer = document.querySelector('#app');
-const renderer = new THREE.WebGLRenderer({ antialias: true, shadowMap:true });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 canvasContainer.appendChild(renderer.domElement);
 
 // Additional renderer settings for improved visuals
@@ -13,7 +13,7 @@ renderer.shadowMap=THREE.BasicShadowMap
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 renderer.outputColorSpace=THREE.LinearSRGBColorSpace
-
+renderer.shadowMap.enabled = true;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 return renderer

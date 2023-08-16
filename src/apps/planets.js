@@ -1,3 +1,4 @@
+import {draggableUI} from '../markup/draggable-ui'
 import * as THREE from 'three';
 import {setupComposer } from '../postprocessing/composer';
 import {setupRenderer } from '../renderer/renderer';
@@ -8,6 +9,7 @@ import {populateScene} from '../scenes/planets/scene.js'
 import {setupAnimation} from '../scenes/planets/animation.js'
 import {setupGuiHelper} from '../helpers/quick-gui'
 
+draggableUI();
 
 function initScene(){
   //Initialization and population of the scene

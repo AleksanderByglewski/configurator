@@ -1,6 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 
+export class accesser {
+    constructor(resource_locator, value = "", name = "") {
+      this.resource_locator = resource_locator
+      this.value = value
+      this.name = name
+    }
+  }
+
 class Generic {
     constructor() {
         this.mediator = null;
@@ -132,44 +140,15 @@ class genericGui extends Generic {
     }
 }
 
-class accesser {
-    constructor(resource_locator, value = "", name = "") {
-      this.resource_locator = resource_locator
-      this.value = value
-      this.name = name
-    }
-  }
-
 class genericState extends Generic {
     constructor(initialState = {}) {
         super();
         this.state = initialState;
     }
 
-    update(keyOrAccessor, value) {
-        // Check if keyOrAccessor is an object (accessor)
-        if (typeof keyOrAccessor === 'object' && keyOrAccessor !== null) {
-            let accessor = keyOrAccessor;
-
-            // Check if the resource_locator exists in the state
-            if (this.state.hasOwnProperty(accessor.resource_locator)) {
-                // Update the existing state value
-                this.state[accessor.resource_locator].value = accessor.value;
-                console.log(`State updated: ${accessor.resource_locator} changed to ${accessor.value}`);
-            } else {
-                // If the state does not exist, add it to the state
-                this.state[accessor.resource_locator] = {
-                    value: accessor.value,
-                    name: accessor.name
-                };
-                console.log(`New state added: ${accessor.resource_locator} set to ${accessor.value}`);
-            }
-        }
-        // If keyOrAccessor is a string (key)
-        else if (typeof keyOrAccessor === 'string') {
-            this.state[keyOrAccessor] = value;
-            console.log(`State updated: ${keyOrAccessor} changed to ${value}`);
-        }
+    update(key, value) {
+        this.state[key] = value;
+        // console.log(`State updated: ${key} changed to ${value}`)
     }
 
     get(key) {
@@ -180,6 +159,7 @@ class genericState extends Generic {
 class genericObject extends Generic {
     constructor(model) {
         super()
+        this.id = uuidv4()
         this.model = model
     }
 
@@ -191,6 +171,13 @@ class genericObject extends Generic {
     }
     create() {
         this.model.create(newState)
+    }
+    remove(){
+        if (this.model) {
+        this.model.geometry.dispose();  // Dispose the geometry of the mesh
+        this.model.material.dispose();
+        this.model = null;  // Optionally, you can set the model to null to indicate it's removed
+    }
     }
 }
 
@@ -217,14 +204,6 @@ class genericController extends Generic {
         this.state = new genericState();
         this.model = new genericObject();
         this.display = new genericDisplay();
-        this.adopt_the_object();
-    }
-
-    adopt_the_object() {
-      this.gui.set_mediator(this)
-      this.state.set_mediator(this)
-      this.model.set_mediator(this)
-      this.display.set_mediator(this)
     }
 
     handleEvent(event, data) {
@@ -239,4 +218,4 @@ class genericController extends Generic {
     }
 }
 
-export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController, accesser } 
+export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } 

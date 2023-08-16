@@ -49,7 +49,7 @@ function createThickGrid(size, divisions, color1, color2, lineWidth) {
 
 function setupGuiHelper(scene){
     const gui = new GUI();
-    gui.add( { x: "Solar system simulation" }, 'x' ).name( 'Project' );
+    gui.add( { x: "system simulation" }, 'x' ).name( 'Project' );
 
     // obj = {
     //     myBoolean: true,

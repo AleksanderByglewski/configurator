@@ -71,47 +71,47 @@ const sun = createPlanet(sunAttributes)
 // // let material = brickMaterial2();
 // // Define your geometry
 // // Create a directional light with color white and intensity 1.0
-//       let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-//       directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
-//       scene.add(directionalLight); // add the light to the scene
+      let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
+      scene.add(directionalLight); // add the light to the scene
 
-//       // Create an ambient light with color white and intensity 0.5
-//       let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-//       scene.add(ambientLight); // add the light to the scene
-//       var spotlight = new THREE.SpotLight(0xffffff); // white light
-//       spotlight.position.set(0, 4, 4); // set position of the light
+      // Create an ambient light with color white and intensity 0.5
+      let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight); // add the light to the scene
+      var spotlight = new THREE.SpotLight(0xffffff); // white light
+      spotlight.position.set(0, 4, 4); // set position of the light
 
-//       var spotLightHelper = new THREE.SpotLightHelper(spotlight);
-//       scene.add(spotLightHelper);
+      var spotLightHelper = new THREE.SpotLightHelper(spotlight);
+      scene.add(spotLightHelper);
 
-//       var coneGeometry = new THREE.ConeGeometry( 0.71, 5*1.41, 64 );
-//       // var coneMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-//       var coneMaterial = new THREE.MeshBasicMaterial( { 
-//       color: 0xffff00,
-//       transparent: true,
-//       opacity: 0.5 // Adjust this value for desired transparency level
-//       } );
-//       var cone = new THREE.Mesh( coneGeometry, coneMaterial );
+      var coneGeometry = new THREE.ConeGeometry( 0.71, 5*1.41, 64 );
+      // var coneMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+      var coneMaterial = new THREE.MeshBasicMaterial( { 
+      color: 0xffff00,
+      transparent: true,
+      opacity: 0.5 // Adjust this value for desired transparency level
+      } );
+      var cone = new THREE.Mesh( coneGeometry, coneMaterial );
 
-//       // Position the cone at the same position as the spotlight
-//       cone.position.copy(new THREE.Vector3(1/2*spotlight.position.x,1/2*spotlight.position.y,1/2*spotlight.position.z));
+      // Position the cone at the same position as the spotlight
+      cone.position.copy(new THREE.Vector3(1/2*spotlight.position.x,1/2*spotlight.position.y,1/2*spotlight.position.z));
 
-//       // Rotate the cone so it points in the same direction as the spotlight
-//       // cone.lookAt(new THREE.Vector3(0,0,0));
+      // Rotate the cone so it points in the same direction as the spotlight
+      // cone.lookAt(new THREE.Vector3(0,0,0));
 
-//       // Rotate the cone 180 degrees
-//       cone.rotation.x += Math.PI/4;
-//       scene.add(cone);
+      // Rotate the cone 180 degrees
+      cone.rotation.x += Math.PI/4;
+      scene.add(cone);
 
-//       // Define the direction in which the light shines
-//       spotlight.target.position.set(0, 0, 0);
+      // Define the direction in which the light shines
+      spotlight.target.position.set(0, 0, 0);
 
-//       // Adjust the angle, intensity and distance of the light
-//       spotlight.angle = Math.PI/28; // Angle of the light in radians (cone width)
-//       spotlight.intensity = 10; // Intensity/brightness of the light
-//       spotlight.distance = 100; // Maximum distance the light reaches. If 0, then it's infinite.
+      // Adjust the angle, intensity and distance of the light
+      spotlight.angle = Math.PI/28; // Angle of the light in radians (cone width)
+      spotlight.intensity = 10; // Intensity/brightness of the light
+      spotlight.distance = 100; // Maximum distance the light reaches. If 0, then it's infinite.
 
-//       scene.add(spotlight);
+      scene.add(spotlight);
 
 
 //       let loader = new THREE.TextureLoader();
