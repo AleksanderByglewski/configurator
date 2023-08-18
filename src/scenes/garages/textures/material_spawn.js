@@ -276,6 +276,7 @@ function generateMetalMaterial(param_wrapS=1.5, param_wrapT=1.5){
     color: 0x272727,
     
   })
+  
     const textureLoader = new THREE.TextureLoader()
     let wrapS=param_wrapS
     let wrapT=param_wrapT

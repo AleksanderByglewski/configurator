@@ -301,12 +301,14 @@ class FundsGarageController extends genericGarageController {
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name')|| 'Wall'
-        let material=this.state.get('floor_type') || 'Default'
+        let material=this.state.get('floor_type') || 'podstawowa'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 1
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#272727"
+
+        let position_y = this.state.get('position_y') || "0.1"
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
@@ -318,7 +320,7 @@ class FundsGarageController extends genericGarageController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0.0),
-            new accesser('position_y', 0),
+            new accesser('position_y', position_y),
             new accesser('position_z', -0.5 * object_depth),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
@@ -369,7 +371,7 @@ class FundsGarageController extends genericGarageController {
 
         ]
         const accessersFoundation = [
-            new accesser('name', name + '_right'),
+            new accesser('name', name + material),
             new accesser('width', object_depth),
             new accesser('height', object_height),
             new accesser('sheet_depth', object_width),
@@ -443,15 +445,19 @@ class FundsGarageController extends genericGarageController {
                 break;
             case 'changeFloor':
                 console.log();
+                this.state.set
                 this.children[4].model.get_model().position.y=0.5
-                break;
-                 
+               
                 const accessers = [
                     new accesser('floor_type', data),
+                    new accesser('position_y',0.5),
                 ]
                 this.set_the_options(this, accessers)
-                this.handleEvent('stateChange')
-                this.handleEvent('buildingStep');
+                
+                // this.handleEvent('stateChange')
+                this.handleEvent('creationStep');
+                // this.handleEvent('guiInputChange', {});
+                
                 break;
             default:
                 super.handleEvent(event, data);
