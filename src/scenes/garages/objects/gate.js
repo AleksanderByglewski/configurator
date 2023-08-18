@@ -392,7 +392,7 @@ class DoorGarageController extends genericGarageController {
         const accessers=[
             new accesser('name', 'Door controller'),
             new accesser('object_type', 'flat'),
-            new accesser('object_angle', '30'),
+            new accesser('object_angle', '31'),
             new accesser('object_width', '0.90'),
             new accesser('object_height', '1.73'),
             new accesser('object_depth', '0'),
@@ -402,7 +402,7 @@ class DoorGarageController extends genericGarageController {
             new accesser('position_x', 0.5),
             new accesser('position_y', 0),
             new accesser('position_z',0.025),
-            new accesser('color', '#082833'),
+            new accesser('color', '#0a82833'),
             new accesser('position_relative', 'true'),
 
         ]  

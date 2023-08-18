@@ -25,6 +25,7 @@ class GarageObjectGable extends genericObject {
         //     clearcoatRoughness: 0.2
         // });
         var material=metalMaterial()
+        // material.color="white"
         // Convert roof_angle to radians and compute adjusted width
         const alpha = (attributes.roof_angle || 0) * (Math.PI / 180); // Convert to radians
         let width_adjusted = (attributes.width || 1) * (1 / Math.cos(alpha));

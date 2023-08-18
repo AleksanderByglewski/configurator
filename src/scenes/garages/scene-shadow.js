@@ -1,27 +1,24 @@
 import * as THREE from 'three';
 import {accesser} from './base'
 import {System, Planet, Garage,  genericGarageController, GarageSystem} from './implementation'
-import {brickMaterial2} from '../../helpers/material_spawn';
+import { brickMaterial2 } from '../../helpers/material_spawn';
 import {RoofGarageController} from './objects/roof'
 import {WallsGarageController} from './objects/wall'
 import {GateGarageController, DoorGarageController} from './objects/gate'
 import {Ground, closeGround} from './objects/ground'
-import {FundGarageController} from './objects/fund-singular'
-import {FundsGarageController} from './objects/fund-plural'
-
-import {FoundationGarageController} from './objects/foundation'
-import {FoundationsGarageController} from './objects/foundations'
-import {CanopiesGarageController} from './objects/canopies'
-
-import {CanopySystem} from './objects/canopySystem' 
-
-// import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
 function addLights(scene){
-  let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
-  scene.add(directionalLight); // add the light to the scene
+  const light = new THREE.DirectionalLight(0xffffff, 51);
+  light.position.set(2, 4, 3);
+  light.castShadow = true;
+  light.shadow.camera.top = 5;
+  light.shadow.camera.bottom = -5;
+  light.shadow.camera.left = -5;
+  light.shadow.camera.right = 5;
+  light.shadow.camera.near = 0.1;
+  light.shadow.camera.far = 50;
+  scene.add(light);
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 20);
+  let ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
   scene.add(ambientLight); // add the light to the scene
 
   //Create a spotlight
@@ -87,7 +84,7 @@ function addLights2(scene){
 }
 
 function populateScene(scene) {
-  addLights2(scene)
+  // addLights2(scene)
   addLights(scene)
   function createPlanet(options) {
     const planet = new Planet();
@@ -115,25 +112,12 @@ function populateScene(scene) {
   const fogColor = new THREE.Color(0xe7e7e9);  // White color
   const fogDensity = 0.015;  // Adjust this value to control how quickly the fog density increases with distance
   
-  // scene.fog = new THREE.FogExp2(fogColor, fogDensity);
-  scene.fog = new THREE.Fog(fogColor, 20,70);
+  scene.fog = new THREE.FogExp2(fogColor, fogDensity);
 
-
-  function attach_ground(){
   let ground = new Ground()
   ground.attach(scene)
   let ground2 = new closeGround()
   ground2.attach(scene)
-  }
-  // attach_ground()
-  
-  const geometry = new THREE.PlaneGeometry(10, 10);
-  const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
-  const floor = new THREE.Mesh(geometry, material);
-  floor.rotation.x = Math.PI / 2;
-  scene.add(floor);
-
-
   // const solarSystem = new System();
   // const sun = createPlanet(sunAttributes)
   // const earth = createPlanet(earthAttributes)
@@ -156,7 +140,7 @@ function createGarageObject(accessers, ObjectClass){
 
 const childGarageAccessers = [
     new accesser('name', 'Child garage'),
-    new accesser('width', 2.5),
+    new accesser('width', 1.5),
     new accesser('height', 0.8),
     new accesser('depth', 1.6),
     new accesser('segments', 1),
@@ -199,99 +183,52 @@ const garageSystemAccessers=[
   new accesser('position_z',0.0),
   // new accesser('color', '#272727'),
 ]
-const canopySystemAccessers=[
-  new accesser('name', ' System'),
-  // new accesser('width', 0.0001),
-  // new accesser('height', 0.00001),
-  // new accesser('depth', 0.00001),
-  new accesser('wall_height', 1.30),
-  new accesser('wall_depth', 3.5),
-  new accesser('wall_width',3.5),
-  // new accesser('segments', 1),
-  // new accesser('radius', 0),
-  new accesser('position_x', -3.5),
-  new accesser('position_y', 0.0),
-  new accesser('position_z',0.0),
-  // new accesser('color', '#272727'),
-]
   
 
-
-  function create_the_canopy(){
-    const garageSystem=createGarageObject(canopySystemAccessers,CanopySystem);
-    garageSystem.handleEvent('buildingStep');
-    garageSystem.handleEvent('creationStep');
-    garageSystem.handleEvent('stateChange');
-    // garageSystem.handleEvent('generateInputs');
-    garageSystem.handleEvent('guiInputChange', {});
-  
-  
-   const walls=new WallsGarageController()
-   walls.display.set_scene(scene)
-   walls.handleEvent('buildingStep');
-   walls.handleEvent('creationStep');
-   walls.handleEvent('stateChange');
-  //  walls.handleEvent('generateInputs');
-     garageSystem.addChild(walls)
-  
-   const roof=new RoofGarageController()
-   roof.display.set_scene(scene)
-   roof.handleEvent('buildingStep');
-   roof.handleEvent('creationStep');
-   roof.handleEvent('stateChange');
-  //  roof.handleEvent('generateInputs');
-    garageSystem.addChild(roof)
-  
-  const foundations=new FoundationsGarageController()
-  foundations.display.set_scene(scene)
-  foundations.handleEvent('buildingStep');
-  foundations.handleEvent('creationStep');
-  foundations.handleEvent('stateChange');
-  // foundations.handleEvent('generateInputs');
-  garageSystem.addChild(foundations)
-  
-   garageSystem.handleEvent('buildingStep');
-   garageSystem.handleEvent('creationStep');
-   garageSystem.handleEvent('stateChange');
-   garageSystem.handleEvent('generateInputs');
-   garageSystem.handleEvent('guiInputChange', {});
-  
-  
-
-   garageSystem.handleEvent('buildingStep');
-   garageSystem.handleEvent('creationStep');
-   garageSystem.handleEvent('stateChange');
-  }
-
-  // create_the_canopy()
-
-
-  function create_the_rest(){
   const garageSystem=createGarageObject(garageSystemAccessers,GarageSystem);
   garageSystem.handleEvent('buildingStep');
   garageSystem.handleEvent('creationStep');
   garageSystem.handleEvent('stateChange');
+  garageSystem.handleEvent('generateInputs');
 
 
- const walls=new WallsGarageController()
- walls.display.set_scene(scene)
- walls.handleEvent('buildingStep');
- walls.handleEvent('creationStep');
- walls.handleEvent('stateChange');
-//  walls.handleEvent('generateInputs');
-   garageSystem.addChild(walls)
+  // const garage = createGarageObject(garageAccessers,genericGarageController);
+  // garageSystem.addChild(garage)
+
+ 
+
+  // Add the childGarage to the main garage
+  // garage.addChild(childGarage);
+  // garage.handleEvent('creationStep');
+  // garage.handleEvent('stateChange');
+  // garage.handleEvent('generateInputs');
+ 
+
+  // childGarage.handleEvent('creationStep');
+  // childGarage.handleEvent('stateChange');
+
+
 
  const roof=new RoofGarageController()
  roof.display.set_scene(scene)
  roof.handleEvent('buildingStep');
  roof.handleEvent('creationStep');
  roof.handleEvent('stateChange');
-//  roof.handleEvent('generateInputs');
-  garageSystem.addChild(roof)
+ roof.handleEvent('generateInputs');
 
- 
+ const walls=new WallsGarageController()
+ walls.display.set_scene(scene)
+ walls.handleEvent('buildingStep');
+ walls.handleEvent('creationStep');
+ walls.handleEvent('stateChange');
+ walls.handleEvent('generateInputs');
 
 
+
+
+
+ garageSystem.addChild(walls)
+ garageSystem.addChild(roof)
 
 
  const door=new DoorGarageController()
@@ -299,39 +236,22 @@ const canopySystemAccessers=[
  door.handleEvent('buildingStep');
  door.handleEvent('creationStep');
  door.handleEvent('stateChange');
-//  door.handleEvent('generateInputs');
+ door.handleEvent('generateInputs');
+
  walls.children[1].addChild(door)
+
+
 //adding examples
 const gate=new GateGarageController()
 gate.display.set_scene(scene)
 gate.handleEvent('buildingStep');
 gate.handleEvent('creationStep');
 gate.handleEvent('stateChange');
-// gate.handleEvent('generateInputs');
+gate.handleEvent('generateInputs');
+
 walls.children[1].addChild(gate)
 
 
-
-
-
-
-
-// const foundation=new FoundationGarageController()
-// foundation.display.set_scene(scene)
-// foundation.handleEvent('buildingStep');
-// foundation.handleEvent('creationStep');
-// foundation.handleEvent('stateChange');
-// // foundation.handleEvent('generateInputs');
-// garageSystem.addChild(foundation)
-
-
-const foundations=new FoundationsGarageController()
-foundations.display.set_scene(scene)
-foundations.handleEvent('buildingStep');
-foundations.handleEvent('creationStep');
-foundations.handleEvent('stateChange');
- foundations.handleEvent('generateInputs');
-garageSystem.addChild(foundations)
 
 
 
@@ -340,11 +260,62 @@ garageSystem.addChild(foundations)
  garageSystem.handleEvent('stateChange');
  garageSystem.handleEvent('generateInputs');
  garageSystem.handleEvent('guiInputChange', {});
+
+
+
+
+ scene.traverse((node) => {
+  if (node.isMesh) {
+    node.castShadow = true;
+    node.receiveShadow = true;
   }
-  create_the_rest()
+});
 
 
-  
+
+  // ... existing code ...
+
+
+
+
+ // Cube
+//  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+//  const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+//  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+//  cube.position.y = 0.5;
+//  cube.castShadow = true;
+//  scene.add(cube);
+
+
+ 
+ // Plane
+ const planeGeometry = new THREE.PlaneGeometry(10, 10);
+ const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+ const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+ plane.rotation.x = -Math.PI / 2;
+ plane.position.y =0.1;
+ plane.receiveShadow = true;
+ scene.add(plane);
+
+ // Light
+
+
+ // Ambient light
+ const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+ scene.add(ambientLight);
+
+  // ... rest of the code ...
+
+  // solarSystem.handleEvent('generateInputs');
+  // console.log(solarSystem.getPlanets()); // Outputs: [Planet, Planet]
+
+//   const light = new THREE.DirectionalLight(0xffffff, 100);
+// light.castShadow = true;
+//   scene.traverse((node) => {
+//     if (node.isMesh) {
+//         node.castShadow = true;
+//     }
+// });
 // scene.traverse((node) => {
 //   if (node.isMesh) {
 //       node.castShadow = true;

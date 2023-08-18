@@ -251,220 +251,182 @@ export function brickMaterial2() {
   cubeMaterial.map = bricksTexture
   // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
 
-  let normalMap = new THREE.TextureLoader().load(
-    '/assets/textures/red-bricks/red_bricks_04_nor_gl_1k.jpg',
-    (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    }
-  )
-  cubeMaterial.normalMap = normalMap
+  // let normalMap = new THREE.TextureLoader().load(
+  //   '/assets/textures/red-bricks/red_bricks_04_nor_gl_1k.jpg',
+  //   (texture) => {
+  //     texture.wrapS = THREE.RepeatWrapping
+  //     texture.wrapT = THREE.RepeatWrapping
+  //     texture.repeat.set(wrapS, wrapT)
+  //   }
+  // )
+  // cubeMaterial.normalMap = normalMap
 
 
-  cubeMaterial.normalScale.set(1.1, 1.1)
+  // cubeMaterial.normalScale.set(1.1, 1.1)
   return cubeMaterial
 }
 
+function generateMetalMaterial(param_wrapS=1.5, param_wrapT=1.5){
+  var cubeMaterial = new THREE.MeshPhysicalMaterial({
+   
+    metalness: 0.0,
+    roughness: 0.1,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.2,
+    color: 0x272727,
+    
+  })
+    const textureLoader = new THREE.TextureLoader()
+    let wrapS=param_wrapS
+    let wrapT=param_wrapT
+  
+    // let roughnessTexture = new THREE.TextureLoader().load(`/assets/textures/config/rought_1k.jpg`, (texture) => {
+    //   texture.wrapS = THREE.RepeatWrapping
+    //   texture.wrapT = THREE.RepeatWrapping
+    //   texture.repeat.set(wrapS, wrapT)
+    // })
+    // cubeMaterial.roughnessMap = roughnessTexture
+  
+  
+    let bricksTexture = textureLoader.load('/assets/textures/config/default_1k.jpg',  (texture) => {
+      texture.wrapS = THREE.RepeatWrapping
+      texture.wrapT = THREE.RepeatWrapping
+      texture.repeat.set(wrapS, wrapT)
+    })
+    cubeMaterial.map = bricksTexture
+    // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
+  
+    let normalMap = new THREE.TextureLoader().load(
+      '/assets/textures/config/red_bricks_04_nor_gl_1k.jpg',
+      (texture) => {
+        texture.wrapS = THREE.RepeatWrapping
+        texture.wrapT = THREE.RepeatWrapping
+        texture.repeat.set(wrapS, wrapT)
+      }
+    )
+     cubeMaterial.normalMap = normalMap
+  
+    // let ao_1k = new THREE.TextureLoader().load(
+    //   '/assets/textures/config/red_bricks_04_ao_gl_1k.jpg',
+    //   (texture) => {
+    //     texture.wrapS = THREE.RepeatWrapping
+    //     texture.wrapT = THREE.RepeatWrapping
+    //     texture.repeat.set(wrapS, wrapT)
+    //   }
+    // )
+    
+    //  cubeMaterial.aoMap = ao_1k
+  
+  
+    cubeMaterial.normalScale.set(1.1, 1.1)
+    return cubeMaterial
+
+
+}
+
+function generateBrickMaterial(param_wrapS=1.5, param_wrapT=1.5){
+  var cubeMaterial = new THREE.MeshPhysicalMaterial({
+   
+    metalness: 0.0,
+    roughness: 0.1,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.2,
+    color: 0x272727,
+    
+  })
+    const textureLoader = new THREE.TextureLoader()
+    let wrapS=param_wrapS
+    let wrapT=param_wrapT
+  
+    // let roughnessTexture = new THREE.TextureLoader().load(`/assets/textures/config/rought_1k.jpg`, (texture) => {
+    //   texture.wrapS = THREE.RepeatWrapping
+    //   texture.wrapT = THREE.RepeatWrapping
+    //   texture.repeat.set(wrapS, wrapT)
+    // })
+    // cubeMaterial.roughnessMap = roughnessTexture
+  
+  
+    let bricksTexture = textureLoader.load('/assets/textures/config/default_1k.jpg',  (texture) => {
+      texture.wrapS = THREE.RepeatWrapping
+      texture.wrapT = THREE.RepeatWrapping
+      texture.repeat.set(wrapS, wrapT)
+    })
+    cubeMaterial.map = bricksTexture
+    // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
+  
+    let normalMap = new THREE.TextureLoader().load(
+      '/assets/textures/config/red_bricks_04_nor_gl_1k.jpg',
+      (texture) => {
+        texture.wrapS = THREE.RepeatWrapping
+        texture.wrapT = THREE.RepeatWrapping
+        texture.repeat.set(wrapS, wrapT)
+      }
+    )
+     cubeMaterial.normalMap = normalMap
+  
+    // let ao_1k = new THREE.TextureLoader().load(
+    //   '/assets/textures/config/red_bricks_04_ao_gl_1k.jpg',
+    //   (texture) => {
+    //     texture.wrapS = THREE.RepeatWrapping
+    //     texture.wrapT = THREE.RepeatWrapping
+    //     texture.repeat.set(wrapS, wrapT)
+    //   }
+    // )
+    
+    //  cubeMaterial.aoMap = ao_1k
+  
+  
+    cubeMaterial.normalScale.set(1.1, 1.1)
+    return cubeMaterial
+
+
+}
+
+// export function metalMaterial() {
+
+//   return generateMetalMaterial(1,1)
+
+// }
+
+// export function metalMaterial2() {
+
+//     return generateMetalMaterial()
+
+
+//   }
+// export function metalMaterial3() {
+
+//   return generateMetalMaterial()
+
+//   }
+
+
+  let instance1, instance2, instance3, instance4;
+//Leave singletons for now
 export function metalMaterial() {
-
- 
-
-  
-
-  var cubeMaterial = new THREE.MeshPhysicalMaterial({color: "#ffffff" ,
-  metalness: 0.5,
-  roughness: 0.1,
-  clearcoat: 0.8,
-  clearcoatRoughness: 0.2,
-  color: 0x272727,
-  emissive: 0x0A0A0A,
-})
-  // const roughnessTexture = new THREE.TextureLoader().load(
-  //           '/assets/textures/marble/marble_0008_roughness_2k.jpg',
-  //           (texture) => {
-  //             texture.wrapS = THREE.RepeatWrapping
-  //             texture.wrapT = THREE.RepeatWrapping
-  //             texture.repeat.set(2, 2)
-  //           })
-  //           cubeMaterial.roughnessMap = roughnessTexture
-  const textureLoader = new THREE.TextureLoader()
-  let wrapS=1
-  let wrapT=1
-
-  let roughnessTexture = new THREE.TextureLoader().load(`/assets/textures/config/rought_1k.jpg`, (texture) => {
-    texture.wrapS = THREE.RepeatWrapping
-    texture.wrapT = THREE.RepeatWrapping
-    texture.repeat.set(wrapS, wrapT)
-  })
-  cubeMaterial.roughnessMap = roughnessTexture
-
-
-  let bricksTexture = textureLoader.load('/assets/textures/config/default_1k.jpg',  (texture) => {
-    texture.wrapS = THREE.RepeatWrapping
-    texture.wrapT = THREE.RepeatWrapping
-    texture.repeat.set(wrapS, wrapT)
-  })
-  cubeMaterial.map = bricksTexture
-  // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
-
-  let normalMap = new THREE.TextureLoader().load(
-    '/assets/textures/config/red_bricks_04_nor_gl_1k.jpg',
-    (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    }
-  )
-   cubeMaterial.normalMap = normalMap
-
-  let ao_1k = new THREE.TextureLoader().load(
-    '/assets/textures/config/red_bricks_04_ao_gl_1k.jpg',
-    (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    }
-  )
-  
-  //  cubeMaterial.aoMap = ao_1k
-
-
-  cubeMaterial.normalScale.set(1.1, 1.1)
-  return cubeMaterial
+  if (!instance1) {
+    instance1 = generateMetalMaterial(1, 1);
+  }
+  return instance1;
 }
 
 export function metalMaterial2() {
-
- 
-
-  
-
-    var cubeMaterial = new THREE.MeshPhysicalMaterial({color: "#ffffff" ,
-    metalness: 0.5,
-    roughness: 0.1,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.2,
-    color: 0x272727,
-    emissive: 0x0A0A0A,
-  })
-    // const roughnessTexture = new THREE.TextureLoader().load(
-    //           '/assets/textures/marble/marble_0008_roughness_2k.jpg',
-    //           (texture) => {
-    //             texture.wrapS = THREE.RepeatWrapping
-    //             texture.wrapT = THREE.RepeatWrapping
-    //             texture.repeat.set(2, 2)
-    //           })
-    //           cubeMaterial.roughnessMap = roughnessTexture
-    const textureLoader = new THREE.TextureLoader()
-    let wrapS=1.5
-    let wrapT=1.5
-  
-    let roughnessTexture = new THREE.TextureLoader().load(`/assets/textures/config/rought_1k.jpg`, (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    })
-    cubeMaterial.roughnessMap = roughnessTexture
-  
-  
-    let bricksTexture = textureLoader.load('/assets/textures/config/default_1k.jpg',  (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    })
-    cubeMaterial.map = bricksTexture
-    // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
-  
-    let normalMap = new THREE.TextureLoader().load(
-      '/assets/textures/config/red_bricks_04_nor_gl_1k.jpg',
-      (texture) => {
-        texture.wrapS = THREE.RepeatWrapping
-        texture.wrapT = THREE.RepeatWrapping
-        texture.repeat.set(wrapS, wrapT)
-      }
-    )
-     cubeMaterial.normalMap = normalMap
-  
-    let ao_1k = new THREE.TextureLoader().load(
-      '/assets/textures/config/red_bricks_04_ao_gl_1k.jpg',
-      (texture) => {
-        texture.wrapS = THREE.RepeatWrapping
-        texture.wrapT = THREE.RepeatWrapping
-        texture.repeat.set(wrapS, wrapT)
-      }
-    )
-    
-    //  cubeMaterial.aoMap = ao_1k
-  
-  
-    cubeMaterial.normalScale.set(1.1, 1.1)
-    return cubeMaterial
+  if (!instance2) {
+    instance2 = generateMetalMaterial();
   }
-  export function metalMaterial3() {
+  return instance2;
+}
 
- 
-
-  
-
-    var cubeMaterial = new THREE.MeshPhysicalMaterial({color: "#ffffff" ,
-    metalness: 0.5,
-    roughness: 0.1,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.2,
-    color: 0x272727,
-    emissive: 0x0A0A0A,
-  })
-    // const roughnessTexture = new THREE.TextureLoader().load(
-    //           '/assets/textures/marble/marble_0008_roughness_2k.jpg',
-    //           (texture) => {
-    //             texture.wrapS = THREE.RepeatWrapping
-    //             texture.wrapT = THREE.RepeatWrapping
-    //             texture.repeat.set(2, 2)
-    //           })
-    //           cubeMaterial.roughnessMap = roughnessTexture
-    const textureLoader = new THREE.TextureLoader()
-    let wrapS=1.5
-    let wrapT=1.5
-  
-    let roughnessTexture = new THREE.TextureLoader().load(`/assets/textures/config/rought_1k.jpg`, (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    })
-    cubeMaterial.roughnessMap = roughnessTexture
-  
-  
-    let bricksTexture = textureLoader.load('/assets/textures/config/default_1k.jpg',  (texture) => {
-      texture.wrapS = THREE.RepeatWrapping
-      texture.wrapT = THREE.RepeatWrapping
-      texture.repeat.set(wrapS, wrapT)
-    })
-    cubeMaterial.map = bricksTexture
-    // bricksTexture = new THREE.TextureLoader().load('/assets/textures/bricks/brick_diffuse.jpg')
-  
-    let normalMap = new THREE.TextureLoader().load(
-      '/assets/textures/config/red_bricks_04_nor_gl_1k.jpg',
-      (texture) => {
-        texture.wrapS = THREE.RepeatWrapping
-        texture.wrapT = THREE.RepeatWrapping
-        texture.repeat.set(wrapS, wrapT)
-      }
-    )
-     cubeMaterial.normalMap = normalMap
-  
-    let ao_1k = new THREE.TextureLoader().load(
-      '/assets/textures/config/red_bricks_04_ao_gl_1k.jpg',
-      (texture) => {
-        texture.wrapS = THREE.RepeatWrapping
-        texture.wrapT = THREE.RepeatWrapping
-        texture.repeat.set(wrapS, wrapT)
-      }
-    )
-    
-    //  cubeMaterial.aoMap = ao_1k
-  
-  
-    cubeMaterial.normalScale.set(1.1, 1.1)
-    return cubeMaterial
+export function metalMaterial3() {
+  if (!instance3) {
+    instance3 = generateMetalMaterial();
   }
+  return instance3;
+}
+
+export function brickMaterial() {
+  if (!instance4) {
+    instance4 = generateMetalMaterial();
+  }
+  return instance1;
+}

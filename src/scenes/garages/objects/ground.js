@@ -107,14 +107,12 @@ export class closeGround extends defaultObject {
           // normalMap: normalTexture,
           roughnessMap: roughnessTexture,
           displacementScale: 0.3,
-          color: new THREE.Color(0x323230),
+          color: new THREE.Color(0x484848),
       });
       
       const mesh = new THREE.Mesh(geometry, material);
   
       mesh.receiveShadow = true
-   
-  
       mesh.name = 'ground'
       return mesh
   

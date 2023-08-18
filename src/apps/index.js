@@ -22,8 +22,13 @@ function initScene(){
   const controls = setupControls(camera, renderer);
 
   //Setting up the animation of the scene
-  const animate = setupAnimation(composer, system);
+  const animate = setupAnimation(composer, system,scene);
   requestAnimationFrame(animate);
+
+  
+  
+  
+
   // setupGuiHelper(scene)
   //Handling of the screen size change
   window.addEventListener('resize', handleResize(camera, renderer, composer));
