@@ -51,7 +51,7 @@ function setupComposer(renderer, scene, camera) {
 
  let  bokehPass = new BokehPass(scene, camera, {
     focus: 1.0,
-    aperture: 0.000125,
+    aperture: 0.00125,
     maxblur: 0.0001,
     width: window.innerWidth,
     height: window.innerHeight
@@ -59,6 +59,8 @@ function setupComposer(renderer, scene, camera) {
   composer.addPass(bokehPass);
   const pass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
   composer.addPass( pass );
+
+  
 //   const ssaoPass = new SSAOPass( scene, camera, width, height );
 //   ssaoPass.kernelRadius = 16;
 //   composer.addPass( ssaoPass );

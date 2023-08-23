@@ -7,7 +7,6 @@ class genericGarageObject extends genericObject {
     constructor() {
         super();
     }
-
     recreate(attributes) {
         this.mediator.handleEvent('removeModel')
         this.create(attributes)
@@ -76,11 +75,20 @@ class genericGarageController extends genericController {
             passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
         }
     }
+    object_substraction(){
+        this.removeChild(added_object)
+    }
     object_addition(objectOptions,classInstance){
         const added_object=new classInstance()
         added_object.display.set_scene(this.display.get_scene())
         this.set_the_options(added_object, objectOptions)
         this.addChild(added_object)
+    }
+    object_addition_existing(added_object){
+        added_object.display.set_scene(this.display.get_scene())
+        // this.set_the_options(added_object, objectOptions)
+        this.addChild(added_object)
+
     }
     constructor() {
         super();
@@ -106,11 +114,10 @@ class genericGarageController extends genericController {
             console.error("Only instances of genericGarageController can be added.");
         }
     }
-
     removeChild(child) {
-        const index = this.planets.indexOf(child);
+        const index = this.children.indexOf(child);
         if (index !== -1) {
-            this.planets.splice(index, 1);
+            this.children.splice(index, 1);
             child.set_mediator(null);
         }
     }
@@ -126,8 +133,71 @@ class genericGarageController extends genericController {
             this.children.forEach((child)=>{child.getChildByName(name)})
         }
     }
-    handleEvent(event, data) {
+    handleEvent2(event, data) {
         switch (event) {
+            case 'buildingStep':
+                this.buildingStep()
+                this.handleEvent('creationStep');
+                break;
+            // case 'creationStep':
+            //     this.handleEvent('recursivelyRemoveModel')
+            //     if (this.model && typeof this.model.get_model === 'function') {
+            //         const modelInstance = this.model.get_model();
+            //         if (modelInstance && typeof modelInstance.create === 'function') {
+            //             modelInstance.create(this.state.state);
+            //         }
+            
+            //         if (this.display && typeof this.display.add_to_scene === 'function') {
+            //             this.display.add_to_scene(modelInstance);
+            //         }
+            //     }
+            
+            //     if (Array.isArray(this.children)) {
+            //         this.children.forEach((child) => {
+            //             if (child && typeof child.handleEvent === 'function') {
+            //                 child.handleEvent('creationStep');
+            //             }
+            //         });
+            //     }
+            //     break
+
+            // case 'simplestateChange':
+            //         //Is this the correct way to check if the function exists in the class
+            //         if (typeof this.calculateState === 'function'){
+            //         this.calculateState()}
+            //         this.basicChildrenUpdate()
+            //         // this.model.update(this.state.state)
+            //         // this.children.forEach((child) => { child.handleEvent('stateChange') });
+            //         break;
+            // case 'stateChange':
+            //             if (data && typeof data === 'object' && Object.keys(data).length) {
+            //                 const attr = Object.keys(data)[0];
+            //                 const value = data[attr];
+                    
+            //                 if (attr && value) {
+            //                     console.log("Attribute:", attr);
+            //                     console.log("Value:", value);
+            //                     this.state.update(attr,value)
+            //                     this.basicChildrenUpdate()
+            //                     // this.handleEvent("buildingStep")
+            //                 } else {
+            //                     console.error("Data object does not have the expected format.");
+            //                 }
+            //             } else {
+            //                 console.error("Invalid data provided.");
+            //             }
+            //             this.handleEvent('buildingStep');
+            //             if (Array.isArray(this.children)) {
+            //                 this.children.forEach((child) => {
+            //                     if (child && typeof child.handleEvent === 'function') {
+            //                         child.handleEvent('buildingStep');
+            //                     }
+            //                 });
+            //             }
+                        
+            //             break;        
+            
+            
             case 'buildingStep':
                 if (typeof this.buildingStep === 'function') {
                     this.buildingStep()
@@ -162,6 +232,34 @@ class genericGarageController extends genericController {
                     this.children.forEach((child) => { child.handleEvent('creationStep') });
                     break;
                 }
+            case 'recursivelyRemoveModel':
+              
+                // while (this.children.length > 0) {
+                //         let child = this.children[0];
+                //         // debug()
+                //         child.handleEvent('recursivelyRemoveModel');
+                //         // child.removeChild(child);
+                //         this.children.shift()
+                        
+                //     }
+
+                    this.children.forEach(child => {
+                        if (child && typeof child.handleEvent === 'function') {
+                            child.handleEvent('recursivelyRemoveModel');
+                            
+                        }
+                    });
+                    // Remove the model of the current instance (parent)
+                    // controller.model = null;
+
+
+                    const modelMesh = this.model.get_model();
+                    const scene = this.display.get_scene();
+                    scene.remove(modelMesh);
+                    
+
+                break;
+
             case 'removeModel':
                 {
                     const modelMesh = this.model.get_model();
@@ -173,35 +271,56 @@ class genericGarageController extends genericController {
                 this.modifyState()
                 this.model.update(this.state.state)
                 break;
-            case 'creationStep':
-                const existingModel = this.model.get_model();
-                if (existingModel) {
-                    this.display.get_scene().remove(existingModel);
 
-                    existingModel.geometry.dispose();
-                    existingModel.material.dispose();
-                    if (existingModel.parent) {
-                        existingModel.parent.remove(existingModel);
+            case 'creationStep':
+                this.handleEvent('recursivelyRemoveModel')
+                if (this.model && typeof this.model.get_model === 'function') {
+                    const modelInstance = this.model.get_model();
+                    if (modelInstance && typeof modelInstance.create === 'function') {
+                        modelInstance.create(this.state.state);
+                    }
+            
+                    if (this.display && typeof this.display.add_to_scene === 'function') {
+                        this.display.add_to_scene(modelInstance);
                     }
                 }
-
-                this.model.create(this.state.state);
-
-                const planetMesh = this.model.get_model();
-
-                if (this.state.get('position_relative') !== undefined && this.state.get('position_relative')) {
-                    const parentMesh = this.mediator.model.get_model();
-                    const childMesh = this.model.get_model();
-                    parentMesh.add(childMesh);
-
+            
+                if (Array.isArray(this.children)) {
+                    this.children.forEach((child) => {
+                        if (child && typeof child.handleEvent === 'function') {
+                            child.handleEvent('creationStep');
+                        }
+                    });
                 }
-                else {
-                    this.display.add_to_scene(planetMesh);
-                }
+                break
+            // case 'creationStep':
+            //     // const existingModel = this.model.get_model();
+            //     // if (existingModel) {
+            //     //     this.display.get_scene().remove(existingModel);
 
-                this.children.forEach((child) => { child.handleEvent('creationStep') });
+            //     //     existingModel.geometry.dispose();
+            //     //     existingModel.material.dispose();
+            //     //     if (existingModel.parent) {
+            //     //         existingModel.parent.remove(existingModel);
+            //     //     }
+            //     // }
+            //     this.handleEvent('recursive;lyRemoveModel')
+            //     this.model.create(this.state.state);
+            //     const planetMesh = this.model.get_model();
 
-                break;
+            //     // if (this.state.get('position_relative') !== undefined && this.state.get('position_relative')) {
+            //     //     const parentMesh = this.mediator.model.get_model();
+            //     //     const childMesh = this.model.get_model();
+            //     //     parentMesh.add(childMesh);
+
+            //     // }
+            //     // else {
+            //     this.display.add_to_scene(planetMesh);
+            //     // }
+
+            //     this.children.forEach((child) => { child.handleEvent('creationStep') });
+
+            //     break;
             case 'stateChange':
                 //Is this the correct way to check if the function exists in the class
                 if (typeof this.calculateState === 'function'){
@@ -209,12 +328,174 @@ class genericGarageController extends genericController {
                 this.model.update(this.state.state)
                 this.children.forEach((child) => { child.handleEvent('stateChange') });
                 break;
+                   case 'stateChange':
+                        if (data && typeof data === 'object' && Object.keys(data).length) {
+                            const attr = Object.keys(data)[0];
+                            const value = data[attr];
+                    
+                            if (attr && value) {
+                                console.log("Attribute:", attr);
+                                console.log("Value:", value);
+                                this.state.update(attr,value)
+                                this.basicChildrenUpdate()
+                                // this.handleEvent("buildingStep")
+                            } else {
+                                console.error("Data object does not have the expected format.");
+                            }
+                        } else {
+                            console.error("Invalid data provided.");
+                        }
+                        this.handleEvent('buildingStep');
+                        if (Array.isArray(this.children)) {
+                            this.children.forEach((child) => {
+                                if (child && typeof child.handleEvent === 'function') {
+                                    child.handleEvent('buildingStep');
+                                }
+                            });
+                        }
+                        
+                        break;        
+            
             case 'guiChange':
                 if (this.mediator!==undefined){this.mediator.notify('guiChange')}
                 if (typeof this.calculateState === 'function'){this.calculateState()}
 
                 this.notify('stateChange')
                 break;
+            case 'generateInputs':
+                this.gui.generateInputs(this.state.state)
+                if (this.children) {
+                    this.children.forEach(child => {
+                        child.gui.generateInputs(child.state.state)
+                    });
+                }
+                break;
+            default:
+                super.handleEvent(event, data);
+                break;
+        }
+    }
+    handleEvent(event, data) {
+        switch (event) {
+            case 'buildingStep':
+                // if (typeof this.buildingStep === 'function') {
+                //     this.buildingStep()
+                // }
+                break;
+            case 'guiInputChange':
+
+                // Object.entries(data).forEach(([name, value]) => {
+                //     this.state.update(name, value);
+                // });
+                // if (typeof this.calculateState === 'function') {
+                //     this.calculateState();
+                // }
+                // //This is dubious at best
+                // this.children.forEach((child) => {
+                //     child.handleEvent('guiInputChange', {})
+                //     if (typeof child.calculateState === 'function') {
+                //         console.log(this.state.state)
+                        
+                //     //   child.calculateState();
+                //     }
+                //   });
+                
+            // case 'recreateModel':
+            //     {
+            //         const modelMesh = this.model.get_model();
+            //         const scene = this.display.get_scene();
+            //         scene.remove(modelMesh);
+
+            //         this.children.forEach((child) => { child.handleEvent('removeModel') });
+            //         this.handleEvent("creationStep")
+            //         this.children.forEach((child) => { child.handleEvent('creationStep') });
+            //         break;
+            //     }
+            case 'recursivelyRemoveModel':
+              
+                // while (this.children.length > 0) {
+                //         let child = this.children[0];
+                //         // debug()
+                //         child.handleEvent('recursivelyRemoveModel');
+                //         // child.removeChild(child);
+                //         this.children.shift()
+                        
+                //     }
+                    this.handleEvent('removeModel');
+                    this.children.forEach(child => {
+                        if (child && typeof child.handleEvent === 'function') {
+                            child.handleEvent('recursivelyRemoveModel');
+                            
+                        }
+                    });
+                    // Remove the model of the current instance (parent)
+                    // controller.model = null;
+
+
+                    // const modelMesh = this.model.get_model();
+                    // const scene = this.display.get_scene();
+                    // scene.remove(modelMesh);
+                    
+
+                break;
+
+            case 'removeModel':
+                {
+                    const modelMesh = this.model.get_model();
+                    const scene = this.display.get_scene();
+                    scene.remove(modelMesh);
+                    break;
+                }
+            // case 'iterationStep':
+            //     this.modifyState()
+            //     this.model.update(this.state.state)
+            //     break;
+            case 'creationStep':
+                // const existingModel = this.model.get_model();
+                // if (existingModel) {
+                //     this.display.get_scene().remove(existingModel);
+
+                //     existingModel.geometry.dispose();
+                //     existingModel.material.dispose();
+                //     if (existingModel.parent) {
+                //         existingModel.parent.remove(existingModel);
+                //     }
+                // }
+
+
+                
+                this.handleEvent('recursivelyRemoveModel')
+                this.model.create(this.state.state);
+                const basicMesh = this.model.get_model();
+
+                this.display.add_to_scene(basicMesh);
+                this.children.forEach((child) => { child.handleEvent('creationStep') });
+                // if (this.state.get('position_relative') !== undefined && this.state.get('position_relative')) {
+                //     const parentMesh = this.mediator.model.get_model();
+                //     const childMesh = this.model.get_model();
+                //     parentMesh.add(childMesh);
+
+                // }
+                // else {
+                
+                // }
+
+                
+
+                break;
+            // case 'stateChange':
+            //     //Is this the correct way to check if the function exists in the class
+            //     // if (typeof this.calculateState === 'function'){
+            //     // this.calculateState()}
+            //     // this.model.update(this.state.state)
+            //     // this.children.forEach((child) => { child.handleEvent('stateChange') });
+            //     // break;
+            // case 'guiChange':
+                // if (this.mediator!==undefined){this.mediator.notify('guiChange')}
+                // if (typeof this.calculateState === 'function'){this.calculateState()}
+
+                // this.notify('stateChange')
+                // break;
             case 'generateInputs':
                 this.gui.generateInputs(this.state.state)
                 if (this.children) {
@@ -256,22 +537,22 @@ class InvisibleWallGarageObject extends genericObject {
     update(attributes){
         if (!this.model) return;
     
-        if (attributes.position_x !== undefined) {
-            this.model.position.setX(parseFloat(attributes.position_x));
-        }
+        // if (attributes.position_x !== undefined) {
+        //     this.model.position.setX(parseFloat(attributes.position_x));
+        // }
     
-        if (attributes.position_y !== undefined) {
-            this.model.position.setY(parseFloat(attributes.position_y));
-        }
+        // if (attributes.position_y !== undefined) {
+        //     this.model.position.setY(parseFloat(attributes.position_y));
+        // }
     
-        if (attributes.position_z !== undefined) {
-            this.model.position.setZ(parseFloat(attributes.position_z));
-        }
+        // if (attributes.position_z !== undefined) {
+        //     this.model.position.setZ(parseFloat(attributes.position_z));
+        // }
         
-        // Update rotation if needed
-        if (attributes.rotation_z !== undefined) {
-            this.model.rotation.z = attributes.rotation_z;
-        }
+        // // Update rotation if needed
+        // if (attributes.rotation_z !== undefined) {
+        //     this.model.rotation.z = attributes.rotation_z;
+        // }
     }
 }
 

@@ -13,8 +13,16 @@ import {FoundationGarageController} from './objects/foundation'
 import {FoundationsGarageController} from './objects/foundations'
 import {CanopiesGarageController} from './objects/canopies'
 
-import {CanopySystem} from './objects/canopySystem' 
 
+
+
+
+import {BasicSystem} from './objects/fund-singular' 
+import {CanopySystem} from './objects/canopySystem' 
+import {ControllableBasicSystem} from './objects/templates/basic-controllable' 
+ 
+import {FloorsControllableBasicSystem} from './objects/floors/basic-controllable'  
+import {GarageControllableBasicSystem} from './objects/garage/basic-controllable'  
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
 function addLights(scene){
   let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -89,26 +97,6 @@ function addLights2(scene){
 function populateScene(scene) {
   addLights2(scene)
   addLights(scene)
-  function createPlanet(options) {
-    const planet = new Planet();
-    planet.state.update('name', options.name || 'Undefined object');
-    planet.state.update('speed_y', options.speed_y || 0);
-    planet.state.update('speed_x', options.speed_x || 0);
-    planet.state.update('weight', options.weight || 0);
-    planet.state.update('size', options.size || 0);
-    planet.state.update('position_x', options.position_x || 0);
-    planet.state.update('position_y', options.position_y || 0);
-    planet.state.update('acceleration_x', options.acceleration_x || 0);
-    planet.state.update('acceleration_y', options.acceleration_y || 0);
-    planet.state.update('color', options.color || '#FFFFFF'); // Default to white color
-    solarSystem.addPlanet(planet);
-    planet.display.set_scene(scene);
-    planet.handleEvent('creationStep');
-    planet.handleEvent('stateChange');
-
-    return planet;
-  }
-
   scene.background = new THREE.Color(0xcce7f0);
 
 
@@ -165,7 +153,7 @@ const childGarageAccessers = [
     new accesser('position_y', 0),
     new accesser('position_z', 0.1),
     new accesser('color', '#aa88aa'),
-    new accesser('position_relative', 'true'),
+    // new accesser('position_relative', 'true'),
     
 ];
 const childGarage = createGarageObject(childGarageAccessers,genericGarageController);
@@ -181,7 +169,7 @@ const garageAccessers = [
     new accesser('position_y', 0),
     new accesser('position_z', 0.0),
     new accesser('color', '#aa88aa'),
-    new accesser('position_relative', 'true'),
+    // new accesser('position_relative', 'true'),
   
 ];
 const garageSystemAccessers=[
@@ -209,7 +197,7 @@ const canopySystemAccessers=[
   new accesser('wall_width',3.5),
   // new accesser('segments', 1),
   // new accesser('radius', 0),
-  new accesser('position_x', -3.5),
+  new accesser('position_x', 0.0),
   new accesser('position_y', 0.0),
   new accesser('position_z',0.0),
   // new accesser('color', '#272727'),
@@ -262,89 +250,138 @@ const canopySystemAccessers=[
    garageSystem.handleEvent('creationStep');
    garageSystem.handleEvent('stateChange');
   }
+  //create_the_canopy()
 
-  // create_the_canopy()
-
-
+  let building;
   function create_the_rest(){
-  const garageSystem=createGarageObject(garageSystemAccessers,GarageSystem);
-  garageSystem.handleEvent('buildingStep');
-  garageSystem.handleEvent('creationStep');
-  garageSystem.handleEvent('stateChange');
+        const garageSystem=createGarageObject(garageSystemAccessers,GarageSystem);
+        building=garageSystem
+        garageSystem.handleEvent('buildingStep');
+        garageSystem.handleEvent('creationStep');
+        garageSystem.handleEvent('stateChange');
 
 
- const walls=new WallsGarageController()
- walls.display.set_scene(scene)
- walls.handleEvent('buildingStep');
- walls.handleEvent('creationStep');
- walls.handleEvent('stateChange');
-//  walls.handleEvent('generateInputs');
-   garageSystem.addChild(walls)
+      const walls=new WallsGarageController()
+      walls.display.set_scene(scene)
+      walls.handleEvent('buildingStep');
+      walls.handleEvent('creationStep');
+      walls.handleEvent('stateChange');
+      //  walls.handleEvent('generateInputs');
+        garageSystem.addChild(walls)
 
- const roof=new RoofGarageController()
- roof.display.set_scene(scene)
- roof.handleEvent('buildingStep');
- roof.handleEvent('creationStep');
- roof.handleEvent('stateChange');
-//  roof.handleEvent('generateInputs');
-  garageSystem.addChild(roof)
+      const roof=new RoofGarageController()
+      roof.display.set_scene(scene)
+      roof.handleEvent('buildingStep');
+      roof.handleEvent('creationStep');
+      roof.handleEvent('stateChange');
+      //  roof.handleEvent('generateInputs');
+        garageSystem.addChild(roof)
 
- 
-
-
-
-
- const door=new DoorGarageController()
- door.display.set_scene(scene)
- door.handleEvent('buildingStep');
- door.handleEvent('creationStep');
- door.handleEvent('stateChange');
-//  door.handleEvent('generateInputs');
- walls.children[1].addChild(door)
-//adding examples
-const gate=new GateGarageController()
-gate.display.set_scene(scene)
-gate.handleEvent('buildingStep');
-gate.handleEvent('creationStep');
-gate.handleEvent('stateChange');
-// gate.handleEvent('generateInputs');
-walls.children[1].addChild(gate)
+      
 
 
 
 
+      const door=new DoorGarageController()
+      door.display.set_scene(scene)
+      door.handleEvent('buildingStep');
+      door.handleEvent('creationStep');
+      door.handleEvent('stateChange');
+      //  door.handleEvent('generateInputs');
+      walls.children[1].addChild(door)
+      //adding examples
+      const gate=new GateGarageController()
+      gate.display.set_scene(scene)
+      gate.handleEvent('buildingStep');
+      gate.handleEvent('creationStep');
+      gate.handleEvent('stateChange');
+      // gate.handleEvent('generateInputs');
+      walls.children[1].addChild(gate)
 
 
 
-// const foundation=new FoundationGarageController()
-// foundation.display.set_scene(scene)
-// foundation.handleEvent('buildingStep');
-// foundation.handleEvent('creationStep');
-// foundation.handleEvent('stateChange');
-// // foundation.handleEvent('generateInputs');
-// garageSystem.addChild(foundation)
 
-
-const foundations=new FoundationsGarageController()
-foundations.display.set_scene(scene)
-foundations.handleEvent('buildingStep');
-foundations.handleEvent('creationStep');
-foundations.handleEvent('stateChange');
- foundations.handleEvent('generateInputs');
-garageSystem.addChild(foundations)
+      const foundation=createGarageObject(canopySystemAccessers,FloorsControllableBasicSystem);
+      garageSystem.handleEvent('buildingStep');
+      garageSystem.handleEvent('creationStep');
+      garageSystem.handleEvent('stateChange');
+      garageSystem.handleEvent('generateInputs');
+      garageSystem.addChild(foundation)
 
 
 
- garageSystem.handleEvent('buildingStep');
- garageSystem.handleEvent('creationStep');
- garageSystem.handleEvent('stateChange');
- garageSystem.handleEvent('generateInputs');
- garageSystem.handleEvent('guiInputChange', {});
+
+
+      const foundations=new FoundationsGarageController()
+      foundations.display.set_scene(scene)
+      foundations.handleEvent('buildingStep');
+      foundations.handleEvent('creationStep');
+      foundations.handleEvent('stateChange');
+      foundations.handleEvent('generateInputs');
+      garageSystem.addChild(foundations)
+
+
+
+      garageSystem.handleEvent('buildingStep');
+      garageSystem.handleEvent('creationStep');
+      garageSystem.handleEvent('stateChange');
+      garageSystem.handleEvent('generateInputs');
+      garageSystem.handleEvent('guiInputChange', {});
   }
-  create_the_rest()
+  // create_the_rest()
 
+  function dummy_nodes(){
+    //This is the basic example of creating a system that with one child
+    const garageSystem=createGarageObject(canopySystemAccessers,BasicSystem);
 
+    garageSystem.state.
+    garageSystem.handleEvent('buildingStep');
+    garageSystem.handleEvent('creationStep');
+    garageSystem.handleEvent('stateChange');
+    garageSystem.handleEvent('generateInputs');
+    
+  }
+  // dummy_nodes()
+
+  let floorgarageSystem;
+  function controlable_dummy_nodes(){
+    //This is the basic example of creating a system that with one child
+    floorgarageSystem=createGarageObject(canopySystemAccessers,FloorsControllableBasicSystem);
+    floorgarageSystem.state.update('identifier',"my floor")
+    // floorgarageSystem.handleEvent('buildingStep');
+    // floorgarageSystem.handleEvent('creationStep');
+    // floorgarageSystem.handleEvent('stateChange');
+    floorgarageSystem.handleEvent('generateInputs');
+    floorgarageSystem.handleEvent('changeFloor', {})
+
+  }
+  //So this is the basic dummy node i would like to make sure that i can attach additonal children to it 
+   controlable_dummy_nodes()
   
+   let generalGarageSystem;
+   function controllable_garage_node(){
+    //This is the basic example of creating a system that with one child
+    generalGarageSystem=createGarageObject(canopySystemAccessers,GarageControllableBasicSystem);
+
+    generalGarageSystem.setCloseFriend(floorgarageSystem)
+
+    generalGarageSystem.state.update('identifier','my control system')
+    // generalGarageSystem.state.update('position_y',0)
+    // generalGarageSystem.handleEvent('buildingStep');
+    // generalGarageSystem.handleEvent('stateChange');
+    generalGarageSystem.handleEvent('generateInputs');
+    
+
+   }
+   controllable_garage_node()
+   
+  //  generalGarageSystem.addChild(floorgarageSystem)
+
+  function controllable_dummy_nodes_with_children(){
+
+    
+  }
+
 // scene.traverse((node) => {
 //   if (node.isMesh) {
 //       node.castShadow = true;

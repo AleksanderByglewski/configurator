@@ -5,7 +5,7 @@ import {setupCamera} from '../renderer/camera'
 import {setupControls} from '../renderer/controls'
 import {handleResize} from '../renderer/resize'
 import {populateScene} from '../scenes/garages/scene.js'
-import {setupAnimation} from '../scenes/garages/animation.js'
+import {setupAnimation, setupAnimationRenderer} from '../scenes/garages/animation.js'
 import {setupGuiHelper} from '../helpers/quick-gui'
 import {draggableUI} from '../markup/draggable-ui'
 
@@ -19,10 +19,11 @@ function initScene(){
   const camera=setupCamera()
   const renderer=setupRenderer()
   const composer=setupComposer(renderer, scene, camera)
-  const controls = setupControls(camera, renderer);
+  const controls=setupControls(camera, renderer);
 
-  //Setting up the animation of the scene
-  const animate = setupAnimation(composer, system,scene);
+  // Setting up the animation of the scene using Renderer
+  const animate=setupAnimationRenderer(renderer, system,scene, camera)
+  // const animate = setupAnimation(composer, system,scene);
   requestAnimationFrame(animate);
 
   
