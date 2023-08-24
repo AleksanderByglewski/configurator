@@ -511,7 +511,6 @@ class genericGarageController extends genericController {
     }
 
 }
-
 class InvisibleWallGarageObject extends genericObject {
     constructor() {
         super(); 

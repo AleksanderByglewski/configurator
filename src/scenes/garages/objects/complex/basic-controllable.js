@@ -6,7 +6,7 @@ import {Generic,genericGui,genericState,genericObject,genericDisplay, genericCon
 import {PlanetGui, PlanetObject, Planet, System} from '../introduction.js'
 import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 import { metalMaterial,metalMaterial2 } from '../../textures/material_spawn';
-import {FloorsControllableBasicSystem} from '../floors/basic-controllable'
+
 const loader = new THREE.TextureLoader();
 
 class UconfigInvisibleGui extends genericGui {
@@ -65,7 +65,7 @@ class UconfigGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-        accordionButton.textContent = "Wymiary garażu";
+        accordionButton.textContent = "Podłoże";
         accordionHeaderH3.appendChild(accordionButton);
 
         const accordionCollapseDiv = document.createElement('div');
@@ -109,42 +109,51 @@ class UconfigGui extends genericGui {
     }
     createMarkup() {
         const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container--three');
+        containerDiv.classList.add('squares-container');
+
+        const squareButtons = [
+            { value: 'beton', color: 'blue', display_value:"Beton",  display_image:'/assets/display/floor/beton.jpg'},
+            { value: 'kostka', color: 'red', display_value:"Kostka",  display_image:'/assets/display/floor/kostka.jpg'},
+            { value: 'zwir', color: 'green', display_value:"Żwir",  display_image:'/assets/display/floor/zwir.jpg'},
+            { value: 'fundamenty', color: 'green', display_value:"Fundamenty",  display_image:'/assets/display/floor/fundamenty.jpg'},
+            { value: 'bez_podloza', color: 'yellow', display_value:"Bez podłoża", display_image:'/assets/display/floor/bez_podloza.jpg'}
+        ];
+
+        squareButtons.forEach(button => {
+            const squareDiv = document.createElement('div');
+            squareDiv.classList.add('square');
+            // squareDiv.style.backgroundColor = button.color;
+            squareDiv.dataset.value = button.value;
+
+            // Create the image element
+            const imageEl = document.createElement('img');
+            imageEl.src = button.display_image;
+            imageEl.alt = button.display_value;  // for accessibility
+            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+
+            const textDiv = document.createElement('div');
+            textDiv.textContent = button.display_value;
+            squareDiv.appendChild(textDiv)
+
 
    
 
-
-        const attributes = ['position_x', 'position_y', 'position_z', 'width', 'height', 'depth'];
-
-        attributes.forEach(attr => {
-            const sliderLabel = document.createElement('label');
-            sliderLabel.textContent = attr;
-            containerDiv.appendChild(sliderLabel);
-    
-            const sliderInput = document.createElement('input');
-            sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
-            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
-            sliderInput.addEventListener('input', function(e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
+            // Attach event listener directly to the squareDiv
+            squareDiv.addEventListener('click', function (e) {
+                // alert(squareDiv.dataset.value);
+                // Notify the mediator or perform some action
+                
+                this.notifyMediator('changeFloor',`${squareDiv.dataset.value}`)
+                // alert(this.id)
+                // console.log(`Clicked on square with value: ${this.dataset.value}`);
             }.bind(this));
-    
-            const sliderValueDisplay = document.createElement('span');
-            sliderValueDisplay.textContent = sliderInput.value;
-            sliderInput.addEventListener('input', function(e) {
-                sliderValueDisplay.textContent = e.target.value;
-            });
-    
-            containerDiv.appendChild(sliderInput);
-            containerDiv.appendChild(sliderValueDisplay);
+
+
+
+            
+            containerDiv.appendChild(squareDiv);
         });
-    
-        // ... your previous code ...
-    
-        return containerDiv;
+
 
         const removeModelBtn = document.createElement('button');
         removeModelBtn.textContent = "Remove Model";
@@ -182,9 +191,8 @@ class UconfigGui extends genericGui {
     }
     notifyMediator(event, value="") {
         if (this.mediator) {
-            // console.log(this.mediator.state.update('color',"#ff3030"))
+            console.log(this.mediator.state.update('color',"#ff3030"))
             // The mediator should handle the square click with the value
-            console.log(this.mediator)
             this.mediator.handleEvent(event, value);
         }
     }
@@ -201,6 +209,8 @@ class UconfigGui extends genericGui {
         return markup;
     }
     listenToChanges(){
+        
+
     }
 }
 class UconfigObject extends genericObject{
@@ -279,76 +289,68 @@ class UconfigController extends genericGarageController{
 }
 class UconfigsController extends genericGarageController {
     constructor(){
-     
      super()
      this.setModel(InvisibleWallGarageObject)
      this.gui = new UconfigGui();
      this.gui.set_mediator(this)
     }
-    setCloseFriend(friendName,friend){
-        if(!this.closefriends){
-            this.closefriends={}
-        }
-        this.closefriends[friendName]=friend
-
-    }
     determineState() {
         // This is the function that determines the values of the children
         let name = this.state.get('name') || 'Gate';
         let object_type = this.state.get('object_type') || 'beton';
-        let object_width = parseFloat(this.state.get('object_width')) || 3;
-        let object_height = parseFloat(this.state.get('object_height')) || 0.4;
-        let object_depth = parseFloat(this.state.get('object_depth')) || 2;
+        let object_width = parseFloat(this.state.get('width'))+2.0 || 5;
+        let object_height = parseFloat(this.state.get('depth'))+2.0 || 5.00;
+        let object_depth = parseFloat(this.state.get('depth')) || 0.05;
+        object_depth =  0.05;
+
+
         let object_color = this.state.get('color') || "272727";
-        let material="";
+        let material="/assets/textures/foundation/foundation0.jpg";
         let visible=true
 
         //Can you ensure that the state will be persistent
         let position_x=this.state.get('position_x') || 0;
         let position_y=this.state.get('position_y') || 0;
-        let position_z= this.state.get('position_z') || 0;
+        let position_z=this.state.get('position_z') || 0;
 
         let position_rotation_x=Math.PI/2
 
         switch (object_type) {
             case 'beton':
-                object_width = 5.00;
-                object_height = 5.00;
+                // object_width = 5.00;
+                // object_height = 5.00;
                 object_depth = 0.015;
                 // position_x=0
                 object_color="272727"
                 material="/assets/textures/foundation/foundation0.jpg"
                 break;
             case 'kostka':
-                object_width = 5.00;
-                object_height = 5.00;
+                // object_width = 5.00;
+                // object_height = 5.00;
                 object_depth = 0.015;
-  
                 object_color="272727"
                 material="/assets/textures/foundation/foundation1.jpg"
     
                 break;
             case 'fundamenty':
-                    object_width = 5.00;
-                    object_height = 5.00;
+                    // object_width = 5.00;
+                    // object_height = 5.00;
                     object_depth = 0.015;
-      
                     object_color="272727";
                     material="/assets/textures/foundation/foundation2.jpg";
                     break;
                 
             case 'zwir':
-                object_width = 5.00;
-                object_height = 5.00;
+                // object_width = 5.00;
+                // object_height = 5.00;
                 object_depth = 0.015;
-  
                 object_color="272727";
                 material="/assets/textures/foundation/foundation3.jpg";
                 break;
             
             case 'bez_podloza':
-                object_width = 5.00;
-                object_height = 5.00;
+                // object_width = 5.00;
+                // object_height = 5.00;
                 object_depth = 0.015;
                 object_color="272727";
                 material="/assets/textures/foundation/foundation3.jpg";
@@ -361,7 +363,7 @@ class UconfigsController extends genericGarageController {
         }
     
         const accessersWallFront = [
-            new accesser('name', 'This is an invisible only'+ "object"),
+            new accesser('name', name + "object"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('depth', object_depth),
@@ -371,7 +373,7 @@ class UconfigsController extends genericGarageController {
             new accesser('color', object_color),
             new accesser('material', material),
             new accesser('visibility', visible),
-            new accesser('position_relative', 'true'),
+            // new accesser('position_relative', 'true'),
             new accesser('position_rotation_x', position_rotation_x)
         ];
     
@@ -395,7 +397,7 @@ class UconfigsController extends genericGarageController {
     }
     buildingStep(){
         const accessers=[
-            new accesser('name', 'This is a problematic class'),
+            new accesser('name', 'Floor controllero'),
             
         ]  
         this.set_mediator(this)
@@ -413,23 +415,22 @@ class UconfigsController extends genericGarageController {
             child.handleEvent('recursivelyRemoveModel')
         });
         this.children=[]
+
         array.forEach(({ objectOptions, classInstance }) => {
-            // this.object_addition(objectOptions, classInstance);
-            this.object_addition_existing(this.closefriends['floor']);
-            this.object_addition_existing(this.closefriends['building']);
-            this.object_addition_existing(this.closefriends['roof']);
+            this.object_addition.bind(this)(objectOptions, classInstance);
         });
         // this.handleEvent('stateChange')
-
+        this.handleEvent('creationStep');
     }
     handleEvent(event, data) {
         switch (event) {
             case 'buildingStep':
+                this.handleEvent('recursivelyRemoveModel');
                 this.buildingStep()
-                this.handleEvent('creationStep');
+                
                 break;
             case 'creationStep':
-                this.handleEvent('recursivelyRemoveModel')
+                
                 if (this.model && typeof this.model.get_model === 'function') {
                     const modelInstance = this.model.get_model();
                     if (modelInstance && typeof modelInstance.create === 'function') {
@@ -450,50 +451,15 @@ class UconfigsController extends genericGarageController {
                 }
                 break
 
-            case 'simplestateChange':
-                    //Is this the correct way to check if the function exists in the class
-                    if (typeof this.calculateState === 'function'){
-                    this.calculateState()}
-                    this.basicChildrenUpdate()
-                    // this.model.update(this.state.state)
-                    // this.children.forEach((child) => { child.handleEvent('stateChange') });
-                    break;
-            case 'stateChange':
-                        if (data && typeof data === 'object' && Object.keys(data).length) {
-                            const attr = Object.keys(data)[0];
-                            const value = data[attr];
-                    
-                            if (attr && value) {
-                                console.log("Attribute:", attr);
-                                console.log("Value:", value);
-                                this.state.update(attr,value)
-                                this.basicChildrenUpdate()
-                                // this.handleEvent("buildingStep")
-                            } else {
-                                console.error("Data object does not have the expected format.");
-                            }
-                        } else {
-                            console.error("Invalid data provided.");
-                        }
-                        this.handleEvent('buildingStep');
-                        if (Array.isArray(this.children)) {
-                            this.children.forEach((child) => {
-                                if (child && typeof child.handleEvent === 'function') {
-                                    child.handleEvent('buildingStep');
-                                }
-                            });
-                        }
-                        
-                        break;        
-            
             case 'changeFloor':
-                alert(data)
+                // alert(data)
                 const accessers=[
                     new accesser('object_type', data),
                 ]  
-                // this.handleEvent('recursivelyRemoveModel');
+                this.handleEvent('recursivelyRemoveModel');
                 this.set_the_options(this,accessers)
                 this.handleEvent('buildingStep');
+                
                 // this.handleEvent('creationStep');
                 // this.buildingStep()
 
@@ -503,20 +469,6 @@ class UconfigsController extends genericGarageController {
                 break;
         }
     }
-
-    basicChildrenUpdate(){
-       let self=this
-       this.children.forEach(element => {
-            element.state.update("position_x",parseFloat(self.state.get('position_x')))
-            element.state.update("position_y",parseFloat(self.state.get('position_y')))
-            element.state.update("position_z",parseFloat(self.state.get('position_z')))
-            element.state.update("width",parseFloat(self.state.get('width')))
-            element.state.update("depth",parseFloat(self.state.get('depth')))
-            element.state.update("height",parseFloat(self.state.get('height')))
-        })
-    }
 }
 
-
-
-export { UconfigsController as GarageControllableBasicSystem}
+export { UconfigsController as ComplexControllableBasicSystem}

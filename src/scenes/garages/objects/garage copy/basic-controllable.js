@@ -277,6 +277,10 @@ class UconfigController extends genericGarageController{
         
     }
 }
+
+
+
+
 class UconfigsController extends genericGarageController {
     constructor(){
      
@@ -285,11 +289,8 @@ class UconfigsController extends genericGarageController {
      this.gui = new UconfigGui();
      this.gui.set_mediator(this)
     }
-    setCloseFriend(friendName,friend){
-        if(!this.closefriends){
-            this.closefriends={}
-        }
-        this.closefriends[friendName]=friend
+    setCloseFriend(friend){
+        this.closefriend=friend
 
     }
     determineState() {
@@ -415,9 +416,7 @@ class UconfigsController extends genericGarageController {
         this.children=[]
         array.forEach(({ objectOptions, classInstance }) => {
             // this.object_addition(objectOptions, classInstance);
-            this.object_addition_existing(this.closefriends['floor']);
-            this.object_addition_existing(this.closefriends['building']);
-            this.object_addition_existing(this.closefriends['roof']);
+            this.object_addition_existing(this.closefriend);
         });
         // this.handleEvent('stateChange')
 

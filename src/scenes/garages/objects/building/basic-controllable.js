@@ -8,7 +8,90 @@ import { genericGarageController, InvisibleWallGarageObject } from '../generic.j
 import { metalMaterial,metalMaterial2 } from '../../textures/material_spawn';
 
 const loader = new THREE.TextureLoader();
+const global_texture=loader.load('/assets/config/default_1k.jpg');
+class WallGarageObject extends genericObject {
+    constructor() {
+        super(); 
+    }
+    create(attributes) {
+        let loader = new THREE.TextureLoader();
+        // alert(attributes.color)
+    
+        let texture = global_texture
+        var material = new THREE.MeshPhysicalMaterial({
+            map: texture,
+            color:  attributes.color || "#272727"  ,
+            metalness: 0.5,
+            roughness: 0.1,
+            clearcoat: 0.8,
+            clearcoatRoughness: 0.2
+        });
+        //material=metalMaterial()
+        
+        // Use BoxGeometry for the roof with adjusted width
+        
+        let width=parseFloat(attributes.width)
+        let height=parseFloat(attributes.height)
+       
+        
+        const rotation_y = (attributes.rotation_y || 0) * (Math.PI / 180); // Convert to radians
+        // let garage_width=parseFloat(attributes.garage_width)
+        // let garage_height=parseFloat(attributes.garage_height)
 
+        let geometry = new RoundedBoxGeometry(
+            parseFloat(attributes.width),
+            parseFloat(attributes.height) || 1,
+            parseFloat(attributes.sheet_depth) || 1, // Assuming depth is always 1, adjust as needed
+            parseFloat(attributes.segments) || 1,
+            parseFloat(attributes.radius) || 0.005
+        );
+        // let geometry = new THREE.BoxGeometry(
+        //     parseFloat(attributes.width),
+        //     parseFloat(attributes.height) || 1,
+        //     parseFloat(attributes.height), // Assuming depth is always 1, adjust as needed
+        // );
+    
+        const mesh = new THREE.Mesh(geometry, material);
+       
+        // Position and rotate using the given roof angle
+        mesh.position.set(
+            parseFloat(attributes.position_x), // Assuming x position is always 0, adjust as needed
+            parseFloat(attributes.position_y),
+            parseFloat(attributes.position_z),  // Assuming z position is always 0, adjust as needed
+        );
+        mesh.rotation.y = rotation_y; // Rotate by the given roof angle
+        this.set(mesh);
+    }
+
+    update(attributes){
+        if (!this.model) return;
+    
+        if (attributes.position_x !== undefined) {
+            this.model.position.setX(parseFloat(attributes.position_x));
+        }
+    
+        if (attributes.position_y !== undefined) {
+            this.model.position.setY(parseFloat(attributes.position_y));
+        }
+    
+        if (attributes.position_z !== undefined) {
+            this.model.position.setZ(parseFloat(attributes.position_z));
+        }
+        
+        // Update rotation if needed
+        if (attributes.rotation_z !== undefined) {
+            this.model.rotation.z = attributes.rotation_z;
+        }
+    }
+}
+class WallGarageController extends genericGarageController{
+    constructor() {
+        super(); 
+        this.setModel(WallGarageObject)
+    }
+  
+
+}
 class UconfigInvisibleGui extends genericGui {
     constructor() {
         super();
@@ -65,7 +148,7 @@ class UconfigGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-        accordionButton.textContent = "Podłoże";
+        accordionButton.textContent = "Ściany";
         accordionHeaderH3.appendChild(accordionButton);
 
         const accordionCollapseDiv = document.createElement('div');
@@ -112,11 +195,22 @@ class UconfigGui extends genericGui {
         containerDiv.classList.add('squares-container');
 
         const squareButtons = [
-            { value: 'beton', color: 'blue', display_value:"Beton",  display_image:'/assets/display/floor/beton.jpg'},
-            { value: 'kostka', color: 'red', display_value:"Kostka",  display_image:'/assets/display/floor/kostka.jpg'},
-            { value: 'zwir', color: 'green', display_value:"Żwir",  display_image:'/assets/display/floor/zwir.jpg'},
-            { value: 'fundamenty', color: 'green', display_value:"Fundamenty",  display_image:'/assets/display/floor/fundamenty.jpg'},
-            { value: 'bez_podloza', color: 'yellow', display_value:"Bez podłoża", display_image:'/assets/display/floor/bez_podloza.jpg'}
+            { value: '#272727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+            { value: '#323232',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
+            { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
+            { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
+            { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
+            { value: '#656365',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20013'},
+            { value: '#757375',  display_value:"RAL2015",  display_image:'/assets/display/colors/RAL2015'},
+            { value: '#858385',  display_value:"RAL2017",  display_image:'/assets/display/colors/RAL2017'},
+            { value: '#959395',  display_value:"RAL2019",  display_image:'/assets/display/colors/RAL2019'},
+            { value: '#A5A3A5',  display_value:"RAL2021",  display_image:'/assets/display/colors/RAL2021'},
+            { value: '#B5B3B5',  display_value:"RAL2023",  display_image:'/assets/display/colors/RAL2023'},
+            { value: '#C5C3C5',  display_value:"RAL2025",  display_image:'/assets/display/colors/RAL2025'},
+            { value: '#D5D3D5',  display_value:"RAL2027",  display_image:'/assets/display/colors/RAL2027'},
+            { value: '#E5E3E5',  display_value:"RAL2029",  display_image:'/assets/display/colors/RAL2029'},
+            
+                        
         ];
 
         squareButtons.forEach(button => {
@@ -126,8 +220,9 @@ class UconfigGui extends genericGui {
             squareDiv.dataset.value = button.value;
 
             // Create the image element
-            const imageEl = document.createElement('img');
-            imageEl.src = button.display_image;
+            const imageEl = document.createElement('div');
+            imageEl.style.backgroundColor = button.value;
+            imageEl.style.aspectRatio= "1 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv
 
@@ -143,9 +238,14 @@ class UconfigGui extends genericGui {
                 // alert(squareDiv.dataset.value);
                 // Notify the mediator or perform some action
                 
-                this.notifyMediator('changeFloor',`${squareDiv.dataset.value}`)
-                // alert(this.id)
-                // console.log(`Clicked on square with value: ${this.dataset.value}`);
+              
+
+                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                // this.notifyMediator('recursivelyRemoveModel');
+                // this.notifyMediator('buildingStep');
+
+                this.notifyMediator('changeObject',`${squareDiv.dataset.value}`)
+          
             }.bind(this));
 
 
@@ -155,15 +255,15 @@ class UconfigGui extends genericGui {
         });
 
 
-        const removeModelBtn = document.createElement('button');
-        removeModelBtn.textContent = "Remove Model";
-        removeModelBtn.classList.add('remove-model-btn');
-        removeModelBtn.addEventListener('click', function() {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-            this.notifyMediator('recursivelyRemoveModel');
-        }.bind(this));
+        // const removeModelBtn = document.createElement('button');
+        // removeModelBtn.textContent = "Remove Model";
+        // removeModelBtn.classList.add('remove-model-btn');
+        // removeModelBtn.addEventListener('click', function() {
+        //     // Call notifyMediator with 'recursivelyRemoveModel' event
+        //     this.notifyMediator('recursivelyRemoveModel');
+        // }.bind(this));
         
-        containerDiv.appendChild(removeModelBtn);
+        // containerDiv.appendChild(removeModelBtn);
 
         
         return containerDiv;
@@ -191,11 +291,12 @@ class UconfigGui extends genericGui {
     }
     notifyMediator(event, value="") {
         if (this.mediator) {
-            console.log(this.mediator.state.update('color',"#ff3030"))
+            // console.log(this.mediator.state.update('color',"#ff3030"))
             // The mediator should handle the square click with the value
             this.mediator.handleEvent(event, value);
         }
     }
+
     createSquaresMarkup() {
         // Example: Define four values. Modify as needed.
         const values = ["Value1", "Value2", "Value3", "Value4"];
@@ -208,6 +309,7 @@ class UconfigGui extends genericGui {
 
         return markup;
     }
+
     listenToChanges(){
         
 
@@ -283,64 +385,10 @@ class UconfigController extends genericGarageController{
         super(); 
         this.setModel(UconfigObject)
         this.gui = new UconfigInvisibleGui();
-        this.gui.set_mediator(this)        
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'buildingStep':
-                this.handleEvent('recursivelyRemoveModel');
-                this.buildingStep()
-                
-                break;
-            case 'creationStep':
-                
-                if (this.model && typeof this.model.get_model === 'function') {
-                    const modelInstance = this.model.get_model();
-                    if (modelInstance && typeof modelInstance.create === 'function') {
-                        modelInstance.create(this.state.state);
-                    }
-            
-                    if (this.display && typeof this.display.add_to_scene === 'function')  {
-                        this.display.add_to_scene(modelInstance);
-                    }
-                }
-            
-                if (Array.isArray(this.children)) {
-                    this.children.forEach((child) => {
-                        if (child && typeof child.handleEvent === 'function') {
-                            child.handleEvent('creationStep');
-                        }
-                    });
-                }
-                break
-
-            case 'changeFloor':
-                // alert(data)
-                const accessers=[
-                    new accesser('object_type', data),
-                ]  
-                this.handleEvent('recursivelyRemoveModel');
-                this.set_the_options(this,accessers)
-                this.handleEvent('buildingStep');
-                
-                // this.handleEvent('creationStep');
-                // this.buildingStep()
-
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
+        this.gui.set_mediator(this)
+        
     }
 }
-
-
-
-
-
-
-
-
 class UconfigsController extends genericGarageController {
     constructor(){
      super()
@@ -348,98 +396,90 @@ class UconfigsController extends genericGarageController {
      this.gui = new UconfigGui();
      this.gui.set_mediator(this)
     }
-    determineState() {
-        // This is the function that determines the values of the children
-        let name = this.state.get('name') || 'Gate';
-        let object_type = this.state.get('object_type') || 'beton';
-        let object_width = parseFloat(this.state.get('width'))+2.0 || 5;
-        let object_height = parseFloat(this.state.get('depth'))+2.0 || 5.00;
-        let object_depth = parseFloat(this.state.get('depth')) || 0.05;
-        object_depth =  0.05;
-
-
-        let object_color = this.state.get('color') || "272727";
-        let material="/assets/textures/foundation/foundation0.jpg";
-        let visible=true
-
-        //Can you ensure that the state will be persistent
-        let position_x=this.state.get('position_x') || 0;
-        let position_y=this.state.get('position_y') || 0;
-        let position_z=this.state.get('position_z') || 0;
-
-        let position_rotation_x=Math.PI/2
-
-        switch (object_type) {
-            case 'beton':
-                // object_width = 5.00;
-                // object_height = 5.00;
-                object_depth = 0.015;
-                // position_x=0
-                object_color="272727"
-                material="/assets/textures/foundation/foundation0.jpg"
-                break;
-            case 'kostka':
-                // object_width = 5.00;
-                // object_height = 5.00;
-                object_depth = 0.015;
-                object_color="272727"
-                material="/assets/textures/foundation/foundation1.jpg"
-    
-                break;
-            case 'fundamenty':
-                    // object_width = 5.00;
-                    // object_height = 5.00;
-                    object_depth = 0.015;
-                    object_color="272727";
-                    material="/assets/textures/foundation/foundation2.jpg";
-                    break;
-                
-            case 'zwir':
-                // object_width = 5.00;
-                // object_height = 5.00;
-                object_depth = 0.015;
-                object_color="272727";
-                material="/assets/textures/foundation/foundation3.jpg";
-                break;
-            
-            case 'bez_podloza':
-                // object_width = 5.00;
-                // object_height = 5.00;
-                object_depth = 0.015;
-                object_color="272727";
-                material="/assets/textures/foundation/foundation3.jpg";
-                position_x=-1000;
-                visible=0.0
-                break;
-        
-            default: 
-                break;
-        }
-    
-        const accessersWallFront = [
-            new accesser('name', name + "object"),
-            new accesser('width', object_width),
-            new accesser('height', object_height),
-            new accesser('depth', object_depth),
-            new accesser('position_x', position_x),
-            new accesser('position_y', position_y),
-            new accesser('position_z', position_z),
-            new accesser('color', object_color),
-            new accesser('material', material),
-            new accesser('visibility', visible),
-            // new accesser('position_relative', 'true'),
-            new accesser('position_rotation_x', position_rotation_x)
-        ];
-    
   
-    
+    determineState(){
+        //You can get the current state of the object by using the 
+        let name=this.state.get('name')||'Wall'
+        let object_type=this.state.get('object_type')||'flat'
+        let object_width=parseFloat(this.state.get('object_width'))||3
+        let object_height=parseFloat(this.state.get('object_height'))||2.43
+        let object_depth=parseFloat(this.state.get('object_depth'))||2
+        let object_color=this.state.get('color')||"#272727"
 
-        return { 
-            "accessersWallFront": accessersWallFront,
-    
-    
-    };
-    }
+        let position_x=this.state.get('position_x')||0
+        let position_y=this.state.get('position_y')||0
+        let position_z=this.state.get('position_z')||0
+
+        let height=this.state.get('height')||2.13
+        let width=this.state.get('width')||4.0
+        let depth=this.state.get('depth')||4.0
+        object_height=height
+        object_width=width
+        object_depth=depth
+        //let object_angle=parseFloat(this.state.get('object_angle'))||30
+        let sheet_depth=parseFloat(this.state.get('sheet_depth'))||0.0075
+ 
+     const accessersWallFront=[
+         new accesser('name', name+"_front"),
+         new accesser('width', object_width),
+         new accesser('height', object_height),
+         new accesser('sheet_depth', sheet_depth),
+         new accesser('segments', 1),
+         new accesser('radius', 0.01),
+         new accesser('position_x', 0.0+position_x),
+         new accesser('position_y', 0+position_y+height/2),
+         new accesser('position_z',-0.5*object_depth+position_z),
+         new accesser('color', object_color),
+         new accesser('position_relative', 'true'),
+       
+     ]
+     const accessersWallBack=[
+         new accesser('name', name+"_back"),
+         new accesser('width', object_width),
+         new accesser('height', object_height),
+         new accesser('sheet_depth', sheet_depth),
+         new accesser('segments', 1),
+         new accesser('radius', 0.01),
+         new accesser('position_x', 0.0+position_x),
+         new accesser('position_y', 0+position_y+height/2),
+         new accesser('position_z',+0.5*object_depth+position_z),
+         new accesser('color', object_color),
+         new accesser('position_relative', 'true'),
+       
+     ]
+     const accessersWallLeft=[
+         new accesser('name', name+"_left"),
+         new accesser('width', object_depth),
+         new accesser('height', object_height),
+         new accesser('sheet_depth', sheet_depth),
+         new accesser('segments', 1),
+         new accesser('radius', 0.01),
+         new accesser('position_x', -0.5*object_width+position_x),
+         new accesser('position_y', 0+position_y+height/2),
+         new accesser('position_z',0+position_z),
+         new accesser('color', object_color),
+         new accesser('position_relative', 'true'),
+         new accesser('rotation_y', '90'),
+       
+     ]
+     const accessersWallRight=[
+         new accesser('name', name+'_right'),
+         new accesser('width', object_depth),
+         new accesser('height', object_height),
+         new accesser('sheet_depth', sheet_depth),
+         new accesser('segments', 1),
+         new accesser('radius', 0.01),
+         new accesser('position_x', 0.5*object_width+position_x),
+         new accesser('position_y', 0+position_y+height/2),
+         new accesser('position_z',0+position_z),
+         new accesser('color', object_color),
+         new accesser('position_relative', 'true'),
+         new accesser('rotation_y', '90'),
+       
+     ]
+     return {"accessersWallFront":accessersWallFront,"accessersWallBack": accessersWallBack, "accessersWallLeft":accessersWallLeft,"accessersWallRight":accessersWallRight}
+     }
+
     calculateState(){
         //This is a function that updates the values of the children of the system
         const accessersDict = this.determineState();
@@ -452,6 +492,7 @@ class UconfigsController extends genericGarageController {
     buildingStep(){
         const accessers=[
             new accesser('name', 'Floor controllero'),
+            // new accesser('color','#373737' )
             
         ]  
         this.set_mediator(this)
@@ -459,12 +500,16 @@ class UconfigsController extends genericGarageController {
 
         console.log(this.state.state)
 
-        const {accessersWallFront} = this.determineState();
+        const {  accessersWallFront, accessersWallBack,accessersWallLeft, accessersWallRight } = this.determineState();
      
     
         let array = [
-            {objectOptions:accessersWallFront, classInstance: UconfigController},
+            {objectOptions:accessersWallFront, classInstance: WallGarageController},
+            {objectOptions:accessersWallBack, classInstance: WallGarageController},
+            {objectOptions:accessersWallLeft, classInstance: WallGarageController},
+            {objectOptions:accessersWallRight, classInstance: WallGarageController}
         ]
+
         this.children.forEach((child) => {
             child.handleEvent('recursivelyRemoveModel')
         });
@@ -505,10 +550,24 @@ class UconfigsController extends genericGarageController {
                 }
                 break
 
+            case 'changeObject':
+                    // alert(data)
+                    {
+                    const accessers=[
+                        new accesser('color', data),
+                    ]  
+                    this.handleEvent('recursivelyRemoveModel');
+                    this.set_the_options(this,accessers)
+                    this.handleEvent('buildingStep');
+                    
+                    // this.handleEvent('creationStep');
+                    // this.buildingStep()
+                    }
+                    break;
             case 'changeFloor':
                 // alert(data)
                 const accessers=[
-                    new accesser('object_type', data),
+                    new accesser('color', data),
                 ]  
                 this.handleEvent('recursivelyRemoveModel');
                 this.set_the_options(this,accessers)
@@ -525,4 +584,4 @@ class UconfigsController extends genericGarageController {
     }
 }
 
-export { UconfigsController as FloorsControllableBasicSystem}
+export { UconfigsController as BuildingControllableBasicSystem}

@@ -23,6 +23,12 @@ import {ControllableBasicSystem} from './objects/templates/basic-controllable'
  
 import {FloorsControllableBasicSystem} from './objects/floors/basic-controllable'  
 import {GarageControllableBasicSystem} from './objects/garage/basic-controllable'  
+import {BuildingControllableBasicSystem} from './objects/building/basic-controllable'  
+import {RoofControllableBasicSystem} from './objects/roof/basic-controllable'  
+import {ComplexControllableBasicSystem} from './objects/complex/basic-controllable'  
+
+
+
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
 function addLights(scene){
   let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -204,6 +210,20 @@ const canopySystemAccessers=[
 ]
   
 
+let complexgarageSystem;
+//Start the complex
+function complex_system(){
+complexgarageSystem=createGarageObject(canopySystemAccessers,ComplexControllableBasicSystem);
+complexgarageSystem.state.update('identifier',"my floor")
+// floorgarageSystem.handleEvent('buildingStep');
+// floorgarageSystem.handleEvent('creationStep');
+// floorgarageSystem.handleEvent('stateChange');
+complexgarageSystem.handleEvent('generateInputs');
+complexgarageSystem.handleEvent('changeFloor', {})
+}
+//End of the complex
+
+
 
   function create_the_canopy(){
     const garageSystem=createGarageObject(canopySystemAccessers,CanopySystem);
@@ -342,7 +362,39 @@ const canopySystemAccessers=[
     
   }
   // dummy_nodes()
+  
+  let generalRoofystem;
+  function controllable_garage_node(){
+   //This is the basic example of creating a system that with one child
+   generalGarageSystem=createGarageObject(canopySystemAccessers,GarageControllableBasicSystem);
 
+   generalGarageSystem.setCloseFriend('floor',floorgarageSystem)
+   generalGarageSystem.setCloseFriend('roof', roofSystem)
+   generalGarageSystem.setCloseFriend('building',buildingSystem)
+
+
+   generalGarageSystem.state.update('identifier','my control system')
+   // generalGarageSystem.state.update('position_y',0)
+   // generalGarageSystem.handleEvent('buildingStep');
+   // generalGarageSystem.handleEvent('stateChange');
+   generalGarageSystem.handleEvent('generateInputs');
+   
+
+  }
+
+
+  let roofSystem;
+  function roof_dummy_nodes(){
+    //This is the basic example of creating a system that with one child
+     roofSystem=createGarageObject(canopySystemAccessers,RoofControllableBasicSystem);
+     roofSystem.state.update('identifier',"my roof")
+     roofSystem.handleEvent('generateInputs');
+     roofSystem.handleEvent('changeObject', "#372727")
+
+  }
+  roof_dummy_nodes()
+
+ 
   let floorgarageSystem;
   function controlable_dummy_nodes(){
     //This is the basic example of creating a system that with one child
@@ -355,15 +407,26 @@ const canopySystemAccessers=[
     floorgarageSystem.handleEvent('changeFloor', {})
 
   }
-  //So this is the basic dummy node i would like to make sure that i can attach additonal children to it 
-   controlable_dummy_nodes()
-  
+  controlable_dummy_nodes()
+  let buildingSystem;
+  function building_dummy_nodes(){
+    //This is the basic example of creating a system that with one child
+     buildingSystem=createGarageObject(canopySystemAccessers,BuildingControllableBasicSystem);
+     buildingSystem.state.update('identifier',"my walls")
+     buildingSystem.handleEvent('generateInputs');
+     buildingSystem.handleEvent('changeObject', "#372727")
+
+  }
+  building_dummy_nodes()
    let generalGarageSystem;
    function controllable_garage_node(){
     //This is the basic example of creating a system that with one child
     generalGarageSystem=createGarageObject(canopySystemAccessers,GarageControllableBasicSystem);
 
-    generalGarageSystem.setCloseFriend(floorgarageSystem)
+    generalGarageSystem.setCloseFriend('floor',floorgarageSystem)
+    generalGarageSystem.setCloseFriend('roof', roofSystem)
+    generalGarageSystem.setCloseFriend('building',buildingSystem)
+
 
     generalGarageSystem.state.update('identifier','my control system')
     // generalGarageSystem.state.update('position_y',0)
@@ -376,6 +439,10 @@ const canopySystemAccessers=[
    controllable_garage_node()
    
   //  generalGarageSystem.addChild(floorgarageSystem)
+
+
+   //Child
+
 
   function controllable_dummy_nodes_with_children(){
 

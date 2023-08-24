@@ -255,6 +255,7 @@ class WallsGarageController extends genericGarageController {
         this.handleEvent('stateChange')
         this.handleEvent('creationStep');
     }
+    
     handleEvent(event, data) {
         switch (event) {
             case 'buildingStep':
