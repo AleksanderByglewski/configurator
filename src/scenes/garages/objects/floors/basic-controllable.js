@@ -283,7 +283,9 @@ class UconfigController extends genericGarageController{
         super(); 
         this.setModel(UconfigObject)
         this.gui = new UconfigInvisibleGui();
-        this.gui.set_mediator(this)        
+        this.gui.set_mediator(this)      
+    
+        this.group = new THREE.Group(); // Create a new Group
     }
     handleEvent(event, data) {
         switch (event) {
@@ -333,14 +335,6 @@ class UconfigController extends genericGarageController{
         }
     }
 }
-
-
-
-
-
-
-
-
 class UconfigsController extends genericGarageController {
     constructor(){
      super()
