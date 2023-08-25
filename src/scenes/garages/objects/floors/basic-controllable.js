@@ -278,13 +278,24 @@ class UconfigObject extends genericObject{
         this.set(mesh);
     }
 }
-class UconfigController extends genericGarageController{
+class groupGenericGarageController extends genericGarageController{
+    
+    addChild(child) {
+        if (child instanceof genericGarageController) {
+            this.group.add(child.model.get_model()); // Add child's mesh to group
+            child.set_mediator(this);
+        } else {
+            console.error("Only instances of genericGarageController can be added.");
+        }
+    }
+}
+
+class UconfigController extends groupGenericGarageController{
     constructor() {
         super(); 
         this.setModel(UconfigObject)
         this.gui = new UconfigInvisibleGui();
         this.gui.set_mediator(this)      
-    
         this.group = new THREE.Group(); // Create a new Group
     }
     handleEvent(event, data) {

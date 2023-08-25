@@ -133,7 +133,7 @@ class genericGarageController extends genericController {
             this.children.forEach((child)=>{child.getChildByName(name)})
         }
     }  
-  handleEvent(event, data) {
+    handleEvent(event, data) {
         switch (event) {
             case 'buildingStep':
                 // if (typeof this.buildingStep === 'function') {

@@ -89,8 +89,6 @@ class WallGarageController extends genericGarageController{
         super(); 
         this.setModel(WallGarageObject)
     }
-  
-
 }
 class UconfigInvisibleGui extends genericGui {
     constructor() {

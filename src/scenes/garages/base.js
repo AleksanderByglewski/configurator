@@ -187,7 +187,11 @@ class genericDisplay extends Generic {
         this.scene = scene
     }
     add_to_scene(model) {
+        
         this.scene.add(model)
+    }
+    remove_from_scene(model){
+        this.scene.remove(model)
     }
     set_scene(scene) {
         this.scene = scene
@@ -209,7 +213,11 @@ class genericController extends Generic {
     handleEvent(event, data) {
         switch (event) {
             case 'stateChange':
-                // this.state.update(data.key, data.value);
+                if (data && data.key !== undefined && data.value !== undefined) {
+                    this.state.update(data.key, data.value);
+                } else {
+                    console.log('Key or value does not exist');
+                }
                 break;
             // Handle other events...
             default:

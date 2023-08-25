@@ -17,8 +17,8 @@ export function setupAnimationRenderer(renderer, system,scene,camera) {
         time = new Date().getTime() * 0.001; // you can get time here
         // system.handleEvent('iterationStep');
         renderer.render(scene, camera);
-        // debug()
-        // scene
+
+        scene
         requestAnimationFrame(animate);
     };
 }
