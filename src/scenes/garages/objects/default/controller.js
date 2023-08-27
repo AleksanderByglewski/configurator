@@ -4,288 +4,9 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-// import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
-import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
-const loader = new THREE.TextureLoader();
-const global_texture = loader.load('/assets/config/default_1k.jpg');
+import { UconfigInvisibleGui,UconfigGui} from './gui'
+import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../default/object'
 
-
-class UconfigInvisibleGui extends genericGui {
-    constructor() {
-        super();
-    }
-    generateInputs(attributes) {
-    }
-    createMarkup() {
-    }
-    insertContent(element, selector = "*", classes = "attribute-values", id = "") {
-    }
-    notifyMediator(event, value = "") {
-    }
-
-    createSquaresMarkup() {
-    }
-
-    listenToChanges() {
-    }
-}
-class UconfigGui extends genericGui {
-    constructor() {
-        super();
-    }
-
-    generateInputs(attributes) {
-
-
-
-        const squaresElement = this.createMarkup();
-
-        const accordionDiv = document.createElement('div');
-        accordionDiv.classList.add('accordion');
-        accordionDiv.id = 'parent-inputs-accordion-' + this.id;
-
-        const accordionItemDiv = document.createElement('div');
-        accordionItemDiv.classList.add('accordion-item', 'rounded-0', 'border-end-0', 'border-top-0', 'border-start-0');
-        accordionDiv.appendChild(accordionItemDiv);
-
-        const accordionHeaderH3 = document.createElement('h3');
-        accordionHeaderH3.classList.add('accordion-header');
-        accordionHeaderH3.id = 'headingTwo-' + this.id;
-        accordionItemDiv.appendChild(accordionHeaderH3);
-
-        const accordionButton = document.createElement('button');
-        accordionButton.classList.add('accordion-button');
-        accordionButton.type = 'button';
-        accordionButton.dataset.bsToggle = "collapse";
-        accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
-        accordionButton.setAttribute('aria-expanded', 'true');
-        accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-        accordionButton.textContent = "Wymiary garażu";
-        accordionHeaderH3.appendChild(accordionButton);
-
-        const accordionCollapseDiv = document.createElement('div');
-        accordionCollapseDiv.id = 'collapseTwo-' + this.id;
-        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse', 'show');
-        accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
-        accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
-        accordionItemDiv.appendChild(accordionCollapseDiv);
-
-        const accordionBodyDiv = document.createElement('div');
-        accordionBodyDiv.classList.add('accordion-body');
-        // accordionBodyDiv.textContent = 'Control system for a body';
-        accordionCollapseDiv.appendChild(accordionBodyDiv);
-
-        const inputGroupDiv = document.createElement('div');
-        inputGroupDiv.classList.add('input-group', 'align-items-center');
-        accordionBodyDiv.appendChild(inputGroupDiv);
-
-        // const label = document.createElement('label');
-        // label.classList.add('pe-2');
-        // label.setAttribute('for', 'depth');
-        // label.textContent = 'depth';
-        // inputGroupDiv.appendChild(label);
-
-        // const input = document.createElement('input');
-        // input.type = 'text';
-        // input.value = "3.5";
-        // inputGroupDiv.appendChild(input);
-
-        accordionBodyDiv.appendChild(squaresElement);
-
-        // Append the entire accordion structure to a target container in the DOM.
-        // const targetElement = document.querySelector('#targetContainer');  // You might want to adjust the selector.
-        // targetElement.appendChild(accordionDiv);
-
-        // this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
-        const escapedId = '#id-' + this.id + '.input-values';
-        this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
-
-        this.listenToChanges();
-    }
-    createMarkup() {
-        const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container--three');
-
-
-        const text_attributes = ['name'];
-
-        text_attributes.forEach(attr => {
-            const textLabel = document.createElement('label');
-            textLabel.textContent = attr;
-            containerDiv.appendChild(textLabel);
-
-            const filler = document.createElement('div');
-            containerDiv.appendChild(filler);
-
-            const textInput = document.createElement('input');
-            textInput.type = 'text';
-            textInput.value = this.mediator.state[attr] || 'State name';  // default to empty string if not set
-
-            // Event listener for input changes
-            textInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                
-                console.log(this.mediator.state.state)
-            }.bind(this));
-
-            containerDiv.appendChild(textInput);
-        });
-
-        const attributes = ['position_x', 'position_y', 'position_z', 'width', 'height', 'depth'];
-
-        attributes.forEach(attr => {
-            const sliderLabel = document.createElement('label');
-            sliderLabel.textContent = attr;
-            containerDiv.appendChild(sliderLabel);
-
-            const sliderInput = document.createElement('input');
-            sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
-            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
-            sliderInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', { });
-            }.bind(this));
-
-            const sliderValueDisplay = document.createElement('span');
-            sliderValueDisplay.textContent = sliderInput.value;
-            sliderInput.addEventListener('input', function (e) {
-                sliderValueDisplay.textContent = e.target.value;
-            });
-
-            containerDiv.appendChild(sliderInput);
-            containerDiv.appendChild(sliderValueDisplay);
-        });
-
-        // ... your previous code ...
-
-       
-
-        const removeModelBtn = document.createElement('button');
-        removeModelBtn.textContent = "Remove Model";
-        removeModelBtn.classList.add('remove-model-btn');
-        removeModelBtn.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-            this.notifyMediator('recursivelyRemoveModel');
-        }.bind(this));
-
-        containerDiv.appendChild(removeModelBtn);
-
-
-        return containerDiv;
-    }
-    insertContent(element, selector = "*", classes = "attribute-values", id = "") {
-        this.waitForDOM(() => {
-            const container = this.getContainer(selector);
-            // Clear any previous content inside the container
-
-            if (!container) {
-                console.warn(`Element with selector "${selector}" not found.`);
-                return;  // Exit early if container is not found
-            }
-            while (container.firstChild) {
-                container.removeChild(container.firstChild);
-            }
-
-            // Append the new element to the container
-            container.appendChild(element);
-
-            // Add the provided classes and id
-            container.classList.add(classes);
-            container.id = 'id-' + id;
-        });
-    }
-    notifyMediator(event, value = "") {
-        if (this.mediator) {
-            // console.log(this.mediator.state.update('color',"#ff3030"))
-            // The mediator should handle the square click with the value
-            console.log(this.mediator)
-            this.mediator.handleEvent(event, value);
-        }
-    }
-    createSquaresMarkup() {
-        // Example: Define four values. Modify as needed.
-        const values = ["Value1", "Value2", "Value3", "Value4"];
-
-        let markup = '<div class="squares-container">';
-        values.forEach(value => {
-            markup += `<div class="gui-square" data-value="${value}">${value}</div>`;
-        });
-        markup += '</div>';
-
-        return markup;
-    }
-    listenToChanges() {
-    }
-}
-class genericGarageObject extends genericObject {
-    constructor() {
-        super();
-    }
-    recreate(attributes) {
-        this.mediator.handleEvent('removeModel')
-        this.create(attributes)
-    }
-    create(attributes) {
-        let loader = new THREE.TextureLoader();
-        let texture = loader.load('/assets/config/default_1k.jpg');
-        var material = new THREE.MeshPhysicalMaterial({
-            map: texture,
-            color: attributes.color || "#ffffff",
-            metalness: 0.5,
-            roughness: 0.1,
-            clearcoat: 0.8,
-            clearcoatRoughness: 0.2
-        });
-
-        let geometry = new RoundedBoxGeometry(
-            parseFloat(attributes.width) || 1,
-            parseFloat(attributes.height) || 1,
-            parseFloat(attributes.depth) || 1,
-            1 || 1,
-            attributes.radius || 0.005
-        );
-
-        const sphere = new THREE.Mesh(geometry, material);
-        sphere.position.set(
-            parseFloat(attributes.position_x) || 0,
-            parseFloat(attributes.position_y) || 0,
-            parseFloat(attributes.position_z) || 0
-        );
-        // if(attributes.invisible_controller=="true"){
-        //     sphere.visible=false
-        // }
-        this.set(sphere);
-        return
-    }
-    update(attributes) {
-        if (!this.model) return;
-
-        if (attributes.position_x !== undefined) {
-            this.model.position.setX(attributes.position_x);
-        }
-
-        if (attributes.position_y !== undefined) {
-            this.model.position.setY(attributes.position_y);
-        }
-
-        if (attributes.position_z !== undefined) {
-            this.model.position.setZ(attributes.position_z);
-        }
-
-        if (attributes.color !== undefined) {
-            this.model.material.color = new THREE.Color(attributes.color)
-        }
-
-        if (attributes.width !== undefined || attributes.depth !== undefined || attributes.height !== undefined) {
-            this.mediator.handleEvent('recreateModel')
-        }
-    }
-}
 class genericGarageController extends genericController {
     constructor() {
         super();
@@ -293,6 +14,7 @@ class genericGarageController extends genericController {
         this.setModel(genericGarageObject);
         this.setGui(PlanetGui);
         this.children = []
+        this.group = new THREE.Group()
     }
     set_the_options(passedObject, accessers) {
         for (let i = 0; i < accessers.length; i++) {
@@ -498,80 +220,6 @@ class groupGenericGarageController extends genericGarageController {
         }
     }
 }
-class InvisibleWallGarageObject extends genericObject {
-    constructor() {
-        super();
-    }
-    create(attributes) {
-        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Creates a red material
-        let geometry = new THREE.BoxGeometry(
-            0, 0, 0
-        );
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(
-            parseFloat(attributes.position_x),
-            parseFloat(attributes.position_y),
-            parseFloat(attributes.position_z),
-        );
-        this.set(mesh);
-    }
-}
-class WallGarageObject extends genericObject {
-    constructor() {
-        super();
-    }
-    create(attributes) {
-        let loader = new THREE.TextureLoader();
-        let texture = global_texture
-        let color=attributes.color || "#272727"
-        var material = new THREE.MeshPhysicalMaterial({
-            map: texture,
-            color: color || "#272727",
-            metalness: 0.5,
-            roughness: 0.1,
-            clearcoat: 0.8,
-            clearcoatRoughness: 0.2
-        });
-        // Use BoxGeometry for the roof with adjusted width
-        let width = parseFloat(attributes.width)
-        let height = parseFloat(attributes.height)
-        const rotation_y = (attributes.rotation_y || 0) * (Math.PI / 180);
-        let geometry = new THREE.BoxGeometry(
-            2,
-            2,
-            2, // Assuming depth is always 1, adjust as needed
-        );
-        const mesh = new THREE.Mesh(geometry, material);
-        // Position and rotate using the given roof angle
-        mesh.position.set(
-            parseFloat(attributes.position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(attributes.position_y),
-            parseFloat(attributes.position_z),  // Assuming z position is always 0, adjust as needed
-        );
-        mesh.rotation.y = rotation_y; // Rotate by the given roof angle
-        this.set(mesh);
-    }
-    update(attributes) {
-        if (!this.model) return;
-
-        if (attributes.position_x !== undefined) {
-            this.model.position.setX(parseFloat(attributes.position_x));
-        }
-
-        if (attributes.position_y !== undefined) {
-            this.model.position.setY(parseFloat(attributes.position_y));
-        }
-
-        if (attributes.position_z !== undefined) {
-            this.model.position.setZ(parseFloat(attributes.position_z));
-        }
-
-        // Update rotation if needed
-        if (attributes.rotation_z !== undefined) {
-            this.model.rotation.z = attributes.rotation_z;
-        }
-    }
-}
 class WallGarageController extends genericGarageController {
     constructor() {
         super();
@@ -585,140 +233,6 @@ class WallGarageController extends genericGarageController {
             default:
                 super.handleEvent(event, data);
                 break;
-        }
-    }
-}
-class UconfigObject extends genericObject {
-    constructor() {
-        super();
-
-    }
-    update() { }
-    create(attributes) {
-
-        // const material_color=(attributes.colored).replace('#','0x')
-
-        let width = parseFloat(attributes.width) || 5
-        let height = parseFloat(attributes.height) || 5
-
-
-        const texture_value = attributes.material ? `${attributes.material}` : '/assets/config/default_1k.jpg'
-
-
-
-        let texture = loader.load(texture_value);
-        texture.repeat.set(width, height);
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        // let material= new THREE.MeshPhysicalMaterial({
-
-        //     metalness: 0.0,
-        //     roughness: 0.1,
-        //     clearcoat: 0.8,
-        //     clearcoatRoughness: 0.2,
-        //     color:  "#"+attributes.color,
-
-        //   })
-
-        let color=attributes.color || "#272727"
-        const material = new THREE.MeshPhysicalMaterial({
-            metalness: 0.0,
-            roughness: 0.95,
-            clearcoat: 0.0,
-            clearcoatRoughness: 0.0,
-            color: color ? `#${attributes.color}` : '#272727',
-            opacity: attributes.visibility || 0,
-            map: texture
-        });
-
-        let geometry = new RoundedBoxGeometry(
-            parseFloat(attributes.width) || 5,
-            parseFloat(attributes.height) || 1,
-            parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
-            parseFloat(attributes.segments) || 2,
-            parseFloat(attributes.radius) || 0.005
-        );
-
-
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(
-            parseFloat(attributes.position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(attributes.position_y),
-            parseFloat(attributes.position_z),  // Assuming z position is always 0, adjust as needed
-        );
-
-
-        mesh.rotateX(attributes.position_rotation_x)
-        mesh.visible = attributes.visibility || true
-        this.set(mesh);
-    }
-}
-class CubeObject extends genericObject {
-    constructor() {
-        super();
-    }
-    create(attributes) {
-
-    
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : -4;
-        let color = (attributes && attributes.color) ? attributes.color : "#372727";
-        var material = new THREE.MeshPhysicalMaterial({
-            color: color,
-            metalness: 0.5,
-            roughness: 0.1,
-            clearcoat: 0.8,
-            clearcoatRoughness: 0.2
-        });
-    
-
-        // let geometry = new RoundedBoxGeometry(
-        //     parseFloat(attributes.width) || 5,
-        //     parseFloat(attributes.height) || 1,
-        //     parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
-        //     parseFloat(attributes.segments) || 2,
-        //     parseFloat(attributes.radius) || 0.005
-        // );
-        let geometry;
-
-        geometry = new THREE.BoxGeometry(
-            1,
-            1,
-            1, // Assuming depth is always 1, adjust as needed
-        );
-
-        const mesh = new THREE.Mesh(geometry, material);
-     
-         position_x = Math.random() * 10-5;
-        console.log(position_x);
-
-
-        mesh.position.set(
-            parseFloat(position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(3),
-            parseFloat(0),  // Assuming z position is always 0, adjust as needed
-        );
-        mesh.rotation.y = 0.70; // Rotate by the given roof angle
-        this.set(mesh);
-    }
-
-    update(attributes) {
-        if (!this.model) return;
-
-        if (attributes.position_x !== undefined) {
-            this.model.position.setX(parseFloat(attributes.position_x));
-        }
-
-        if (attributes.position_y !== undefined) {
-            this.model.position.setY(parseFloat(attributes.position_y));
-        }
-
-        if (attributes.position_z !== undefined) {
-            this.model.position.setZ(parseFloat(attributes.position_z));
-        }
-
-        // Update rotation if needed
-        if (attributes.rotation_z !== undefined) {
-            this.model.rotation.z = attributes.rotation_z;
         }
     }
 }
@@ -742,18 +256,20 @@ class UconfigController extends genericGarageController {
     constructor() {
         super();
         this.setModel(UconfigObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigGui();
         this.gui.set_mediator(this)
-        //Create a new three.js group
         this.group = new THREE.Group()
     }
 }
-class UconfigsController extends genericGarageController {
+
+//This is a controller with children
+class DoubleCubeController extends genericGarageController {
     constructor() {
-        super()
-        this.setModel(WallGarageObject)
+        super();
+        this.setModel(UconfigInvisibleObject)
         this.gui = new UconfigGui();
         this.gui.set_mediator(this)
+        //Create a new three.js group
         this.group = new THREE.Group()
     }
     determineState() {
@@ -763,7 +279,7 @@ class UconfigsController extends genericGarageController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#272727"
+        let object_color = this.state.get('color') || "#276727"
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
@@ -848,9 +364,10 @@ class UconfigsController extends genericGarageController {
         });
     }
     buildingStep() {
+        // alert('am i called?')
         const accessers = [
             new accesser('name', 'The floor grouping'),
-            // new accesser('color','#373737' )
+             new accesser('color','#379737' )
 
         ]
         this.set_mediator(this)
@@ -859,7 +376,6 @@ class UconfigsController extends genericGarageController {
         
 
         const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
-
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -871,8 +387,9 @@ class UconfigsController extends genericGarageController {
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
         { objectOptions: accessersWallBack, classInstance: CubeController },
-        { objectOptions: accessersWallLeft, classInstance: CubeController },
-        { objectOptions: accessersWallRight, classInstance: CubeController }
+        
+        // { objectOptions: accessersWallLeft, classInstance: CubeController },
+        // { objectOptions: accessersWallRight, classInstance: CubeController }
         ]
         // // array=[]
 
@@ -893,13 +410,15 @@ class UconfigsController extends genericGarageController {
 
                 this.display.set_scene(this.display.get_scene())
                 //const completed_mesh = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-        //     this.group.add(created_object)
+                //     // console.log(created_object)
+                //     this.group.add(created_object)
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                added_object.model.create()
+                
                 // added_object.display.set_scene(this.display.get_scene())
                 this.set_the_options(added_object, objectOptions)
+            
+                added_object.model.create(added_object.state.state)
                 this.addChild(added_object)
                 // added_object.display.set_scene(outer_scene)
                 // debug()
@@ -908,8 +427,10 @@ class UconfigsController extends genericGarageController {
                 // this.group.position.y += 20; // Move 20 units along Y-axis
                 // this.group.position.z += 30; 
                
-                this.group.rotation.y=Math.PI/4
-                this.group.add(added_object.model.get_model())                
+                // this.group.rotation.y=Math.PI/4
+                this.group.add(added_object.model.get_model())   
+                this.group.add(added_object.group)
+                 
                 // outer_scene.add(this.group)
                
 
@@ -983,10 +504,13 @@ class UconfigsController extends genericGarageController {
         //     // console.log(created_object)
         //     this.group.add(completed_mesh)
         // });
-
+        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        this.group.add(axesHelper);
     
         this.display.get_scene().add(this.group)
-        this.group.position_y=-2.0
+        this.group.position.x=4.0
+        this.group.position.z=4.0
+        this.group.rotation.y=0.5*Math.PI/2
         this.handleEvent('stateChange')
         this.handleEvent('creationStep');
     }
@@ -1079,9 +603,11 @@ class UconfigsController extends genericGarageController {
 
                 break;
             default:
+                console.error(event, data)
                 super.handleEvent(event, data);
                 break;
         }
     }
 }
-export { UconfigsController as GroupControllableBasicSystem }
+
+export {UconfigController,DoubleCubeController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController}

@@ -28,7 +28,7 @@ import {RoofControllableBasicSystem} from './objects/roof/basic-controllable'
 import {ComplexControllableBasicSystem} from './objects/complex/basic-controllable'
 
 
-import {GroupControllableBasicSystem} from './objects/default/basic-controllable'
+import {GroupControllableBasicSystem} from './objects/default/implementation'
 
 
 
@@ -284,7 +284,6 @@ complexgarageSystem.handleEvent('changeFloor', {})
    
 
   }
-
 
   let roofSystem;
   function roof_dummy_nodes(){
