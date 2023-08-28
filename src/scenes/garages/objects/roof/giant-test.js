@@ -968,7 +968,7 @@ class UconfigsController extends genericGarageController {
         this.set_mediator(this)
         this.set_the_options(this,accessers)
 
-        console.log(this.state.state)
+        //console.log(this.state.state)
         const { accessersGable, accessersSupport1, accessersSupport2, accessersSupport3 } = this.determineState();
         // for(let i=0; i<accessers.length; i++) {
         //     this.state.update(accessers[i].resource_locator, accessers[i].value);

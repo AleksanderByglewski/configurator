@@ -496,7 +496,7 @@ class UconfigsController extends genericGarageController {
         this.set_mediator(this)
         this.set_the_options(this,accessers)
 
-        console.log(this.state.state)
+        //console.log(this.state.state)
 
         const {  accessersWallFront, accessersWallBack,accessersWallLeft, accessersWallRight } = this.determineState();
      

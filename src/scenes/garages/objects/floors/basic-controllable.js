@@ -191,7 +191,7 @@ class UconfigGui extends genericGui {
     }
     notifyMediator(event, value="") {
         if (this.mediator) {
-            console.log(this.mediator.state.update('color',"#ff3030"))
+            //console.log(this.mediator.state.update('color',"#ff3030"))
             // The mediator should handle the square click with the value
             this.mediator.handleEvent(event, value);
         }
@@ -462,7 +462,7 @@ class UconfigsController extends genericGarageController {
         this.set_mediator(this)
         this.set_the_options(this,accessers)
 
-        console.log(this.state.state)
+        //console.log(this.state.state)
 
         const {accessersWallFront} = this.determineState();
      

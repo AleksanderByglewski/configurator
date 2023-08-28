@@ -289,7 +289,7 @@ class CubeObject extends genericObject {
         const mesh = new THREE.Mesh(geometry, material);
      
          position_x = Math.random() * 1-0.5;
-        console.log(position_x);
+        //console.log(position_x);
 
 
         mesh.position.set(
@@ -358,7 +358,7 @@ class DoubleCubeObject extends genericObject {
         const mesh = new THREE.Mesh(geometry, material);
      
         position_x = Math.random() * 1-0.5;
-        console.log(position_x);
+        // console.log(position_x);
 
 
         mesh.position.set(

@@ -10,8 +10,8 @@ import {DoubleCubeController,UconfigController,CubeController,WallGarageControll
 
 // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 // import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
-const loader = new THREE.TextureLoader();
-const global_texture = loader.load('/assets/config/default_1k.jpg');
+// const loader = new THREE.TextureLoader();
+// const global_texture = loader.load('/assets/config/default_1k.jpg');
 
 //This is an implementation of the template
 class UconfigsController extends genericGarageController {
@@ -261,14 +261,19 @@ class UconfigsController extends genericGarageController {
       
         // this.handleEvent('stateChange')
         
-        this.handleEvent('creationStep');
+        // this.handleEvent('creationStep');
         // this.group.position.y=-2.0
         // this.group.position.y=-2.0
-        this.group.rotateY(Math.PI/2 )
-        this.group.position.y=3.0
-        this.group.rotation.y=4*Math.PI/2
-        // this.group.position.set(0, -2, 0);
+
         
+
+
+        this.group.rotation.y=(Math.PI/2 )
+        // this.group.position.y=this.stat
+        // this.group.rotation.y=4*Math.PI/2
+        // // this.group.position.set(0, -2, 0);
+        this.basicTransformation()
+        //console.log(this.state.state)
         
     }
     handleEvent(event, data) {
@@ -332,6 +337,7 @@ class UconfigsController extends genericGarageController {
                     }
                     break
                 }
+   
             case 'changeObject':
                 // alert(data)
                 {
@@ -360,12 +366,11 @@ class UconfigsController extends genericGarageController {
 
                 break;
             default:
-                console.error(event, data)
+                // console.error(event, data)
                 super.handleEvent(event, data);
                 break;
         }
     }
 }
-
 
 export { UconfigsController as GroupControllableBasicSystem }

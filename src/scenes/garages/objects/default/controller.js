@@ -182,13 +182,23 @@ class genericGarageController extends genericController {
 
 
                 break;
-            // case 'stateChange':
-            //     //Is this the correct way to check if the function exists in the class
-            //     // if (typeof this.calculateState === 'function'){
-            //     // this.calculateState()}
-            //     // this.model.update(this.state.state)
-            //     // this.children.forEach((child) => { child.handleEvent('stateChange') });
-            //     // break;
+            case 'stateChange':
+                //Is this the correct way to check if the function exists in the class
+                // if (typeof this.calculateState === 'function'){
+                // this.calculateState()}
+                //this.model.update(this.state.state)
+                // this.children.forEach((child) => { child.handleEvent('stateChange') });
+                // let keys = Object.keys(data);
+                // keys[0]
+                // let firstValue = data[keys[0]];
+                if (data && typeof data === 'object') {
+                    let keys = Object.keys(data);
+                    if (keys.length > 0) {
+                        this.state.update(keys[0], data[keys[0]]);
+                    }
+                }
+                this.handleEvent("buildingStep")
+                break;
             // case 'guiChange':
             // if (this.mediator!==undefined){this.mediator.notify('guiChange')}
             // if (typeof this.calculateState === 'function'){this.calculateState()}
@@ -206,6 +216,22 @@ class genericGarageController extends genericController {
             default:
                 super.handleEvent(event, data);
                 break;
+        }
+    }
+    basicTransformation(){
+        // this.state.get(position_x)
+        // this.state.get(position_y)
+        // this.state.get(position_z)
+        // this.state.get(rotation_x)
+        // this.state.get(rotation_y)
+        // this.state.get(rotation_z)
+        if(this.group!==undefined){
+        this.group.position.x=this.state.get('position_x')||0
+        this.group.position.y=this.state.get('position_y')||0
+        this.group.position.z=this.state.get('position_z')||0
+        this.group.rotation.x=this.state.get('rotation_x')||0
+        this.group.rotation.y=this.state.get('rotation_y')||0
+        this.group.rotation.z=this.state.get('rotation_z')||0
         }
     }
 }
@@ -511,7 +537,7 @@ class DoubleCubeController extends genericGarageController {
         this.group.position.x=4.0
         this.group.position.z=4.0
         this.group.rotation.y=0.5*Math.PI/2
-        this.handleEvent('stateChange')
+        // this.handleEvent('stateChange')
         this.handleEvent('creationStep');
     }
     handleEvent(event, data) {
@@ -603,7 +629,7 @@ class DoubleCubeController extends genericGarageController {
 
                 break;
             default:
-                console.error(event, data)
+                // console.error(event, data)
                 super.handleEvent(event, data);
                 break;
         }

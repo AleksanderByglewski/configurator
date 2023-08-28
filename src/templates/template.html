@@ -24,7 +24,7 @@
         .resize-handle {
             position: sticky;
             top: 0%;
-            transform: translate(-50%,12px);
+            transform: translate(-50%,10px);
             left:calc( 50% ) !important;
             width: 30px;
             height: 10px;
@@ -39,7 +39,7 @@
             position: sticky;
             top: 50%;
             transform: translateY(-50%);
-            left:calc( 100% - 16px) !important;
+            left:calc( 100% - 12px) !important;
             width: 10px;
             height: 30px;
             cursor: ew-resize;
@@ -60,15 +60,14 @@
             width:100%;
             bottom:0;
             background-color: rgba(220, 220, 220, 0.8);
-      
-        }
-
+            box-shadow: 0px -1px rgba(0,0,0,0.1);
+}
 
         }
         @media screen and (max-width:992px){
         .side-menu>div:nth-child(2) {
-    /* border: 10px solid lime; */
-    margin-top: -4px;
+        /* border: 10px solid lime; */
+        margin-top: -10px;
 }
         }
         @media screen and (min-width:992px){

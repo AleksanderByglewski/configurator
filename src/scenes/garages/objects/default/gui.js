@@ -131,7 +131,7 @@ class UconfigGui extends genericGui {
             containerDiv.appendChild(textInput);
         });
 
-        const attributes = ['position_x', 'position_y', 'position_z', 'width', 'height', 'depth'];
+        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
 
         attributes.forEach(attr => {
             const sliderLabel = document.createElement('label');
@@ -202,7 +202,7 @@ class UconfigGui extends genericGui {
         if (this.mediator) {
             // console.log(this.mediator.state.update('color',"#ff3030"))
             // The mediator should handle the square click with the value
-            console.log(this.mediator)
+            //console.log(this.mediator)
             this.mediator.handleEvent(event, value);
         }
     }
