@@ -30,6 +30,8 @@ import {ComplexControllableBasicSystem} from './objects/complex/basic-controllab
 
 import {GroupControllableBasicSystem} from './objects/default/implementation'
 
+import {WallsControllableBasicSystem} from './objects/walls/implementation'
+
 
 
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
@@ -250,7 +252,25 @@ complexgarageSystem.handleEvent('changeFloor', {})
   
    // GroupGarageSystem.handleEvent('creationStep');
   }
-  creation_test()
+  // creation_test()
+
+
+  function walls_test(){
+    GroupGarageSystem=createGarageObject(canopySystemAccessers,WallsControllableBasicSystem);
+    // GroupGarageSystem.state.update('identifier',"my walls")
+    GroupGarageSystem.display.set_scene(scene)
+  
+    // GroupGarageSystem.handleEvent('changeObject', "#372727")
+    // GroupGarageSystem.handleEvent('creationStep');
+    // GroupGarageSystem.handleEvent('buildingStep');
+    // GroupGarageSystem.handleEvent('removeModel');
+    GroupGarageSystem.handleEvent('buildingStep');
+    GroupGarageSystem.handleEvent('generateInputs');
+    // GroupGarageSystem.handleEvent('removeModel');
+  
+   // GroupGarageSystem.handleEvent('creationStep');
+  }
+  walls_test()
 
 
   

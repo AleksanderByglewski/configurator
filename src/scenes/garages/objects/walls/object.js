@@ -259,26 +259,10 @@ class CubeObject extends genericObject {
     create(attributes={}) {
 
     
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : -4;
         let color = (attributes && attributes.color) ? attributes.color : "#372727";
-        //debug()
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        // var material = new THREE.MeshPhysicalMaterial({
-        //     map: texture,
-        //     color: attributes.color || "#ffffff",
-        //     metalness: 0.5,
-        //     roughness: 0.1,
-        //     clearcoat: 0.8,
-        //     clearcoatRoughness: 0.2
-            
-        // });
-        let texture=global_texture
+     
         var material = new THREE.MeshPhysicalMaterial({
-            map: texture,
             color: color,
             metalness: 0.5,
             roughness: 0.1,
@@ -297,21 +281,21 @@ class CubeObject extends genericObject {
         let geometry;
 
         geometry = new THREE.BoxGeometry(
-            width,
-            height,
-            depth, // Assuming depth is always 1, adjust as needed
+            1,
+            1,
+            1, // Assuming depth is always 1, adjust as needed
         );
 
         const mesh = new THREE.Mesh(geometry, material);
      
-        //  position_x = Math.random() * 1-0.5;
+         position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
 
         mesh.position.set(
             parseFloat(position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(position_y),
-            parseFloat(position_z),  // Assuming z position is always 0, adjust as needed
+            parseFloat(0),
+            parseFloat(0),  // Assuming z position is always 0, adjust as needed
         );
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
         this.set(mesh);
@@ -348,7 +332,7 @@ class DoubleCubeObject extends genericObject {
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : -4;
         let color = (attributes && attributes.color) ? attributes.color : "#972727";
         var material = new THREE.MeshPhysicalMaterial({
-            color: "#372727",
+            color: "#972727",
             metalness: 0.5,
             roughness: 0.1,
             clearcoat: 0.8,

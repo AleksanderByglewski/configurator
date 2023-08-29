@@ -210,6 +210,7 @@ class genericGarageController extends genericController {
                 if (this.children) {
                     this.children.forEach(child => {
                         child.gui.generateInputs(child.state.state)
+                        
                     });
                 }
                 break;
