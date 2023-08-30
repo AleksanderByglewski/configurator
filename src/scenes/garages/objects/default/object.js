@@ -8,8 +8,8 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 
 const loader = new THREE.TextureLoader();
 const global_texture = loader.load('/assets/config/default_1k.jpg');
-
-
+const global_texture_rotated = loader.load('/assets/config/default_rotated_1k.jpg');
+const global_texture_testing = loader.load('/assets/config/uv_grid.jpg');
 class genericGarageObject extends genericObject {
     constructor() {
         super();
@@ -276,16 +276,71 @@ class CubeObject extends genericObject {
         //     clearcoatRoughness: 0.2
             
         // });
-        let texture=global_texture
-        var material = new THREE.MeshPhysicalMaterial({
-            map: texture,
+     
+        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        let local_texture=global_texture
+     
+        let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
+        
+        switch(material_type){
+            case "material_type_1":
+                    // texture=global_texture
+                    //  color ="#ee2797";
+                    local_texture=global_texture.clone();
+                    // local_texture.wrapS=THREE.RepeatWrapping
+                    // local_texture.wrapT=THREE.RepeatWrapping
+                    local_texture.repeat.set(width, height/2);
+                    
+                    break;
+                case "material_type_2":
+                    // color ="#2727ee";
+                    // local_texture=global_texture_rotated
+                    // alert("hello")
+                    
+                    local_texture=global_texture_rotated.clone();
+
+                    local_texture.repeat.set(width/2, height);
+                    
+                    break;
+                case "material_type_3":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+      
+                    // local_texture.repeat.set(width, height);
+                    local_texture=global_texture.clone();
+                    local_texture.repeat.set(width, height);
+                    
+                    break;
+                case "material_type_4":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+                    local_texture=global_texture_rotated.clone();
+                    local_texture.repeat.set(width, height);
+                    
+                    
+                    break;
+                case "material_type_5":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+                    
+                    
+                    local_texture=global_texture_testing.clone();
+                    local_texture.repeat.set(width, height);
+                    
+                    
+                    break;
+            default:
+                // code to be executed if expression doesn't match any cases
+        }
+        local_texture.wrapS=THREE.RepeatWrapping
+        local_texture.wrapT=THREE.RepeatWrapping
+        // let texture=global_texture
+        let material = new THREE.MeshPhysicalMaterial({
+            map: local_texture,
             color: color,
             metalness: 0.5,
             roughness: 0.1,
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
         });
-    
+        
 
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,

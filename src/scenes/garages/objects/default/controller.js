@@ -50,7 +50,7 @@ class genericGarageController extends genericController {
             this.children.push(child);
             child.set_mediator(this);
         } else {
-            console.error("Only instances of genericGarageController can be added.");
+            // console.error("Only instances of genericGarageController can be added.");
         }
     }
     removeChild(child) {
@@ -243,7 +243,7 @@ class groupGenericGarageController extends genericGarageController {
             this.group.add(child.model.get_model()); // Add child's mesh to group
             child.set_mediator(this);
         } else {
-            console.error("Only instances of genericGarageController can be added.");
+            // console.error("Only instances of genericGarageController can be added.");
         }
     }
 }

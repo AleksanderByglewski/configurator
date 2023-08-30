@@ -5,7 +5,7 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, UconfigInvisibleObject, genericGarageObject } from './object'
-import { UconfigInvisibleGui,UconfigGui} from './gui'
+import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
 import { UconfigsController } from '../default/implementation'
 // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
@@ -33,8 +33,26 @@ class UconfigsImplementationController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#677727"
+        let object_color = this.state.get('color') || "#772727"
      
+        let texture_type=""
+        let material_type=this.state.get('material_type') || "material_type_1" 
+        // switch(material_type){
+        //     case "material_type_1":
+        //             // object_color =  "#677727"
+        //             break;
+        //         case "material_type_2":
+        //             // object_color =  "#972727"
+        //             break;
+        //         case "material_type_3":
+        //             // object_color =  "#272727"
+        //             break;
+        //         case "material_type_4":
+        //             // object_color =  "#972797"
+        //             break;
+        //     default:
+        //         // code to be executed if expression doesn't match any cases
+        // }
         // let parent_color = this.mediator.state.get('color') || "#972727"
 
         let position_x = this.state.get('position_x') || 0
@@ -59,10 +77,9 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', 2),
+            new accesser('position_z', object_depth/2),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
-
         ]
         const accessersWallBack = [
             new accesser('name', name + "_back"),
@@ -73,7 +90,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', -2),
+            new accesser('position_z', -object_depth/2),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', Math.PI),
@@ -86,7 +103,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', -2),
+            new accesser('position_x', -object_width/2),
             new accesser('position_y', 0),
             new accesser('position_z',0),
             new accesser('color', object_color),
@@ -101,7 +118,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', 2),
+            new accesser('position_x', object_width/2),
             new accesser('position_y', 0),
             new accesser('position_z', 0),
             new accesser('color', object_color),
@@ -109,6 +126,16 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('rotation_y', Math.PI/2),
 
         ]
+
+
+        const iterate=[accessersWallFront ,accessersWallLeft ,accessersWallBack ,accessersWallRight ]
+        iterate.forEach(accessersObject => {  
+            const added_accesser = new accesser('material_type', material_type);
+            accessersObject.push(added_accesser);
+        });
+
+
+
         return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight }
     }
     calculateState() {
@@ -344,7 +371,22 @@ class UconfigsImplementationController extends UconfigsController {
                     }
                     break
                 }
-   
+            case 'genericChangeObject':
+                {
+                    // const accessers = [
+                    //     new accesser('color', data),
+                    // ]
+                    //It requires accesser as passed data
+                    
+                    this.handleEvent('recursivelyRemoveModel');
+                    this.set_the_options(this, data)
+                    this.handleEvent('buildingStep');
+
+                    // this.handleEvent('creationStep');
+                    // this.buildingStep()
+                }
+                break;
+
             case 'changeObject':
                 // alert(data)
                 {
@@ -410,6 +452,7 @@ class WallController extends UconfigsController {
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
+        let material_type = this.state.get('material_type') || "material_type_3"
 
         const accessersWallFront = [
             new accesser('name', name + "_front"),
@@ -423,53 +466,55 @@ class WallController extends UconfigsController {
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
-
+            new accesser('material_type', material_type),
         ]
-        const accessersWallBack = [
-            new accesser('name', name + "_back"),
-            new accesser('width', object_width),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', 0.0 + position_x),
-            new accesser('position_y', 0 + position_y + height / 2),
-            new accesser('position_z', +0.5 * object_depth + position_z),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
+        // const accessersWallBack = [
+        //     new accesser('name', name + "_back"),
+        //     new accesser('width', object_width),
+        //     new accesser('height', object_height),
+        //     new accesser('sheet_depth', sheet_depth),
+        //     new accesser('segments', 1),
+        //     new accesser('radius', 0.01),
+        //     new accesser('position_x', 0.0 + position_x),
+        //     new accesser('position_y', 0 + position_y + height / 2),
+        //     new accesser('position_z', +0.5 * object_depth + position_z),
+        //     new accesser('color', object_color),
+        //     new accesser('position_relative', 'true'),
 
-        ]
-        const accessersWallLeft = [
-            new accesser('name', name + "_left"),
-            new accesser('width', object_depth),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', 0),
-            new accesser('position_y', 0),
-            new accesser('position_z', 0),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
-            new accesser('rotation_y', '90'),
+        // ]
+        // const accessersWallLeft = [
+        //     new accesser('name', name + "_left"),
+        //     new accesser('width', object_depth),
+        //     new accesser('height', object_height),
+        //     new accesser('sheet_depth', sheet_depth),
+        //     new accesser('segments', 1),
+        //     new accesser('radius', 0.01),
+        //     new accesser('position_x', 0),
+        //     new accesser('position_y', 0),
+        //     new accesser('position_z', 0),
+        //     new accesser('color', object_color),
+        //     new accesser('position_relative', 'true'),
+        //     new accesser('rotation_y', '90'),
 
-        ]
-        const accessersWallRight = [
-            new accesser('name', name + '_right'),
-            new accesser('width', object_depth),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', 0),
-            new accesser('position_y', 0 ),
-            new accesser('position_z', 0 ),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
-            new accesser('rotation_y', '90'),
+        // ]
+        // const accessersWallRight = [
+        //     new accesser('name', name + '_right'),
+        //     new accesser('width', object_depth),
+        //     new accesser('height', object_height),
+        //     new accesser('sheet_depth', sheet_depth),
+        //     new accesser('segments', 1),
+        //     new accesser('radius', 0.01),
+        //     new accesser('position_x', 0),
+        //     new accesser('position_y', 0 ),
+        //     new accesser('position_z', 0 ),
+        //     new accesser('color', object_color),
+        //     new accesser('position_relative', 'true'),
+        //     new accesser('rotation_y', '90'),
 
-        ]
-        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight }
+        // ]
+        return { "accessersWallFront": accessersWallFront}
+        //  "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight 
+        
     }
     calculateState() {
         //This is a function that updates the values of the children of the system
@@ -492,7 +537,7 @@ class WallController extends UconfigsController {
 
         
 
-        const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+        const { accessersWallFront} = this.determineState();
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -555,72 +600,7 @@ class WallController extends UconfigsController {
                 // I would like to rotate this group in three js by at least 45 degrees
         })
 
-        // const scene = this.display.scene;
-        // {
-        //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-        //     // Create the first mesh and position it to the left (-2 on the x axis)
-        //     var mesh1 = new THREE.Mesh(geometry22, material22);
-        //     mesh1.position.set(-2, 0, 0);
-
-        //     // Create the second mesh and position it to the right (2 on the x axis)
-        //     var mesh2 = new THREE.Mesh(geometry22, material22);
-        //     mesh2.position.set(2, 0, 0);
-
-        //     // Create a group and add the meshes
-        //     // this.group.add(mesh1);
-        //     // this.group.add(mesh2);
-
-        // }
-        
-      
-        // array=[mesh1, mesh2]
-        // array.forEach(({ objectOptions, classInstance }) => {
-
-        //     let added_object=new classInstance()
-        //     added_object.model.create(this.state.state);
-        
-           
-        //     this.set_the_options(added_object, objectOptions)
-        //     // this.display.set_scene(this.display.get_scene())
-        //     // const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-            
-        //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-        //     // Create the first mesh and position it to the left (-2 on the x axis)
-        //     var mesh1 = new THREE.Mesh(geometry22, material22);
-        //     mesh1.position.set(-2, 0, 0);
-
-        //     // Create the second mesh and position it to the right (2 on the x axis)
-        //     var mesh2 = new THREE.Mesh(geometry22, material22);
-        //     mesh2.position.set(2, 0, 0);
-
-
-          
-
-        //     // debug()
-        //     // var mesh3 = new THREE.Mesh(geometry22, material22);
-
-        //     // this.group.add(mesh3)
-        //     // console.log(t)
-        // });
-        // let mesh3 = new CubeContr    oller();
-        // mesh3.model.create()
-        // mesh3.model.get_model()
-        // mesh3.model.get_model().position.set(2, 2, 0);
-        // let mesh3_model=mesh3.model.get_model()
-    
-
-        // array=[mesh1, mesh2, mesh3_model]
-        // array.forEach((completed_mesh) => {
-        //     // this.display.set_scene(this.display.get_scene())
-        //     //const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-        //     this.group.add(completed_mesh)
-        // });
         const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
         this.group.add(axesHelper);
 
@@ -660,6 +640,7 @@ class WallController extends UconfigsController {
                 break;
             case 'creationStep':
                 {
+                    // this.handleEvent('recursivelyRemoveModel');
                     //this.handleEvent('recursivelyRemoveModel')
                     // this.handleEvent('removeModel')
                     // Create the geometry, material, and mesh for the cube

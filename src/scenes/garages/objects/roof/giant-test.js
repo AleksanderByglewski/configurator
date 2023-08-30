@@ -6,6 +6,7 @@ import {Generic,genericGui,genericState,genericObject,genericDisplay, genericCon
 import {PlanetGui, PlanetObject, Planet, System} from '../introduction.js'
 import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 import { metalMaterial,metalMaterial2 } from '../../textures/material_spawn';
+
 let this_loader = new THREE.TextureLoader();
 let texture = this_loader.load('/assets/config/default_1k.jpg');
 let global_texture = this_loader.load('/assets/config/default_1k.jpg');
