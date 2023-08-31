@@ -24,14 +24,15 @@ import {ControllableBasicSystem} from './objects/templates/basic-controllable'
 import {FloorsControllableBasicSystem} from './objects/floors/basic-controllable'  
 import {GarageControllableBasicSystem} from './objects/garage/basic-controllable'  
 import {BuildingControllableBasicSystem} from './objects/building/basic-controllable'  
-import {RoofControllableBasicSystem} from './objects/roof/basic-controllable'  
+// import {RoofControllableBasicSystem} from './objects/roof-old/basic-controllable'  
 import {ComplexControllableBasicSystem} from './objects/complex/basic-controllable'
 
 
 import {GroupControllableBasicSystem} from './objects/default/implementation'
 
-import {WallsControllableBasicSystem} from './objects/walls/implementation'
-
+import {WallsControllableBasicSystem, instancePersistentHooks} from './objects/walls/implementation'
+import {RoofControllableBasicSystem} from './objects/roof/implementation'  
+import { AdditionalControllableBasicSystem } from './objects/doors/implementation'  
 
 
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
@@ -122,7 +123,7 @@ function populateScene(scene) {
   let ground2 = new closeGround()
   ground2.attach(scene)
   }
-  // attach_ground()
+   attach_ground()
   
   const geometry = new THREE.PlaneGeometry(10, 10);
   const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
@@ -255,8 +256,14 @@ complexgarageSystem.handleEvent('changeFloor', {})
   // creation_test()
 
 
-  function walls_test(){
-    GroupGarageSystem=createGarageObject(canopySystemAccessers,WallsControllableBasicSystem);
+
+
+
+  
+
+  
+  function roof_test(){
+    GroupGarageSystem=createGarageObject(canopySystemAccessers,RoofControllableBasicSystem);
     // GroupGarageSystem.state.update('identifier',"my walls")
     GroupGarageSystem.display.set_scene(scene)
   
@@ -270,7 +277,61 @@ complexgarageSystem.handleEvent('changeFloor', {})
   
    // GroupGarageSystem.handleEvent('creationStep');
   }
+  roof_test()
+
+  let wallGarageSystems=undefined
+  function walls_test(){
+    GroupGarageSystem=createGarageObject(canopySystemAccessers,WallsControllableBasicSystem);
+    wallGarageSystems=GroupGarageSystem
+    // GroupGarageSystem.state.update('identifier',"my walls")
+    GroupGarageSystem.display.set_scene(scene)
+   
+    // GroupGarageSystem.handleEvent('changeObject', "#372727")
+    // GroupGarageSystem.handleEvent('creationStep');
+    // GroupGarageSystem.handleEvent('buildingStep');
+    // GroupGarageSystem.handleEvent('removeModel');
+    GroupGarageSystem.handleEvent('buildingStep');
+    // wallGarageSystems.children[1].hookInObjects()
+    GroupGarageSystem.handleEvent('buildingStep');
+    GroupGarageSystem.handleEvent('generateInputs');
+    // GroupGarageSystem.handleEvent('removeModel');
+  
+   // GroupGarageSystem.handleEvent('creationStep');
+  }
   walls_test()
+
+
+  
+  
+
+
+  function door_test(){
+    
+    
+    GroupGarageSystem=createGarageObject(canopySystemAccessers,AdditionalControllableBasicSystem);
+    GroupGarageSystem.handleEvent('buildingStep');
+    GroupGarageSystem.handleEvent('generateInputs');
+  
+    // GroupGarageSystem.state.update('identifier',"my walls")
+    // GroupGarageSystem.display.set_scene(scene)
+
+
+ 
+    // GroupGarageSystem.handleEvent('changeObject', "#372727")
+    // GroupGarageSystem.handleEvent('creationStep');
+    // GroupGarageSystem.handleEvent('buildingStep');
+    // GroupGarageSystem.handleEvent('removeModel');
+   
+
+  
+     instancePersistentHooks.front_wall_live.push(GroupGarageSystem)
+    wallGarageSystems.handleEvent('buildingStep');
+    // GroupGarageSystem.handleEvent('removeModel');
+    
+   // GroupGarageSystem.handleEvent('creationStep');
+  }
+   door_test()
+
 
 
   
@@ -314,7 +375,7 @@ complexgarageSystem.handleEvent('changeFloor', {})
      roofSystem.handleEvent('changeObject', "#372727")
 
   }
-  roof_dummy_nodes()
+  // roof_dummy_nodes()
 
  
   let floorgarageSystem;
@@ -329,7 +390,7 @@ complexgarageSystem.handleEvent('changeFloor', {})
     floorgarageSystem.handleEvent('changeFloor', {})
 
   }
-  controlable_dummy_nodes()
+  // controlable_dummy_nodes()
   let buildingSystem;
   function building_dummy_nodes(){
     //This is the basic example of creating a system that with one child
@@ -358,7 +419,7 @@ complexgarageSystem.handleEvent('changeFloor', {})
     
 
    }
-   controllable_garage_node()
+  //  controllable_garage_node()
    
   //  generalGarageSystem.addChild(floorgarageSystem)
 

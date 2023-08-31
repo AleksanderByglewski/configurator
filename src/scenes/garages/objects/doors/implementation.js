@@ -16,51 +16,20 @@ import { UconfigsController } from '../default/implementation'
 //This is an implementation of the template
 
 
-//I need an array of objects that are being hooked in proper places
-//I will pass them inside of the hook in
-class PersistentHooks{ 
-    constructor(){
-    this.front_wall=[]
-    this.left_wall=[]
-    this.back_wall=[]
-    this.right_wall=[]
 
-    this.front_wall_live=[]
-    this.left_wall_live=[]
-    this.right_wall_live=[]
-    this.back_wall_live=[]
-    const accessersWallFront = [
-        new accesser('name',  "_front"),
-        new accesser('width', 1),
-        new accesser('height', 0.6),
-        new accesser('sheet_depth',4),
-        new accesser('segments', 1),
-        new accesser('radius', 0.01),
-        new accesser('position_x', 1.0 ),
-        new accesser('position_y', 1.8 ),
-        new accesser('position_z', 0.025),
-        new accesser('color', "#272737"),
-        new accesser('position_relative', 'true'),
- 
-    ]
-    this.left_wall=[
-        { objectOptions: accessersWallFront, classInstance:CubeController}
-    
-    
-    ]
-    }
-}
-
-const instancePersistentHooks=new PersistentHooks()
 
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigGui();
+        this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
     }
+    setGroup(set_group){
+        this.group=set_group
+    }
+
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
@@ -95,14 +64,14 @@ class UconfigsImplementationController extends UconfigsController {
         let position_z = this.state.get('position_z') || 0
 
         let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
-        let depth = this.state.get('depth') || 4.0
+        let width = this.state.get('width') || 0.9
+        let depth = this.state.get('depth') || 0.4
         object_height = height
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-
+        sheet_depth=0.1
         const accessersWallFront = [
             new accesser('name', name + "_front"),
             new accesser('width', object_width),
@@ -112,7 +81,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', object_depth/2),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
         ]
@@ -123,9 +92,9 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', 0),
+            new accesser('position_x', 0.5),
             new accesser('position_y', 0),
-            new accesser('position_z', -object_depth/2),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', Math.PI),
@@ -138,7 +107,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', -object_width/2),
+            new accesser('position_x', 0),
             new accesser('position_y', 0),
             new accesser('position_z',0),
             new accesser('color', object_color),
@@ -153,7 +122,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', object_width/2),
+            new accesser('position_x', 0),
             new accesser('position_y', 0),
             new accesser('position_z', 0),
             new accesser('color', object_color),
@@ -184,7 +153,7 @@ class UconfigsImplementationController extends UconfigsController {
     }
     buildingStep() {
         const accessers = [
-            new accesser('name', 'Opcje ścian'),
+            new accesser('name', 'Opcje drzwi frontowe'),
             // new accesser('color','#973737' )
 
         ]
@@ -203,10 +172,10 @@ class UconfigsImplementationController extends UconfigsController {
         //  ]
 
         let array = [
-        { objectOptions: accessersWallFront, classInstance:WallController},
+        // { objectOptions: accessersWallFront, classInstance:WallController},
         { objectOptions: accessersWallBack, classInstance: WallController },
-        { objectOptions: accessersWallLeft, classInstance: WallController },
-        { objectOptions: accessersWallRight, classInstance: WallController }
+        // { objectOptions: accessersWallLeft, classInstance: WallController },
+        // { objectOptions: accessersWallRight, classInstance: WallController }
         ]
         // // array=[]
 
@@ -223,7 +192,7 @@ class UconfigsImplementationController extends UconfigsController {
         //     // console.log(t)
         // });
         let outer_scene=this.display.get_scene()
-        array.forEach(({ objectOptions, classInstance },index) => {
+        array.forEach(({ objectOptions, classInstance }) => {
 
                 this.display.set_scene(this.display.get_scene())
                 //const completed_mesh = this.object_addition.bind(this)(objectOptions, classInstance);
@@ -231,31 +200,11 @@ class UconfigsImplementationController extends UconfigsController {
                 //     this.group.add(created_object)
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                
-
-
-                if(index==0){
-                    added_object.hookInObjects(instancePersistentHooks.front_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.front_wall_live)
-                }
-                if(index==1){
-                    added_object.hookInObjects(instancePersistentHooks.back_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.back_wall_live)
-                }
-                if(index==2){
-                    added_object.hookInObjects(instancePersistentHooks.left_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.left_wall_live)
-                }
-                if(index==3){
-                    added_object.hookInObjects(instancePersistentHooks.right_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.right_wall_live)
-                 }
-                 added_object.set_the_options(added_object, objectOptions)
+                added_object.set_the_options(added_object, objectOptions)
                 added_object.model.create(added_object.state.state)
                 // added_object.display.set_scene(this.display.get_scene())
 
                 this.addChild(added_object)
-               
                 // added_object.display.set_scene(outer_scene)
                 // debug()
                 // const completed_mesh=added_object.model.get_model()
@@ -274,7 +223,7 @@ class UconfigsImplementationController extends UconfigsController {
                 
                 // I would like to rotate this group in three js by at least 45 degrees
         })
-       
+
 
         const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
         this.group.add(axesHelper);
@@ -485,38 +434,7 @@ class WallController extends UconfigsController {
         this.gui.set_mediator(this)
         //Create a new three.js group
         this.group = new THREE.Group()
-        
-
-        this.hooked_in_objects
-        this.hooked_in_objects_live
     }
-
-        hookInObjects(objects){
-
-            const accessersWallFront = [
-                new accesser('name',  "_front"),
-                new accesser('width', 4),
-                new accesser('height', 4),
-                new accesser('sheet_depth',4),
-                new accesser('segments', 1),
-                new accesser('radius', 0.01),
-                new accesser('position_x', 4.0 ),
-                new accesser('position_y', 2.0 ),
-                new accesser('position_z', 0),
-                new accesser('color', "#272727"),
-                new accesser('position_relative', 'true'),
-                
-            ]
-            let this_object={ objectOptions: accessersWallFront, classInstance:CubeController}
-            if(objects.length>0){
-            this.hooked_in_objects.push(objects[0])
-            // this.hooked_in_objects_live=this.hooked_in_objects_live.concat(live_objects)
-            }
-        }
-        hookInObjectsLive(array=[]){
-            this.hooked_in_objects_live=this.hooked_in_objects_live.concat(array)
-        }
-
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
@@ -530,16 +448,18 @@ class WallController extends UconfigsController {
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
 
-        let height = this.state.get('height') || 2.13
+        let height = this.state.get('height') || 1.83
+        height=2.03
         let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 4.0
         object_height = height
-        object_width = width
-        object_depth = depth
+        object_width = width+2
+        object_depth = depth+1
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
-        let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
+        let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0035
+         sheet_depth=0.035
         let material_type = this.state.get('material_type') || "material_type_3"
-
+      
         const accessersWallFront = [
             new accesser('name', name + "_front"),
             new accesser('width', object_width),
@@ -611,6 +531,8 @@ class WallController extends UconfigsController {
             }
         });
     }
+    
+
     buildingStep() {
         // alert('am i called?')
         const accessers = [
@@ -639,8 +561,6 @@ class WallController extends UconfigsController {
         // { objectOptions: accessersWallLeft, classInstance: CubeController },
         // { objectOptions: accessersWallRight, classInstance: CubeController }
         ]
-        // this.hookInObjects()
-        array=array.concat(this.hooked_in_objects)
         // // array=[]
 
         // this.children.forEach((child) => {
@@ -687,43 +607,6 @@ class WallController extends UconfigsController {
                 
                 // I would like to rotate this group in three js by at least 45 degrees
         })
-       
-        if(this.hooked_in_objects_live){
-
-            // alert('Goddamn')
-        this.hooked_in_objects_live.forEach((added_object) => {
-
-            added_object.display.set_scene(this.display.get_scene())
-        
-            //const completed_mesh = this.object_addition.bind(this)(objectOptions, classInstance);
-            //     // console.log(created_object)
-            //     this.group.add(created_object)
-            // const added_object = new classInstance()
-            added_object.display.set_scene(outer_scene)
-            
-            // added_object.display.set_scene(this.display.get_scene())
-            // this.set_the_options(added_object, objectOptions)
-        
-            // added_object.model.create(added_object.state.state)
-            this.addChild(added_object)
-            // added_object.display.set_scene(outer_scene)
-            // debug()
-            // const completed_mesh=added_object.model.get_model()
-            // this.group.position.x += 10; // Move 10 units along X-axis
-            // this.group.position.y += 20; // Move 20 units along Y-axis
-            // this.group.position.z += 30; 
-           
-            // this.group.rotation.y=Math.PI/4
-            this.group.add(added_object.model.get_model())   
-            this.group.add(added_object.group)
-             
-            // outer_scene.add(this.group)
-           
-
-            
-            // I would like to rotate this group in three js by at least 45 degrees
-    })
-}
 
 
         const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
@@ -760,7 +643,6 @@ class WallController extends UconfigsController {
                 break;
             case 'buildingStep':
                 this.handleEvent('recursivelyRemoveModel');
-                
                 this.buildingStep()
 
                 break;
@@ -794,7 +676,7 @@ class WallController extends UconfigsController {
                     if (Array.isArray(this.children)) {
                         this.children.forEach((child) => {
                             if (child && typeof child.handleEvent === 'function') {
-                                //  child.handleEvent('creationStep');
+                                // child.handleEvent('creationStep');
                             }
                         });
                     }
@@ -837,4 +719,4 @@ class WallController extends UconfigsController {
     }
 }
 
-export {  UconfigsImplementationController as WallsControllableBasicSystem, PersistentHooks , instancePersistentHooks}
+export {  UconfigsImplementationController as  AdditionalControllableBasicSystem }

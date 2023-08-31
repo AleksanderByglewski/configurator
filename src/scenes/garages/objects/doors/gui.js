@@ -49,8 +49,7 @@ class UconfigDebugGui extends genericGui {
 
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
-        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse', 'show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -155,12 +154,22 @@ class UconfigDebugGui extends genericGui {
         });
 
         // ... your previous code ...
+        const createModelBtn = document.createElement('button');
+        createModelBtn.textContent = "Add Model";
+        createModelBtn.classList.add('remove-model-btn', 'my-1');
+        createModelBtn.style.gridColumn = "1 / -1";
+        createModelBtn.addEventListener('click', function () {
+            // Call notifyMediator with 'recursivelyRemoveModel' event
+            // this.notifyMediator('recursivelyRemoveModel');
+        }.bind(this));
 
+        containerDiv.appendChild(createModelBtn);
        
 
         const removeModelBtn = document.createElement('button');
         removeModelBtn.textContent = "Remove Model";
         removeModelBtn.classList.add('remove-model-btn');
+        removeModelBtn.style.gridColumn = "1 / -1";
         removeModelBtn.addEventListener('click', function () {
             // Call notifyMediator with 'recursivelyRemoveModel' event
             this.notifyMediator('recursivelyRemoveModel');
@@ -176,7 +185,7 @@ class UconfigDebugGui extends genericGui {
         containerDiv.classList.add('squares-container');
 
         const squareButtons = [
-            { value: '#370605',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
             { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
             { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
             { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
@@ -367,7 +376,6 @@ class UconfigDebugGui extends genericGui {
     listenToChanges() {
     }
 }
-
 class UconfigInvisibleGui extends genericGui {
     constructor() {
         super();
@@ -428,8 +436,7 @@ class UconfigGui extends genericGui {
 
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
-        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse', 'show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -529,6 +536,7 @@ class UconfigGui extends genericGui {
         });
 
         // ... your previous code ...
+    
 
        
 
@@ -547,7 +555,7 @@ class UconfigGui extends genericGui {
     }
     createMarkupColors(){
    const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container--8');
+        containerDiv.classList.add('squares-container');
 
         const squareButtons = [
             { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},

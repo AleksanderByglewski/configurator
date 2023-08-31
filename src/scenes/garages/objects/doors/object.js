@@ -131,7 +131,7 @@ class WallGarageObject extends genericObject {
     }
 }
 
-class UconfigInvisibleObject extends genericObject {
+class  UconfigInvisibleObject extends genericObject {
     constructor() {
         super();
 

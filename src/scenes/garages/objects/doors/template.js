@@ -4,33 +4,23 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, UconfigInvisibleObject, genericGarageObject } from './object'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from './object'
 import { UconfigInvisibleGui,UconfigGui} from './gui'
-import {DoubleCubeController,UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
-
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
 // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 // import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
-// const loader = new THREE.TextureLoader();
-// const global_texture = loader.load('/assets/config/default_1k.jpg');
+const loader = new THREE.TextureLoader();
+const global_texture = loader.load('/assets/config/default_1k.jpg');
 
-//This is an implementation of the template
+
 class UconfigsController extends genericGarageController {
     constructor() {
         super()
-        this.setModel(UconfigInvisibleObject)
+        this.setModel(WallGarageObject)
         this.gui = new UconfigGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
-    
-        this.hooked_in_objects=[]
-        this.hooked_in_objects_live=[]
     }
-
-    hookInObjects(objects){
-
-        this.hooked_in_objects.push(objects)
-    }
-
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
@@ -63,7 +53,7 @@ class UconfigsController extends genericGarageController {
             new accesser('position_x', 3.0 + position_x),
             new accesser('position_y', 10.0 + position_y + height / 2),
             new accesser('position_z', -0.5 * object_depth + position_z),
-            new accesser('color', "#272797"),
+            new accesser('color', object_color),
             new accesser('position_relative', 'true'),
 
         ]
@@ -91,7 +81,7 @@ class UconfigsController extends genericGarageController {
             new accesser('position_x', 13+-0.5 * object_width + position_x),
             new accesser('position_y', 0 + position_y + height / 2),
             new accesser('position_z', 0 + position_z),
-            new accesser('color', "#972797"),
+            new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', '90'),
 
@@ -125,7 +115,7 @@ class UconfigsController extends genericGarageController {
     buildingStep() {
         const accessers = [
             new accesser('name', 'The floor grouping'),
-             new accesser('color','#973737' )
+            // new accesser('color','#373737' )
 
         ]
         this.set_mediator(this)
@@ -134,6 +124,7 @@ class UconfigsController extends genericGarageController {
         
 
         const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -144,9 +135,9 @@ class UconfigsController extends genericGarageController {
 
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
-        // { objectOptions: accessersWallLeft, classInstance: CubeController },
-        { objectOptions: accessersWallRight, classInstance: DoubleCubeController }
+        { objectOptions: accessersWallBack, classInstance: CubeController },
+        { objectOptions: accessersWallLeft, classInstance: CubeController },
+        { objectOptions: accessersWallRight, classInstance: CubeController }
         ]
         // // array=[]
 
@@ -167,14 +158,13 @@ class UconfigsController extends genericGarageController {
 
                 this.display.set_scene(this.display.get_scene())
                 //const completed_mesh = this.object_addition.bind(this)(objectOptions, classInstance);
-                //     // console.log(created_object)
-                //     this.group.add(created_object)
+        //     // console.log(created_object)
+        //     this.group.add(created_object)
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                added_object.set_the_options(added_object, objectOptions)
-                added_object.model.create(added_object.state.state)
+                added_object.model.create()
                 // added_object.display.set_scene(this.display.get_scene())
-
+                this.set_the_options(added_object, objectOptions)
                 this.addChild(added_object)
                 // added_object.display.set_scene(outer_scene)
                 // debug()
@@ -183,21 +173,15 @@ class UconfigsController extends genericGarageController {
                 // this.group.position.y += 20; // Move 20 units along Y-axis
                 // this.group.position.z += 30; 
                
-                added_object.handleEvent('buildingStep')
-                this.group.add(added_object.model.get_model())   
-                this.group.add(added_object.group)
-           
-                // added_object.group.position.y=4.0
-                 
+                this.group.rotation.y=Math.PI/4
+                this.group.add(added_object.model.get_model())                
                 // outer_scene.add(this.group)
                
+
                 
                 // I would like to rotate this group in three js by at least 45 degrees
         })
 
-
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
-        this.group.add(axesHelper);
         // const scene = this.display.scene;
         // {
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
@@ -267,23 +251,9 @@ class UconfigsController extends genericGarageController {
 
     
         this.display.get_scene().add(this.group)
-      
-        // this.handleEvent('stateChange')
-        
-        // this.handleEvent('creationStep');
-        // this.group.position.y=-2.0
-        // this.group.position.y=-2.0
-
-        
-
-
-        this.group.rotation.y=(Math.PI/2 )
-        // this.group.position.y=this.stat
-        // this.group.rotation.y=4*Math.PI/2
-        // // this.group.position.set(0, -2, 0);
-        this.basicTransformation()
-        //console.log(this.state.state)
-        
+        this.group.position_y=-2.0
+        this.handleEvent('stateChange')
+        this.handleEvent('creationStep');
     }
     handleEvent(event, data) {
         switch (event) {
@@ -346,7 +316,6 @@ class UconfigsController extends genericGarageController {
                     }
                     break
                 }
-   
             case 'changeObject':
                 // alert(data)
                 {
@@ -375,11 +344,11 @@ class UconfigsController extends genericGarageController {
 
                 break;
             default:
-                // console.error(event, data)
+                console.error(event, data)
                 super.handleEvent(event, data);
                 break;
         }
     }
 }
 
-export { UconfigsController as GroupControllableBasicSystem , UconfigsController}
+export { UconfigsController as GroupControllableBasicSystem }

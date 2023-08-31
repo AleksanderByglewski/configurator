@@ -149,7 +149,7 @@ class UconfigsImplementationController extends UconfigsController {
     }
     buildingStep() {
         const accessers = [
-            new accesser('name', 'The wall grouping'),
+            new accesser('name', 'Opcje ścianss'),
             // new accesser('color','#973737' )
 
         ]

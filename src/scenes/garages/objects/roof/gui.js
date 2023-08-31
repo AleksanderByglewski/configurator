@@ -49,8 +49,7 @@ class UconfigDebugGui extends genericGui {
 
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
-        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse', 'show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -176,7 +175,7 @@ class UconfigDebugGui extends genericGui {
         containerDiv.classList.add('squares-container');
 
         const squareButtons = [
-            { value: '#370605',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
             { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
             { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
             { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
@@ -429,7 +428,8 @@ class UconfigGui extends genericGui {
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
         accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        accordionCollapseDiv.classList.add( 'show');
+       
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -460,7 +460,13 @@ class UconfigGui extends genericGui {
        
         accordionBodyDiv.appendChild(this.generateSep());
       
-        accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        accordionBodyDiv.appendChild(this.createMarkupType());
+
+
+
+        accordionBodyDiv.appendChild(this.generateSep());
+      
+        // accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
    
@@ -474,7 +480,9 @@ class UconfigGui extends genericGui {
         containerDiv.classList.add('squares-container--three');
 
 
-        const text_attributes = ['name'];
+        const text_attributes = [
+         //   'name'
+        ];
 
         text_attributes.forEach(attr => {
             const textLabel = document.createElement('label');
@@ -499,7 +507,9 @@ class UconfigGui extends genericGui {
             containerDiv.appendChild(textInput);
         });
 
-        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
+        const attributes = ['overhang_width',
+        // 'position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'
+    ];
 
         attributes.forEach(attr => {
             const sliderLabel = document.createElement('label');
@@ -508,9 +518,9 @@ class UconfigGui extends genericGui {
 
             const sliderInput = document.createElement('input');
             sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
+            sliderInput.min = 0; // You can set min/max/default values according to your needs
+            sliderInput.max = 1;
+            sliderInput.step = 0.05;
             sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
             sliderInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;
@@ -540,7 +550,7 @@ class UconfigGui extends genericGui {
             this.notifyMediator('recursivelyRemoveModel');
         }.bind(this));
 
-        containerDiv.appendChild(removeModelBtn);
+        // containerDiv.appendChild(removeModelBtn);
 
 
         return containerDiv;
@@ -550,8 +560,8 @@ class UconfigGui extends genericGui {
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
-            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
-            { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
+            { value: '#370605',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+            { value: '#372727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
             { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
             { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
             { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
@@ -696,7 +706,81 @@ class UconfigGui extends genericGui {
      
              
              return containerDiv;
+    }
+    createMarkupType(){
+        const containerDiv = document.createElement('div');
+             containerDiv.classList.add('squares-container');
+     
+             const squareButtons = [
+                { value: 'slope_left',  display_value:"Spad Lewo",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_right',  display_value:"Spad Prawo",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_back',  display_value:"Spad Tył",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_front',  display_value:"Spad Przód",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'gable_side',  display_value:"Dwuspad",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'gable_front',  display_value:"Dwuspad tył",  display_image:'/assets/display/material/5.jpg'},   
+             ];
+     
+             squareButtons.forEach(button => {
+                 const squareDiv = document.createElement('div');
+                 squareDiv.classList.add('square');
+                 // squareDiv.style.backgroundColor = button.color;
+                 squareDiv.dataset.value = button.value;
+     
+                 // Create the image element
+                 const imageEl = document.createElement('img');
+                //  imageEl.style.backgroundColor = button.value;
+                imageEl.src =button.display_image;
+
+                 imageEl.style.aspectRatio= "1 / 1"
+                 imageEl.alt = button.display_value;  // for accessibility
+                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+     
+                 const textDiv = document.createElement('div');
+                 textDiv.textContent = button.display_value;
+                 squareDiv.appendChild(textDiv)
+     
+     
+        
+     
+                 // Attach event listener directly to the squareDiv
+                 squareDiv.addEventListener('click', function (e) {
+                     // alert(squareDiv.dataset.value);
+                     // Notify the mediator or perform some action
+                     
+                   
+     
+                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                     // this.notifyMediator('recursivelyRemoveModel');
+                     // this.notifyMediator('buildingStep');
+                  
+                    const accessers = [
+                        new accesser('object_type', squareDiv.dataset.value),
+                    ]
+                     this.notifyMediator('genericChangeObject',accessers)
+               
+                 }.bind(this));
+     
+     
+     
+                 
+                 containerDiv.appendChild(squareDiv);
+             });
+     
+     
+             // const removeModelBtn = document.createElement('button');
+             // removeModelBtn.textContent = "Remove Model";
+             // removeModelBtn.classList.add('remove-model-btn');
+             // removeModelBtn.addEventListener('click', function() {
+             //     // Call notifyMediator with 'recursivelyRemoveModel' event
+             //     this.notifyMediator('recursivelyRemoveModel');
+             // }.bind(this));
+             
+             // containerDiv.appendChild(removeModelBtn);
+     
+             
+             return containerDiv;
          }
+    
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);
