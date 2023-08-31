@@ -233,24 +233,25 @@ class UconfigsImplementationController extends UconfigsController {
                 added_object.display.set_scene(outer_scene)
                 
 
-
-                if(index==0){
-                    added_object.hookInObjects(instancePersistentHooks.front_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.front_wall_live)
-                }
-                if(index==1){
-                    added_object.hookInObjects(instancePersistentHooks.back_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.back_wall_live)
-                }
-                if(index==2){
-                    added_object.hookInObjects(instancePersistentHooks.left_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.left_wall_live)
-                }
-                if(index==3){
-                    added_object.hookInObjects(instancePersistentHooks.right_wall)
-                    added_object.hookInObjectsLive(instancePersistentHooks.right_wall_live)
-                 }
-                 added_object.set_the_options(added_object, objectOptions)
+                //This is some kind of a solution
+                // if(index==0){
+                //     added_object.hookInObjects(instancePersistentHooks.front_wall)
+                //     added_object.hookInObjectsLive(instancePersistentHooks.front_wall_live)
+                // }
+                // if(index==1){
+                //     added_object.hookInObjects(instancePersistentHooks.back_wall)
+                //     added_object.hookInObjectsLive(instancePersistentHooks.back_wall_live)
+                // }
+                // if(index==2){
+                //     added_object.hookInObjects(instancePersistentHooks.left_wall)
+                //     added_object.hookInObjectsLive(instancePersistentHooks.left_wall_live)
+                // }
+                // if(index==3){
+                //     added_object.hookInObjects(instancePersistentHooks.right_wall)
+                //     added_object.hookInObjectsLive(instancePersistentHooks.right_wall_live)
+                //  }
+                //
+                added_object.set_the_options(added_object, objectOptions)
                 added_object.model.create(added_object.state.state)
                 // added_object.display.set_scene(this.display.get_scene())
 

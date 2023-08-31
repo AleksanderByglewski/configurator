@@ -123,7 +123,7 @@ function populateScene(scene) {
   let ground2 = new closeGround()
   ground2.attach(scene)
   }
-   attach_ground()
+   //attach_ground()
   
   const geometry = new THREE.PlaneGeometry(10, 10);
   const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
@@ -324,7 +324,7 @@ complexgarageSystem.handleEvent('changeFloor', {})
    
 
   
-     instancePersistentHooks.front_wall_live.push(GroupGarageSystem)
+    //  instancePersistentHooks.front_wall_live.push(GroupGarageSystem)
     wallGarageSystems.handleEvent('buildingStep');
     // GroupGarageSystem.handleEvent('removeModel');
     
