@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { UconfigInvisibleGui,UconfigGui} from './gui'
+import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../default/object'
 
 class genericGarageController extends genericController {
@@ -210,6 +210,7 @@ class genericGarageController extends genericController {
                 if (this.children) {
                     this.children.forEach(child => {
                         child.gui.generateInputs(child.state.state)
+                        
                     });
                 }
                 break;
@@ -262,10 +263,30 @@ class WallGarageController extends genericGarageController {
         }
     }
 }
+class DebugController extends genericGarageController {
+    constructor() {
+        super();
+        this.gui = new UconfigDebugGui();
+        this.gui.set_mediator(this)
+        this.setModel(CubeObject)
+    }
+    handleEvent(event, data) {
+        switch (event) {
+            case 'removeModel':
+
+                break;
+            default:
+                super.handleEvent(event, data);
+                break;
+        }
+    }
+}
 class CubeController extends genericGarageController {
     constructor() {
         super();
         this.setModel(CubeObject)
+        this.gui = new UconfigGui();
+        this.gui.set_mediator(this)
     }
     handleEvent(event, data) {
         switch (event) {
@@ -287,8 +308,7 @@ class UconfigController extends genericGarageController {
         this.group = new THREE.Group()
     }
 }
-
 //This is a controller with children
 
 
-export {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController}
+export {DebugController,UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController}

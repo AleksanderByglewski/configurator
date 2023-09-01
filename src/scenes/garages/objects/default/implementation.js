@@ -54,6 +54,7 @@ class UconfigsController extends genericGarageController {
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
+            new accesser('side', 'front'),
             new accesser('name', name + "_front"),
             new accesser('width', object_width),
             new accesser('height', object_height),
@@ -68,6 +69,8 @@ class UconfigsController extends genericGarageController {
 
         ]
         const accessersWallBack = [
+            
+            new accesser('side', 'back'),
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
             new accesser('height', object_height),
@@ -82,6 +85,8 @@ class UconfigsController extends genericGarageController {
 
         ]
         const accessersWallLeft = [
+            
+            new accesser('side', 'left'),
             new accesser('name', name + "_left"),
             new accesser('width', object_depth),
             new accesser('height', object_height),
@@ -97,6 +102,8 @@ class UconfigsController extends genericGarageController {
 
         ]
         const accessersWallRight = [
+            
+            new accesser('side', 'right'),
             new accesser('name', name + '_right'),
             new accesser('width', object_depth),
             new accesser('height', object_height),

@@ -325,7 +325,7 @@ complexgarageSystem.handleEvent('changeFloor', {})
 
   
     //  instancePersistentHooks.front_wall_live.push(GroupGarageSystem)
-    wallGarageSystems.handleEvent('buildingStep');
+    // wallGarageSystems.handleEvent('buildingStep');
     // GroupGarageSystem.handleEvent('removeModel');
     
    // GroupGarageSystem.handleEvent('creationStep');

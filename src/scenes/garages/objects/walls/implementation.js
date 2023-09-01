@@ -6,7 +6,7 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, UconfigInvisibleObject, genericGarageObject } from './object'
 import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
+import {UconfigController,DebugController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
 import { UconfigsController } from '../default/implementation'
 // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 // import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
@@ -24,13 +24,12 @@ class PersistentHooks{
     this.left_wall=[]
     this.back_wall=[]
     this.right_wall=[]
-
     this.front_wall_live=[]
     this.left_wall_live=[]
     this.right_wall_live=[]
     this.back_wall_live=[]
     const accessersWallFront = [
-        new accesser('name',  "_front"),
+        new accesser('name',  "hi debug"),
         new accesser('width', 1),
         new accesser('height', 0.6),
         new accesser('sheet_depth',4),
@@ -44,7 +43,7 @@ class PersistentHooks{
  
     ]
     this.left_wall=[
-        { objectOptions: accessersWallFront, classInstance:CubeController}
+        { objectOptions: accessersWallFront, classInstance:DebugController}
     
     
     ]
@@ -104,6 +103,7 @@ class UconfigsImplementationController extends UconfigsController {
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
+            new accesser('side', 'front'),
             new accesser('name', name + "_front"),
             new accesser('width', object_width),
             new accesser('height', object_height),
@@ -117,6 +117,7 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('position_relative', 'true'),
         ]
         const accessersWallBack = [
+            new accesser('side', 'back'),
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
             new accesser('height', object_height),
@@ -132,6 +133,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         ]
         const accessersWallLeft = [
+            new accesser('side', 'left'),
             new accesser('name', name + "_left"),
             new accesser('width', object_depth),
             new accesser('height', object_height),
@@ -147,6 +149,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         ]
         const accessersWallRight = [
+            new accesser('side', 'right'),
             new accesser('name', name + '_right'),
             new accesser('width', object_depth),
             new accesser('height', object_height),
@@ -488,36 +491,9 @@ class WallController extends UconfigsController {
         this.group = new THREE.Group()
         
 
-        this.hooked_in_objects
-        this.hooked_in_objects_live
+        // this.hooked_in_objects
+        // this.hooked_in_objects_live
     }
-
-        hookInObjects(objects){
-
-            const accessersWallFront = [
-                new accesser('name',  "_front"),
-                new accesser('width', 4),
-                new accesser('height', 4),
-                new accesser('sheet_depth',4),
-                new accesser('segments', 1),
-                new accesser('radius', 0.01),
-                new accesser('position_x', 4.0 ),
-                new accesser('position_y', 2.0 ),
-                new accesser('position_z', 0),
-                new accesser('color', "#272727"),
-                new accesser('position_relative', 'true'),
-                
-            ]
-            let this_object={ objectOptions: accessersWallFront, classInstance:CubeController}
-            if(objects.length>0){
-            this.hooked_in_objects.push(objects[0])
-            // this.hooked_in_objects_live=this.hooked_in_objects_live.concat(live_objects)
-            }
-        }
-        hookInObjectsLive(array=[]){
-            this.hooked_in_objects_live=this.hooked_in_objects_live.concat(array)
-        }
-
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
@@ -555,52 +531,54 @@ class WallController extends UconfigsController {
             new accesser('position_relative', 'true'),
             new accesser('material_type', material_type),
         ]
-        // const accessersWallBack = [
-        //     new accesser('name', name + "_back"),
-        //     new accesser('width', object_width),
-        //     new accesser('height', object_height),
-        //     new accesser('sheet_depth', sheet_depth),
-        //     new accesser('segments', 1),
-        //     new accesser('radius', 0.01),
-        //     new accesser('position_x', 0.0 + position_x),
-        //     new accesser('position_y', 0 + position_y + height / 2),
-        //     new accesser('position_z', +0.5 * object_depth + position_z),
-        //     new accesser('color', object_color),
-        //     new accesser('position_relative', 'true'),
+        const accessersWallBack = [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0.0 + position_x),
+            new accesser('position_y', 0 + position_y + height / 2),
+            new accesser('position_z', +0.5 * object_depth + position_z),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
 
-        // ]
-        // const accessersWallLeft = [
-        //     new accesser('name', name + "_left"),
-        //     new accesser('width', object_depth),
-        //     new accesser('height', object_height),
-        //     new accesser('sheet_depth', sheet_depth),
-        //     new accesser('segments', 1),
-        //     new accesser('radius', 0.01),
-        //     new accesser('position_x', 0),
-        //     new accesser('position_y', 0),
-        //     new accesser('position_z', 0),
-        //     new accesser('color', object_color),
-        //     new accesser('position_relative', 'true'),
-        //     new accesser('rotation_y', '90'),
+        ]
+        const accessersWallLeft = [
+            new accesser('name', name + "_left"),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', 0),
+            new accesser('position_z', 0),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', '90'),
 
-        // ]
-        // const accessersWallRight = [
-        //     new accesser('name', name + '_right'),
-        //     new accesser('width', object_depth),
-        //     new accesser('height', object_height),
-        //     new accesser('sheet_depth', sheet_depth),
-        //     new accesser('segments', 1),
-        //     new accesser('radius', 0.01),
-        //     new accesser('position_x', 0),
-        //     new accesser('position_y', 0 ),
-        //     new accesser('position_z', 0 ),
-        //     new accesser('color', object_color),
-        //     new accesser('position_relative', 'true'),
-        //     new accesser('rotation_y', '90'),
+        ]
+        const accessersWallRight = [
+            new accesser('name', name + '_right'),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', 0 ),
+            new accesser('position_z', 0 ),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', '90'),
 
-        // ]
-        return { "accessersWallFront": accessersWallFront}
-        //  "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight 
+        ]
+        return { "accessersWallFront": accessersWallFront,
+         "accessersWallBack": accessersWallBack, 
+         "accessersWallLeft": accessersWallLeft, 
+         "accessersWallRight": accessersWallRight }
         
     }
     calculateState() {
@@ -624,7 +602,10 @@ class WallController extends UconfigsController {
 
         
 
-        const { accessersWallFront} = this.determineState();
+        const { accessersWallFront,
+        accessersWallBack
+        
+        } = this.determineState();
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -635,13 +616,22 @@ class WallController extends UconfigsController {
 
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
+        { objectOptions: accessersWallBack, classInstance: DebugController },
         
         // { objectOptions: accessersWallLeft, classInstance: CubeController },
         // { objectOptions: accessersWallRight, classInstance: CubeController }
         ]
+        if(this.state.get('side')=='front'){}
+        
+        if(this.state.get('side')=='back'){}
+        
+        if(this.state.get('side')=='left'){
+        array=  array.concat ( instancePersistentHooks.left_wall[0])
+        }
+        if(this.state.get('side')=='right'){}
+    
         // this.hookInObjects()
-        array=array.concat(this.hooked_in_objects)
+       
         // // array=[]
 
         // this.children.forEach((child) => {
@@ -736,7 +726,9 @@ class WallController extends UconfigsController {
         // this.group.position.z=4.0
         // this.group.rotation.y=0.5*Math.PI/2
         // this.handleEvent('stateChange')
+        this.handleEvent('generateInputs');
         this.handleEvent('creationStep');
+
     }
     handleEvent(event, data) {
         switch (event) {
