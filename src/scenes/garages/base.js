@@ -152,7 +152,15 @@ class genericState extends Generic {
     }
 
     get(key) {
-        return this.state[key];
+        
+        if (key instanceof accesser) {
+            // Use resource_locator as the key
+            return this.state[key.resource_locator];
+        } else {
+            // Use key directly
+            return this.state[key];
+        }
+
     }
 }
 

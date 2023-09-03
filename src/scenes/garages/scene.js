@@ -97,8 +97,6 @@ function populateScene(scene) {
   // attach_ground(scene)
   // attach_fog(scene)
   scene.background = new THREE.Color(0xcce7f0);
-
-  
   const geometry = new THREE.PlaneGeometry(10, 10);
   const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);

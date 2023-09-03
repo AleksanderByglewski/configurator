@@ -9,7 +9,7 @@ import { UconfigController,CubeController,WallGarageController,groupGenericGarag
 import { UconfigsController } from '../base/implementation'
 
 
-
+//Now i would like to add objects to it dynamically
 
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
@@ -140,19 +140,57 @@ class UconfigsImplementationController extends UconfigsController {
             }
         });
     }
-    buildingStep() {
-        const accessers = [
-            new accesser('name', 'Menu do debugowania obiektu'),
-            new accesser('position_x', '0'),
-            // new accesser('color','#973737' )
-
+    generatePassiveObjects(){
+            const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+            //  let array = [
+            //      { objectOptions: accessersWallFront, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallBack, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallLeft, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallRight, classInstance: WallGarageController }
+            //     ]   
+                           let array = [
+        { objectOptions: accessersWallFront, classInstance:WallController},
+        // { objectOptions: accessersWallBack, classInstance: WallController },
+        // { objectOptions: accessersWallLeft, classInstance: WallController },
+        { objectOptions: accessersWallRight, classInstance: WallController }
         ]
+            return array
+    }
+
+    buildingStep() {
+
+        // let position_x = this.state.get('position_x') || 0
+        // let position_y = this.state.get('position_y') || 0
+        // let position_z = this.state.get('position_z') || 0
+
+        const passive_accessers=[
+            new accesser('name', 'Menu do debugowania obiektu'),
+        ]
+
+        const dynamic_accessers = [
+            new accesser('position_x'),
+            new accesser('position_y'),
+            new accesser('position_z'),
+        ]
+
+        const accessers=[ ...passive_accessers,...dynamic_accessers]
+
+        let self=this
+        function update_accesser_values(accessers){
+            accessers.forEach(element=>{
+                element.value=self.state.get(element)
+
+            })
+
+        }
+       
+       
+       
+        update_accesser_values(dynamic_accessers) 
         this.set_mediator(this)
         this.set_the_options(this, accessers)
 
-        
-
-        const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+        // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -161,12 +199,27 @@ class UconfigsImplementationController extends UconfigsController {
         //          { objectOptions: accessersWallRight, classInstance: WallGarageController }
         //  ]
 
-        let array = [
-        { objectOptions: accessersWallFront, classInstance:WallController},
-        { objectOptions: accessersWallBack, classInstance: WallController },
-        { objectOptions: accessersWallLeft, classInstance: WallController },
-        { objectOptions: accessersWallRight, classInstance: WallController }
-        ]
+        // let array = [
+        // { objectOptions: accessersWallFront, classInstance:WallController},
+        // // { objectOptions: accessersWallBack, classInstance: WallController },
+        // // { objectOptions: accessersWallLeft, classInstance: WallController },
+        // { objectOptions: accessersWallRight, classInstance: WallController }
+        // ]
+
+        let self_array=[]
+        self_array=this.generatePassiveObjects()
+
+        let external_array=[]
+
+        const array=[ ...self_array, ...external_array]
+     
+
+           // let array = [
+        // { objectOptions: accessersWallFront, classInstance:WallController},
+        // // { objectOptions: accessersWallBack, classInstance: WallController },
+        // // { objectOptions: accessersWallLeft, classInstance: WallController },
+        // { objectOptions: accessersWallRight, classInstance: WallController }
+        // ]
         // // array=[]
 
         // this.children.forEach((child) => {
