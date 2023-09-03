@@ -196,8 +196,30 @@ class genericGarageController extends genericController {
                         this.state.update(keys[0], data[keys[0]]);
                     }
                 }
+                
                 this.handleEvent("buildingStep")
+               
                 break;
+            case 'debugStateChange':
+                    //Is this the correct way to check if the function exists in the class
+                    // if (typeof this.calculateState === 'function'){
+                    // this.calculateState()}
+                    //this.model.update(this.state.state)
+                    // this.children.forEach((child) => { child.handleEvent('stateChange') });
+                    // let keys = Object.keys(data);
+                    // keys[0]
+                    // let firstValue = data[keys[0]];
+                    // alert("hello")
+                    if (data && typeof data === 'object') {
+                        let keys = Object.keys(data);
+                        if (keys.length > 0) {
+                            this.state.update(keys[0], data[keys[0]]);
+                        }
+                    }
+                    
+                      this.handleEvent("debugBuildingStep")
+                    
+                    break;
             // case 'guiChange':
             // if (this.mediator!==undefined){this.mediator.notify('guiChange')}
             // if (typeof this.calculateState === 'function'){this.calculateState()}
@@ -266,6 +288,8 @@ class CubeController extends genericGarageController {
     constructor() {
         super();
         this.setModel(CubeObject)
+        this.gui.set_mediator(this)
+        this.gui = new UconfigInvisibleGui();
     }
     handleEvent(event, data) {
         switch (event) {

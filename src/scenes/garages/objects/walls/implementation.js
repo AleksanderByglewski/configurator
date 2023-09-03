@@ -620,7 +620,7 @@ class WallController extends UconfigsController {
 
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
-        { objectOptions: accessersWallBack, classInstance: DebugController },
+        // { objectOptions: accessersWallBack, classInstance: DebugController },
         
         // { objectOptions: accessersWallLeft, classInstance: CubeController },
         // { objectOptions: accessersWallRight, classInstance: CubeController }
@@ -630,7 +630,7 @@ class WallController extends UconfigsController {
         if(this.state.get('side')=='back'){}
         
         if(this.state.get('side')=='left'){
-        array=  array.concat ( instancePersistentHooks.left_wall[0])
+        // array=  array.concat ( instancePersistentHooks.left_wall[0])
         }
         if(this.state.get('side')=='right'){}
     

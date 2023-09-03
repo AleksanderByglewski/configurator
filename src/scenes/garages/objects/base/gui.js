@@ -99,7 +99,7 @@ class UconfigDebugGui extends genericGui {
         // console.log(this.mediator.state.state)
 
         let text_attributes = Object.keys(this.mediator.state.state)
-
+        
         text_attributes.forEach(attr => {
             const textLabel = document.createElement('label');
             textLabel.textContent = attr;
@@ -115,8 +115,9 @@ class UconfigDebugGui extends genericGui {
             // Event listener for input changes
             textInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-
+               
+                this.notifyMediator('debugStateChange', { [attr]: e.target.value });
+              
                 console.log(this.mediator.state.state)
             }.bind(this));
 

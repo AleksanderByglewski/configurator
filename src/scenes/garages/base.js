@@ -226,6 +226,7 @@ class genericController extends Generic {
                 } else {
                     console.log('Key or value does not exist');
                 }
+                 alert("hi")
                 break;
             // Handle other events...
             default:

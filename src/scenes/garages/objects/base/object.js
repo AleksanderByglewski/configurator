@@ -550,7 +550,7 @@ class RedCubeObject extends genericObject {
         let color = (attributes && attributes.color) ? attributes.color : "#872797";
         //debug()
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0.1;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 0.5;
         // var material = new THREE.MeshPhysicalMaterial({
@@ -638,7 +638,7 @@ class RedCubeObject extends genericObject {
         let geometry;
 
         geometry = new THREE.BoxGeometry(
-            width+5,
+            1,
             height,
             depth, // Assuming depth is always 1, adjust as needed
         );

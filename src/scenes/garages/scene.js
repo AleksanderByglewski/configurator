@@ -133,7 +133,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
    
   }
-  roof_test()
+  //roof_test()
 
   function walls_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,WallsControllableBasicSystem);
@@ -141,7 +141,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
   }
-    walls_test()
+  //walls_test()
 
   function door_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,AdditionalControllableBasicSystem);
@@ -149,16 +149,16 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
 
   }
-   door_test()
+   //door_test()
 
 
 
-    let debug=true
+    let debug=false
     if( typeof debug === 'undefined' || !debug ){
     function run_the_inits(){
       roof_test()
-      walls_test()
-      door_test()
+      //walls_test()
+      //door_test()
     }
     run_the_inits()
     }
@@ -167,18 +167,24 @@ function populateScene(scene) {
    function template_test(){
 
     let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-    RedCubeSystem.handleEvent('buildingStep');
-    RedCubeSystem.handleEvent('generateInputs');
 
+    
 
     let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
 
+    //RedCubeSystem.handleEvent('buildingStep');
+
+    RedCubeSystem.external_objects_controllers.push(GroupGarageSystem);
     GroupGarageSystem.external_objects.push(RedCubeSystem.group)
+
 
 
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
 
+    RedCubeSystem.handleEvent('buildingStep');
+    RedCubeSystem.handleEvent('generateInputs');
+    
     //This doesn't work now, but is smart
 
 
@@ -188,7 +194,7 @@ function populateScene(scene) {
 
   }
   
-   //template_test()
+   template_test()
 
 
 

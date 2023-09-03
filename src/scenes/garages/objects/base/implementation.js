@@ -318,6 +318,13 @@ class UconfigsController extends genericGarageController {
                 this.buildingStep()
 
                 break;
+            case 'debugBuildingStep':
+                    
+                    // this.handleEvent('recursivelyRemoveModel');
+                  
+                    this.buildingStep()
+                
+                    break;
             case 'creationStep':
                 {
                     //this.handleEvent('recursivelyRemoveModel')
