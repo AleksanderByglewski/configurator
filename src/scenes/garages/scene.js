@@ -4,7 +4,7 @@ import {Ground, closeGround} from './objects/ground'
 import {WallsControllableBasicSystem} from './objects/walls/implementation'
 import {RoofControllableBasicSystem} from './objects/roof/implementation'  
 import {AdditionalControllableBasicSystem } from './objects/doors/implementation'  
-import {UconfigsImplementationController as TemplateControllableBasicSystem} from './objects/base_template/implementation'  
+import {UconfigsImplementationController as TemplateControllableBasicSystem, UconfigsChildImplementationController as TemplateChildControllableBasicSystem} from './objects/base_template/implementation'  
 
 
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
@@ -165,9 +165,18 @@ function populateScene(scene) {
 
 
    function template_test(){
+
+    let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    RedCubeSystem.handleEvent('buildingStep');
+    // RedCubeSystem.handleEvent('generateInputs');
+
+
     let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
+
+    //This works but is stupid
+    GroupGarageSystem.display.get_scene().add(RedCubeSystem.group)
 
   }
   

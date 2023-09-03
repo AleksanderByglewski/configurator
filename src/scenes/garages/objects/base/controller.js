@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
-import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from './object'
+import { DoubleCubeObject,RedCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from './object'
 
 class genericGarageController extends genericController {
     constructor() {
@@ -266,6 +266,22 @@ class CubeController extends genericGarageController {
     constructor() {
         super();
         this.setModel(CubeObject)
+    }
+    handleEvent(event, data) {
+        switch (event) {
+            case 'removeModel':
+
+                break;
+            default:
+                super.handleEvent(event, data);
+                break;
+        }
+    }
+}
+class RedCubeController extends genericGarageController {
+    constructor() {
+        super();
+        this.setModel(RedCubeObject)
     }
     handleEvent(event, data) {
         switch (event) {
@@ -653,4 +669,4 @@ class DoubleCubeController extends genericGarageController {
     }
 }
 
-export {UconfigController,DoubleCubeController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController, DebugController}
+export {UconfigController,DoubleCubeController,CubeController, RedCubeController ,WallGarageController,groupGenericGarageController,genericGarageController, DebugController}
