@@ -228,8 +228,12 @@ class UconfigsImplementationController extends UconfigsController {
         let self_array=[]
         self_array=this.generatePassiveObjects()
 
-        let external_array=[]
+        let external_array=this.external_objects
+     
 
+        for (let i=0;i<this.external_objects.length; i++){
+            this.group.add(this.external_objects[i])
+        }
         // const array=[ ...self_array, ...external_array]
         const array=[ ...self_array]
      
@@ -272,6 +276,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
         this.group.add(axesHelper);
+      
         // const scene = this.display.scene;
         // {
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);

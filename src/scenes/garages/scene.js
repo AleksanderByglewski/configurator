@@ -168,15 +168,23 @@ function populateScene(scene) {
 
     let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
     RedCubeSystem.handleEvent('buildingStep');
-    // RedCubeSystem.handleEvent('generateInputs');
+    RedCubeSystem.handleEvent('generateInputs');
 
 
     let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
+
+    GroupGarageSystem.external_objects.push(RedCubeSystem.group)
+
+
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
 
-    //This works but is stupid
-    GroupGarageSystem.display.get_scene().add(RedCubeSystem.group)
+    //This doesn't work now, but is smart
+
+
+
+    //  GroupGarageSystem.display.get_scene().add(RedCubeSystem.group)
+    //GroupGarageSystem.display.get_scene().add(RedCubeSystem.group)
 
   }
   
