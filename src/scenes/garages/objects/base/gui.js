@@ -5,9 +5,10 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../default/object'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from './object'
 
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../default/controller'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
+
 class UconfigDebugGui extends genericGui {
     constructor() {
         super();
@@ -367,6 +368,7 @@ class UconfigDebugGui extends genericGui {
     }
 }
 
+
 class UconfigInvisibleGui extends genericGui {
     constructor() {
         super();
@@ -390,14 +392,13 @@ class UconfigGui extends genericGui {
     constructor() {
         super();
     }
-     generateSep(){
-        const sepElem= document.createElement('hr');
-        sepElem.classList.add('my-2' , 'my-lg-4')
-        return sepElem
-     }
+
     generateInputs(attributes) {
 
-        function generateAccordion(){
+
+
+        const squaresElement = this.createMarkup();
+
         const accordionDiv = document.createElement('div');
         accordionDiv.classList.add('accordion');
         accordionDiv.id = 'parent-inputs-accordion-' + this.id;
@@ -418,11 +419,7 @@ class UconfigGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-
-        let name= (attributes && attributes.name) ? attributes.name: "Budowa systemów";
-
-        accordionButton.textContent = name;
-      
+        accordionButton.textContent = "Budowa systemu";
         accordionHeaderH3.appendChild(accordionButton);
 
         const accordionCollapseDiv = document.createElement('div');
@@ -440,28 +437,25 @@ class UconfigGui extends genericGui {
         const inputGroupDiv = document.createElement('div');
         inputGroupDiv.classList.add('input-group', 'align-items-center');
         accordionBodyDiv.appendChild(inputGroupDiv);
-            return {
-            accordionDiv: accordionDiv,
-            accordionBodyDiv: accordionBodyDiv
-        };
-        }
 
-        let {accordionBodyDiv, accordionDiv}=generateAccordion.bind(this)()
+        // const label = document.createElement('label');
+        // label.classList.add('pe-2');
+        // label.setAttribute('for', 'depth');
+        // label.textContent = 'depth';
+        // inputGroupDiv.appendChild(label);
 
-        // const squaresElement = 
-        // const squaresElement2=
-        accordionBodyDiv.appendChild(this.createMarkupColors());
+        // const input = document.createElement('input');
+        // input.type = 'text';
+        // input.value = "3.5";
+        // inputGroupDiv.appendChild(input);
 
-        accordionBodyDiv.appendChild(this.generateSep());
+        accordionBodyDiv.appendChild(squaresElement);
 
-        accordionBodyDiv.appendChild(this.createMarkup());
-       
-        accordionBodyDiv.appendChild(this.generateSep());
-      
-        accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        // Append the entire accordion structure to a target container in the DOM.
+        // const targetElement = document.querySelector('#targetContainer');  // You might want to adjust the selector.
+        // targetElement.appendChild(accordionDiv);
 
-
-   
+        // this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
@@ -543,158 +537,6 @@ class UconfigGui extends genericGui {
 
         return containerDiv;
     }
-    createMarkupColors(){
-   const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container');
-
-        const squareButtons = [
-            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
-            { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
-            { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
-            { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
-            { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
-            { value: '#656365',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20013'},
-            { value: '#757375',  display_value:"RAL2015",  display_image:'/assets/display/colors/RAL2015'},
-            { value: '#858385',  display_value:"RAL2017",  display_image:'/assets/display/colors/RAL2017'},
-            { value: '#959395',  display_value:"RAL2019",  display_image:'/assets/display/colors/RAL2019'},
-            { value: '#A5A3A5',  display_value:"RAL2021",  display_image:'/assets/display/colors/RAL2021'},
-            { value: '#B5B3B5',  display_value:"RAL2023",  display_image:'/assets/display/colors/RAL2023'},
-            { value: '#C5C3C5',  display_value:"RAL2025",  display_image:'/assets/display/colors/RAL2025'},
-            { value: '#D5D3D5',  display_value:"RAL2027",  display_image:'/assets/display/colors/RAL2027'},
-            { value: '#E5E3E5',  display_value:"RAL2029",  display_image:'/assets/display/colors/RAL2029'},
-            
-                        
-        ];
-
-        squareButtons.forEach(button => {
-            const squareDiv = document.createElement('div');
-            squareDiv.classList.add('square');
-            // squareDiv.style.backgroundColor = button.color;
-            squareDiv.dataset.value = button.value;
-
-            // Create the image element
-            const imageEl = document.createElement('div');
-            imageEl.style.backgroundColor = button.value;
-            imageEl.style.aspectRatio= "1 / 1"
-            imageEl.alt = button.display_value;  // for accessibility
-            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
-
-            const textDiv = document.createElement('div');
-            textDiv.textContent = button.display_value;
-            squareDiv.appendChild(textDiv)
-
-
-   
-
-            // Attach event listener directly to the squareDiv
-            squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
-                // Notify the mediator or perform some action
-                
-              
-
-                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-                // this.notifyMediator('recursivelyRemoveModel');
-                // this.notifyMediator('buildingStep');
-             
-                this.notifyMediator('changeObject',`${squareDiv.dataset.value}`)
-          
-            }.bind(this));
-
-
-
-            
-            containerDiv.appendChild(squareDiv);
-        });
-
-
-        // const removeModelBtn = document.createElement('button');
-        // removeModelBtn.textContent = "Remove Model";
-        // removeModelBtn.classList.add('remove-model-btn');
-        // removeModelBtn.addEventListener('click', function() {
-        //     // Call notifyMediator with 'recursivelyRemoveModel' event
-        //     this.notifyMediator('recursivelyRemoveModel');
-        // }.bind(this));
-        
-        // containerDiv.appendChild(removeModelBtn);
-
-        
-        return containerDiv;
-    }
-
-    createMarkupCoverType(){
-        const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
-     
-             const squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
-                
-             ];
-     
-             squareButtons.forEach(button => {
-                 const squareDiv = document.createElement('div');
-                 squareDiv.classList.add('square');
-                 // squareDiv.style.backgroundColor = button.color;
-                 squareDiv.dataset.value = button.value;
-     
-                 // Create the image element
-                 const imageEl = document.createElement('img');
-                //  imageEl.style.backgroundColor = button.value;
-                imageEl.src =button.display_image;
-
-                 imageEl.style.aspectRatio= "1 / 1"
-                 imageEl.alt = button.display_value;  // for accessibility
-                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
-     
-                 const textDiv = document.createElement('div');
-                 textDiv.textContent = button.display_value;
-                 squareDiv.appendChild(textDiv)
-     
-     
-        
-     
-                 // Attach event listener directly to the squareDiv
-                 squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
-                     // Notify the mediator or perform some action
-                     
-                   
-     
-                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-                     // this.notifyMediator('recursivelyRemoveModel');
-                     // this.notifyMediator('buildingStep');
-                  
-                    const accessers = [
-                        new accesser('material_type', squareDiv.dataset.value),
-                    ]
-                     this.notifyMediator('genericChangeObject',accessers)
-               
-                 }.bind(this));
-     
-     
-     
-                 
-                 containerDiv.appendChild(squareDiv);
-             });
-     
-     
-             // const removeModelBtn = document.createElement('button');
-             // removeModelBtn.textContent = "Remove Model";
-             // removeModelBtn.classList.add('remove-model-btn');
-             // removeModelBtn.addEventListener('click', function() {
-             //     // Call notifyMediator with 'recursivelyRemoveModel' event
-             //     this.notifyMediator('recursivelyRemoveModel');
-             // }.bind(this));
-             
-             // containerDiv.appendChild(removeModelBtn);
-     
-             
-             return containerDiv;
-         }
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);

@@ -4,6 +4,7 @@ import {Ground, closeGround} from './objects/ground'
 import {WallsControllableBasicSystem} from './objects/walls/implementation'
 import {RoofControllableBasicSystem} from './objects/roof/implementation'  
 import {AdditionalControllableBasicSystem } from './objects/doors/implementation'  
+import {UconfigsImplementationController as TemplateControllableBasicSystem} from './objects/base_template/implementation'  
 
 
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
@@ -97,9 +98,6 @@ function populateScene(scene) {
   // attach_fog(scene)
   scene.background = new THREE.Color(0xcce7f0);
 
-
-
-
   
   const geometry = new THREE.PlaneGeometry(10, 10);
   const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
@@ -137,7 +135,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
    
   }
-  roof_test()
+ // roof_test()
 
   function walls_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,WallsControllableBasicSystem);
@@ -145,7 +143,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
   }
-  walls_test()
+//  walls_test()
 
   function door_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,AdditionalControllableBasicSystem);
@@ -153,7 +151,30 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
 
   }
-   door_test()
+  // door_test()
+
+
+
+    let debug=true
+    if( typeof debug === 'undefined' || !debug ){
+    function run_the_inits(){
+      roof_test()
+      walls_test()
+      door_test()
+    }
+    run_the_inits()
+    }
+
+
+   function template_test(){
+    let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
+    GroupGarageSystem.handleEvent('buildingStep');
+    GroupGarageSystem.handleEvent('generateInputs');
+
+  }
+  
+   template_test()
+
 
 
   return {}

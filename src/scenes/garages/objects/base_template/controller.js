@@ -3,16 +3,15 @@ import { accesser } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { UconfigInvisibleGui,UconfigGui} from './gui'
-import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../default/object'
+import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
+import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
 
 class genericGarageController extends genericController {
     constructor() {
         super();
         // alert("hello")
         this.setModel(genericGarageObject);
-        this.setGui(PlanetGui);
+        this.setGui(UconfigDebugGui);
         this.children = []
         this.group = new THREE.Group()
     }

@@ -5,9 +5,8 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../default/object'
-
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../default/controller'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 class UconfigDebugGui extends genericGui {
     constructor() {
         super();
@@ -154,22 +153,12 @@ class UconfigDebugGui extends genericGui {
         });
 
         // ... your previous code ...
-        const createModelBtn = document.createElement('button');
-        createModelBtn.textContent = "Add Model";
-        createModelBtn.classList.add('remove-model-btn', 'my-1');
-        createModelBtn.style.gridColumn = "1 / -1";
-        createModelBtn.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-            // this.notifyMediator('recursivelyRemoveModel');
-        }.bind(this));
 
-        containerDiv.appendChild(createModelBtn);
        
 
         const removeModelBtn = document.createElement('button');
         removeModelBtn.textContent = "Remove Model";
         removeModelBtn.classList.add('remove-model-btn');
-        removeModelBtn.style.gridColumn = "1 / -1";
         removeModelBtn.addEventListener('click', function () {
             // Call notifyMediator with 'recursivelyRemoveModel' event
             this.notifyMediator('recursivelyRemoveModel');
@@ -376,6 +365,7 @@ class UconfigDebugGui extends genericGui {
     listenToChanges() {
     }
 }
+
 class UconfigInvisibleGui extends genericGui {
     constructor() {
         super();
@@ -536,7 +526,6 @@ class UconfigGui extends genericGui {
         });
 
         // ... your previous code ...
-    
 
        
 

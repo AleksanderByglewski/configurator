@@ -5,9 +5,9 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../default/object'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../default/controller'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 class UconfigDebugGui extends genericGui {
     constructor() {
         super();
