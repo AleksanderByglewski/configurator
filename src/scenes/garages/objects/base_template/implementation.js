@@ -15,7 +15,7 @@ class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigGui();
+        this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
     }
@@ -143,6 +143,7 @@ class UconfigsImplementationController extends UconfigsController {
     buildingStep() {
         const accessers = [
             new accesser('name', 'Menu do debugowania obiektu'),
+            new accesser('position_x', '0'),
             // new accesser('color','#973737' )
 
         ]
