@@ -5,7 +5,7 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, UconfigInvisibleObject, genericGarageObject } from './object'
-import { UconfigInvisibleGui,UconfigGui} from './gui'
+import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
 import {DoubleCubeController,UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
 
 // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
@@ -389,4 +389,389 @@ class UconfigsController extends genericGarageController {
     }
 }
 
-export { UconfigsController as GroupControllableBasicSystem , UconfigsController}
+
+//Now i would like to add objects to it dynamically
+class UconfigsImplementationController extends UconfigsController {
+    constructor() {
+        super()
+        this.setModel(UconfigInvisibleObject)
+        this.gui = new UconfigDebugGui();
+        this.gui.set_mediator(this)
+        this.group = new THREE.Group()
+        this.external_objects=[]
+    }
+    determineState() {
+        //You can get the current state of the object by using the 
+        let name = this.state.get('name') || 'Wall'
+        let object_type = this.state.get('object_type') || 'flat'
+        let object_width = parseFloat(this.state.get('object_width')) || 3
+        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_depth = parseFloat(this.state.get('object_depth')) || 2
+        let object_color = this.state.get('color') || "#772727"
+     
+        let texture_type=""
+        let material_type=this.state.get('material_type') || "material_type_1" 
+        // switch(material_type){
+        //     case "material_type_1":
+        //             // object_color =  "#677727"
+        //             break;
+        //         case "material_type_2":
+        //             // object_color =  "#972727"
+        //             break;
+        //         case "material_type_3":
+        //             // object_color =  "#272727"
+        //             break;
+        //         case "material_type_4":
+        //             // object_color =  "#972797"
+        //             break;
+        //     default:
+        //         // code to be executed if expression doesn't match any cases
+        // }
+        // let parent_color = this.mediator.state.get('color') || "#972727"
+
+        let position_x = this.state.get('position_x') || 0
+        let position_y = this.state.get('position_y') || 0
+        let position_z = this.state.get('position_z') || 0
+
+        let height = this.state.get('height') || 2.13
+        let width = this.state.get('width') || 4.0
+        let depth = this.state.get('depth') || 4.0
+        object_height = height
+        object_width = width
+        object_depth = depth
+        //let object_angle=parseFloat(this.state.get('object_angle'))||30
+        let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
+
+        const accessersWallFront = [
+            new accesser('name', name + "_front"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', 0),
+            new accesser('position_z', object_depth/2),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+        ]
+        const accessersWallBack = [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', 0),
+            new accesser('position_z', -object_depth/2),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', Math.PI),
+
+        ]
+        const accessersWallLeft = [
+            new accesser('name', name + "_left"),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', -object_width/2),
+            new accesser('position_y', 0),
+            new accesser('position_z',0),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', -Math.PI/2),
+
+        ]
+        const accessersWallRight = [
+            new accesser('name', name + '_right'),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', object_width/2),
+            new accesser('position_y', 0),
+            new accesser('position_z', 0),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', Math.PI/2),
+
+        ]
+
+
+        const iterate=[accessersWallFront ,accessersWallLeft ,accessersWallBack ,accessersWallRight ]
+        iterate.forEach(accessersObject => {  
+            const added_accesser = new accesser('material_type', material_type);
+            accessersObject.push(added_accesser);
+        });
+
+
+
+        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight }
+    }
+    calculateState() {
+        //This is a function that updates the values of the children of the system
+        const accessersDict = this.determineState();
+        Object.keys(accessersDict).forEach((key, index) => {
+            if (this.children[index]) {
+                this.set_the_options(this.children[index], accessersDict[key]);
+            }
+        });
+    }
+    generatePassiveObjects(){
+            const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+            //  let array = [
+            //      { objectOptions: accessersWallFront, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallBack, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallLeft, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallRight, classInstance: WallGarageController }
+            //     ]   
+            // let array = [
+            // { objectOptions: accessersWallFront, classInstance:WallController},
+            // // { objectOptions: accessersWallBack, classInstance: WallController },
+            // // { objectOptions: accessersWallLeft, classInstance: WallController },
+            // { objectOptions: accessersWallRight, classInstance: WallController }
+            // ]
+
+            let array = [
+                { objectOptions: accessersWallFront, classInstance:SimpleController},
+                // { objectOptions: accessersWallBack, classInstance: SimpleController  },
+                // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
+                { objectOptions: accessersWallRight, classInstance: SimpleController }
+                ]
+            return array
+    }
+
+    generateDynamicObjects(){
+
+        let external_data=[]
+
+
+
+        for (let i=0;i<this.external_objects.length; i++){
+                this.external_objects[i].specify_self()
+
+        }
+        //Write the code for hooking in of external objects
+        //Just pull from the external objects
+        return []
+        
+    }
+    buildingStep() {
+
+        // let position_x = this.state.get('position_x') || 0
+        // let position_y = this.state.get('position_y') || 0
+        // let position_z = this.state.get('position_z') || 0
+
+        const passive_accessers=[
+            new accesser('name', 'Menu do debugowania obiektu'),
+        ]
+
+        const dynamic_accessers = [
+            new accesser('position_x'),
+            new accesser('position_y'),
+            new accesser('position_z'),
+        ]
+
+        const accessers=[ ...passive_accessers,...dynamic_accessers]
+
+        let self=this
+        function update_accesser_values(accessers){
+            accessers.forEach(element=>{
+                element.value=self.state.get(element)
+
+            })
+
+        }
+
+        update_accesser_values(dynamic_accessers) 
+        this.set_mediator(this)
+        this.set_the_options(this, accessers)
+
+        // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+        //      let array = [
+        //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
+        //          { objectOptions: accessersWallBack, classInstance: WallGarageController },
+        //          { objectOptions: accessersWallLeft, classInstance: WallGarageController },
+        //          { objectOptions: accessersWallRight, classInstance: WallGarageController }
+        //  ]
+
+        // let array = [
+        // { objectOptions: accessersWallFront, classInstance:WallController},
+        // // { objectOptions: accessersWallBack, classInstance: WallController },
+        // // { objectOptions: accessersWallLeft, classInstance: WallController },
+        // { objectOptions: accessersWallRight, classInstance: WallController }
+        // ]
+
+        let self_array=[]
+        self_array=this.generatePassiveObjects()
+
+        let external_array=this.external_objects
+     
+
+        for (let i=0;i<this.external_objects.length; i++){
+            this.group.add(this.external_objects[i])
+        }
+        // const array=[ ...self_array, ...external_array]
+        const array=[ ...self_array]
+     
+
+        // let array = [
+        // { objectOptions: accessersWallFront, classInstance:WallController},
+        // // { objectOptions: accessersWallBack, classInstance: WallController },
+        // // { objectOptions: accessersWallLeft, classInstance: WallController },
+        // { objectOptions: accessersWallRight, classInstance: WallController }
+        // ]
+        // // array=[]
+
+        // this.children.forEach((child) => {
+        //     child.handleEvent('recursivelyRemoveModel')
+        // });
+        // this.children = []
+
+        // array.forEach(({ objectOptions, classInstance }) => {
+        //     this.display.set_scene(this.display.get_scene())
+        //     const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
+        //     // console.log(created_object)
+        //     this.group.add(created_object)
+        //     // console.log(t)
+        // });
+        let outer_scene=this.display.get_scene()
+        
+        array.forEach(({ objectOptions, classInstance }) => {
+
+                this.display.set_scene(this.display.get_scene())
+                const added_object = new classInstance()
+                added_object.display.set_scene(outer_scene)
+                added_object.set_the_options(added_object, objectOptions)
+                added_object.model.create(added_object.state.state)
+                this.addChild(added_object)
+                added_object.handleEvent('buildingStep')
+                this.group.add(added_object.model.get_model())   
+                this.group.add(added_object.group)
+        })
+
+
+        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        this.group.add(axesHelper);
+        this.display.get_scene().add(this.group)
+        this.basicTransformation()
+        //console.log(this.state.state)
+        
+    }
+    handleEvent(event, data) {
+        switch (event) {
+            case 'removeModel':
+                //I would like to remove the curent model from this scene and current group as well
+                this.display.remove_from_scene(this.model.get_model())
+                this.display.remove_from_scene(this.group)
+                //I would like to kill all objects in a group THREE.js
+
+                while(this.group.children.length > 0){ 
+                    this.group.remove(this.group.children[0]); 
+                }
+                
+                if(this.group) {
+                    if(this.group instanceof THREE.Group) {
+                        while(this.group.children.length > 0){ 
+                            this.remove(object.children[0]); 
+                        }
+                    }
+                    //this.group = new THREE.Group();  // Assign a new empty group
+                }
+                break;
+            case 'buildingStep':
+                this.handleEvent('recursivelyRemoveModel');
+                this.buildingStep()
+
+                break;
+            case 'creationStep':
+                {
+                    //this.handleEvent('recursivelyRemoveModel')
+                    // this.handleEvent('removeModel')
+                    // Create the geometry, material, and mesh for the cube
+                    // const geometry = new THREE.BoxGeometry(1, 5, 1);  // Cube of size 1x1x1
+                    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });  // Green color
+                    // const cube = new THREE.Mesh(geometry, material);
+
+                    // // Add the cube to the scene
+                    // this.display.add_to_scene(cube);
+                    // this.display.remove_from_scene(cube)
+
+                    if (this.model && typeof this.model.get_model === 'function') {
+                        const modelInstance = this.model
+
+                        if (modelInstance && typeof modelInstance.create === 'function') {
+                            modelInstance.create(this.state.state);
+                        }
+                        if (this.display && typeof this.display.add_to_scene === 'function') {
+                            this.display.add_to_scene(modelInstance.model);
+                            this.display.add_to_scene(this.group);
+                            // this.display.add_to_scene(cube)
+                            // this.display.remove_from_scene(cube)
+                        }
+                    }
+                    if (Array.isArray(this.children)) {
+                        this.children.forEach((child) => {
+                            if (child && typeof child.handleEvent === 'function') {
+                                // child.handleEvent('creationStep');
+                            }
+                        });
+                    }
+                    break
+                }
+            case 'genericChangeObject':
+                {
+                    // const accessers = [
+                    //     new accesser('color', data),
+                    // ]
+                    //It requires accesser as passed data
+                    
+                    this.handleEvent('recursivelyRemoveModel');
+                    this.set_the_options(this, data)
+                    this.handleEvent('buildingStep');
+
+                    // this.handleEvent('creationStep');
+                    // this.buildingStep()
+                }
+                break;
+
+            case 'changeObject':
+                // alert(data)
+                {
+                    const accessers = [
+                        new accesser('color', data),
+                    ]
+                    this.handleEvent('recursivelyRemoveModel');
+                    this.set_the_options(this, accessers)
+                    this.handleEvent('buildingStep');
+
+                    // this.handleEvent('creationStep');
+                    // this.buildingStep()
+                }
+                break;
+            case 'changeFloor':
+                // alert(data)
+                const accessers = [
+                    new accesser('color', data),
+                ]
+                this.handleEvent('recursivelyRemoveModel');
+                this.set_the_options(this, accessers)
+                this.handleEvent('buildingStep');
+
+                // this.handleEvent('creationStep');
+                // this.buildingStep()
+
+                break;
+            default:
+                // console.error(event, data)
+                super.handleEvent(event, data);
+                break;
+        }
+    }
+}
+
+export { UconfigsController as GroupControllableBasicSystem ,UconfigsImplementationController  as UconfigsController}

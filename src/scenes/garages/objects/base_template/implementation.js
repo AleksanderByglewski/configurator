@@ -276,90 +276,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
         this.group.add(axesHelper);
-      
-        // const scene = this.display.scene;
-        // {
-        //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-        //     // Create the first mesh and position it to the left (-2 on the x axis)
-        //     var mesh1 = new THREE.Mesh(geometry22, material22);
-        //     mesh1.position.set(-2, 0, 0);
-
-        //     // Create the second mesh and position it to the right (2 on the x axis)
-        //     var mesh2 = new THREE.Mesh(geometry22, material22);
-        //     mesh2.position.set(2, 0, 0);
-
-        //     // Create a group and add the meshes
-        //     // this.group.add(mesh1);
-        //     // this.group.add(mesh2);
-
-        // }
-        
-      
-        // array=[mesh1, mesh2]
-        // array.forEach(({ objectOptions, classInstance }) => {
-
-        //     let added_object=new classInstance()
-        //     added_object.model.create(this.state.state);
-        
-           
-        //     this.set_the_options(added_object, objectOptions)
-        //     // this.display.set_scene(this.display.get_scene())
-        //     // const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-            
-        //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-        //     // Create the first mesh and position it to the left (-2 on the x axis)
-        //     var mesh1 = new THREE.Mesh(geometry22, material22);
-        //     mesh1.position.set(-2, 0, 0);
-
-        //     // Create the second mesh and position it to the right (2 on the x axis)
-        //     var mesh2 = new THREE.Mesh(geometry22, material22);
-        //     mesh2.position.set(2, 0, 0);
-
-
-          
-
-        //     // debug()
-        //     // var mesh3 = new THREE.Mesh(geometry22, material22);
-
-        //     // this.group.add(mesh3)
-        //     // console.log(t)
-        // });
-        // let mesh3 = new CubeContr    oller();
-        // mesh3.model.create()
-        // mesh3.model.get_model()
-        // mesh3.model.get_model().position.set(2, 2, 0);
-        // let mesh3_model=mesh3.model.get_model()
-    
-
-        // array=[mesh1, mesh2, mesh3_model]
-        // array.forEach((completed_mesh) => {
-        //     // this.display.set_scene(this.display.get_scene())
-        //     //const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-        //     this.group.add(completed_mesh)
-        // });
-
-    
         this.display.get_scene().add(this.group)
-      
-        // this.handleEvent('stateChange')
-        
-        // this.handleEvent('creationStep');
-        // this.group.position.y=-2.0
-        // this.group.position.y=-2.0
-
-        
-
-
-        // this.group.rotation.y=(Math.PI/2 )
-        // this.group.position.y=this.stat
-        // this.group.rotation.y=4*Math.PI/2
-        // // this.group.position.set(0, -2, 0);
         this.basicTransformation()
         //console.log(this.state.state)
         
@@ -487,103 +404,13 @@ class UconfigsChildImplementationController extends UconfigsImplementationContro
     }
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
-            //  let array = [
-            //      { objectOptions: accessersWallFront, classInstance: WallGarageController },
-            //      { objectOptions: accessersWallBack, classInstance: WallGarageController },
-            //      { objectOptions: accessersWallLeft, classInstance: WallGarageController },
-            //      { objectOptions: accessersWallRight, classInstance: WallGarageController }
-            //     ]   
-            // let array = [
-            // { objectOptions: accessersWallFront, classInstance:WallController},
-            // // { objectOptions: accessersWallBack, classInstance: WallController },
-            // // { objectOptions: accessersWallLeft, classInstance: WallController },
-            // { objectOptions: accessersWallRight, classInstance: WallController }
-            // ]
-
             let array = [
                 { objectOptions: accessersWallFront, classInstance:SimpleRedController},
-                // { objectOptions: accessersWallBack, classInstance: SimpleRedController  },
-                // { objectOptions: accessersWallLeft, classInstance: SimpleRedController  },
-                // { objectOptions: accessersWallRight, classInstance: SimpleRedController }
+
                 ]
             return array
     }
-    generateDynamicObjects(){
-
-        let external_data=[]
-
-
-
-        for (let i=0;i<this.external_objects.length; i++){
-                this.external_objects[i].specify_self()
-
-        }
-        //Write the code for hooking in of external objects
-        //Just pull from the external objects
-        return []
-        
-    }
-    buildingStep() {
-        //This is the building step, basically it is the same but without attaching
-
-
-        // let position_x = this.state.get('position_x') || 0
-        // let position_y = this.state.get('position_y') || 0
-        // let position_z = this.state.get('position_z') || 0
-
-        const passive_accessers=[
-            new accesser('name', 'Menu do debugowania dzieci'),
-        ]
-
-        const dynamic_accessers = [
-            new accesser('position_x'),
-            new accesser('position_y'),
-            new accesser('position_z'),
-        ]
-
-        const accessers=[ ...passive_accessers,...dynamic_accessers]
-
-        let self=this
-        function update_accesser_values(accessers){
-            accessers.forEach(element=>{
-                element.value=self.state.get(element)
-
-            })
-
-        }
-
-        update_accesser_values(dynamic_accessers) 
-        this.set_mediator(this)
-        this.set_the_options(this, accessers)
-        let self_array=[]
-        self_array=this.generatePassiveObjects()
-
-        let external_array=[]
-        const array=[ ...self_array, ...external_array]
-     
-        let outer_scene=this.display.get_scene()
-        
-        array.forEach(({ objectOptions, classInstance }) => {
-
-                // this.display.set_scene(this.display.get_scene())
-                const added_object = new classInstance()
-                added_object.display.set_scene(outer_scene)
-                added_object.set_the_options(added_object, objectOptions)
-                added_object.model.create(added_object.state.state)
-                this.addChild(added_object)
-                added_object.handleEvent('buildingStep')
-                //this.group.add(added_object.model.get_model())   
-                this.group.add(added_object.group)
-        })
-
-
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
-        //this.group.add(axesHelper);
-        //this.display.get_scene().add(this.group)
-    
-        this.basicTransformation()
-        
-    }
+ 
 }
 
 //This is an example of passive object 

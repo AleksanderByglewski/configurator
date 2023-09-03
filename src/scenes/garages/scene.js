@@ -133,7 +133,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
    
   }
- // roof_test()
+  roof_test()
 
   function walls_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,WallsControllableBasicSystem);
@@ -141,7 +141,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
   }
-//  walls_test()
+    walls_test()
 
   function door_test(){
     let GroupGarageSystem=createGarageObject(emptySystem,AdditionalControllableBasicSystem);
@@ -149,7 +149,7 @@ function populateScene(scene) {
     GroupGarageSystem.handleEvent('generateInputs');
 
   }
-  // door_test()
+   door_test()
 
 
 
@@ -188,7 +188,7 @@ function populateScene(scene) {
 
   }
   
-   template_test()
+   //template_test()
 
 
 
