@@ -405,7 +405,7 @@ class CubeObject extends genericObject {
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
-        let color = (attributes && attributes.color) ? attributes.color : "#372727";
+        let color = (attributes && attributes.color) ? attributes.color : "#272727";
         //debug()
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
@@ -479,11 +479,13 @@ class CubeObject extends genericObject {
         let material = new THREE.MeshPhysicalMaterial({
             map: local_texture,
             color: color,
-            metalness: 0.5,
+            metalness: 0.9,
             roughness: 0.1,
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
         });
+
+        
         
 
         // let geometry = new RoundedBoxGeometry(
@@ -496,11 +498,18 @@ class CubeObject extends genericObject {
         let geometry;
 
         geometry = new THREE.BoxGeometry(
-            width,
-            height,
-            depth, // Assuming depth is always 1, adjust as needed
+            width+0.01,
+            height+0.01,
+            depth+0.01, // Assuming depth is always 1, adjust as needed
         );
 
+         geometry = new RoundedBoxGeometry(
+            width,
+            height ,
+            depth+0.005 , // Assuming depth is always 1, adjust as needed
+            parseFloat(attributes.segments) || 1,
+            parseFloat(attributes.radius) || 0.005
+        );
         const mesh = new THREE.Mesh(geometry, material);
      
         //  position_x = Math.random() * 1-0.5;
@@ -620,12 +629,14 @@ class RedCubeObject extends genericObject {
         // let texture=global_texture
         let material = new THREE.MeshPhysicalMaterial({
             map: local_texture,
-            color: "#cc1111",
+            color: color,
             metalness: 0.5,
             roughness: 0.1,
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
         });
+
+        
         
 
         // let geometry = new RoundedBoxGeometry(

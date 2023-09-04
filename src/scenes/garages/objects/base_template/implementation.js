@@ -64,7 +64,7 @@ class UconfigsImplementationController extends UconfigsController {
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "_frontssss"),
+            new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),

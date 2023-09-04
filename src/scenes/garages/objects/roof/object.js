@@ -100,7 +100,7 @@ class GarageObjectSupport extends genericObject {
         texture=global_texture
         var material = new THREE.MeshPhysicalMaterial({
             map: texture,
-            color: attributes.color || "#ffffff",
+            color: attributes.color ,
             metalness: 0.5,
             roughness: 0.1,
             clearcoat: 0.8,
