@@ -269,11 +269,11 @@ export function brickMaterial2() {
 function generateMetalMaterial(param_wrapS=1.5, param_wrapT=1.5){
   var cubeMaterial = new THREE.MeshPhysicalMaterial({
    
-    metalness: 0.0,
+    metalness: 0.5,
     roughness: 0.1,
     clearcoat: 0.8,
     clearcoatRoughness: 0.2,
-    color: 0x272727,
+    // color: 0x272727,
     
   })
   

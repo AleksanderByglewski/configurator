@@ -8,14 +8,15 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/implementation'
  
-import { UconfigImplementationWallGui} from './gui'
+import { UconfigImplementationFloorGui} from './gui'
+import {FloorCubeController} from './controller'
 
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigImplementationWallGui();
+        this.gui = new UconfigInvisibleGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -28,10 +29,10 @@ class UconfigsImplementationController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#FEFEFE"
+        let object_color = this.state.get('color') || "#772727"
      
         let texture_type=""
-        let material_type=this.state.get('material_type') || "material_type_1" 
+        let material_type=this.state.get('material_type') || "floor_type_1" 
         // switch(material_type){
         //     case "material_type_1":
         //             // object_color =  "#677727"
@@ -56,7 +57,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         let height = this.state.get('height') || 2.13
         let width = this.state.get('width') || 4.0
-        let depth = this.state.get('depth') || 4.0
+        let depth = this.state.get('depth') || 5.0
         object_height = height
         object_width = width
         object_depth = depth
@@ -64,17 +65,21 @@ class UconfigsImplementationController extends UconfigsController {
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
-            new accesser('width', object_width),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
+            new accesser('name', name),
+            new accesser('width', width),
+            new accesser('height',4+ 0.1),
+            new accesser('depth', depth),
+            new accesser('sheet_depth', depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', object_depth/2),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
+            new accesser('repeat_x', 5),
+            new accesser('repeat_y', 5),
+           
         ]
         const accessersWallBack = [
             new accesser('name', name + "_back"),
@@ -146,7 +151,7 @@ class UconfigsImplementationController extends UconfigsController {
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
 
             let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleController},
+                // { objectOptions: accessersWallFront, classInstance:SimpleController},
                 // { objectOptions: accessersWallBack, classInstance: SimpleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }
@@ -170,6 +175,8 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('position_x'),
             new accesser('position_y'),
             new accesser('position_z'),
+            
+            
             new accesser('rotation_y'),
         ]
 
@@ -535,7 +542,8 @@ class SimpleRedController extends UconfigsImplementationController{
     constructor() {
         super()
         // this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigImplementationFloorGui();
+        //this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         // this.group = new THREE.Group()
     }
@@ -544,7 +552,7 @@ class SimpleRedController extends UconfigsImplementationController{
         const accessersWallFront = [
             new accesser('name', name + "_frontt"),
             new accesser('width', object_width),
-            new accesser('height', object_height),
+            new accesser('height', 0.01),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
@@ -562,34 +570,41 @@ class SimpleRedController extends UconfigsImplementationController{
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
-        let object_depth = parseFloat(this.state.get('object_depth')) || 2
+        let object_depth = parseFloat(this.state.get('object_depth')) || 4.25
         let object_color = this.state.get('color') || "#272727"
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
 
-        let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
+
+        let repeat_x = this.state.get('repeat_x') || 0
+        let repeat_y = this.state.get('repeat_y') || 0
+
+        let height = this.state.get('height') || 0.05
+        let width = this.state.get('width') || 3.0
         let depth = this.state.get('depth') || 4.0
         object_height = height
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-        let material_type = this.state.get('material_type') || "material_type_3"
+        let material_type = this.state.get('material_type') || "floor_type_1"
 
         const accessersWallFront = [
             new accesser('passivness', "This is a passive object"),
             new accesser('name', name + "_fronsst"),
-            new accesser('width', object_width),
-            new accesser('height', object_height),
+            new accesser('width', width),
+            new accesser('height', 0.05),
+            new accesser('depth', depth),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0.0 ),
-            new accesser('position_y', 0.0 + position_y + height / 2),
+            new accesser('position_y', 0.0 ),
             new accesser('position_z', 0),
+            new accesser('repeat_x', repeat_x ),
+            new accesser('repeat_y', repeat_y ),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('material_type', material_type),
@@ -604,7 +619,7 @@ class SimpleRedController extends UconfigsImplementationController{
         const { accessersWallFront} = this.determineState();
 
         let array = [
-        { objectOptions: accessersWallFront, classInstance:RedCubeController},
+        { objectOptions: accessersWallFront, classInstance:FloorCubeController},
         // { objectOptions: accessersWallBack, classInstance: CubeController },
         
         // { objectOptions: accessersWallLeft, classInstance: CubeController },

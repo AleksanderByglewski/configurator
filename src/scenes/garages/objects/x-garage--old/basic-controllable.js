@@ -6,7 +6,7 @@ import {Generic,genericGui,genericState,genericObject,genericDisplay, genericCon
 import {PlanetGui, PlanetObject, Planet, System} from '../introduction.js'
 import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
 import { metalMaterial,metalMaterial2 } from '../../textures/material_spawn';
-import {FloorsControllableBasicSystem} from '../floors/basic-controllable'
+import {FloorsControllableBasicSystem} from '../x-floors--old/basic-controllable'
 const loader = new THREE.TextureLoader();
 
 class UconfigInvisibleGui extends genericGui {

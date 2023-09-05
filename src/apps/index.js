@@ -14,7 +14,7 @@ import {draggableUI} from '../markup/draggable-ui'
 function initScene(){
   //Initialization and population of the scene
   const scene = new THREE.Scene();
-  const {system}=populateScene(scene)
+  const system=populateScene(scene)
   //Camera and renderer setup
   const camera=setupCamera()
   const renderer=setupRenderer()

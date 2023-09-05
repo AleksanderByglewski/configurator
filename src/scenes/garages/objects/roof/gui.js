@@ -179,12 +179,8 @@ class UconfigGui extends genericGui {
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
-            { value: '#370605',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
-            { value: '#372727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
-            { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
-            { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
-            { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
-            { value: '#656365',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20013'},
+            { value: '#a75757',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+
             { value: '#757375',  display_value:"RAL2015",  display_image:'/assets/display/colors/RAL2015'},
             { value: '#858385',  display_value:"RAL2017",  display_image:'/assets/display/colors/RAL2017'},
             { value: '#959395',  display_value:"RAL2019",  display_image:'/assets/display/colors/RAL2019'},

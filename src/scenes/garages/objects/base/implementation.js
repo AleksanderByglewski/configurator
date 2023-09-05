@@ -402,7 +402,7 @@ class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigDebugGui();
+        this.gui = new UconfigInvisibleGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]

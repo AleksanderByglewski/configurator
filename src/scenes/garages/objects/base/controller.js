@@ -284,6 +284,8 @@ class WallGarageController extends genericGarageController {
         }
     }
 }
+
+
 class CubeController extends genericGarageController {
     constructor() {
         super();

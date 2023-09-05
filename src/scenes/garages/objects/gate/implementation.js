@@ -9,7 +9,7 @@ import { UconfigController,CubeController, RedCubeController,WallGarageControlle
 import { UconfigsController } from '../base/implementation'
  
 import { UconfigImplementationWallGui} from './gui'
-
+import { UconfigImplementationGateGui} from './gui'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
@@ -23,39 +23,21 @@ class UconfigsImplementationController extends UconfigsController {
     }
     determineState() {
         //You can get the current state of the object by using the 
-        let name = this.state.get('name') || 'Wall'
+        let name = this.state.get('name') || 'Brama'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#FEFEFE"
+        let object_color = this.state.get('color') || "#56535a"
      
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
-        // switch(material_type){
-        //     case "material_type_1":
-        //             // object_color =  "#677727"
-        //             break;
-        //         case "material_type_2":
-        //             // object_color =  "#972727"
-        //             break;
-        //         case "material_type_3":
-        //             // object_color =  "#272727"
-        //             break;
-        //         case "material_type_4":
-        //             // object_color =  "#972797"
-        //             break;
-        //     default:
-        //         // code to be executed if expression doesn't match any cases
-        // }
-        // let parent_color = this.mediator.state.get('color') || "#972727"
-
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
 
-        let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
+        let height = this.state.get('height') || 1.93
+        let width = this.state.get('width') || 2.0
         let depth = this.state.get('depth') || 4.0
         object_height = height
         object_width = width
@@ -64,7 +46,7 @@ class UconfigsImplementationController extends UconfigsController {
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -144,19 +126,30 @@ class UconfigsImplementationController extends UconfigsController {
     }
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+            //  let array = [
+            //      { objectOptions: accessersWallFront, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallBack, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallLeft, classInstance: WallGarageController },
+            //      { objectOptions: accessersWallRight, classInstance: WallGarageController }
+            //     ]   
+            // let array = [
+            // { objectOptions: accessersWallFront, classInstance:WallController},
+            // // { objectOptions: accessersWallBack, classInstance: WallController },
+            // // { objectOptions: accessersWallLeft, classInstance: WallController },
+            // { objectOptions: accessersWallRight, classInstance: WallController }
+            // ]
 
             let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleController},
+                // { objectOptions: accessersWallFront, classInstance:SimpleController},
                 // { objectOptions: accessersWallBack, classInstance: SimpleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }
                 ]
             return array
     }
- 
+
     buildingStep() {
 
-        this.children=[]
         // let position_x = this.state.get('position_x') || 0
         // let position_y = this.state.get('position_y') || 0
         // let position_z = this.state.get('position_z') || 0
@@ -167,10 +160,10 @@ class UconfigsImplementationController extends UconfigsController {
 
         const dynamic_accessers = [
             new accesser('name', 'Menu do debugowania obiektu'),
+          
             new accesser('position_x'),
             new accesser('position_y'),
             new accesser('position_z'),
-            new accesser('rotation_y'),
         ]
 
         const accessers=[ ...passive_accessers,...dynamic_accessers]
@@ -187,7 +180,6 @@ class UconfigsImplementationController extends UconfigsController {
         update_accesser_values(dynamic_accessers) 
         // this.set_mediator(this)
         this.set_the_options(this, accessers)
-
 
         // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
         //      let array = [
@@ -241,9 +233,7 @@ class UconfigsImplementationController extends UconfigsController {
         
 
         for (let i=0;i<external_array.length; i++){
-            // external_array[i].handleEvent('buildingStep');
-            this.group.add(external_array[i].group)
-           
+            this.group.add(external_array[i])
         }
         // const array=[ ...self_array, ...external_array]
         const array=[ ...self_array]
@@ -286,14 +276,16 @@ class UconfigsImplementationController extends UconfigsController {
 
 
         for (let i=0;i<this.external_objects_controllers.length; i++){
+            // this.group.add(this.external_objects[i])
+       
             for (let j=0;j<this.group.children.length; j++){
                 this.external_objects_controllers[i].group.add(this.group.children[j])
             }
         }
 
         //You should probably leave it out
-        //const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
-        //this.group.add(axesHelper);
+        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        this.group.add(axesHelper);
 
         let hasControllers = false;
         let currentMediator = this.mediator;
@@ -449,7 +441,7 @@ class UconfigsChildImplementationController extends UconfigsImplementationContro
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
             let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleRedController},
+                { objectOptions: accessersWallFront, classInstance:SimpleRedGateController},
 
                 ]
             return array
@@ -470,7 +462,7 @@ class SimpleController extends UconfigsImplementationController{
     }
     determineState() {
         //You can get the current state of the object by using the 
-        let name = this.state.get('name') || 'Wall'
+        let name = this.state.get('name') || 'Brama'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
@@ -531,11 +523,11 @@ class SimpleController extends UconfigsImplementationController{
 //This is an example of dynamic  object 
 //A dynamic object doesn't  get recreated each time the parent gets changed but it has persistent state, think of it 
 //like an additional decoration that is independent from the parent element
-class SimpleRedController extends UconfigsImplementationController{
+class SimpleRedGateController extends UconfigsImplementationController{
     constructor() {
         super()
         // this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigImplementationGateGui();
         this.gui.set_mediator(this)
         // this.group = new THREE.Group()
     }
@@ -560,7 +552,7 @@ class SimpleRedController extends UconfigsImplementationController{
         //You can get the current state of the object by using the 
         let name = 'Door'
         let object_type = this.state.get('object_type') || 'flat'
-        let object_width = parseFloat(this.state.get('object_width')) || 3
+        let object_width = parseFloat(this.state.get('object_width')) || 2
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#272727"
@@ -571,7 +563,7 @@ class SimpleRedController extends UconfigsImplementationController{
 
         let height = this.state.get('height') || 2.13
         let width = this.state.get('width') || 4.0
-        let depth = this.state.get('depth') || 4.0
+        let depth = this.state.get('depth') || 2.0
         object_height = height
         object_width = width
         object_depth = depth

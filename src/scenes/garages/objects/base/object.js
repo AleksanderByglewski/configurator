@@ -410,7 +410,7 @@ class CubeObject extends genericObject {
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 0.5;
+        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",
@@ -556,7 +556,8 @@ class RedCubeObject extends genericObject {
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
-        let color = (attributes && attributes.color) ? attributes.color : "#872797";
+        let color = (attributes && attributes.color) ? attributes.color : "#66636a";
+      
         //debug()
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0.1;
@@ -649,7 +650,7 @@ class RedCubeObject extends genericObject {
         let geometry;
 
         geometry = new THREE.BoxGeometry(
-            1,
+            width,
             height,
             depth, // Assuming depth is always 1, adjust as needed
         );
@@ -690,6 +691,7 @@ class RedCubeObject extends genericObject {
         }
     }
 }
+
 class DoubleCubeObject extends genericObject {
     constructor() {
         super();

@@ -28,7 +28,21 @@ class GarageObjectGable extends genericObject {
             
         });
 
-        
+        let color = (attributes && attributes.roof_color_top) ? attributes.roof_color_top : "#872727";
+       
+        var material = new THREE.MeshPhysicalMaterial( { 
+             color: color,
+             metalness: 0.5,
+             roughness: 0.1,
+             clearcoat: 0.8,
+             clearcoatRoughness: 0.2,
+             map:texture,
+        } );
+
+        var material = new THREE.MeshBasicMaterial( { 
+            color: color,
+             map:texture,
+        } );
         // var material=metalMaterial()
         // material.color="white"
         // Convert roof_angle to radians and compute adjusted width
@@ -98,15 +112,21 @@ class GarageObjectSupport extends genericObject {
     create(attributes) {
         // let loader = new THREE.TextureLoader();
         texture=global_texture
+        let color = (attributes && attributes.color_external) ? attributes.color_external : "#FEFEFE";
+       
         var material = new THREE.MeshPhysicalMaterial({
             map: texture,
-            color: attributes.color ,
+            color: color ,
             metalness: 0.5,
             roughness: 0.1,
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
             
         });
+        var material = new THREE.MeshBasicMaterial( { 
+            color: color,
+             map:texture,
+        } );
         // var material=metalMaterial()
     
         // Create a right-angled triangle using Shape and ExtrudeGeometry for depth
@@ -182,17 +202,35 @@ class GarageObjectSupportSquare extends genericObject {
         super(); 
     }
     create(attributes) {
+        let color = (attributes && attributes.color_external) ? attributes.color_external : "#FEFEFE";
+       
         let loader = new THREE.TextureLoader();
         texture=global_texture
-        var material = new THREE.MeshPhysicalMaterial({
-            map: texture,
-            color: attributes.color || "#ffffff",
-            metalness: 0.5,
-            roughness: 0.1,
-            clearcoat: 0.8,
-            clearcoatRoughness: 0.2
+        texture.wrapS=THREE.RepeatWrapping
+        texture.wrapT=THREE.RepeatWrapping
+        
+    //     var material = new THREE.MeshPhysicalMaterial({
+    //         map: texture,
+    //         color: color || "#ffffff",
+    //         metalness: 0.5,
+    //         roughness: 0.1,
+    //         clearcoat: 0.8,
+    //         clearcoatRoughness: 0.2
             
-    });
+    // });
+    // var material= new THREE.MeshPhysicalMaterial(  {
+    //         map:texture,
+    //         color:color,
+    //         metalness: 0.5,
+    //         roughness: 0.1,
+    //         clearcoat: 0.8,
+    //         clearcoatRoughness: 0.2
+        
+    // });
+    var material = new THREE.MeshBasicMaterial( { 
+        color: color,
+         map:texture,
+    } );
     // var material=metalMaterial()
         // Convert roof_angle to radians and compute adjusted width
         const alpha = (parseFloat(attributes.roof_angle) || 0) * (Math.PI / 180); // Convert to radians
@@ -281,6 +319,10 @@ class genericGarageObject extends genericObject {
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
         });
+        var material = new THREE.MeshBasicMaterial( { 
+            color: color,
+             map:texture,
+        } );
 
         let geometry = new RoundedBoxGeometry(
             parseFloat(attributes.width) || 1,

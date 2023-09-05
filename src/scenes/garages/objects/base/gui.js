@@ -477,7 +477,7 @@ class UconfigGui extends genericGui {
             const textInput = document.createElement('input');
             textInput.type = 'text';
             textInput.value = this.mediator.state[attr] || 'State name';  // default to empty string if not set
-
+         
             // Event listener for input changes
             textInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;

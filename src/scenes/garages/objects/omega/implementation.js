@@ -28,7 +28,7 @@ class UconfigsImplementationController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#FEFEFE"
+        let object_color = this.state.get('color') || "#772727"
      
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
@@ -535,7 +535,7 @@ class SimpleRedController extends UconfigsImplementationController{
     constructor() {
         super()
         // this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         // this.group = new THREE.Group()
     }
