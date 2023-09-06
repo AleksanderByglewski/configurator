@@ -3,356 +3,22 @@ import { accesser } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui} from './gui'
-import { DoubleCubeObject,RedCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from './object'
+import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from './object'
+import { UconfigInvisibleGui,UconfigGui} from './gui'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
+// import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
+// import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
+const loader = new THREE.TextureLoader();
+const global_texture = loader.load('/assets/config/default_1k.jpg');
 
-class genericGarageController extends genericController {
+
+class UconfigsController extends genericGarageController {
     constructor() {
-        super();
-        // alert("hello")
-        this.setModel(genericGarageObject);
-        this.setGui(UconfigDebugGui);
-        this.children = []
-        this.group = new THREE.Group()
-    }
-    set_the_options(passedObject, accessers) {
-        for (let i = 0; i < accessers.length; i++) {
-            passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-        }
-    }
-    object_substraction() {
-        this.removeChild(added_object)
-    }
-    object_addition(objectOptions, classInstance) {
-        const added_object = new classInstance()
-        // added_object.display.set_scene(this.display.get_scene())
-        this.set_the_options(added_object, objectOptions)
-        this.addChild(added_object)
-        return added_object
-    }
-    object_addition_existing(added_object) {
-        // added_object.display.set_scene(this.display.get_scene())
-        // this.set_the_options(added_object, objectOptions)
-        this.addChild(added_object)
-
-    }
-    setGui(ObjectClass) {
-        this.gui = new ObjectClass();
-        this.gui.set_mediator(this);
-    }
-    setModel(ObjectClass) {
-        this.model = new ObjectClass();
-        this.model.set_mediator(this);
-    }
-    addChild(child) {
-        if (child instanceof genericGarageController) {
-            this.children.push(child);
-            child.set_mediator(this);
-        } else {
-            // console.error("Only instances of genericGarageController can be added.");
-        }
-    }
-    removeChild(child) {
-        const index = this.children.indexOf(child);
-        if (index !== -1) {
-            this.children.splice(index, 1);
-            child.set_mediator(null);
-        }
-    }
-    getChildren() {
-        return this.children;
-    }
-    getChildByName(name) {
-        if (this.name !== undefined && this.name === name) {
-            return this
-        }
-        if (this.children) {
-            this.children.forEach((child) => { child.getChildByName(name) })
-        }
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'guiInputChange':
-
-            // Object.entries(data).forEach(([name, value]) => {
-            //     this.state.update(name, value);
-            // });
-            // if (typeof this.calculateState === 'function') {
-            //     this.calculateState();
-            // }
-            // //This is dubious at best
-            // this.children.forEach((child) => {
-            //     child.handleEvent('guiInputChange', {})
-            //     if (typeof child.calculateState === 'function') {
-            //         console.log(this.state.state)
-
-            //     //   child.calculateState();
-            //     }
-            //   });
-
-            // case 'recreateModel':
-            //     {
-            //         const modelMesh = this.model.get_model();
-            //         const scene = this.display.get_scene();
-            //         scene.remove(modelMesh);
-
-            //         this.children.forEach((child) => { child.handleEvent('removeModel') });
-            //         this.handleEvent("creationStep")
-            //         this.children.forEach((child) => { child.handleEvent('creationStep') });
-            //         break;
-            //     }
-            case 'recursivelyRemoveModel':
-
-                // while (this.children.length > 0) {
-                //         let child = this.children[0];
-                //         // debug()
-                //         child.handleEvent('recursivelyRemoveModel');
-                //         // child.removeChild(child);
-                //         this.children.shift()
-
-                //     }
-                this.handleEvent('removeModel');
-                this.children.forEach(child => {
-                    if (child && typeof child.handleEvent === 'function') {
-                        child.handleEvent('recursivelyRemoveModel');
-
-                    }
-                });
-                // Remove the model of the current instance (parent)
-                // controller.model = null;
-
-
-                // const modelMesh = this.model.get_model();
-                // const scene = this.display.get_scene();
-                // scene.remove(modelMesh);
-
-
-                break;
-
-            case 'removeModel':
-                {
-                    const modelMesh = this.model.get_model();
-                    const scene = this.display.get_scene();
-                    scene.remove(modelMesh);
-                    break;
-                }
-            // case 'iterationStep':
-            //     this.modifyState()
-            //     this.model.update(this.state.state)
-            //     break;
-            case 'creationStep':
-                // const existingModel = this.model.get_model();
-                // if (existingModel) {
-                //     this.display.get_scene().remove(existingModel);
-
-                //     existingModel.geometry.dispose();
-                //     existingModel.material.dispose();
-                //     if (existingModel.parent) {
-                //         existingModel.parent.remove(existingModel);
-                //     }
-                // }
-
-
-
-                this.handleEvent('recursivelyRemoveModel')
-                this.model.create(this.state.state);
-                const basicMesh = this.model.get_model();
-                // if(this.state.state.get("position_relative")==true){
-                // this.display.add_to_scene(basicMesh);
-                // }
-                if(this.display.scene) {
-                    this.display.add_to_scene(basicMesh);
-                } else {
-                    console.error("Scene does not exist, you should probably trace this error");
-                }
-                
-
-                this.children.forEach((child) => { child.handleEvent('creationStep') });
-                // if (this.state.get('position_relative') !== undefined && this.state.get('position_relative')) {
-                //     const parentMesh = this.mediator.model.get_model();
-                //     const childMesh = this.model.get_model();
-                //     parentMesh.add(childMesh);
-
-                // }
-                // else {
-
-                // }
-
-
-
-                break;
-            case 'stateChange':
-                //Is this the correct way to check if the function exists in the class
-                // if (typeof this.calculateState === 'function'){
-                // this.calculateState()}
-                //this.model.update(this.state.state)
-                // this.children.forEach((child) => { child.handleEvent('stateChange') });
-                // let keys = Object.keys(data);
-                // keys[0]
-                // let firstValue = data[keys[0]];
-                if (data && typeof data === 'object') {
-                    let keys = Object.keys(data);
-                    if (keys.length > 0) {
-                        this.state.update(keys[0], data[keys[0]]);
-                    }
-                }
-                
-                this.handleEvent("buildingStep")
-               
-                break;
-            case 'debugStateChange':
-                    //Is this the correct way to check if the function exists in the class
-                    // if (typeof this.calculateState === 'function'){
-                    // this.calculateState()}
-                    //this.model.update(this.state.state)
-                    // this.children.forEach((child) => { child.handleEvent('stateChange') });
-                    // let keys = Object.keys(data);
-                    // keys[0]
-                    // let firstValue = data[keys[0]];
-                    // alert("hello")
-                    if (data && typeof data === 'object') {
-                        let keys = Object.keys(data);
-                        if (keys.length > 0) {
-                            this.state.update(keys[0], data[keys[0]]);
-                        }
-                    }
-                    
-                      this.handleEvent("debugBuildingStep")
-                    
-                    break;
-            // case 'guiChange':
-            // if (this.mediator!==undefined){this.mediator.notify('guiChange')}
-            // if (typeof this.calculateState === 'function'){this.calculateState()}
-
-            // this.notify('stateChange')
-            // break;
-            case 'generateInputs':
-                this.gui.generateInputs(this.state.state)
-                if (this.children) {
-                    this.children.forEach(child => {
-                        child.gui.generateInputs(child.state.state)
-                        
-                    });
-                }
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
-    }
-    basicTransformation(){
-        // this.state.get(position_x)
-        // this.state.get(position_y)
-        // this.state.get(position_z)
-        // this.state.get(rotation_x)
-        // this.state.get(rotation_y)
-        // this.state.get(rotation_z)
-        if(this.group!==undefined){
-        this.group.position.x=this.state.get('position_x')||0
-        this.group.position.y=this.state.get('position_y')||0
-        this.group.position.z=this.state.get('position_z')||0
-        this.group.rotation.x=this.state.get('rotation_x')||0
-        this.group.rotation.y=this.state.get('rotation_y')||0
-        this.group.rotation.z=this.state.get('rotation_z')||0
-        }
-    }
-}
-class groupGenericGarageController extends genericGarageController {
-
-    addChild(child) {
-        if (child instanceof genericGarageController) {
-            this.group.add(child.model.get_model()); // Add child's mesh to group
-            child.set_mediator(this);
-        } else {
-            // console.error("Only instances of genericGarageController can be added.");
-        }
-    }
-}
-class WallGarageController extends genericGarageController {
-    constructor() {
-        super();
+        super()
         this.setModel(WallGarageObject)
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'removeModel':
-
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
-    }
-}
-class CubeController extends genericGarageController {
-    constructor() {
-        super();
-        this.setModel(CubeObject)
-        this.gui.set_mediator(this)
-        this.gui = new UconfigInvisibleGui();
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'removeModel':
-
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
-    }
-}
-class RedCubeController extends genericGarageController {
-    constructor() {
-        super();
-        this.setModel(RedCubeObject)
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'removeModel':
-
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
-    }
-}
-class UconfigController extends genericGarageController {
-    constructor() {
-        super();
-        this.setModel(UconfigObject)
         this.gui = new UconfigGui();
         this.gui.set_mediator(this)
-        this.group = new THREE.Group()
-    }
-}
-class DebugController extends genericGarageController {
-    constructor() {
-        super();
-        this.gui = new UconfigDebugGui();
-        this.gui.set_mediator(this)
-        this.setModel(CubeObject)
-    }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'removeModel':
-
-                break;
-            default:
-                super.handleEvent(event, data);
-                break;
-        }
-    }
-}
-//This is a controller with children
-class DoubleCubeController extends genericGarageController {
-    constructor() {
-        super();
-        this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigGui();
-        this.gui.set_mediator(this)
-        //Create a new three.js group
         this.group = new THREE.Group()
     }
     determineState() {
@@ -362,7 +28,7 @@ class DoubleCubeController extends genericGarageController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#276727"
+        let object_color = this.state.get('color') || "#272727"
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
@@ -447,10 +113,9 @@ class DoubleCubeController extends genericGarageController {
         });
     }
     buildingStep() {
-        // alert('am i called?')
         const accessers = [
             new accesser('name', 'The floor grouping'),
-             new accesser('color','#379737' )
+            // new accesser('color','#373737' )
 
         ]
         this.set_mediator(this)
@@ -459,6 +124,7 @@ class DoubleCubeController extends genericGarageController {
         
 
         const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+
 
         //      let array = [
         //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
@@ -469,10 +135,9 @@ class DoubleCubeController extends genericGarageController {
 
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
-        
-        // { objectOptions: accessersWallLeft, classInstance: CubeController },
-        // { objectOptions: accessersWallRight, classInstance: CubeController }
+        { objectOptions: accessersWallBack, classInstance: CubeController },
+        { objectOptions: accessersWallLeft, classInstance: CubeController },
+        { objectOptions: accessersWallRight, classInstance: CubeController }
         ]
         // // array=[]
 
@@ -493,15 +158,13 @@ class DoubleCubeController extends genericGarageController {
 
                 this.display.set_scene(this.display.get_scene())
                 //const completed_mesh = this.object_addition.bind(this)(objectOptions, classInstance);
-                //     // console.log(created_object)
-                //     this.group.add(created_object)
+        //     // console.log(created_object)
+        //     this.group.add(created_object)
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                
+                added_object.model.create()
                 // added_object.display.set_scene(this.display.get_scene())
                 this.set_the_options(added_object, objectOptions)
-            
-                added_object.model.create(added_object.state.state)
                 this.addChild(added_object)
                 // added_object.display.set_scene(outer_scene)
                 // debug()
@@ -510,10 +173,8 @@ class DoubleCubeController extends genericGarageController {
                 // this.group.position.y += 20; // Move 20 units along Y-axis
                 // this.group.position.z += 30; 
                
-                // this.group.rotation.y=Math.PI/4
-                this.group.add(added_object.model.get_model())   
-                this.group.add(added_object.group)
-                 
+                this.group.rotation.y=Math.PI/4
+                this.group.add(added_object.model.get_model())                
                 // outer_scene.add(this.group)
                
 
@@ -587,14 +248,11 @@ class DoubleCubeController extends genericGarageController {
         //     // console.log(created_object)
         //     this.group.add(completed_mesh)
         // });
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
-        this.group.add(axesHelper);
+
     
         this.display.get_scene().add(this.group)
-        this.group.position.x=4.0
-        this.group.position.z=4.0
-        this.group.rotation.y=0.5*Math.PI/2
-        // this.handleEvent('stateChange')
+        this.group.position_y=-2.0
+        this.handleEvent('stateChange')
         this.handleEvent('creationStep');
     }
     handleEvent(event, data) {
@@ -686,11 +344,11 @@ class DoubleCubeController extends genericGarageController {
 
                 break;
             default:
-                // console.error(event, data)
+                console.error(event, data)
                 super.handleEvent(event, data);
                 break;
         }
     }
 }
 
-export {UconfigController,DoubleCubeController,CubeController, RedCubeController ,WallGarageController,groupGenericGarageController,genericGarageController, DebugController}
+export { UconfigsController as GroupControllableBasicSystem }
