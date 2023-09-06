@@ -1,16 +1,18 @@
-import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
-import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from './object'
-import { UconfigInvisibleGui,UconfigGui} from './gui'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
-// import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
-// import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
+// import { v4 as uuidv4 } from 'uuid';
+// import { accesser } from '../../base'
+// import * as THREE from 'three';
+// import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+// import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
+// import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
+// import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from './object'
+// import { UconfigInvisibleGui,UconfigGui} from './gui'
+// import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from './controller'
+// // import { genericGarageController, InvisibleWallGarageObject } from '../generic.js';
+// // import { metalMaterial, metalMaterial2 } from '../../textures/material_spawn';
 // const loader = new THREE.TextureLoader();
 // const global_texture = loader.load('/assets/config/default_1k.jpg');
+
+
 // class UconfigsController extends genericGarageController {
 //     constructor() {
 //         super()

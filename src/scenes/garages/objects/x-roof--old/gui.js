@@ -2,14 +2,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { accesser } from '../../base'
 import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
-import {UconfigsChildImplementationController as GateSystem} from '../gate/implementation'  
-class UconfigImplementationOmegaGui extends genericGui {
+import { genericGui } from '../../base.js'
+
+class UconfigGui extends genericGui {
     constructor() {
         super();
     }
@@ -42,7 +38,7 @@ class UconfigImplementationOmegaGui extends genericGui {
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name= (attributes && attributes.name) ? attributes.name: "Reset? systemów";
+        let name= (attributes && attributes.name) ? attributes.name: "Budowa systemów";
 
         accordionButton.textContent = name;
       
@@ -51,7 +47,8 @@ class UconfigImplementationOmegaGui extends genericGui {
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
         accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        accordionCollapseDiv.classList.add( 'show');
+       
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -74,13 +71,19 @@ class UconfigImplementationOmegaGui extends genericGui {
 
         // const squaresElement = 
         // const squaresElement2=
-        // accordionBodyDiv.appendChild(this.createMarkupColors());
+        accordionBodyDiv.appendChild(this.createMarkupColors());
 
-        // accordionBodyDiv.appendChild(this.generateSep());
+        accordionBodyDiv.appendChild(this.generateSep());
 
-         accordionBodyDiv.appendChild(this.createMarkup());
+        accordionBodyDiv.appendChild(this.createMarkup());
        
-        // accordionBodyDiv.appendChild(this.generateSep());
+        accordionBodyDiv.appendChild(this.generateSep());
+      
+        accordionBodyDiv.appendChild(this.createMarkupType());
+
+
+
+        accordionBodyDiv.appendChild(this.generateSep());
       
         // accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
@@ -96,7 +99,9 @@ class UconfigImplementationOmegaGui extends genericGui {
         containerDiv.classList.add('squares-container--three');
 
 
-        const text_attributes = [];
+        const text_attributes = [
+         //   'name'
+        ];
 
         text_attributes.forEach(attr => {
             const textLabel = document.createElement('label');
@@ -121,7 +126,9 @@ class UconfigImplementationOmegaGui extends genericGui {
             containerDiv.appendChild(textInput);
         });
 
-        const attributes = [];
+        const attributes = ['overhang_width',
+        // 'position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'
+    ];
 
         attributes.forEach(attr => {
             const sliderLabel = document.createElement('label');
@@ -130,9 +137,9 @@ class UconfigImplementationOmegaGui extends genericGui {
 
             const sliderInput = document.createElement('input');
             sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
+            sliderInput.min = 0; // You can set min/max/default values according to your needs
+            sliderInput.max = 1;
+            sliderInput.step = 0.05;
             sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
             sliderInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;
@@ -155,184 +162,15 @@ class UconfigImplementationOmegaGui extends genericGui {
        
 
         const removeModelBtn = document.createElement('button');
-        removeModelBtn.textContent = "Add new model front";
+        removeModelBtn.textContent = "Remove Model";
         removeModelBtn.classList.add('remove-model-btn');
         removeModelBtn.addEventListener('click', function () {
             // Call notifyMediator with 'recursivelyRemoveModel' event
-
-            let scene=this.mediator.display.scene
-
-            function set_the_options(passedObject, accessers){
-                for(let i=0; i<accessers.length; i++) {
-                    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-                }
-            
-              }
-
-            let GroupGarageSystem=this.mediator.wall_front
-            const emptySystem=[
-                // new accesser('name', ' System'),
-            
-                // new accesser('position_x', 0.0),
-                // new accesser('position_y', 0.0),
-                // new accesser('position_z',0.0),
-              ]
-            
-            function createGarageObject(accessers, ObjectClass){
-                const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
-                passedObject.display.set_scene(scene)
-                return passedObject
-            }
-            let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-            RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-            GroupGarageSystem.external_objects.push(RedGateSystem1)
-            RedGateSystem1.state.state['name']="Brama frontowa" 
-            RedGateSystem1.state.state['width']=3.35
-            RedGateSystem1.handleEvent('buildingStep');
-            RedGateSystem1.handleEvent('generateInputs');
-            GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 0*Math.PI/2} )
-
- 
+            this.notifyMediator('recursivelyRemoveModel');
         }.bind(this));
 
-        const removeModelBtn2 = document.createElement('button');
-        removeModelBtn2.textContent = "Add new model left";
-        removeModelBtn2.classList.add('remove-model-btn');
+        // containerDiv.appendChild(removeModelBtn);
 
-        removeModelBtn2.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-
-            let scene=this.mediator.display.scene
-
-            function set_the_options(passedObject, accessers){
-                for(let i=0; i<accessers.length; i++) {
-                    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-                }
-            
-              }
-
-            let GroupGarageSystem=this.mediator.wall_left
-            const emptySystem=[
-                // new accesser('name', ' System'),
-            
-                // new accesser('position_x', 0.0),
-                // new accesser('position_y', 0.0),
-                // new accesser('position_z',0.0),
-              ]
-            
-            function createGarageObject(accessers, ObjectClass){
-                const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
-                passedObject.display.set_scene(scene)
-                return passedObject
-            }
-            let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-            RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-            GroupGarageSystem.external_objects.push(RedGateSystem1)
-            RedGateSystem1.state.state['name']="Brama lewa" 
-            RedGateSystem1.state.state['width']=3.25
-            RedGateSystem1.handleEvent('buildingStep');
-            RedGateSystem1.handleEvent('generateInputs');
-            GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 3*Math.PI/2} )
-
- 
-        }.bind(this));
-
-       const removeModelBtn3 = document.createElement('button');
-        removeModelBtn3.textContent = "Add new model right";
-        removeModelBtn3.classList.add('remove-model-btn');
-
-        removeModelBtn3.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-
-            let scene=this.mediator.display.scene
-
-            function set_the_options(passedObject, accessers){
-                for(let i=0; i<accessers.length; i++) {
-                    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-                }
-            
-              }
-
-            let GroupGarageSystem=this.mediator.wall_right
-            const emptySystem=[
-                // new accesser('name', ' System'),
-            
-                // new accesser('position_x', 0.0),
-                // new accesser('position_y', 0.0),
-                // new accesser('position_z',0.0),
-              ]
-            
-            function createGarageObject(accessers, ObjectClass){
-                const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
-                passedObject.display.set_scene(scene)
-                return passedObject
-            }
-            let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-            RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-            GroupGarageSystem.external_objects.push(RedGateSystem1)
-            RedGateSystem1.state.state['name']="Brama prawa" 
-            RedGateSystem1.state.state['width']=3.65
-            RedGateSystem1.handleEvent('buildingStep');
-            RedGateSystem1.handleEvent('generateInputs');
-            GroupGarageSystem.handleEvent('stateChange', {'rotation_y': Math.PI/2} )
-
- 
-        }.bind(this));
-
-
-        const removeModelBtn4 = document.createElement('button');
-        removeModelBtn4.textContent = "Add new model wall back";
-        removeModelBtn4.classList.add('remove-model-btn');
-
-        removeModelBtn4.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-
-            let scene=this.mediator.display.scene
-
-            function set_the_options(passedObject, accessers){
-                for(let i=0; i<accessers.length; i++) {
-                    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-                }
-            
-              }
-
-            let GroupGarageSystem=this.mediator.wall_back
-            const emptySystem=[
-                // new accesser('name', ' System'),
-            
-                // new accesser('position_x', 0.0),
-                // new accesser('position_y', 0.0),
-                // new accesser('position_z',0.0),
-              ]
-            
-            function createGarageObject(accessers, ObjectClass){
-                const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
-                passedObject.display.set_scene(scene)
-                return passedObject
-            }
-            let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-            RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-            GroupGarageSystem.external_objects.push(RedGateSystem1)
-            RedGateSystem1.state.state['name']="Brama tylnia" 
-            RedGateSystem1.state.state['width']=4.15
-            RedGateSystem1.handleEvent('buildingStep');
-            RedGateSystem1.handleEvent('generateInputs');
-            GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 2*Math.PI/2} )
-
- 
-        }.bind(this));
-        containerDiv.appendChild(removeModelBtn3);
-        containerDiv.appendChild(removeModelBtn4);
-        containerDiv.appendChild(removeModelBtn2);
-        containerDiv.appendChild(removeModelBtn);
 
         return containerDiv;
     }
@@ -341,12 +179,8 @@ class UconfigImplementationOmegaGui extends genericGui {
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
-            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
-            { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
-            { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
-            { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
-            { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
-            { value: '#656365',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20013'},
+            { value: '#a75757',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
+
             { value: '#757375',  display_value:"RAL2015",  display_image:'/assets/display/colors/RAL2015'},
             { value: '#858385',  display_value:"RAL2017",  display_image:'/assets/display/colors/RAL2017'},
             { value: '#959395',  display_value:"RAL2019",  display_image:'/assets/display/colors/RAL2019'},
@@ -487,7 +321,81 @@ class UconfigImplementationOmegaGui extends genericGui {
      
              
              return containerDiv;
+    }
+    createMarkupType(){
+        const containerDiv = document.createElement('div');
+             containerDiv.classList.add('squares-container');
+     
+             const squareButtons = [
+                { value: 'slope_left',  display_value:"Spad Lewo",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_right',  display_value:"Spad Prawo",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_back',  display_value:"Spad Tył",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'slope_front',  display_value:"Spad Przód",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'gable_side',  display_value:"Dwuspad",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'gable_front',  display_value:"Dwuspad tył",  display_image:'/assets/display/material/5.jpg'},   
+             ];
+     
+             squareButtons.forEach(button => {
+                 const squareDiv = document.createElement('div');
+                 squareDiv.classList.add('square');
+                 // squareDiv.style.backgroundColor = button.color;
+                 squareDiv.dataset.value = button.value;
+     
+                 // Create the image element
+                 const imageEl = document.createElement('img');
+                //  imageEl.style.backgroundColor = button.value;
+                imageEl.src =button.display_image;
+
+                 imageEl.style.aspectRatio= "1 / 1"
+                 imageEl.alt = button.display_value;  // for accessibility
+                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+     
+                 const textDiv = document.createElement('div');
+                 textDiv.textContent = button.display_value;
+                 squareDiv.appendChild(textDiv)
+     
+     
+        
+     
+                 // Attach event listener directly to the squareDiv
+                 squareDiv.addEventListener('click', function (e) {
+                     // alert(squareDiv.dataset.value);
+                     // Notify the mediator or perform some action
+                     
+                   
+     
+                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                     // this.notifyMediator('recursivelyRemoveModel');
+                     // this.notifyMediator('buildingStep');
+                  
+                    const accessers = [
+                        new accesser('object_type', squareDiv.dataset.value),
+                    ]
+                     this.notifyMediator('genericChangeObject',accessers)
+               
+                 }.bind(this));
+     
+     
+     
+                 
+                 containerDiv.appendChild(squareDiv);
+             });
+     
+     
+             // const removeModelBtn = document.createElement('button');
+             // removeModelBtn.textContent = "Remove Model";
+             // removeModelBtn.classList.add('remove-model-btn');
+             // removeModelBtn.addEventListener('click', function() {
+             //     // Call notifyMediator with 'recursivelyRemoveModel' event
+             //     this.notifyMediator('recursivelyRemoveModel');
+             // }.bind(this));
+             
+             // containerDiv.appendChild(removeModelBtn);
+     
+             
+             return containerDiv;
          }
+    
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);
@@ -532,7 +440,4 @@ class UconfigImplementationOmegaGui extends genericGui {
     listenToChanges() {
     }
 }
-
-
-
- export{UconfigImplementationOmegaGui}
+export{UconfigGui}

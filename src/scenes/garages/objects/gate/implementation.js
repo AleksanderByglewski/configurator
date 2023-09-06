@@ -562,7 +562,7 @@ class SimpleRedGateController extends UconfigsImplementationController{
         let position_z = this.state.get('position_z') || 0
 
         let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
+        let width = this.state.get('width') || 2.0
         let depth = this.state.get('depth') || 2.0
         object_height = height
         object_width = width

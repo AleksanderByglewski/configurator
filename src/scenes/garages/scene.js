@@ -9,6 +9,7 @@ import {UconfigsImplementationController as TemplateControllableBasicSystem, Uco
 import {UconfigsChildImplementationController as GateSystem} from './objects/gate/implementation'  
 import {UconfigsChildImplementationController as FloorSystem, UconfigsImplementationController as InvisibleSystem} from './objects/floors/implementation'  
 
+import {UconfigsImplementationController as OmegaSystem} from './objects/omega/implementation'  
 
 // import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
 function addLights(scene){
@@ -198,12 +199,18 @@ function populateScene(scene) {
   function roof_test(){
     
     let GroupGarageSystem=createGarageObject(emptySystem,RoofControllableBasicSystem);
+  
     // GroupGarageSystem.state.update('identifier',"my walls")
+    //GroupGarageSystem.state.state['color']="#FFFFFF"
 
     GroupGarageSystem.handleEvent('buildingStep');
-
+    GroupGarageSystem.state.state['color_external']="#ff0000"
+    GroupGarageSystem.children[0].state.state["color_external"]="#FF0000"
+    // GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
-    GroupGarageSystem.handleEvent('changeObject', {'roof_top_color': "#757375"} )
+
+  
+
    
   }
   //roof_test()
@@ -440,6 +447,8 @@ function the_gate_test1(){
 
   }
 
+
+
  
   let value={}
   let design=false
@@ -457,16 +466,52 @@ function the_gate_test1(){
 
   }
 
-
   function the_omega(){
-     wall_front.handleEvent('stateChange', {'width': 10.57} );
-     wall_front.handleEvent('stateChange', {'object_width': 10.57} );
-     wall_back.handleEvent('stateChange', {'width': 10.57} );
-     wall_left.handleEvent('stateChange', {'width': 10.57} );
-     wall_right.handleEvent('stateChange', {'width': 10.57} ); 
-   }
+
+    // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    let GroupGarageSystem=createGarageObject(emptySystem,OmegaSystem);
+    GroupGarageSystem.wall_left=wall_left
+    GroupGarageSystem.wall_right=wall_right
+    GroupGarageSystem.wall_back=wall_back
+    GroupGarageSystem.wall_front=wall_front
+   
+    GroupGarageSystem.handleEvent('buildingStep');
+     GroupGarageSystem.handleEvent('generateInputs');
+
+
+    // let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
+
+    // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
+    // GroupGarageSystem.external_objects.push(RedGateSystem1)
+
+    // RedGateSystem1.handleEvent('buildingStep');
+    // RedGateSystem1.handleEvent('generateInputs');
+
+    GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 3*Math.PI/2} )
+    GroupGarageSystem.handleEvent('stateChange', {'position_x': 10} )
+
+    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
+    return [ GroupGarageSystem]
+
+  }
+  the_omega()
+  // function the_omega(){
+
+  //   let GroupGarageSystem=createGarageObject(emptySystem,OmegaSystem);
+
+  //   GroupGarageSystem.handleEvent('buildingStep');
+  //   GroupGarageSystem.handleEvent('generate_inputs');
+  //   //  wall_front.handleEvent('stateChange', {'width': 10.57} );
+  //   //  wall_back.handleEvent('stateChange', {'width': 10.57} );
+  //   //  wall_left.handleEvent('stateChange', {'width': 10.57} );
+  //   //  wall_right.handleEvent('stateChange', {'width': 10.57} ); 
+
+  //   //  wall_front.handleEvent('stateChange', {'color': 10.57} );
+  //   //  wall_back.handleEvent('stateChange', {'color': 10.57} );
+  //   //  wall_left.handleEvent('stateChange', {'color': 10.57} );
+  //   //  wall_right.handleEvent('stateChange', {'color': 10.57} ); 
+  //  }
   
-  // the_omega()
 
 
   return value
