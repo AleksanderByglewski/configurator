@@ -133,15 +133,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight }
     }
-    calculateState() {
-        //This is a function that updates the values of the children of the system
-        const accessersDict = this.determineState();
-        Object.keys(accessersDict).forEach((key, index) => {
-            if (this.children[index]) {
-                this.set_the_options(this.children[index], accessersDict[key]);
-            }
-        });
-    }
+
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
 
@@ -153,7 +145,6 @@ class UconfigsImplementationController extends UconfigsController {
                 ]
             return array
     }
- 
     buildingStep() {
 
         this.children=[]
@@ -325,116 +316,6 @@ class UconfigsImplementationController extends UconfigsController {
         //console.log(this.state.state)
         
     }
-    handleEvent(event, data) {
-        switch (event) {
-            case 'removeModel':
-                //I would like to remove the curent model from this scene and current group as well
-                this.display.remove_from_scene(this.model.get_model())
-                this.display.remove_from_scene(this.group)
-                //I would like to kill all objects in a group THREE.js
-
-                while(this.group.children.length > 0){ 
-                    this.group.remove(this.group.children[0]); 
-                }
-                
-                if(this.group) {
-                    if(this.group instanceof THREE.Group) {
-                        while(this.group.children.length > 0){ 
-                            this.remove(object.children[0]); 
-                        }
-                    }
-                    //this.group = new THREE.Group();  // Assign a new empty group
-                }
-                break;
-            case 'buildingStep':
-                this.handleEvent('recursivelyRemoveModel');
-                this.buildingStep()
-
-                break;
-            case 'creationStep':
-                {
-                    //this.handleEvent('recursivelyRemoveModel')
-                    // this.handleEvent('removeModel')
-                    // Create the geometry, material, and mesh for the cube
-                    // const geometry = new THREE.BoxGeometry(1, 5, 1);  // Cube of size 1x1x1
-                    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });  // Green color
-                    // const cube = new THREE.Mesh(geometry, material);
-
-                    // // Add the cube to the scene
-                    // this.display.add_to_scene(cube);
-                    // this.display.remove_from_scene(cube)
-
-                    if (this.model && typeof this.model.get_model === 'function') {
-                        const modelInstance = this.model
-
-                        if (modelInstance && typeof modelInstance.create === 'function') {
-                            modelInstance.create(this.state.state);
-                        }
-                        if (this.display && typeof this.display.add_to_scene === 'function') {
-                            this.display.add_to_scene(modelInstance.model);
-                            this.display.add_to_scene(this.group);
-                            // this.display.add_to_scene(cube)
-                            // this.display.remove_from_scene(cube)
-                        }
-                    }
-                    if (Array.isArray(this.children)) {
-                        this.children.forEach((child) => {
-                            if (child && typeof child.handleEvent === 'function') {
-                                // child.handleEvent('creationStep');
-                            }
-                        });
-                    }
-                    break
-                }
-            case 'genericChangeObject':
-                {
-                    // const accessers = [
-                    //     new accesser('color', data),
-                    // ]
-                    //It requires accesser as passed data
-                    
-                    this.handleEvent('recursivelyRemoveModel');
-                    this.set_the_options(this, data)
-                    this.handleEvent('buildingStep');
-
-                    // this.handleEvent('creationStep');
-                    // this.buildingStep()
-                }
-                break;
-
-            case 'changeObject':
-                // alert(data)
-                {
-                    const accessers = [
-                        new accesser('color', data),
-                    ]
-                    this.handleEvent('recursivelyRemoveModel');
-                    this.set_the_options(this, accessers)
-                    this.handleEvent('buildingStep');
-
-                    // this.handleEvent('creationStep');
-                    // this.buildingStep()
-                }
-                break;
-            case 'changeFloor':
-                // alert(data)
-                const accessers = [
-                    new accesser('color', data),
-                ]
-                this.handleEvent('recursivelyRemoveModel');
-                this.set_the_options(this, accessers)
-                this.handleEvent('buildingStep');
-
-                // this.handleEvent('creationStep');
-                // this.buildingStep()
-
-                break;
-            default:
-                // console.error(event, data)
-                super.handleEvent(event, data);
-                break;
-        }
-    }
 }
 //Now i would like to add objects to it dynamically
 class UconfigsChildImplementationController extends UconfigsImplementationController {
@@ -456,7 +337,6 @@ class UconfigsChildImplementationController extends UconfigsImplementationContro
     }
  
 }
-
 //This is an example of passive object 
 //A passive object gets recreated each time the parent gets changed, think of it 
 //like an essential building block of the parent element

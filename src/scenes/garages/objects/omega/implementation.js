@@ -146,7 +146,7 @@ class UconfigsImplementationController extends UconfigsController {
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
 
             let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleController},
+                // { objectOptions: accessersWallFront, classInstance:SimpleController},
                 // { objectOptions: accessersWallBack, classInstance: SimpleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }

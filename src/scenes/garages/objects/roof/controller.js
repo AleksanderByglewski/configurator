@@ -6,6 +6,34 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
 
+
+
+class SupportSquareGarageController extends genericGarageController{
+    constructor() {
+        super(); 
+        // this.setModel(GarageObjectSupportSquare)
+        this.setModel(CubeObject)
+    }
+  
+
+}
+
+class SupportGarageController extends genericGarageController{
+    constructor(){
+        super()
+        //this.setModel(GarageObjectSupport)
+        this.setModel(CubeObject)
+    }
+}
+
+class GableGarageController extends genericGarageController{    
+    constructor(){
+        super()
+        //this.setModel(GarageObjectGable)
+        this.setModel(CubeObject)
+    }
+}
+
 // class genericGarageController extends genericController {
 //     constructor() {
 //         super();

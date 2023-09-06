@@ -2,12 +2,16 @@ import * as THREE from 'three';
 import {accesser} from './base'
 import {Ground, closeGround} from './objects/ground'
 import {WallsControllableBasicSystem} from './objects/x-walls--old/implementation'
-import {RoofControllableBasicSystem} from './objects/roof/implementation'  
+import {RoofControllableBasicSystem} from './objects/x-roof--old/implementation'  
 import {AdditionalControllableBasicSystem } from './objects/doors/implementation'  
 import {UconfigsImplementationController as TemplateControllableBasicSystem, UconfigsChildImplementationController as TemplateChildControllableBasicSystem} from './objects/base_template/implementation'  
 
 import {UconfigsChildImplementationController as GateSystem} from './objects/gate/implementation'  
 import {UconfigsChildImplementationController as FloorSystem, UconfigsImplementationController as InvisibleSystem} from './objects/floors/implementation'  
+
+import {UconfigsImplementationController as RoofSystem} from './objects/roof/implementation'  
+
+
 
 import {UconfigsImplementationController as OmegaSystem} from './objects/omega/implementation'  
 
@@ -94,7 +98,6 @@ function attach_fog(scene){
 
 
 }
-
 function populateScene(scene) {
    addLights2(scene)
   addLights(scene)
@@ -338,41 +341,71 @@ function populateScene(scene) {
   }
    //template_test()
 
- 
+   function the_roof_test(){
+
+    // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    let GroupGarageSystem=createGarageObject(emptySystem,RoofSystem);
+  
+    GroupGarageSystem.handleEvent('buildingStep');
+    //  GroupGarageSystem.handleEvent('generateInputs');
+  
+  
+    let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
+  
+    // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
+    // GroupGarageSystem.external_objects.push(RedGateSystem1)
+    // RedGateSystem1.state.state['name']="Brama frontowa" 
+    // RedGateSystem1.state.state['width']=3.15
+    // RedGateSystem1.handleEvent('buildingStep');
+  
+  
+    // RedGateSystem1.handleEvent('generateInputs');
+  
+  
+  
+  
+    GroupGarageSystem.handleEvent('stateChange', {'rotation_y': -1.57} )
+    GroupGarageSystem.handleEvent('stateChange', {'position_x': 7.25} )
+  
+    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
+    return [GroupGarageSystem , RedGateSystem1]
+  
+  }
+  the_roof_test()
 
   let wall_front, wall_left, wall_right, wall_back;
   let addition_front, addition_left, addition_right, addition_back
-//A two depth test is a failure right now
-function the_gate_test1(){
+  //A two depth test is a failure right now
+  function the_gate_test1(){
 
-  // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
+    // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
 
-  GroupGarageSystem.handleEvent('buildingStep');
-  //  GroupGarageSystem.handleEvent('generateInputs');
-
-
-  let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-  RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  GroupGarageSystem.external_objects.push(RedGateSystem1)
-  RedGateSystem1.state.state['name']="Brama frontowa" 
-  RedGateSystem1.state.state['width']=3.15
-  RedGateSystem1.handleEvent('buildingStep');
+    GroupGarageSystem.handleEvent('buildingStep');
+    //  GroupGarageSystem.handleEvent('generateInputs');
 
 
-  RedGateSystem1.handleEvent('generateInputs');
+    let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
+
+    RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
+    GroupGarageSystem.external_objects.push(RedGateSystem1)
+    RedGateSystem1.state.state['name']="Brama frontowa" 
+    RedGateSystem1.state.state['width']=3.15
+    RedGateSystem1.handleEvent('buildingStep');
+
+
+    RedGateSystem1.handleEvent('generateInputs');
 
 
 
 
-  GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 0} )
+    GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 0} )
 
-  // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  return [GroupGarageSystem , RedGateSystem1]
+    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
+    return [GroupGarageSystem , RedGateSystem1]
 
-}
-   function the_gate_test2(){
+  }
+  function the_gate_test2(){
 
     // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
     let GroupGarageSystem=createGarageObject(emptySystem,TemplateControllableBasicSystem);
@@ -449,16 +482,18 @@ function the_gate_test1(){
 
 
 
+
+
  
   let value={}
-  let design=false
+  let design=true
   if( typeof design === 'undefined' || !design ){
 
     roof_test();
-    [wall_front, addition_front] =the_gate_test1();
+    [wall_front, addition_front] = the_gate_test1();
     [wall_right, addition_right] = the_gate_test2();
-    [wall_back, addition_back]=the_gate_test3();
-    [wall_left]=the_gate_test4();
+    [wall_back, addition_back]= the_gate_test3();
+    [wall_left]= the_gate_test4();
 
     //[wall_back, addition_back] = the_gate_test3();
     //walls_test()
@@ -488,7 +523,7 @@ function the_gate_test1(){
     // RedGateSystem1.handleEvent('generateInputs');
 
     GroupGarageSystem.handleEvent('stateChange', {'rotation_y': 3*Math.PI/2} )
-    GroupGarageSystem.handleEvent('stateChange', {'position_x': 10} )
+    GroupGarageSystem.handleEvent('stateChange', {'position_x': 50} )
 
     // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
     return [ GroupGarageSystem]
