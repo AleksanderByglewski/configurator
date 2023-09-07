@@ -284,7 +284,7 @@ class UconfigsImplementationController extends UconfigsController {
         })
        
 
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
         this.group.add(axesHelper);
         // const scene = this.display.scene;
         // {
@@ -721,7 +721,7 @@ class WallController extends UconfigsController {
 }
 
 
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
         this.group.add(axesHelper);
 
         this.display.get_scene().add(this.group)

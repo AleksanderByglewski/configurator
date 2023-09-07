@@ -130,8 +130,7 @@ class WallGarageObject extends genericObject {
         }
     }
 }
-
-class  UconfigInvisibleObject extends genericObject {
+class UconfigInvisibleObject extends genericObject {
     constructor() {
         super();
 
@@ -405,7 +404,7 @@ class CubeObject extends genericObject {
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
-        let color = (attributes && attributes.color) ? attributes.color : "#CCC";
+        let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
  
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
@@ -573,8 +572,8 @@ class RedCubeObject extends genericObject {
             
         // });
      
-        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        let local_texture=global_texture
+         let local_texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        //let local_texture=global_texture
      
         let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
         
@@ -628,15 +627,17 @@ class RedCubeObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-
-        let material = new THREE.MeshBasicMaterial({
-            // map: local_texture,
-            color: color,
-            // metalness: 0.5,
-            // roughness: 0.1,
-            // clearcoat: 0.8,
-            // clearcoatRoughness: 0.2
-        });
+         local_texture=global_texture
+     
+        //  local_texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        // let material = new THREE.MeshBasicMaterial({
+        //      map: local_texture,
+        //     color:  0xCCCCCC,
+        //     // metalness: 0.5,
+        //     // roughness: 0.1,
+        //     // clearcoat: 0.8,
+        //     // clearcoatRoughness: 0.2
+        // });
         //TODO
          material=new THREE.MeshBasicMaterial({ color: 0xffffff })
         

@@ -292,7 +292,7 @@ class UconfigsImplementationController extends UconfigsController {
         }
 
         //You should probably leave it out
-        //const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        //const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
         //this.group.add(axesHelper);
 
         let hasControllers = false;

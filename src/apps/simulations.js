@@ -4,7 +4,7 @@ import {setupRenderer } from '../renderer/renderer';
 import {setupCamera} from '../renderer/camera'
 import {setupControls} from '../renderer/controls'
 import {handleResize} from '../renderer/resize'
-import {populateScene} from '../scenes/garages/scene.js'
+import {populateScene} from '../scenes/simulations/scene.js'
 import {setupAnimation, setupAnimationRenderer} from '../scenes/garages/animation.js'
 import {setupGuiHelper} from '../helpers/quick-gui'
 import {draggableUI} from '../markup/draggable-ui'

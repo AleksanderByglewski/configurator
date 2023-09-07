@@ -9,17 +9,18 @@ import { UconfigController,CubeController, RedCubeController,WallGarageControlle
 import { UconfigsController } from '../base/implementation'
  
 import { UconfigImplementationWallGui} from './gui'
-
+import {SimpleController} from './controller'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigImplementationWallGui();
+        this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
         this.external_objects_controllers=[]
+        
     }
     determineState() {
         //You can get the current state of the object by using the 
@@ -54,10 +55,11 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', object_depth/2),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
         ]
+       
         const accessersWallBack = [
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
@@ -67,45 +69,13 @@ class UconfigsImplementationController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', -object_depth/2),
+            new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', Math.PI),
 
         ]
-        const accessersWallLeft = [
-            new accesser('name', name + "_left"),
-            new accesser('width', object_depth),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', -object_width/2),
-            new accesser('position_y', 0),
-            new accesser('position_z',0),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
-            new accesser('rotation_y', -Math.PI/2),
-
-        ]
-        const accessersWallRight = [
-            new accesser('name', name + '_right'),
-            new accesser('width', object_depth),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', object_width/2),
-            new accesser('position_y', 0),
-            new accesser('position_z', 0),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
-            new accesser('rotation_y', Math.PI/2),
-
-        ]
-
-
-        const iterate=[accessersWallFront ,accessersWallLeft ,accessersWallBack ,accessersWallRight ]
+        const iterate=[accessersWallFront  ]
         iterate.forEach(accessersObject => {  
             const added_accesser = new accesser('material_type', material_type);
             accessersObject.push(added_accesser);
@@ -113,19 +83,19 @@ class UconfigsImplementationController extends UconfigsController {
 
 
 
-        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight }
+        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack,  }
     }
     generatePassiveObjects(){
-            const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+            const { accessersWallFront, accessersWallBack } = this.determineState();
 
             let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleController},
-                // { objectOptions: accessersWallBack, classInstance: SimpleController  },
+                // { objectOptions: accessersWallFront, classInstance:SimpleController},
+                { objectOptions: accessersWallFront, classInstance: SimpleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }
                 ]
             return array
-    }
+    }   
     buildingStep() {
 
         this.children=[]
@@ -137,13 +107,7 @@ class UconfigsImplementationController extends UconfigsController {
             // new accesser('name', 'Menu do debugowania obiektu'),
         ]
 
-        const dynamic_accessers = [
-            new accesser('name', 'Menu do debugowania obiektu'),
-            new accesser('position_x'),
-            new accesser('position_y'),
-            new accesser('position_z'),
-            new accesser('rotation_y'),
-        ]
+        const dynamic_accessers=this.generateDynamicAccessers()
 
         const accessers=[ ...passive_accessers,...dynamic_accessers]
 
@@ -160,21 +124,6 @@ class UconfigsImplementationController extends UconfigsController {
         // this.set_mediator(this)
         this.set_the_options(this, accessers)
 
-
-        // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
-        //      let array = [
-        //          { objectOptions: accessersWallFront, classInstance: WallGarageController },
-        //          { objectOptions: accessersWallBack, classInstance: WallGarageController },
-        //          { objectOptions: accessersWallLeft, classInstance: WallGarageController },
-        //          { objectOptions: accessersWallRight, classInstance: WallGarageController }
-        //  ]
-
-        // let array = [
-        // { objectOptions: accessersWallFront, classInstance:WallController},
-        // // { objectOptions: accessersWallBack, classInstance: WallController },
-        // // { objectOptions: accessersWallLeft, classInstance: WallController },
-        // { objectOptions: accessersWallRight, classInstance: WallController }
-        // ]
 
 
         //This is probably the moment when we should clean the group
@@ -213,7 +162,7 @@ class UconfigsImplementationController extends UconfigsController {
         
 
         for (let i=0;i<external_array.length; i++){
-            // external_array[i].handleEvent('buildingStep');
+            external_array[i].handleEvent('buildingStep');
             this.group.add(external_array[i].group)
            
         }
@@ -221,25 +170,6 @@ class UconfigsImplementationController extends UconfigsController {
         const array=[ ...self_array]
         
 
-        // let array = [
-        // { objectOptions: accessersWallFront, classInstance:WallController},
-        // // { objectOptions: accessersWallBack, classInstance: WallController },
-        // // { objectOptions: accessersWallLeft, classInstance: WallController },
-        // { objectOptions: accessersWallRight, classInstance: WallController }
-        // ]
-        // // array=[]
-
-        // this.children.forEach((child) => {
-        //     child.handleEvent('recursivelyRemoveModel')
-        // });
-        // this.children = []
-
-        // array.forEach(({ objectOptions, classInstance }) => {
-        //     this.display.set_scene(this.display.get_scene())
-        //     const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
-        //     // console.log(created_object)
-        //     this.group.add(created_object)
-        //     // console.log(t)
         // });
         let outer_scene=this.display.get_scene()
         
@@ -268,7 +198,7 @@ class UconfigsImplementationController extends UconfigsController {
         //this.group.add(axesHelper);
 
         let hasControllers = false;
-        let currentMediator = this.mediator;
+        let currentMediator = this;
 
         while (currentMediator) {
        
@@ -293,42 +223,16 @@ class UconfigsImplementationController extends UconfigsController {
         // if(this.external_objects_controllers.length==0){
         // this.display.get_scene().add(this.group)
         // }
+        //if(!hasControllers){
         this.basicTransformation()
+        //}
         //console.log(this.state.state)
         
     }
 }
-//Now i would like to add objects to it dynamically
-class UconfigsChildImplementationController extends UconfigsImplementationController {
-    constructor() {
-        super()
-        this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
-        this.gui.set_mediator(this)
-        this.group = new THREE.Group()
-        this.external_objects=[]
-    }
-    generatePassiveObjects(){
-            const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
-            let array = [
-                { objectOptions: accessersWallFront, classInstance:SimpleRedController},
 
-                ]
-            return array
-    }
+class UconfigsImplementationSkewedController extends UconfigsImplementationController{
  
-}
-//This is an example of passive object 
-//A passive object gets recreated each time the parent gets changed, think of it 
-//like an essential building block of the parent element
-class SimpleController extends UconfigsImplementationController{
-    constructor() {
-        super()
-        // this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
-        this.gui.set_mediator(this)
-        // this.group = new THREE.Group()
-    }
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
@@ -336,8 +240,10 @@ class SimpleController extends UconfigsImplementationController{
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#272727"
-
+        let object_color = this.state.get('color') || "#FEFEFE"
+     
+        let texture_type=""
+        let material_type=this.state.get('material_type') || "material_type_1" 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
@@ -350,60 +256,23 @@ class SimpleController extends UconfigsImplementationController{
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-        let material_type = this.state.get('material_type') || "material_type_3"
 
         const accessersWallFront = [
-            new accesser('passivness', "This is a passive object"),
-            new accesser('name', name + "_frontt"),
+            new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', 0.0 ),
-            new accesser('position_y', 0.0 + position_y + height / 2),
+            new accesser('position_x', 5),
+            new accesser('position_y', 1),
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
-            new accesser('material_type', material_type),
         ]
-
-
-        // ]
-        return { "accessersWallFront": accessersWallFront}
-        //  "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight 
-        
-    }
-    generatePassiveObjects(){
-        const { accessersWallFront} = this.determineState();
-
-        let array = [
-        { objectOptions: accessersWallFront, classInstance:CubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
-        
-        // { objectOptions: accessersWallLeft, classInstance: CubeController },
-        // { objectOptions: accessersWallRight, classInstance: CubeController }
-        ]
-        return array
-}
-
-}
-
-//This is an example of dynamic  object 
-//A dynamic object doesn't  get recreated each time the parent gets changed but it has persistent state, think of it 
-//like an additional decoration that is independent from the parent element
-class SimpleRedController extends UconfigsImplementationController{
-    constructor() {
-        super()
-        // this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
-        this.gui.set_mediator(this)
-        // this.group = new THREE.Group()
-    }
-  
-    specifySelf(){
-        const accessersWallFront = [
-            new accesser('name', name + "_frontt"),
+       
+        const accessersWallBack = [
+            new accesser('name', name + "_back"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -411,21 +280,37 @@ class SimpleRedController extends UconfigsImplementationController{
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', object_depth/2),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
+            new accesser('rotation_y', Math.PI),
+
         ]
-        return [{ "accessersWallFront": accessersWallFront}]
+        const iterate=[accessersWallFront  ]
+        iterate.forEach(accessersObject => {  
+            const added_accesser = new accesser('material_type', material_type);
+            accessersObject.push(added_accesser);
+        });
+
+
+
+        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack,  }
     }
+ 
+}
+class UconfigsImplementationSkewedTopController extends UconfigsImplementationController{
+ 
     determineState() {
         //You can get the current state of the object by using the 
-        let name = 'Door'
+        let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.43
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#272727"
-
+        let object_color = this.state.get('color') || "#FEFEFE"
+     
+        let texture_type=""
+        let material_type=this.state.get('material_type') || "material_type_1" 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
@@ -438,45 +323,47 @@ class SimpleRedController extends UconfigsImplementationController{
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-        let material_type = this.state.get('material_type') || "material_type_3"
 
         const accessersWallFront = [
-            new accesser('passivness', "This is a passive object"),
-            new accesser('name', name + "_fronsst"),
+            new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
-            new accesser('position_x', 0.0 ),
-            new accesser('position_y', 0.0 + position_y + height / 2),
+            new accesser('position_x', 5.5),
+            new accesser('position_y', 5),
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
-            new accesser('material_type', material_type),
         ]
- 
-        // ]
-        return { "accessersWallFront": accessersWallFront}
-        //  "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight 
-        
+       
+        const accessersWallBack = [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', 0),
+            new accesser('position_z', 0),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+            new accesser('rotation_y', Math.PI),
+
+        ]
+        const iterate=[accessersWallFront  ]
+        iterate.forEach(accessersObject => {  
+            const added_accesser = new accesser('material_type', material_type);
+            accessersObject.push(added_accesser);
+        });
+
+
+
+        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack,  }
     }
-    generatePassiveObjects(){
-        const { accessersWallFront} = this.determineState();
-
-        let array = [
-        { objectOptions: accessersWallFront, classInstance:RedCubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
-        
-        // { objectOptions: accessersWallLeft, classInstance: CubeController },
-        // { objectOptions: accessersWallRight, classInstance: CubeController }
-        ]
-        return array
-}
-    
+ 
 }
 
-
-export { UconfigsImplementationController as UconfigsImplementationController,
-    UconfigsChildImplementationController as UconfigsChildImplementationController  
-}
+export {  UconfigsImplementationController, UconfigsImplementationSkewedController, UconfigsImplementationSkewedTopController }

@@ -469,7 +469,7 @@ class DoubleCubeController extends genericGarageController {
 
         let array = [
         { objectOptions: accessersWallFront, classInstance:CubeController},
-        // { objectOptions: accessersWallBack, classInstance: CubeController },
+        { objectOptions: accessersWallBack, classInstance: CubeController },
         
         // { objectOptions: accessersWallLeft, classInstance: CubeController },
         // { objectOptions: accessersWallRight, classInstance: CubeController }
@@ -587,7 +587,7 @@ class DoubleCubeController extends genericGarageController {
         //     // console.log(created_object)
         //     this.group.add(completed_mesh)
         // });
-        const axesHelper = new THREE.AxesHelper(5); // Set the size based on your needs
+        const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
         this.group.add(axesHelper);
     
         this.display.get_scene().add(this.group)
