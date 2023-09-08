@@ -220,14 +220,14 @@ class genericController extends Generic {
 
     handleEvent(event, data) {
         switch (event) {
-            case 'stateChange':
-                if (data && data.key !== undefined && data.value !== undefined) {
-                    this.state.update(data.key, data.value);
-                } else {
-                    console.log('Key or value does not exist');
-                }
-                 alert("hi")
-                break;
+            // case 'stateChange':
+            //     if (data && data.key !== undefined && data.value !== undefined) {
+            //         this.state.update(data.key, data.value);
+            //     } else {
+            //         console.log('Key or value does not exist');
+            //     }
+            //      alert("hi")
+            //     break;
             // Handle other events...
             default:
                 break;

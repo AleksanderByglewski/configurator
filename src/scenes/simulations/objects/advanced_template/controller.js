@@ -5,15 +5,13 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
-import { UconfigsController } from '../base/implementation'
+import { UconfigsController } from '../base/controller'
 class SimpleController extends UconfigsController {
     constructor() {
         super(); 
         // this.setModel(GarageObjectSupportSquare)
         this.setModel(CubeObject)
     }
-  
-
 }
 export {SimpleController}
 

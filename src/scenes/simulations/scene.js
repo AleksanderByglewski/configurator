@@ -137,7 +137,7 @@ function populateScene(scene) {
     return { GroupGarageSystem, RedGateSystem1 }
 
   }
-  //the_floor_test()
+  the_floor_test()
 
   function roof_test() {
 
@@ -147,8 +147,8 @@ function populateScene(scene) {
     //GroupGarageSystem.state.state['color']="#FFFFFF"
 
     GroupGarageSystem.handleEvent('buildingStep');
-    GroupGarageSystem.state.state['color_external'] = "#ff0000"
-    GroupGarageSystem.children[0].state.state["color_external"] = "#FF0000"
+    // GroupGarageSystem.state.state['color_external'] = "#ff0000"
+    // GroupGarageSystem.children[0].state.state["color_external"] = "#FF0000"
     // GroupGarageSystem.handleEvent('buildingStep');
     GroupGarageSystem.handleEvent('generateInputs');
 
@@ -364,7 +364,7 @@ function populateScene(scene) {
     // GroupGarageSystem.handleEvent('stateChange', {'position_x': 0.25} )
 
     // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-    return [GroupGarageSystem1, GroupGarageSystem2]
+    return [GroupGarageSystem1, GroupGarageSystem2, GroupGarageSystem3]
 
   }
   value = advanced_physics_object()
@@ -482,7 +482,7 @@ function populateScene(scene) {
 
 
 
-  let design = true
+  let design = false
   if (typeof design === 'undefined' || !design) {
 
     roof_test();

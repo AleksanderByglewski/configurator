@@ -6,9 +6,9 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {genericGarageController } from '../base/controller'
-
+import { UconfigsController } from '../base/controller'
 import { FloorObject } from './object'
-class FloorCubeController extends genericGarageController {
+class FloorCubeController extends  UconfigsController {
     constructor() {
         super();
         this.setModel(FloorObject)

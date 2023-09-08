@@ -3,7 +3,7 @@ import { accesser } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { UconfigsImplementationController } from '../base/implementation'
+import { UconfigsController } from '../base/controller'
 import { genericGarageController } from '../base/controller'
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
@@ -41,7 +41,7 @@ class GableGarageController extends genericGarageController{
 //This is an example of passive object 
 //A passive object gets recreated each time the parent gets changed, think of it 
 //like an essential building block of the parent element
-class SimpleController extends UconfigsImplementationController{
+class SimpleController extends UconfigsController{
     constructor() {
         super()
         // this.setModel(UconfigInvisibleObject)
@@ -111,7 +111,7 @@ class SimpleController extends UconfigsImplementationController{
 //This is an example of dynamic  object 
 //A dynamic object doesn't  get recreated each time the parent gets changed but it has persistent state, think of it 
 //like an additional decoration that is independent from the parent element
-class SimpleRedController extends UconfigsImplementationController{
+class SimpleRedController extends UconfigsController{
     constructor() {
         super()
         // this.setModel(UconfigInvisibleObject)

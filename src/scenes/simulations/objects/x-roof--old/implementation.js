@@ -9,7 +9,7 @@ import {UconfigInvisibleObject } from '../base/object'
 import {UconfigInvisibleGui, UconfigDebugGui} from '../base/gui'
 
 
-class SupportSquareGarageController extends genericGarageController{
+class SupportSquareGarageController extends UconfigsController{
     constructor() {
         super(); 
         this.setModel(GarageObjectSupportSquare)
@@ -18,14 +18,14 @@ class SupportSquareGarageController extends genericGarageController{
 
 }
 
-class SupportGarageController extends genericGarageController{
+class SupportGarageController extends  UconfigsController{
     constructor(){
         super()
         this.setModel(GarageObjectSupport)
     }
 }
 
-class GableGarageController extends genericGarageController{    
+class GableGarageController extends  UconfigsController{    
     constructor(){
         super()
         this.setModel(GarageObjectGable)
