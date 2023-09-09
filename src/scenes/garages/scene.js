@@ -8,12 +8,34 @@ import { UconfigsImplementationController as TemplateControllableBasicSystem, Uc
 
 import { UconfigsChildImplementationController as GateSystem } from './objects/gate/implementation'
 import { UconfigsChildImplementationController as FloorSystem, UconfigsImplementationController as InvisibleSystem } from './objects/floors/implementation'
-import { UconfigsImplementationController as RoofSystem } from './objects/roof/implementation'
+import { UconfigsImplementationController as RoofSystemOld } from './objects/roof/implementation'
 import { UconfigsImplementationController as OmegaSystem } from './objects/omega/implementation'
 
-import { UconfigsImplementationController as AdvancedPhysicsSystem, UconfigsImplementationSkewedController as SkewedAdvancedPhysicsSystem , UconfigsImplementationSkewedTopController as SkewedTopAdvancedPhysicsSystem } from './objects/advanced_template/implementation'
+import { 
+  UconfigsImplementationController as AdvancedPhysicsSystem, 
+  UconfigsImplementationSkewedController as SkewedAdvancedPhysicsSystem , 
+  UconfigsImplementationSkewedTopController as SkewedTopAdvancedPhysicsSystem 
+} from './objects/advanced_template/implementation'
 
-// import {FoundationGarageController, FoundationsGarageController} from './objects/foundation'
+
+import { 
+  UconfigsImplementationWallsController as AdvancedWallsSystem,
+  UconfigsImplementationWallController as AdvancedWallSystem  
+  } from './objects/implementation_wall/implementation'
+
+
+  import { 
+    UconfigsImplementationRoofsController as RoofSystem,
+ 
+    } from './objects/implementation_roof/implementation'
+  
+function setOptions(passedObject, accessers) {
+  for (let i = 0; i < accessers.length; i++) {
+    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
+  }
+
+}
+
 function addLights(scene) {
   let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
   directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
@@ -35,9 +57,72 @@ function addLights(scene) {
   // scene.add(spotlight);
 }
 function populateScene(scene) {
+  function createGarageObject(accessers, ObjectClass) {
+    const passedObject = new ObjectClass();
+    setOptions(passedObject, accessers)
+    passedObject.display.set_scene(scene)
+    return passedObject
+  }
   //  addLights2(scene)
   let value = {}
   addLights(scene)
+
+  function advanced_physics_object() {
+
+    // I would like to create an advanced physics object that would have some additional elements attached to it
+    let GroupGarageSystem1, GroupGarageSystem2, GroupGarageSystem3;
+    let RedGateSystem1;
+
+
+    GroupGarageSystem1 = createGarageObject(emptySystem, Advancedm);
+    GroupGarageSystem2 = createGarageObject(emptySystem, SkewedAdvancedPhysicsSystem);
+    GroupGarageSystem3 = createGarageObject(emptySystem, SkewedTopAdvancedPhysicsSystem);
+
+    GroupGarageSystem1.external_objects.push(GroupGarageSystem2)
+    GroupGarageSystem2.external_objects_controllers.push(GroupGarageSystem1)
+    GroupGarageSystem2.mediator=GroupGarageSystem1
+
+
+    GroupGarageSystem2.external_objects.push(GroupGarageSystem3)
+    // GroupGarageSystem3.external_objects_controllers.push(GroupGarageSystem2)
+    GroupGarageSystem3.mediator=GroupGarageSystem2
+
+
+    // GroupGarageSystem2.handleEvent('buildingStep');
+    GroupGarageSystem1.state.state.position_y=1
+   
+
+    GroupGarageSystem1.handleEvent('buildingStep');
+    GroupGarageSystem1.handleEvent('generateInputs');
+    GroupGarageSystem2.handleEvent('generateInputs');     
+    GroupGarageSystem3.handleEvent('generateInputs');
+
+    //  GroupGarageSystem2.handleEvent('buildingStep');
+    // //  GroupGarageSystem.handleEvent('generateInputs');
+
+    // RedGateSystem1=createGarageObject(emptySystem, AdvancedPhysicsSystem);
+
+    // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
+    // GroupGarageSystem.external_objects.push(RedGateSystem1)
+    // RedGateSystem1.state.state['name']="Brama frontowa" 
+    // RedGateSystem1.state.state['width']=3.15
+    // RedGateSystem1.handleEvent('buildingStep');
+
+
+    // RedGateSystem1.handleEvent('generateInputs');
+
+
+
+
+    // GroupGarageSystem.handleEvent('stateChange', {'rotation_y': -1.57} )
+    // GroupGarageSystem.handleEvent('stateChange', {'position_x': 0.25} )
+
+    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
+    return [GroupGarageSystem1, GroupGarageSystem2, GroupGarageSystem3]
+
+  }
+
+
   // attach_ground(scene)
   // attach_fog(scene)
   scene.background = new THREE.Color(0xcce7f0);
@@ -47,28 +132,13 @@ function populateScene(scene) {
 
   var axesHelper = new THREE.AxesHelper(1);
   scene.add(axesHelper)
-  
-
   const geometry = new THREE.PlaneGeometry(10, 10);
   const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
   //scene.add(floor);
 
-  function setOptions(passedObject, accessers) {
-    for (let i = 0; i < accessers.length; i++) {
-      passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-    }
-
-  }
-
-  function createGarageObject(accessers, ObjectClass) {
-    const passedObject = new ObjectClass();
-    setOptions(passedObject, accessers)
-    passedObject.display.set_scene(scene)
-    return passedObject
-  }
-
+  
   const emptySystem = [
     // new accesser('name', ' System'),
 
@@ -284,7 +354,7 @@ function populateScene(scene) {
   function the_roof_test() {
 
     // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-    let GroupGarageSystem = createGarageObject(emptySystem, RoofSystem);
+    let GroupGarageSystem = createGarageObject(emptySystem, RoofSystemOld);
     let RedGateSystem1;
     GroupGarageSystem.handleEvent('buildingStep');
     //  GroupGarageSystem.handleEvent('generateInputs');
@@ -367,7 +437,107 @@ function populateScene(scene) {
     return [GroupGarageSystem1, GroupGarageSystem2, GroupGarageSystem3]
 
   }
-  value = advanced_physics_object()
+
+  let GroupGarageSystem;
+  function advanced_garage_system(){
+    GroupGarageSystem=createGarageObject(emptySystem, AdvancedWallsSystem)
+  }
+  advanced_garage_system()
+
+  function advanced_walls_object() {
+
+    // I would like to create an advanced physics object that would have some additional elements attached to it
+
+    let WallSystem1, WallSystem2, WallSystem3 , WallSystem4;
+
+    
+
+
+    WallSystem1=createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem2=createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem3=createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem4=createGarageObject(emptySystem, AdvancedWallSystem)
+
+
+
+    GroupGarageSystem.external_objects.push(WallSystem1)
+    GroupGarageSystem.external_objects.push(WallSystem2)
+    GroupGarageSystem.external_objects.push(WallSystem3)
+    GroupGarageSystem.external_objects.push(WallSystem4)
+ 
+    WallSystem1.external_objects_controllers.push(GroupGarageSystem)
+    WallSystem2.external_objects_controllers.push(GroupGarageSystem)
+    WallSystem3.external_objects_controllers.push(GroupGarageSystem)
+    WallSystem4.external_objects_controllers.push(GroupGarageSystem)
+
+    WallSystem1.mediator=GroupGarageSystem
+    WallSystem2.mediator=GroupGarageSystem
+    WallSystem3.mediator=GroupGarageSystem
+    WallSystem4.mediator=GroupGarageSystem
+
+
+
+
+    
+
+
+   
+
+
+
+    
+
+
+    
+    
+  
+    // RedGateSystem1=createGarageObject(emptySystem, AdvancedPhysicsSystem);
+
+    // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
+    // GroupGarageSystem.external_objects.push(RedGateSystem1)
+    // RedGateSystem1.state.state['name']="Brama frontowa" 
+    // RedGateSystem1.state.state['width']=3.15
+    // RedGateSystem1.handleEvent('buildingStep');
+
+
+    // RedGateSystem1.handleEvent('generateInputs');
+
+
+
+
+    // GroupGarageSystem.handleEvent('stateChange', {'rotation_y': -1.57} )
+    // GroupGarageSystem.handleEvent('stateChange', {'position_x': 0.25} )
+
+    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
+    //eturn [GroupGarageSystem, WallSystem1, WallSystem2, WallSystem3, WallSystem4]
+
+  }
+  advanced_walls_object() 
+
+  let RoofSystem1
+  function advanced_roof_object(){
+    
+    RoofSystem1=createGarageObject(emptySystem, RoofSystem)
+
+    GroupGarageSystem.external_objects.push(RoofSystem1)
+    RoofSystem1.external_objects_controllers.push(GroupGarageSystem)
+    RoofSystem1.mediator=GroupGarageSystem
+
+
+
+  }
+  advanced_roof_object()
+
+  function initialization_system(){
+
+    GroupGarageSystem.handleEvent('buildingStep')
+    GroupGarageSystem.handleEvent('generateInputs')
+  }
+  initialization_system()
+
+RoofSystem1.handleEvent('generateInputs')
+
+  //value = advanced_physics_object()
 
   let wall_front, wall_left, wall_right, wall_back;
   let addition_front, addition_left, addition_right, addition_back
@@ -482,7 +652,7 @@ function populateScene(scene) {
 
 
 
-  let design = false
+  let design = true
   if (typeof design === 'undefined' || !design) {
 
     roof_test();

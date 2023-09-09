@@ -116,10 +116,6 @@ class UconfigsController extends genericGarageController {
     buildingStep() {
 
         this.children=[]
-        // let position_x = this.state.get('position_x') || 0
-        // let position_y = this.state.get('position_y') || 0
-        // let position_z = this.state.get('position_z') || 0
-
         const passive_accessers=[
             // new accesser('name', 'Menu do debugowania obiektu'),
         ]

@@ -647,7 +647,7 @@ class RedCubeObject extends genericObject {
         //     // clearcoat: 0.8,
         //     // clearcoatRoughness: 0.2
         // });
-        //TODO
+       
          let material=new THREE.MeshBasicMaterial({ color: 0xffffff })
         
 
