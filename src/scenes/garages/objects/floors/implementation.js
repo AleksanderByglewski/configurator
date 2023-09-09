@@ -143,7 +143,7 @@ class UconfigsImplementationController extends UconfigsController {
         const accessersDict = this.determineState();
         Object.keys(accessersDict).forEach((key, index) => {
             if (this.children[index]) {
-                this.set_the_options(this.children[index], accessersDict[key]);
+                this.setOptions(this.children[index], accessersDict[key]);
             }
         });
     }
@@ -193,7 +193,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         update_accesser_values(dynamic_accessers) 
         // this.set_mediator(this)
-        this.set_the_options(this, accessers)
+        this.setOptions(this, accessers)
 
 
         // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
@@ -283,7 +283,7 @@ class UconfigsImplementationController extends UconfigsController {
                 this.display.set_scene(this.display.get_scene())
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                added_object.set_the_options(added_object, objectOptions)
+                added_object.setOptions(added_object, objectOptions)
                 added_object.model.create(added_object.state.state)
                 this.addChild(added_object)
                 added_object.handleEvent('buildingStep')
@@ -401,7 +401,7 @@ class UconfigsImplementationController extends UconfigsController {
                     //It requires accesser as passed data
                     
                     this.handleEvent('recursivelyRemoveModel');
-                    this.set_the_options(this, data)
+                    this.setOptions(this, data)
                     this.handleEvent('buildingStep');
 
                     // this.handleEvent('creationStep');
@@ -416,7 +416,7 @@ class UconfigsImplementationController extends UconfigsController {
                         new accesser('color', data),
                     ]
                     this.handleEvent('recursivelyRemoveModel');
-                    this.set_the_options(this, accessers)
+                    this.setOptions(this, accessers)
                     this.handleEvent('buildingStep');
 
                     // this.handleEvent('creationStep');
@@ -429,7 +429,7 @@ class UconfigsImplementationController extends UconfigsController {
                     new accesser('color', data),
                 ]
                 this.handleEvent('recursivelyRemoveModel');
-                this.set_the_options(this, accessers)
+                this.setOptions(this, accessers)
                 this.handleEvent('buildingStep');
 
                 // this.handleEvent('creationStep');

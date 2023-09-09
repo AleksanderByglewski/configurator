@@ -6,9 +6,9 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {genericGarageController } from '../base/controller'
-
+import { UconfigsController } from '../base/controller'
 import { FloorObject } from './object'
-class FloorCubeController extends genericGarageController {
+class FloorCubeController extends  UconfigsController {
     constructor() {
         super();
         this.setModel(FloorObject)
@@ -34,7 +34,7 @@ export {FloorCubeController}
 //         this.children = []
 //         this.group = new THREE.Group()
 //     }
-//     set_the_options(passedObject, accessers) {
+//     setOptions(passedObject, accessers) {
 //         for (let i = 0; i < accessers.length; i++) {
 //             passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
 //         }
@@ -45,13 +45,13 @@ export {FloorCubeController}
 //     object_addition(objectOptions, classInstance) {
 //         const added_object = new classInstance()
 //         // added_object.display.set_scene(this.display.get_scene())
-//         this.set_the_options(added_object, objectOptions)
+//         this.setOptions(added_object, objectOptions)
 //         this.addChild(added_object)
 //         return added_object
 //     }
 //     object_addition_existing(added_object) {
 //         // added_object.display.set_scene(this.display.get_scene())
-//         // this.set_the_options(added_object, objectOptions)
+//         // this.setOptions(added_object, objectOptions)
 //         this.addChild(added_object)
 
 //     }

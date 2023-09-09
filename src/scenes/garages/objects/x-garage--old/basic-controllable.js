@@ -389,7 +389,7 @@ class UconfigsController extends genericGarageController {
         const accessersDict = this.determineState();
         Object.keys(accessersDict).forEach((key, index) => {
             if (this.children[index]) {
-                this.set_the_options(this.children[index], accessersDict[key]);
+                this.setOptions(this.children[index], accessersDict[key]);
             }
         });
     }
@@ -399,7 +399,7 @@ class UconfigsController extends genericGarageController {
             
         ]  
         this.set_mediator(this)
-        this.set_the_options(this,accessers)
+        this.setOptions(this,accessers)
 
         //console.log(this.state.state)
 
@@ -492,7 +492,7 @@ class UconfigsController extends genericGarageController {
                     new accesser('object_type', data),
                 ]  
                 // this.handleEvent('recursivelyRemoveModel');
-                this.set_the_options(this,accessers)
+                this.setOptions(this,accessers)
                 this.handleEvent('buildingStep');
                 // this.handleEvent('creationStep');
                 // this.buildingStep()

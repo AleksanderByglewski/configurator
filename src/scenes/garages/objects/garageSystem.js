@@ -68,7 +68,7 @@ class GarageSystem extends genericGarageController {
         const accessersDict = this.determineState();
         Object.keys(accessersDict).forEach((key, index) => {
             if (this.children[index]) {
-                this.set_the_options(this.children[index], accessersDict[key]);
+                this.setOptions(this.children[index], accessersDict[key]);
                 this.children[index].handleEvent('creationStep')
             }
         })

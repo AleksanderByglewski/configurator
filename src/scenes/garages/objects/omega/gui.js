@@ -162,7 +162,7 @@ class UconfigImplementationOmegaGui extends genericGui {
 
             let scene=this.mediator.display.scene
 
-            function set_the_options(passedObject, accessers){
+            function setOptions(passedObject, accessers){
                 for(let i=0; i<accessers.length; i++) {
                     passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
                 }
@@ -180,7 +180,7 @@ class UconfigImplementationOmegaGui extends genericGui {
             
             function createGarageObject(accessers, ObjectClass){
                 const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
+                setOptions(passedObject, accessers)
                 passedObject.display.set_scene(scene)
                 return passedObject
             }
@@ -206,7 +206,7 @@ class UconfigImplementationOmegaGui extends genericGui {
 
             let scene=this.mediator.display.scene
 
-            function set_the_options(passedObject, accessers){
+            function setOptions(passedObject, accessers){
                 for(let i=0; i<accessers.length; i++) {
                     passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
                 }
@@ -224,7 +224,7 @@ class UconfigImplementationOmegaGui extends genericGui {
             
             function createGarageObject(accessers, ObjectClass){
                 const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
+                setOptions(passedObject, accessers)
                 passedObject.display.set_scene(scene)
                 return passedObject
             }
@@ -250,7 +250,7 @@ class UconfigImplementationOmegaGui extends genericGui {
 
             let scene=this.mediator.display.scene
 
-            function set_the_options(passedObject, accessers){
+            function setOptions(passedObject, accessers){
                 for(let i=0; i<accessers.length; i++) {
                     passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
                 }
@@ -268,7 +268,7 @@ class UconfigImplementationOmegaGui extends genericGui {
             
             function createGarageObject(accessers, ObjectClass){
                 const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
+                setOptions(passedObject, accessers)
                 passedObject.display.set_scene(scene)
                 return passedObject
             }
@@ -295,7 +295,7 @@ class UconfigImplementationOmegaGui extends genericGui {
 
             let scene=this.mediator.display.scene
 
-            function set_the_options(passedObject, accessers){
+            function setOptions(passedObject, accessers){
                 for(let i=0; i<accessers.length; i++) {
                     passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
                 }
@@ -313,7 +313,7 @@ class UconfigImplementationOmegaGui extends genericGui {
             
             function createGarageObject(accessers, ObjectClass){
                 const passedObject = new ObjectClass();
-                set_the_options(passedObject, accessers)
+                setOptions(passedObject, accessers)
                 passedObject.display.set_scene(scene)
                 return passedObject
             }

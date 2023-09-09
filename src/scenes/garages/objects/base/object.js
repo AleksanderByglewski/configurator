@@ -130,8 +130,7 @@ class WallGarageObject extends genericObject {
         }
     }
 }
-
-class  UconfigInvisibleObject extends genericObject {
+class UconfigInvisibleObject extends genericObject {
     constructor() {
         super();
 
@@ -163,21 +162,26 @@ class  UconfigInvisibleObject extends genericObject {
 
         //   })
 
-        const material = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color
-        let geometry = new RoundedBoxGeometry(
-            parseFloat(attributes.width) || 1,
-            parseFloat(attributes.height) || 1,
-            parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
-            parseFloat(attributes.segments) || 2,
-            parseFloat(attributes.radius) || 0.005
-        );
+        // const material = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color
+        // let geometry = new RoundedBoxGeometry(
+        //     parseFloat(attributes.width) || 1,
+        //     parseFloat(attributes.height) || 1,
+        //     parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
+        //     parseFloat(attributes.segments) || 2,
+        //     parseFloat(attributes.radius) || 0.005
+        // );
+
+        var geometry = new THREE.SphereGeometry(5, 32, 32);
+        var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+        
 
 
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(
-            parseFloat(attributes.position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(attributes.position_y),
-            parseFloat(attributes.position_z),  // Assuming z position is always 0, adjust as needed
+            parseFloat(0), // Assuming x position is always 0, adjust as needed
+            parseFloat(0),
+            parseFloat(0),  // Assuming z position is always 0, adjust as needed
         );
 
 
@@ -405,7 +409,7 @@ class CubeObject extends genericObject {
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
-        let color = (attributes && attributes.color) ? attributes.color : "#CCC";
+        let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
  
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
@@ -510,6 +514,8 @@ class CubeObject extends genericObject {
             parseFloat(attributes.segments) || 1,
             parseFloat(attributes.radius) || 0.005
         );
+
+        
         const mesh = new THREE.Mesh(geometry, material);
      
         //  position_x = Math.random() * 1-0.5;
@@ -521,30 +527,32 @@ class CubeObject extends genericObject {
             parseFloat(position_y),
             parseFloat(position_z),  // Assuming z position is always 0, adjust as needed
         );
+
+
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
         this.set(mesh);
     }
 
-    update(attributes) {
-        if (!this.model) return;
+    // update(attributes) {
+    //     if (!this.model) return;
 
-        if (attributes.position_x !== undefined) {
-            this.model.position.setX(parseFloat(attributes.position_x));
-        }
+    //     if (attributes.position_x !== undefined) {
+    //         this.model.position.setX(parseFloat(attributes.position_x));
+    //     }
 
-        if (attributes.position_y !== undefined) {
-            this.model.position.setY(parseFloat(attributes.position_y));
-        }
+    //     if (attributes.position_y !== undefined) {
+    //         this.model.position.setY(parseFloat(attributes.position_y));
+    //     }
 
-        if (attributes.position_z !== undefined) {
-            this.model.position.setZ(parseFloat(attributes.position_z));
-        }
+    //     if (attributes.position_z !== undefined) {
+    //         this.model.position.setZ(parseFloat(attributes.position_z));
+    //     }
 
-        // Update rotation if needed
-        if (attributes.rotation_z !== undefined) {
-            this.model.rotation.z = attributes.rotation_z;
-        }
-    }
+    //     // Update rotation if needed
+    //     if (attributes.rotation_z !== undefined) {
+    //         this.model.rotation.z = attributes.rotation_z;
+    //     }
+    // }
 }
 class RedCubeObject extends genericObject {
     constructor() {
@@ -573,8 +581,8 @@ class RedCubeObject extends genericObject {
             
         // });
      
-        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        let local_texture=global_texture
+         let local_texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        //let local_texture=global_texture
      
         let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
         
@@ -628,17 +636,19 @@ class RedCubeObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-
-        let material = new THREE.MeshBasicMaterial({
-            // map: local_texture,
-            color: color,
-            // metalness: 0.5,
-            // roughness: 0.1,
-            // clearcoat: 0.8,
-            // clearcoatRoughness: 0.2
-        });
+         local_texture=global_texture
+     
+        //  local_texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        // let material = new THREE.MeshBasicMaterial({
+        //      map: local_texture,
+        //     color:  0xCCCCCC,
+        //     // metalness: 0.5,
+        //     // roughness: 0.1,
+        //     // clearcoat: 0.8,
+        //     // clearcoatRoughness: 0.2
+        // });
         //TODO
-         material=new THREE.MeshBasicMaterial({ color: 0xffffff })
+         let material=new THREE.MeshBasicMaterial({ color: 0xffffff })
         
 
         // let geometry = new RoundedBoxGeometry(
@@ -702,12 +712,12 @@ class DoubleCubeObject extends genericObject {
     
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : -4;
         let color = (attributes && attributes.color) ? attributes.color : "#972727";
-        var material = new THREE.MeshPhysicalMaterial({
-            color: "#372727",
-            metalness: 0.5,
-            roughness: 0.1,
-            clearcoat: 0.8,
-            clearcoatRoughness: 0.2
+        var material = new THREE.MeshBasicMaterial({
+            color: "#972727",
+            // metalness: 0.5,
+            // roughness: 0.1,
+            // clearcoat: 0.8,
+            // clearcoatRoughness: 0.2
         });
     
 

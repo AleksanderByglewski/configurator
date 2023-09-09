@@ -108,7 +108,7 @@
 //         const accessersDict = this.determineState();
 //         Object.keys(accessersDict).forEach((key, index) => {
 //             if (this.children[index]) {
-//                 this.set_the_options(this.children[index], accessersDict[key]);
+//                 this.setOptions(this.children[index], accessersDict[key]);
 //             }
 //         });
 //     }
@@ -119,7 +119,7 @@
 
 //         ]
 //         this.set_mediator(this)
-//         this.set_the_options(this, accessers)
+//         this.setOptions(this, accessers)
 
         
 
@@ -164,7 +164,7 @@
 //                 added_object.display.set_scene(outer_scene)
 //                 added_object.model.create()
 //                 // added_object.display.set_scene(this.display.get_scene())
-//                 this.set_the_options(added_object, objectOptions)
+//                 this.setOptions(added_object, objectOptions)
 //                 this.addChild(added_object)
 //                 // added_object.display.set_scene(outer_scene)
 //                 // debug()
@@ -209,7 +209,7 @@
 //         //     added_object.model.create(this.state.state);
         
            
-//         //     this.set_the_options(added_object, objectOptions)
+//         //     this.setOptions(added_object, objectOptions)
 //         //     // this.display.set_scene(this.display.get_scene())
 //         //     // const created_object = this.object_addition.bind(this)(objectOptions, classInstance);
 //         //     // console.log(created_object)
@@ -323,7 +323,7 @@
 //                         new accesser('color', data),
 //                     ]
 //                     this.handleEvent('recursivelyRemoveModel');
-//                     this.set_the_options(this, accessers)
+//                     this.setOptions(this, accessers)
 //                     this.handleEvent('buildingStep');
 
 //                     // this.handleEvent('creationStep');
@@ -336,7 +336,7 @@
 //                     new accesser('color', data),
 //                 ]
 //                 this.handleEvent('recursivelyRemoveModel');
-//                 this.set_the_options(this, accessers)
+//                 this.setOptions(this, accessers)
 //                 this.handleEvent('buildingStep');
 
 //                 // this.handleEvent('creationStep');

@@ -199,7 +199,7 @@ class UconfigsImplementationController extends UconfigsController {
 
         update_accesser_values(dynamic_accessers) 
         this.set_mediator(this)
-        this.set_the_options(this, accessers)
+        this.setOptions(this, accessers)
 
         // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
         //      let array = [
@@ -256,7 +256,7 @@ class UconfigsImplementationController extends UconfigsController {
                 this.display.set_scene(this.display.get_scene())
                 const added_object = new classInstance()
                 added_object.display.set_scene(outer_scene)
-                added_object.set_the_options(added_object, objectOptions)
+                added_object.setOptions(added_object, objectOptions)
                 added_object.model.create(added_object.state.state)
                 this.addChild(added_object)
                 added_object.handleEvent('buildingStep')
@@ -425,7 +425,7 @@ class UconfigsImplementationController extends UconfigsController {
 
 //         update_accesser_values(dynamic_accessers) 
 //         // this.set_mediator(this)
-//         this.set_the_options(this, accessers)
+//         this.setOptions(this, accessers)
 
 
 //         // const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
@@ -515,7 +515,7 @@ class UconfigsImplementationController extends UconfigsController {
 //                 this.display.set_scene(this.display.get_scene())
 //                 const added_object = new classInstance()
 //                 added_object.display.set_scene(outer_scene)
-//                 added_object.set_the_options(added_object, objectOptions)
+//                 added_object.setOptions(added_object, objectOptions)
 //                 added_object.model.create(added_object.state.state)
 //                 this.addChild(added_object)
 //                 added_object.handleEvent('buildingStep')

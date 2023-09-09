@@ -117,7 +117,7 @@ function populateScene(scene) {
   // const mars = createPlanet(marsAttributes)
 
   //Hi chat i would like to add two additional parameters here namely position x and position y
-  function set_the_options(passedObject, accessers){
+  function setOptions(passedObject, accessers){
     for(let i=0; i<accessers.length; i++) {
         passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
     }
@@ -126,7 +126,7 @@ function populateScene(scene) {
 
 function createGarageObject(accessers, ObjectClass){
     const passedObject = new ObjectClass();
-    set_the_options(passedObject, accessers)
+    setOptions(passedObject, accessers)
     passedObject.display.set_scene(scene)
     return passedObject
 }
