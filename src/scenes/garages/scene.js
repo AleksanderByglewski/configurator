@@ -29,6 +29,12 @@ import {
  
     } from './objects/implementation_roof/implementation'
   
+    import { 
+      UconfigsImplementationDoorController as DoorSystem,
+   
+      } from './objects/implementation_door/implementation'
+
+
 function setOptions(passedObject, accessers) {
   for (let i = 0; i < accessers.length; i++) {
     passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
@@ -514,6 +520,8 @@ function populateScene(scene) {
   }
   advanced_walls_object() 
 
+
+
   let RoofSystem1
   function advanced_roof_object(){
     
@@ -535,7 +543,31 @@ function populateScene(scene) {
   }
   initialization_system()
 
-RoofSystem1.handleEvent('generateInputs')
+  function attaching_gates(){
+    let front_wall=GroupGarageSystem.external_objects[0]
+
+
+    let DoorSystem1=createGarageObject(emptySystem, DoorSystem)
+
+
+
+    front_wall.external_objects.push(DoorSystem1)
+ 
+ 
+    DoorSystem1.external_objects_controllers.push(front_wall)
+
+    DoorSystem1.mediator=front_wall
+
+     
+   
+      GroupGarageSystem.handleEvent('buildingStep')
+      DoorSystem1.handleEvent('generateInputs');
+
+  }
+  attaching_gates()
+
+
+//RoofSystem1.handleEvent('generateInputs')
 
   //value = advanced_physics_object()
 

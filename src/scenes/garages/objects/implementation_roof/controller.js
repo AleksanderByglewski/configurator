@@ -6,6 +6,7 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { UconfigInvisibleGui,UconfigGui,UconfigDebugGui} from '../base/gui'
 import { DoubleCubeObject,CubeObject,UconfigObject, UconfigInvisibleObject,WallGarageObject, genericGarageObject } from '../base/object'
 import { UconfigsController } from '../base/controller'
+import { RoofSideLeftObject,RoofSideRightObject, RoofSideSquareObject, RoofTopObject } from './object'
 
 class SimpleController extends UconfigsController {
     constructor() {
@@ -14,4 +15,35 @@ class SimpleController extends UconfigsController {
         this.setModel(CubeObject)
     }
 }
-export {SimpleController}
+class RoofSideLeftController extends UconfigsController {
+    constructor() {
+        super(); 
+        // this.setModel(GarageObjectSupportSquare)
+        this.setModel(RoofSideLeftObject)
+    }
+}
+class RoofSideRightController extends UconfigsController {
+    constructor() {
+        super(); 
+        // this.setModel(GarageObjectSupportSquare)
+        this.setModel(RoofSideRightObject)
+    }
+}
+
+class RoofSideSquareController extends UconfigsController {
+    constructor() {
+        super(); 
+        // this.setModel(GarageObjectSupportSquare)
+        this.setModel(RoofSideSquareObject)
+    }
+}
+class RoofTopController extends UconfigsController {
+    constructor() {
+        super(); 
+        // this.setModel(GarageObjectSupportSquare)
+        this.setModel(RoofTopObject)
+    }
+}
+
+
+export {SimpleController, RoofSideLeftController, RoofSideRightController,  RoofSideSquareController, RoofTopController}
