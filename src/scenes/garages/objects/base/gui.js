@@ -36,6 +36,7 @@ class UconfigDebugGui extends genericGui {
 
             const accordionButton = document.createElement('button');
             accordionButton.classList.add('accordion-button');
+            accordionButton.classList.add('collapsed');
             accordionButton.type = 'button';
             accordionButton.dataset.bsToggle = "collapse";
             accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
@@ -43,14 +44,15 @@ class UconfigDebugGui extends genericGui {
             accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
             let name = (attributes && attributes.name) ? attributes.name : "Budowa systemów";
-
+          
             accordionButton.textContent = name;
 
             accordionHeaderH3.appendChild(accordionButton);
 
             const accordionCollapseDiv = document.createElement('div');
             accordionCollapseDiv.id = 'collapseTwo-' + this.id;
-            accordionCollapseDiv.classList.add('accordion-collapse', 'collapse', 'show');
+            accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
+            // accordionCollapseDiv.classList.add('show')
             accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
             accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
             accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -99,7 +101,7 @@ class UconfigDebugGui extends genericGui {
         // console.log(this.mediator.state.state)
 
         let text_attributes = Object.keys(this.mediator.state.state)
-        
+
         text_attributes.forEach(attr => {
             const textLabel = document.createElement('label');
             textLabel.textContent = attr;

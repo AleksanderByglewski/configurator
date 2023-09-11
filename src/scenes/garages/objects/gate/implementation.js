@@ -26,7 +26,7 @@ class UconfigsImplementationController extends UconfigsController {
         let name = this.state.get('name') || 'Brama'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#56535a"
      
@@ -433,7 +433,7 @@ class UconfigsChildImplementationController extends UconfigsImplementationContro
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -465,7 +465,7 @@ class SimpleController extends UconfigsImplementationController{
         let name = this.state.get('name') || 'Brama'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#CCCCCC"
 
@@ -473,7 +473,7 @@ class SimpleController extends UconfigsImplementationController{
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
 
-        let height = this.state.get('height') || 2.13
+        let height = this.state.get('height') || 1.93
         let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 4.0
         object_height = height
@@ -553,7 +553,7 @@ class SimpleRedGateController extends UconfigsImplementationController{
         let name = 'Door'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 2
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#CCCCCC"
 

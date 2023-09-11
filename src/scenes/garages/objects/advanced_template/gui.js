@@ -247,7 +247,7 @@ class UconfigImplementationWallGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
+             containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
                  { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},

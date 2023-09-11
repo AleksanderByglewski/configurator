@@ -23,14 +23,20 @@ class UconfigsImplementationController extends UconfigsController {
         this.external_objects_controllers=[]
     }
     determineState() {
+
+
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
+        this.request_an_update()
+
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
-        let object_depth = parseFloat(this.state.get('object_depth')) || 2
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
+        let object_depth = parseFloat(this.state.get('object_depth')) || 4
         let object_color = this.state.get('color') || "#772727"
      
+
+        
         let texture_type=""
         let material_type=this.state.get('material_type') || "floor_type_1" 
         // switch(material_type){
@@ -58,6 +64,12 @@ class UconfigsImplementationController extends UconfigsController {
         let height = this.state.get('height') || 2.13
         let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 5.0
+
+
+
+        width=object_width+1
+        depth=object_depth+1
+
         object_height = height
         object_width = width
         object_depth = depth
@@ -442,13 +454,34 @@ class UconfigsImplementationController extends UconfigsController {
                 break;
         }
     }
+
+    request_an_update(){
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+
+        let targeted_parent=this.external_objects_controllers[0]
+
+        const accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            
+        ]
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers[i].resource_locator, val);
+        }
+    }
 }
 //Now i would like to add objects to it dynamically
 class UconfigsChildImplementationController extends UconfigsImplementationController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigInvisibleGui();
+        this.gui = new UconfigImplementationFloorGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -480,7 +513,7 @@ class SimpleController extends UconfigsImplementationController{
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#272727"
 
@@ -569,7 +602,7 @@ class SimpleRedController extends UconfigsImplementationController{
         let name = 'Door'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4.25
         let object_color = this.state.get('color') || "#272727"
 

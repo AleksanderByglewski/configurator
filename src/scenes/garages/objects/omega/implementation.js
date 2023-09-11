@@ -26,7 +26,7 @@ class UconfigsImplementationController extends UconfigsController {
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
@@ -473,7 +473,7 @@ class SimpleController extends UconfigsImplementationController{
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#272727"
 
@@ -561,7 +561,7 @@ class SimpleRedController extends UconfigsImplementationController{
         let name = 'Door'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#272727"
 

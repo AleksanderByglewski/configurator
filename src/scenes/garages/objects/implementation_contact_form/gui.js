@@ -8,7 +8,7 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
-class UconfigImplementationDoorGui extends genericGui {
+class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
     }
@@ -35,13 +35,14 @@ class UconfigImplementationDoorGui extends genericGui {
 
         const accordionButton = document.createElement('button');
         accordionButton.classList.add('accordion-button');
+        accordionButton.classList.add('collapsed');
         accordionButton.type = 'button';
         accordionButton.dataset.bsToggle = "collapse";
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name= (attributes && attributes.name) ? attributes.name: "Kontroler drzwi";
+        let name= "Formularze";
 
         accordionButton.textContent = name;
       
@@ -50,7 +51,7 @@ class UconfigImplementationDoorGui extends genericGui {
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
         accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        // accordionCollapseDiv.classList.add('show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -73,15 +74,15 @@ class UconfigImplementationDoorGui extends genericGui {
 
         // const squaresElement = 
         // const squaresElement2=
-        accordionBodyDiv.appendChild(this.createMarkupColors());
+        // accordionBodyDiv.appendChild(this.createMarkupColors());
 
-        accordionBodyDiv.appendChild(this.generateSep());
+        // accordionBodyDiv.appendChild(this.generateSep());
 
         accordionBodyDiv.appendChild(this.createMarkup());
        
-        accordionBodyDiv.appendChild(this.generateSep());
+        // accordionBodyDiv.appendChild(this.generateSep());
       
-        accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        // accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
    
@@ -95,73 +96,60 @@ class UconfigImplementationDoorGui extends genericGui {
         containerDiv.classList.add('squares-container--three');
 
 
-        const text_attributes = ['name'];
-
-        text_attributes.forEach(attr => {
-            const textLabel = document.createElement('label');
-            textLabel.textContent = attr;
-            containerDiv.appendChild(textLabel);
-
-            const filler = document.createElement('div');
-            containerDiv.appendChild(filler);
-
-            const textInput = document.createElement('input');
-            textInput.type = 'text';
-            textInput.value = this.mediator.state[attr] || 'State name';  // default to empty string if not set
-
-            // Event listener for input changes
-            textInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                
-                console.log(this.mediator.state.state)
-            }.bind(this));
-
-            containerDiv.appendChild(textInput);
+        const contactForm = document.createElement('form');
+        contactForm.classList.add('contact-form');
+    
+    
+    
+        const formFields = [
+            { label: 'Name', type: 'text', name: 'name' },
+            { label: 'Email', type: 'email', name: 'email' },
+            { label: 'Subject', type: 'text', name: 'subject' },
+            { label: 'Message', type: 'textarea', name: 'message' }
+        ];
+    
+        formFields.forEach(field => {
+            const fieldLabel = document.createElement('label');
+            fieldLabel.textContent = field.label;
+            contactForm.appendChild(fieldLabel);
+    
+            let inputElement;
+            if (field.type === 'textarea') {
+                inputElement = document.createElement('textarea');
+            } else {
+                inputElement = document.createElement('input');
+                inputElement.type = field.type;
+            }
+            inputElement.name = field.name;
+            contactForm.appendChild(inputElement);
         });
-
-        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
-
-        attributes.forEach(attr => {
-            const sliderLabel = document.createElement('label');
-            sliderLabel.textContent = attr;
-            containerDiv.appendChild(sliderLabel);
-
-            const sliderInput = document.createElement('input');
-            sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
-            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
-            sliderInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', { });
-            }.bind(this));
-
-            const sliderValueDisplay = document.createElement('span');
-            sliderValueDisplay.textContent = sliderInput.value;
-            sliderInput.addEventListener('input', function (e) {
-                sliderValueDisplay.textContent = e.target.value;
+    
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = "Submit";
+        contactForm.appendChild(submitButton);
+    
+        // Event listener for form submission
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+    
+            // Here you would send the form data to your backend server that handles email sending
+            // For example:
+            const formData = new FormData(contactForm);
+            fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-
-            containerDiv.appendChild(sliderInput);
-            containerDiv.appendChild(sliderValueDisplay);
         });
-
-        // ... your previous code ...
-
-       
-
-        const removeModelBtn = document.createElement('button');
-        removeModelBtn.textContent = "Remove Model";
-        removeModelBtn.classList.add('remove-model-btn');
-        removeModelBtn.addEventListener('click', function () {
-            // Call notifyMediator with 'recursivelyRemoveModel' event
-            this.notifyMediator('recursivelyRemoveModel');
-        }.bind(this));
-
-        containerDiv.appendChild(removeModelBtn);
+    
+        containerDiv.appendChild(contactForm);
 
 
         return containerDiv;
@@ -247,7 +235,7 @@ class UconfigImplementationDoorGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
+             containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
                  { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
@@ -362,4 +350,4 @@ class UconfigImplementationDoorGui extends genericGui {
     listenToChanges() {
     }
 }
- export{UconfigImplementationDoorGui}
+ export{UconfigImplementationWallGui}

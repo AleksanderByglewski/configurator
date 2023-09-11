@@ -15,7 +15,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigDebugGui();
+        this.gui = new UconfigImplementationWallGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -44,10 +44,16 @@ class UconfigsImplementationWallsController extends UconfigsController {
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4
+
+        let wall_color = this.state.get('wall_color') || "#F00000"
+        
+
         let object_color = this.state.get('object_color') || "#FEFEFE"
      
+        // object_color=wall_color
+
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
         let position_x = this.state.get('position_x') || 0
@@ -74,6 +80,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
             new accesser('position_y', object_height/2),
             new accesser('position_z', object_depth/2),
             new accesser('color', object_color),
+            new accesser('material_type', material_type),
             new accesser('position_relative', 'true'),
         ]
         const accessersWallBack = [
@@ -88,6 +95,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
             new accesser('position_z',-object_depth/2),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
+            new accesser('material_type', material_type),
             new accesser('rotation_y', Math.PI),
 
         ]
@@ -103,6 +111,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
             new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
+            new accesser('material_type', material_type),
             new accesser('rotation_y', -Math.PI/2),
 
         ]    
@@ -118,6 +127,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
             new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
+            new accesser('material_type', material_type),
             new accesser('rotation_y', Math.PI/2),
 
         ]
@@ -169,6 +179,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
         }
         super.buildingStep()
     }
+
 }
 class UconfigsImplementationWallController extends UconfigsController{
     constructor() {
@@ -181,12 +192,34 @@ class UconfigsImplementationWallController extends UconfigsController{
         this.external_objects_controllers=[]
         
     }
+    request_an_update(){
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+
+        let targeted_parent=this.external_objects_controllers[0]
+
+        const accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            
+        ]
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers[i].resource_locator, val);
+        }
+    }
     determineState() {
+
+        this.request_an_update()
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      

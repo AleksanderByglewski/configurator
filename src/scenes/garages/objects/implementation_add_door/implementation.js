@@ -8,14 +8,14 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/controller'
  
-import { UconfigImplementationDoorGui} from './gui'
-import {SimpleController, DoorController} from './controller'
+import { UconfigImplementationGui} from './gui'
+import {SimpleController} from './controller'
 //Now i would like to add objects to it dynamically
-class UconfigsImplementationDoorController extends UconfigsController {
+class UconfigsImplementationController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigDebugGui();
+        this.gui = new UconfigImplementationGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -24,53 +24,38 @@ class UconfigsImplementationDoorController extends UconfigsController {
     }
     determineState() {
         //You can get the current state of the object by using the 
-        this.request_an_update()
-  
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
-        let object_width = parseFloat(this.state.get('object_width')) || 1.90
+        let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#888492"
-        
-        
+        let object_color = this.state.get('color') || "#FEFEFE"
+     
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
-        let position_z = this.state.get('position_z') || 0.05
+        let position_z = this.state.get('position_z') || 0
 
         let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 2.0
+        let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 4.0
-
-        this.adjust_position(0.05+(-object_height+height)/2)
-
-        // object_height = height
-        // object_width = width
-        // object_depth = depth
+        object_height = height
+        object_width = width
+        object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
-        let door_width = parseFloat(this.state.get('door_width')) || 2.23
-        let door_height = parseFloat(this.state.get('door_height')) || 1.93
         const accessersWallFront = [
-            new accesser('name', name + "drzwi"),
+            new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
-
-
-            new accesser('door_width', door_width),
-
-            new accesser('door_height', door_height),
-
-
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             new accesser('position_y', 0),
-            new accesser('position_z', position_z),
+            new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
         ]
@@ -105,53 +90,12 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
             let array = [
                 // { objectOptions: accessersWallFront, classInstance:SimpleController},
-                { objectOptions: accessersWallFront, classInstance: DoorController  },
+                // { objectOptions: accessersWallFront, classInstance: SimpleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }
                 ]
             return array
     }   
-    generateDynamicAccessers() {
-        console.log("This should be overriden")
-        const dynamic_accessers = [
-            new accesser('name', 'Menu do debugowania obiektu'),
-            // new accesser('width'),
-            // new accesser('height'),
-            // new accesser('color'),
-            new accesser('position_x'),
-            new accesser('position_y'),
-            new accesser('position_z'),
-            // new accesser('rotation_y'),
-            new accesser('door_width'),
-            new accesser('door_height')
-        ]
-        return dynamic_accessers
-
-    }
-    request_an_update(){
-        /**
-        *We are targeting the parent, that is the entire system,
-        */
-
-        let targeted_parent=this.external_objects_controllers[0]
-
-        const accessers = [
-          
-            new accesser('object_width'),
-            new accesser('object_depth'),
-            new accesser('object_height'),
-            
-        ]
-
-        for (let i = 0; i < accessers.length; i++) {
-            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
-            this.state.update(accessers[i].resource_locator, val);
-        }
-    }
-    adjust_position( garage_height=2.13,garage_width=0, garage_depth=0,){
-        this.state.update('position_y', garage_height)
-    
-    }
 }
 class UconfigsImplementationSkewedController extends UconfigsController{
     constructor() {
@@ -182,14 +126,14 @@ class UconfigsImplementationSkewedController extends UconfigsController{
         let height = this.state.get('height') || 2.13
         let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 4.0
-        // object_height = height
-        // object_width = width
-        // object_depth = depth
+        object_height = height
+        object_width = width
+        object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "drzwi frontowe 2"),
+            new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -198,10 +142,6 @@ class UconfigsImplementationSkewedController extends UconfigsController{
             new accesser('position_x', 5),
             new accesser('position_y', 1),
             new accesser('position_z', 0),
-
-
-            
-
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
         ]
@@ -330,4 +270,4 @@ class UconfigsImplementationSkewedTopController extends UconfigsController{
 }   
 }
 
-export {  UconfigsImplementationDoorController}
+export {  UconfigsImplementationController}

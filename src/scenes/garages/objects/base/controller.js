@@ -68,6 +68,15 @@ class UconfigsController extends genericGarageController {
         this.external_objects_controllers=[]
         
     }
+    request_an_update(){
+        /**
+        * Requests access to the parent to retrieve some values
+        *this method should be overriden by children to request parent values
+        * @todo implement in some functions
+        */
+
+
+    }
 
     determineState() {
 

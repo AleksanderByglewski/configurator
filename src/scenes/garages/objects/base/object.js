@@ -410,7 +410,7 @@ class CubeObject extends genericObject {
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
- 
+
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
@@ -445,9 +445,9 @@ class CubeObject extends genericObject {
                     // local_texture=global_texture_rotated
                     // alert("hello")
                     
-                    local_texture=global_texture_rotated.clone();
-
-                    local_texture.repeat.set(width/2, height);
+                    local_texture=global_texture.clone();
+                    local_texture.rotation = Math.PI / 2;
+                    local_texture.repeat.set(1, height);
                     
                     break;
                 case "material_type_3":
@@ -455,13 +455,15 @@ class CubeObject extends genericObject {
       
                     // local_texture.repeat.set(width, height);
                     local_texture=global_texture.clone();
-                    local_texture.repeat.set(width, height);
+                    
+                    local_texture.repeat.set(1, height);
                     
                     break;
                 case "material_type_4":
                     // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    local_texture=global_texture_rotated.clone();
-                    local_texture.repeat.set(width, height);
+                    local_texture=global_texture.clone();
+                    local_texture.rotation = Math.PI / 2;
+                    local_texture.repeat.set(1, height);
                     
                     
                     break;
@@ -469,16 +471,20 @@ class CubeObject extends genericObject {
                     // local_texture=loader.load('/assets/config/default_1k.jpg');
                     
                     
-                    local_texture=global_texture_testing.clone();
-                    local_texture.repeat.set(width, height);
+                    local_texture=global_texture.clone();
+                    local_texture.repeat.set(1, height);
                     
                     
                     break;
             default:
                 // code to be executed if expression doesn't match any cases
         }
+
+        // local_texture=global_texture
+     
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
+        // local_texture.repeat.set(1, height);
         // let texture=global_texture
         let material = new THREE.MeshBasicMaterial({
             map: local_texture,

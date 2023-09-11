@@ -8,14 +8,14 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/controller'
  
-import { UconfigImplementationWallGui} from './gui'
+import { UconfigImplementationRoofGui} from './gui'
 import {SimpleController, RoofSideLeftController,RoofSideRightController, RoofSideSquareController, RoofTopController} from './controller'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationRoofsController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigDebugGui();
+        this.gui = new UconfigImplementationRoofGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
@@ -25,7 +25,8 @@ class UconfigsImplementationRoofsController extends UconfigsController {
     generateDynamicAccessers(){
         console.log("This should be overriden")
         const dynamic_accessers = [
-            new accesser('name', 'Menu do debugowania obiektu'),
+            new accesser('name', 'Kontroler dachu'),
+            new accesser('roof', 'Menu do debugowania obiektu'),
             new accesser('position_x'),
             new accesser('position_y'),
             new accesser('position_z'),
@@ -41,21 +42,30 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         //You can get the current state of the object by using the 
         //Todo
         // this.state.state.position_y=2
+      
+        this.request_an_update()
+        
+        this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
+
+        let roof_type=this.state.get('roof_type') || 'roof_type_1'
+      
 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4
-        let object_color = this.state.get('object_color') || "#FF0000"
+        let object_color = this.state.get('object_color') || "#888492"
       
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
+        let roof_material_type=this.state.get('roof_material_type') || "material_type_1" 
+
         let position_x = this.state.get('position_x') || 0
-        let position_y = this.state.get('position_y') || 2.43
+        let position_y = this.state.get('position_y') || 2.13
         let position_z = this.state.get('position_z') || 0
 
-        let garage_height = parseFloat(this.state.get('object_height')) || 2.43
+        let garage_height = parseFloat(this.state.get('object_height')) || 2.13
         let garage_depth = parseFloat(this.state.get('object_height')) || 4
         let garage_width = parseFloat(this.state.get('object_height')) || 3
         // let height = this.state.get('height') || 2.13
@@ -65,87 +75,143 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         // object_width = width
         // object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
+
+        switch(roof_type){
+
+            case "roof_type_1":
+                this.state.state['rotation_y']=0
+                console.log("The roof type is flat.");
+                break;
+            case "roof_type_2":
+                {
+                this.state.state['rotation_y']=Math.PI/2
+                const hold_width=object_width
+                const hold_depth=object_depth
+                object_width=hold_depth
+                object_depth=hold_width
+                console.log("The roof type is gabled.");
+                break;
+                }
+            case "roof_type_3":
+                {
+                this.state.state['rotation_y']=2*Math.PI/2
+              
+                break;
+                }
+            case "roof_type_4":{
+             
+                this.state.state['rotation_y']=3*Math.PI/2
+             
+                console.log("The roof type is hipped.");
+                const hold_width=object_width
+                const hold_depth=object_depth
+                object_width=hold_depth
+                object_depth=hold_width
+                
+                console.log("The roof type is hipped.");
+                break;
+            }
+            default:
+                console.log("Unknown roof type.");
+
+        }
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
+        let roof_slant=5.5*Math.PI/180
+        //The dimension of the top part of the roof 
+        let roof_top_height=object_depth*(1/Math.cos(roof_slant))
+        let y_displacement=roof_top_height*Math.sin(roof_slant)
+
+        //How high should the roof top extrude
+        let roof_height=object_depth*Math.sin(roof_slant);
+        //TODO add the material type heres
+        let wall_color=(this.state.get('wall_color')) || "#FFFFFF";
+
+
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "Debug target"),
             new accesser('width', object_width),
-            new accesser('height', object_height),
+            new accesser('height', roof_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', object_height/2),
+            new accesser('position_y', 0),
             new accesser('position_z', object_depth/2),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', 0),
         ]
         const accessersWallBack = [
-            new accesser('name', name + "_back"),
+            new accesser('name', name + "back"),
             new accesser('width', object_width),
-            new accesser('height', object_height),
+            new accesser('height', roof_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', object_height/2),
+            new accesser('position_y', 0),
             new accesser('position_z',-garage_depth/2),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', Math.PI),
 
         ]
         const accessersWallLeft = [
-            new accesser('name', name + "_back"),
+            new accesser('name', name + "left"),
             new accesser('width', object_depth),
-            new accesser('height', object_height),
+            new accesser('height', roof_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', -object_width/2),
-            new accesser('position_y', object_height/2),
+            new accesser('position_y', 0),
             new accesser('position_z',0),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', -Math.PI/2),
 
         ]    
         const accessersWallRight = [
-            new accesser('name', name + "_back"),
+            new accesser('name', name + "right"),
+            new accesser('wall_color',"#FF0000"),
             new accesser('width', object_depth),
-            new accesser('height', object_height),
+            new accesser('height', roof_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', object_width/2),
-            new accesser('position_y', object_height/2),
+            new accesser('position_y', 0),
             new accesser('position_z',0),
             new accesser('right_piece', true),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', Math.PI/2),
             
 
         ]
 
-        let roof_slant=14*Math.PI/180
-        let roof_height=object_depth*(1/Math.cos(roof_slant))
-        let y_displacement=roof_height*Math.sin(roof_slant)
+
+ 
         const accessersWallTop = [
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
-            new accesser('height', roof_height),
+            new accesser('height', roof_top_height),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x',0),
       //      new accesser('position_y', object_height+y_displacement/2),
-      new accesser('position_y', object_height/2+y_displacement/2),  
-      new accesser('position_z',0),
+            new accesser('position_y', y_displacement/2),  
+            new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
             new accesser('rotation_y', 0),
+            new accesser('roof_material_type', roof_material_type),
             new accesser('rotation_x', -Math.PI/2-roof_slant),
             
 
@@ -182,16 +248,42 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                 ]
             return array
     }   
-    // buildingStep(){
-    //     //Go over the children and set them in proper places
-    //     let { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight }=this.determineState()
+    adjust_position(garage_width=0, garage_depth=0, garage_height=2.13){
+        this.state.update('position_y', garage_height)
+    
+    }
+    buildingStep(){
+        //Go over the children and set them in proper places
+        // let { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight }=this.determineState()
    
-    //     this.setOptions(this.external_objects[0],accessersWallFront)
-    //     this.setOptions(this.external_objects[1],accessersWallBack)
-    //     this.setOptions(this.external_objects[2],accessersWallLeft)
-    //     this.setOptions(this.external_objects[3],accessersWallRight)
-    //     super.buildingStep()
-    // }
+        // this.setOptions(this.external_objects[0],accessersWallFront)
+        // this.setOptions(this.external_objects[1],accessersWallBack)
+        // this.setOptions(this.external_objects[2],accessersWallLeft)
+        // this.setOptions(this.external_objects[3],accessersWallRight)
+
+        super.buildingStep()
+    }
+    request_an_update(){
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+
+        let targeted_parent=this.external_objects_controllers[0]
+
+        const accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            new accesser('wall_color'),
+        ]
+        
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers[i].resource_locator, val);
+        }
+    }
 }
 class UconfigsImplementationRoofController extends UconfigsController{
     constructor() {
@@ -209,7 +301,7 @@ class UconfigsImplementationRoofController extends UconfigsController{
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
@@ -229,7 +321,7 @@ class UconfigsImplementationRoofController extends UconfigsController{
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "sciana frontowa 1"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -295,7 +387,7 @@ class UconfigsImplementationRoofSupportSideLeftController extends UconfigsContro
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
@@ -314,8 +406,9 @@ class UconfigsImplementationRoofSupportSideLeftController extends UconfigsContro
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
+        let wall_color = this.state.get('wall_color') || "#FF00FF"
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "_test"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -325,6 +418,7 @@ class UconfigsImplementationRoofSupportSideLeftController extends UconfigsContro
             new accesser('position_y', 0),
             new accesser('position_z', 0),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color ),
             new accesser('position_relative', 'true'),
         ]
        
@@ -381,7 +475,7 @@ class UconfigsImplementationRoofSupportSideRightController extends UconfigsContr
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
@@ -397,11 +491,12 @@ class UconfigsImplementationRoofSupportSideRightController extends UconfigsContr
         object_height = height
         object_width = width
         object_depth = depth
+
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-
+        let wall_color= this.state.get('wall_color') || "#FF0000"
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "sciana frontowa"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -411,6 +506,7 @@ class UconfigsImplementationRoofSupportSideRightController extends UconfigsContr
             new accesser('position_y', 0),
             new accesser('position_z', 0),
             new accesser('color', object_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
         ]
        
@@ -467,7 +563,7 @@ class UconfigsImplementationRoofTopController extends UconfigsController{
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
@@ -484,10 +580,13 @@ class UconfigsImplementationRoofTopController extends UconfigsController{
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
+
+        let roof_material_type=this.state.get('roof_material_type') || "material_type_1" 
+
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "_sciana_fronts"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -497,6 +596,9 @@ class UconfigsImplementationRoofTopController extends UconfigsController{
             new accesser('position_y', 0),
             new accesser('position_z', 0),
             new accesser('color', object_color),
+            new accesser('roof_material_type', roof_material_type),
+
+
             new accesser('position_relative', 'true'),
         ]
        
@@ -553,9 +655,9 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
-        let object_height = parseFloat(this.state.get('object_height')) || 2.43
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#FEFEFE"
+
      
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
@@ -571,9 +673,9 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-
+        let wall_color= this.state.get('wall_color') || "#FF0000"
         const accessersWallFront = [
-            new accesser('name', name + "_fronts"),
+            new accesser('name', name + "pass_data"),
             new accesser('width', object_width),
             new accesser('height', object_height),
             new accesser('sheet_depth', sheet_depth),
@@ -582,25 +684,26 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
             new accesser('position_x', 0),
             new accesser('position_y', 0),
             new accesser('position_z', 0),
-            new accesser('color', object_color),
+            new accesser('color', wall_color),
+            new accesser('wall_color', wall_color),
             new accesser('position_relative', 'true'),
         ]
        
-        const accessersWallBack = [
-            new accesser('name', name + "_back"),
-            new accesser('width', object_width),
-            new accesser('height', object_height),
-            new accesser('sheet_depth', sheet_depth),
-            new accesser('segments', 1),
-            new accesser('radius', 0.01),
-            new accesser('position_x', 0),
-            new accesser('position_y', 0),
-            new accesser('position_z', 0),
-            new accesser('color', object_color),
-            new accesser('position_relative', 'true'),
-            new accesser('rotation_y', Math.PI),
+        // const accessersWallBack = [
+        //     new accesser('name', name + "_back"),
+        //     new accesser('width', object_width),
+        //     new accesser('height', object_height),
+        //     new accesser('sheet_depth', sheet_depth),
+        //     new accesser('segments', 1),
+        //     new accesser('radius', 0.01),
+        //     new accesser('position_x', 0),
+        //     new accesser('position_y', 0),
+        //     new accesser('position_z', 0),
+        //     new accesser('color', object_color),
+        //     new accesser('position_relative', 'true'),
+        //     new accesser('rotation_y', Math.PI),
 
-        ]
+        // ]
         const iterate=[accessersWallFront  ]
         iterate.forEach(accessersObject => {  
             const added_accesser = new accesser('material_type', material_type);
@@ -609,10 +712,10 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
 
 
 
-        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack,  }
+        return { "accessersWallFront": accessersWallFront }
     }
     generatePassiveObjects(){
-        const { accessersWallFront, accessersWallBack } = this.determineState();
+        const { accessersWallFront } = this.determineState();
 
         let array = [
             // { objectOptions: accessersWallFront, classInstance:SimpleController},

@@ -8,7 +8,14 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
-class UconfigImplementationDoorGui extends genericGui {
+import { 
+    UconfigsImplementationDoorController as DoorSystem,
+ 
+    } from '../implementation_door/implementation'
+
+
+
+class UconfigImplementationGui extends genericGui {
     constructor() {
         super();
     }
@@ -35,13 +42,14 @@ class UconfigImplementationDoorGui extends genericGui {
 
         const accordionButton = document.createElement('button');
         accordionButton.classList.add('accordion-button');
+        accordionButton.classList.add('collapsed');
         accordionButton.type = 'button';
         accordionButton.dataset.bsToggle = "collapse";
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name= (attributes && attributes.name) ? attributes.name: "Kontroler drzwi";
+        let name= (attributes && attributes.name) ? attributes.name: "Budowa systemów";
 
         accordionButton.textContent = name;
       
@@ -50,7 +58,7 @@ class UconfigImplementationDoorGui extends genericGui {
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
         accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        //accordionCollapseDiv.classList.add('show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -73,15 +81,15 @@ class UconfigImplementationDoorGui extends genericGui {
 
         // const squaresElement = 
         // const squaresElement2=
-        accordionBodyDiv.appendChild(this.createMarkupColors());
+        // accordionBodyDiv.appendChild(this.createMarkupColors());
 
-        accordionBodyDiv.appendChild(this.generateSep());
+        // accordionBodyDiv.appendChild(this.generateSep());
 
         accordionBodyDiv.appendChild(this.createMarkup());
        
-        accordionBodyDiv.appendChild(this.generateSep());
+        // accordionBodyDiv.appendChild(this.generateSep());
       
-        accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        // accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
    
@@ -93,77 +101,105 @@ class UconfigImplementationDoorGui extends genericGui {
     createMarkup() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--three');
-
-
-        const text_attributes = ['name'];
-
-        text_attributes.forEach(attr => {
-            const textLabel = document.createElement('label');
-            textLabel.textContent = attr;
-            containerDiv.appendChild(textLabel);
-
-            const filler = document.createElement('div');
-            containerDiv.appendChild(filler);
-
-            const textInput = document.createElement('input');
-            textInput.type = 'text';
-            textInput.value = this.mediator.state[attr] || 'State name';  // default to empty string if not set
-
-            // Event listener for input changes
-            textInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                
-                console.log(this.mediator.state.state)
-            }.bind(this));
-
-            containerDiv.appendChild(textInput);
+    
+        // Create a select element
+        const selectElement = document.createElement('select');
+        selectElement.classList.add('wall-select');
+        
+        let options=['front']
+        let print_elemnt="Brama"
+        // Create options for the select element
+        if(this.mediator.door_type){
+        print_elemnt="Drzwi"
+        options = ['front', 'left', 'right', 'back'];
+        }
+        options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            selectElement.appendChild(optionElement);
         });
+    
+        // Create a submit button
+        const submitButton = document.createElement('button');
+        submitButton.textContent = "Submit";
+        submitButton.classList.add('submit-button');
+    
+        //Todo make it better
+        let scene = this.mediator.display.get_scene();
+        const emptySystem = [];
+    
+        function createGarageObject(accessers, ObjectClass) {
+            const passedObject = new ObjectClass();
+            setOptions(passedObject, accessers);
+            passedObject.display.set_scene(scene);
+            return passedObject;
+        }
+    
+        function setOptions(passedObject, accessers) {
+            for (let i = 0; i < accessers.length; i++) {
+                passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
+            }
+        }
+    
+        let self = this;
+    
+        // Add click event listener to the submit button
+        submitButton.addEventListener('click', function() {
+            let targetWall;
+            const selectedValue = selectElement.value;
+            switch (selectedValue) {
+                case 'front':
+                    targetWall = self.mediator.wall_front;
+                    break;
+                case 'left':
+                    targetWall = self.mediator.wall_left;
+                    break;
+                case 'right':
+                    targetWall = self.mediator.wall_right;
+                    break;
+                case 'back':
+                    targetWall = self.mediator.wall_back;
+                    break;
+                default:
+                    console.error('Invalid option selected');
+                    return;
+            }
+    
+            // Create DoorSystem1 and assign appropriate values based on the selected option
+            let DoorSystem1 = createGarageObject(emptySystem, DoorSystem);
+            targetWall.external_objects.push(DoorSystem1);
+            DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+            DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
+            DoorSystem1.state.state['color']="#C20000"
+            DoorSystem1.state.state['position_z']=0.03
+           if(self.mediator.door_type){
 
-        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
+            DoorSystem1.state.state['door_width']=1.13
+           }
 
-        attributes.forEach(attr => {
-            const sliderLabel = document.createElement('label');
-            sliderLabel.textContent = attr;
-            containerDiv.appendChild(sliderLabel);
 
-            const sliderInput = document.createElement('input');
-            sliderInput.type = 'range';
-            sliderInput.min = -10; // You can set min/max/default values according to your needs
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
-            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
-            sliderInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', { });
-            }.bind(this));
-
-            const sliderValueDisplay = document.createElement('span');
-            sliderValueDisplay.textContent = sliderInput.value;
-            sliderInput.addEventListener('input', function (e) {
-                sliderValueDisplay.textContent = e.target.value;
-            });
-
-            containerDiv.appendChild(sliderInput);
-            containerDiv.appendChild(sliderValueDisplay);
+            DoorSystem1.state.state['name']=print_elemnt+" "+selectedValue
+            targetWall.handleEvent('buildingStep');
+           
+            DoorSystem1.handleEvent('generateInputs')
         });
-
+    
+        containerDiv.appendChild(selectElement);
+    
         // ... your previous code ...
-
-       
-
+    
         const removeModelBtn = document.createElement('button');
         removeModelBtn.textContent = "Remove Model";
         removeModelBtn.classList.add('remove-model-btn');
-        removeModelBtn.addEventListener('click', function () {
+        removeModelBtn.addEventListener('click', function() {
             // Call notifyMediator with 'recursivelyRemoveModel' event
             this.notifyMediator('recursivelyRemoveModel');
         }.bind(this));
-
-        containerDiv.appendChild(removeModelBtn);
-
-
+    
+        containerDiv.appendChild(submitButton); 
+        // containerDiv.appendChild(removeModelBtn);
+    
         return containerDiv;
     }
     createMarkupColors(){
@@ -247,7 +283,7 @@ class UconfigImplementationDoorGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
+             containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
                  { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
@@ -362,4 +398,4 @@ class UconfigImplementationDoorGui extends genericGui {
     listenToChanges() {
     }
 }
- export{UconfigImplementationDoorGui}
+ export{UconfigImplementationGui}

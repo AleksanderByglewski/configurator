@@ -34,11 +34,11 @@ class UconfigImplementationFloorGui extends genericGui {
         accordionItemDiv.appendChild(accordionHeaderH3);
 
         const accordionButton = document.createElement('button');
-        accordionButton.classList.add('accordion-button');
+        accordionButton.classList.add('accordion-button', 'collapsed');
         accordionButton.type = 'button';
         accordionButton.dataset.bsToggle = "collapse";
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
-        accordionButton.setAttribute('aria-expanded', 'true');
+        // accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
         let name= (attributes && attributes.name) ? attributes.name: "Budowa systemów";
@@ -50,7 +50,7 @@ class UconfigImplementationFloorGui extends genericGui {
         const accordionCollapseDiv = document.createElement('div');
         accordionCollapseDiv.id = 'collapseTwo-' + this.id;
         accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        accordionCollapseDiv.classList.add('show');
+        // accordionCollapseDiv.classList.add('show');
         accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
         accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
         accordionItemDiv.appendChild(accordionCollapseDiv);
@@ -167,7 +167,7 @@ class UconfigImplementationFloorGui extends genericGui {
         return containerDiv;
     }
     createMarkupColors(){
-   const containerDiv = document.createElement('div');
+        const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
