@@ -19,11 +19,53 @@ class UconfigImplementationGui extends genericGui {
     constructor() {
         super();
     }
-     generateSep(){
+
+    initialGeneration(){
+        const emptySystem = [];
+    
+    
+        let targetWall = this.mediator.wall_front;
+        // Create DoorSystem1 and assign appropriate values based on the selected option
+        let DoorSystem1 = this.createGarageObject(emptySystem, DoorSystem);
+        targetWall.external_objects.push(DoorSystem1);
+        DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+        DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
+        //DoorSystem1.state.state['color']="#C20000"
+        DoorSystem1.state.state['position_z']=0.03
+        if(this.mediator.door_type){
+
+        DoorSystem1.state.state['door_width']=1.13
+        }
+
+
+        DoorSystem1.state.state['name']="Brama frontowa" ;
+        targetWall.handleEvent('buildingStep');
+       
+        DoorSystem1.handleEvent('generateInputs')
+
+    }
+
+    //Helper functions
+    createGarageObject(accessers, ObjectClass) {
+        let scene = this.mediator.display.get_scene();
+        const passedObject = new ObjectClass();
+        this.setOptions(passedObject, accessers);
+        passedObject.display.set_scene(scene);
+        return passedObject;
+    }
+
+    setOptions(passedObject, accessers) {
+        for (let i = 0; i < accessers.length; i++) {
+            passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
+        }
+    }
+    //
+
+    generateSep(){
         const sepElem= document.createElement('hr');
         sepElem.classList.add('my-2' , 'my-lg-4')
         return sepElem
-     }
+    }
     generateInputs(attributes) {
 
         function generateAccordion(){
@@ -129,18 +171,7 @@ class UconfigImplementationGui extends genericGui {
         let scene = this.mediator.display.get_scene();
         const emptySystem = [];
     
-        function createGarageObject(accessers, ObjectClass) {
-            const passedObject = new ObjectClass();
-            setOptions(passedObject, accessers);
-            passedObject.display.set_scene(scene);
-            return passedObject;
-        }
-    
-        function setOptions(passedObject, accessers) {
-            for (let i = 0; i < accessers.length; i++) {
-                passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-            }
-        }
+
     
         let self = this;
     
@@ -166,17 +197,18 @@ class UconfigImplementationGui extends genericGui {
                     return;
             }
     
+            
             // Create DoorSystem1 and assign appropriate values based on the selected option
-            let DoorSystem1 = createGarageObject(emptySystem, DoorSystem);
+            let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
             DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
             DoorSystem1.state.state['color']="#C20000"
             DoorSystem1.state.state['position_z']=0.03
-           if(self.mediator.door_type){
+            if(self.mediator.door_type){
 
             DoorSystem1.state.state['door_width']=1.13
-           }
+            }
 
 
             DoorSystem1.state.state['name']=print_elemnt+" "+selectedValue
