@@ -515,7 +515,7 @@ class SimpleController extends UconfigsImplementationController{
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#272727"
+        let object_color = this.state.get('color') || "#FFFFFF"
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
@@ -604,7 +604,7 @@ class SimpleRedController extends UconfigsImplementationController{
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4.25
-        let object_color = this.state.get('color') || "#272727"
+        let object_color = this.state.get('color') || "#FFFFFF"
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
