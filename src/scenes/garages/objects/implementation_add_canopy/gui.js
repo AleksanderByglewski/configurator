@@ -13,7 +13,19 @@ import {
  
     } from '../implementation_door/implementation'
 
-
+    import {
+        UconfigsImplementationRoofsController as RoofSystem,
+        UconfigsImplementationSecondaryRoofsController as SecondaryRoofSystem
+      } from '../implementation_roof/implementation'
+    
+      import {
+        UconfigsImplementationCanopyController as CanopySystem,
+      } from '../implementation_canopy/implementation'
+      import {
+        UconfigsSecondaryChildImplementationController as SecondaryFloorSystem,
+        UconfigsChildImplementationController as FloorSystem,
+        UconfigsImplementationController as InvisibleSystem } from '../floors/implementation'
+      
 
 class UconfigImplementationGui extends genericGui {
     constructor() {
@@ -207,24 +219,35 @@ class UconfigImplementationGui extends genericGui {
                     return;
             }
     
+            let GroupGarageSystem=self.mediator.group_controller
+
+            let RoofSystem2 = self.createGarageObject(emptySystem, SecondaryRoofSystem)
+            let CanopySystem1 = self.createGarageObject(emptySystem, CanopySystem)
+            CanopySystem1.state.state['name'] = "Kontrola Wiat"
             
-            // Create DoorSystem1 and assign appropriate values based on the selected option
-            let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
-            targetWall.external_objects.push(DoorSystem1);
-            DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
-            DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
-            DoorSystem1.state.state['color']="#A5A3A5"
-            DoorSystem1.state.state['position_z']=0.03
-            if(self.mediator.door_type){
+            GroupGarageSystem.external_objects.push(CanopySystem1)
+            CanopySystem1.external_objects_controllers.push(GroupGarageSystem)
+            CanopySystem1.mediator = GroupGarageSystem
+            
 
-            DoorSystem1.state.state['door_width']=1.13
-            }
+            CanopySystem1.external_objects.push(RoofSystem2)
+            RoofSystem2.external_objects_controllers.push(CanopySystem1)
+            CanopySystem1.mediator = GroupGarageSystem
+            // RoofSystem2.state.state['position_x']=3.25
+            // RoofSystem2.handleEvent('buildingStep')
+            // RoofSystem2.handleEvent('generateInputs')
 
 
-            DoorSystem1.state.state['name']=print_elemnt+" "+options_mapping[selectedValue]
-            targetWall.handleEvent('buildingStep');
-           
-            DoorSystem1.handleEvent('generateInputs')
+            let RedGateSystem1 = self.createGarageObject(emptySystem, SecondaryFloorSystem);
+            RedGateSystem1.state.state['color'] = "#FFFFFF"
+            CanopySystem1.external_objects.push(RedGateSystem1)
+            RedGateSystem1.external_objects_controllers.push(CanopySystem1)
+            RedGateSystem1.mediator = CanopySystem1
+
+
+            CanopySystem1.handleEvent('hardBuildingStep')
+            CanopySystem1.handleEvent('generateInputs')
+          
         });
     
         containerDiv.appendChild(selectElement);

@@ -173,6 +173,7 @@ class UconfigImplementationRoofGui extends genericGui {
                 this.mediator.state[attr] = e.target.value;
                 this.notifyMediator('stateChange', { [attr]: e.target.value });
                 this.notifyMediator('buildingStep', { });
+                this.notifyMediator('hardBuildingStep', {})
             }.bind(this));
 
             const sliderValueDisplay = document.createElement('span');
@@ -257,7 +258,7 @@ class UconfigImplementationRoofGui extends genericGui {
                 //this.mediator.state[attr] = e.target.value;
                 this.notifyMediator('stateChange', { 'object_color': squareDiv.dataset.value});
                 this.notifyMediator('buildingStep', { });
-          
+                this.notifyMediator('hardBuildingStep', {})
             }.bind(this));
 
 
@@ -334,7 +335,7 @@ class UconfigImplementationRoofGui extends genericGui {
                     
                     this.notifyMediator('stateChange', { 'roof_type': squareDiv.dataset.value});
                     this.notifyMediator('buildingStep', { });
-               
+                    this.notifyMediator('hardBuildingStep', {})
                  }.bind(this));
      
      
@@ -411,6 +412,7 @@ class UconfigImplementationRoofGui extends genericGui {
                     
                     this.notifyMediator('stateChange', { 'roof_material_type': squareDiv.dataset.value});
                     this.notifyMediator('buildingStep', { });
+                    this.notifyMediator('hardBuildingStep', { });
                
                  }.bind(this));
      

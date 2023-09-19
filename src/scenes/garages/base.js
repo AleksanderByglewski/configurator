@@ -32,6 +32,55 @@ class genericGui extends Generic {
         this.id = uuidv4();
     }
 
+    /**
+     * Generates text inputs and appends them to a container div.
+     *
+     * @param {Array} array - Array of attributes. Attributes can be strings or objects with properties to set on the input elements.
+     * @param {Object} options - Options object to set the attributes of the input elements.
+     */
+    generateTextInputs(containerDiv, array , options = {}, labels=undefined) {
+        array.forEach((attr,index) => {
+            const textLabel = document.createElement('label');
+            const attributeName = typeof attr === 'object' ? attr.name : attr;
+           
+            textLabel.textContent = attributeName;
+            if(labels!==undefined){
+            textLabel.textContent = labels[index]
+            };
+            containerDiv.appendChild(textLabel);
+
+            const filler = document.createElement('div');
+            containerDiv.appendChild(filler);
+
+            const textInput = document.createElement('input');
+            // Apply all properties from options object to the text input
+            Object.keys(options).forEach(optionKey => {
+                textInput[optionKey] = options[optionKey];
+            });
+            
+            textInput.value = this.mediator.state.state[attributeName] || '';  // default to empty string if not set
+
+            textInput.addEventListener('input', function (e) {
+                this.mediator.state.state[attr] = e.target.value;
+                //this.notifyMediator('stateChange', { [attr]: e.target.value });
+                this.notifyMediator('buildingStep', {});
+    
+            }.bind(this));
+        
+            // Event listener for input changes
+            // textInput.addEventListener('input', function (e) {
+            //     this.mediator.state.state[attributeName] = parseFloat(e.target.value);
+
+            //     this.notifyMediator('debugStateChange', { [attributeName]: e.target.value });
+
+            //     console.log(this.mediator.state.state);
+            // }.bind(this));
+
+            containerDiv.appendChild(textInput);
+        });
+    }
+
+
     insertContent(content, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);
@@ -147,6 +196,7 @@ class genericState extends Generic {
     }
 
     update(key, value) {
+    
         this.state[key] = value;
         // console.log(`State updated: ${key} changed to ${value}`)
     }

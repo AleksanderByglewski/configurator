@@ -8,8 +8,8 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/implementation'
  
-import { UconfigImplementationFloorGui} from './gui'
-import {FloorCubeController} from './controller'
+import { UconfigImplementationFloorGui } from './gui'
+import { FloorCubeController } from './controller'
 
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
@@ -170,7 +170,6 @@ class UconfigsImplementationController extends UconfigsController {
                 ]
             return array
     }
- 
     buildingStep() {
 
         this.children=[]
@@ -454,7 +453,6 @@ class UconfigsImplementationController extends UconfigsController {
                 break;
         }
     }
-
     request_an_update(){
         /**
         *We are targeting the parent, that is the entire system,
@@ -494,8 +492,119 @@ class UconfigsChildImplementationController extends UconfigsImplementationContro
                 ]
             return array
     }
- 
 }
+
+class UconfigsSecondaryChildImplementationController extends UconfigsImplementationController {
+    constructor() {
+        super()
+        this.setModel(UconfigInvisibleObject)
+        this.gui = new UconfigImplementationFloorGui();
+        this.gui.set_mediator(this)
+        this.group = new THREE.Group()
+        this.external_objects=[]
+    }
+    generatePassiveObjects(){
+            const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
+            let array = [
+                { objectOptions: accessersWallFront, classInstance:SimpleRedController},
+
+                ]
+            return array
+    }
+    request_an_update(){
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+        // let targeted_parent=this.external_objects_controllers[0]
+
+        let targeted_parent = this.external_objects_controllers[0];
+      
+        // Assuming that each object has a 'parent' property leading to its parent object
+        while (targeted_parent && targeted_parent.status !== "top_level") {
+            targeted_parent = targeted_parent.external_objects_controllers[0];
+        }
+        
+        // At this point, targeted_parent is either the top level object or null/undefined
+        if (targeted_parent) {
+            console.log("Found the top level object:", targeted_parent);
+        } else {
+            console.log("Top level object not found.");
+        }
+    
+        let accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            new accesser('wall_color'),
+        ]
+        let accessers_assign=[
+          
+            new accesser('garage_width'),
+            new accesser('garage_depth'),
+            new accesser('garage_height'),
+            new accesser('wall_color'),
+    
+        ]
+        
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers_assign[i].resource_locator, val);
+        }
+
+        //Now you need to go down to find the roof
+        let targeted_elements = targeted_parent.external_objects;
+    
+        targeted_parent = targeted_elements.find(element => element.status === "main_floor");
+       
+        accessers = [
+            new accesser('material_type'),
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            new accesser('wall_color'),
+            new accesser('object_color'),
+         
+        ]
+        
+
+        
+      
+
+        if (targeted_parent) {
+            console.log("Found the element with status 'main_floor':", targeted_parent);
+            for (let i = 0; i < accessers.length; i++) {
+                const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+                this.state.update(accessers[i].resource_locator, val);
+            }
+    
+        } else {
+            console.log("Element with status 'main_floor' not found.");
+        }
+
+
+
+        targeted_parent=this.external_objects_controllers[0]
+        
+        accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            // new accesser('wall_color'),
+        ]
+        
+        
+        
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers[i].resource_locator, val);
+        }
+
+    }
+}
+
 
 //This is an example of passive object 
 //A passive object gets recreated each time the parent gets changed, think of it 
@@ -548,9 +657,9 @@ class SimpleController extends UconfigsImplementationController{
         ]
 
 
-        // ]
-        return { "accessersWallFront": accessersWallFront}
-        //  "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight 
+        
+        return { "accessersWallFront": accessersWallFront }
+
         
     }
     generatePassiveObjects(){
@@ -664,4 +773,5 @@ class SimpleRedController extends UconfigsImplementationController{
 }
 
 
-export { UconfigsImplementationController as UconfigsImplementationController,UconfigsChildImplementationController as UconfigsChildImplementationController  }
+export { UconfigsImplementationController as UconfigsImplementationController,UconfigsChildImplementationController as UconfigsChildImplementationController ,
+    UconfigsSecondaryChildImplementationController as UconfigsSecondaryChildImplementationController  }

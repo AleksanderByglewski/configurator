@@ -5,7 +5,9 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { CubeObject,UconfigObject,WallGarageObject, UconfigInvisibleObject, genericGarageObject } from '../base/object'
 import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
-import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
+import { UconfigController,CubeController, RedCubeController,
+    WallGarageController,groupGenericGarageController,genericGarageController 
+} from '../base/controller'
 import { UconfigsController } from '../base/controller'
  
 import { UconfigImplementationRoofGui} from './gui'
@@ -46,7 +48,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         this.request_an_update()
         
         this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
-
+        
         let roof_type=this.state.get('roof_type') || 'roof_type_1'
       
 
@@ -194,9 +196,6 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             
 
         ]
-
-
- 
         const accessersWallTop = [
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
@@ -216,9 +215,6 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             
 
         ]
-
-
-
         const iterate=[accessersWallFront  ]
         iterate.forEach(accessersObject => {  
             const added_accesser = new accesser('material_type', material_type);
@@ -269,7 +265,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         */
 
         let targeted_parent=this.external_objects_controllers[0]
-
+        
         const accessers = [
           
             new accesser('object_width'),
@@ -278,7 +274,8 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('wall_color'),
         ]
         
-
+        
+        
         for (let i = 0; i < accessers.length; i++) {
             const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
             this.state.update(accessers[i].resource_locator, val);
@@ -288,29 +285,6 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementationRoofsController {
     constructor() {
         super()
-        this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigImplementationRoofGui();
-        this.gui.set_mediator(this)
-        this.group = new THREE.Group()
-        this.external_objects=[]
-        this.external_objects_controllers=[]
-        
-    }
-    generateDynamicAccessers(){
-        console.log("This should be overriden")
-        const dynamic_accessers = [
-            new accesser('name', 'Kontroler dachu'),
-            new accesser('roof', 'Menu do debugowania obiektu'),
-            new accesser('position_x'),
-            new accesser('position_y'),
-            new accesser('position_z'),
-            new accesser('rotation_y'),
-            new accesser('object_width'),
-            new accesser('object_depth'),
-            new accesser('object_height'),
-            new accesser('object_color')
-        ]
-        return dynamic_accessers
     }
     determineState() {
         //You can get the current state of the object by using the 
@@ -320,7 +294,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         this.request_an_update()
         
         this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
-
+        
         let roof_type=this.state.get('roof_type') || 'roof_type_1'
       
 
@@ -349,6 +323,11 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         // object_width = width
         // object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
+
+
+        let actual_garage_height = parseFloat(this.state.get('garage_height')) || 2.13
+        let actual_garage_depth = parseFloat(this.state.get('garage_depth')) || 4
+        let actual_garage_width = parseFloat(this.state.get('garage_widht')) || 3
 
         switch(roof_type){
 
@@ -402,6 +381,40 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         let wall_color=(this.state.get('wall_color')) || "#FFFFFF";
 
 
+        switch(roof_type){
+
+            case "roof_type_1":
+                
+    
+                this.state.update('position_y', parseFloat(this.state.get('garage_height')) || 2.13)
+                break;
+            case "roof_type_2":
+                {
+                    
+                    this.state.update('position_y', parseFloat(this.state.get('garage_height'))+roof_height || 2.13+roof_height)
+                    
+                break;
+                }
+            case "roof_type_3":
+                {
+                    
+                    this.state.update('position_y', parseFloat(this.state.get('garage_height')) || 2.13)
+                    
+              
+                break;
+                }
+            case "roof_type_4":{
+                    
+                this.state.update('position_y', parseFloat(this.state.get('garage_height'))-roof_height || 2.13-roof_height)
+                
+                break;
+            }
+            default:
+                console.log("Unknown roof type.");
+
+        }
+
+
         const accessersWallFront = [
             new accesser('name', name + "Debug target"),
             new accesser('width', object_width),
@@ -410,7 +423,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', 0),
+            new accesser('position_y',0),
             new accesser('position_z', object_depth/2),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -425,7 +438,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', 0),
+            new accesser('position_y',0),
             new accesser('position_z',-garage_depth/2),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -441,7 +454,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', -object_width/2),
-            new accesser('position_y', 0),
+            new accesser('position_y',0),
             new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -458,7 +471,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', object_width/2),
-            new accesser('position_y', 0),
+            new accesser('position_y',0),
             new accesser('position_z',0),
             new accesser('right_piece', true),
             new accesser('color', object_color),
@@ -509,34 +522,6 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
     "accessersWallTop": accessersWallTop
     }
     }
-    generatePassiveObjects(){
-            const { accessersWallFront, accessersWallBack, accessersWallLeft,accessersWallRight,accessersWallTop } = this.determineState();
-
-            let array = [
-                { objectOptions: accessersWallFront, classInstance:UconfigsImplementationRoofSupportSideSquareController},
-                
-                // { objectOptions: accessersWallBack, classInstance: UconfigsImplementationRoofController },
-                { objectOptions: accessersWallLeft, classInstance: UconfigsImplementationRoofSupportSideLeftController },
-                { objectOptions: accessersWallRight, classInstance: UconfigsImplementationRoofSupportSideRightController },
-                { objectOptions: accessersWallTop, classInstance: UconfigsImplementationRoofTopController }
-                ]
-            return array
-    }   
-    adjust_position(garage_width=0, garage_depth=0, garage_height=2.13){
-        this.state.update('position_y', garage_height)
-    
-    }
-    buildingStep(){
-        //Go over the children and set them in proper places
-        // let { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight }=this.determineState()
-   
-        // this.setOptions(this.external_objects[0],accessersWallFront)
-        // this.setOptions(this.external_objects[1],accessersWallBack)
-        // this.setOptions(this.external_objects[2],accessersWallLeft)
-        // this.setOptions(this.external_objects[3],accessersWallRight)
-
-        super.buildingStep()
-    }
     request_an_update(){
         /**
         *We are targeting the parent, that is the entire system,
@@ -557,8 +542,63 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         } else {
             console.log("Top level object not found.");
         }
+    
+        let accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            new accesser('wall_color'),
+        ]
+        let accessers_assign=[
+          
+            new accesser('garage_width'),
+            new accesser('garage_depth'),
+            new accesser('garage_height'),
+            new accesser('wall_color'),
+    
+        ]
+        
 
-        const accessers = [
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers_assign[i].resource_locator, val);
+        }
+
+        //Now you need to go down to find the roof
+        let targeted_elements = targeted_parent.external_objects;
+    
+        targeted_parent = targeted_elements.find(element => element.status === "main_roof");
+
+        accessers = [
+          
+            // new accesser('object_width'),
+            // new accesser('object_depth'),
+            // new accesser('object_height'),
+            new accesser('wall_color'),
+            new accesser('object_color'),
+            new accesser('roof_type'),
+            new accesser('roof_material_type')
+        ]
+        
+
+        
+
+
+        if (targeted_parent) {
+            console.log("Found the element with status 'main_roof':", targeted_parent);
+            for (let i = 0; i < accessers.length; i++) {
+                const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+                this.state.update(accessers[i].resource_locator, val);
+            }
+    
+        } else {
+            console.log("Element with status 'main_roof' not found.");
+        }
+
+        targeted_parent=this.external_objects_controllers[0]
+        
+        accessers = [
           
             new accesser('object_width'),
             new accesser('object_depth'),
@@ -566,14 +606,15 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('wall_color'),
         ]
         
-
+        
+        
         for (let i = 0; i < accessers.length; i++) {
             const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
             this.state.update(accessers[i].resource_locator, val);
         }
+
     }
 }
-
 class UconfigsImplementationRoofController extends UconfigsController{
     constructor() {
         super()

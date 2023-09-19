@@ -294,7 +294,7 @@ class RoofSideRightObject extends genericObject {
         // Create a material
         material = new THREE.MeshBasicMaterial({
             map:local_texture,
-            
+            side:THREE.DoubleSide,
             color:color});
         
         
@@ -464,7 +464,7 @@ class RoofSideLeftObject extends genericObject {
         // Create a material
         material = new THREE.MeshBasicMaterial({
             map:local_texture,
-            
+            side:THREE.DoubleSide,
             color: wall_color });
         
         
@@ -636,7 +636,7 @@ class RoofSideSquareObject extends genericObject {
         // Create a material
         material = new THREE.MeshBasicMaterial({
             map:local_texture,
-            
+            side:THREE.DoubleSide,
             color: color });
         
         // Create a mesh from the geometry and materia
@@ -878,7 +878,10 @@ class RoofTopObject extends genericObject {
         material = new THREE.MeshBasicMaterial({
             map:local_texture,
             
-            color: color });
+            color: color ,
+        
+            side:THREE.DoubleSide
+        });
         
         // Create a mesh from the geometry and materia
         

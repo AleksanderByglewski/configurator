@@ -215,7 +215,7 @@ class UconfigsController extends genericGarageController {
         //     }
         // }
 
-        //You should probably leave it out
+        //GOBACKTO
         const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
         this.group.add(axesHelper);
    
@@ -260,6 +260,30 @@ class UconfigsController extends genericGarageController {
     }
     handleEvent(event, data) {
         switch (event) {
+           
+            case 'unattachModel':
+
+                    let saved_objects_controllers=this.external_objects_controllers;
+                  // Loop through each controller in the object's external_objects_controllers array
+                    this.external_objects_controllers.forEach(controller => {
+                        // Use the filter method to create a new array that doesn't include the current object
+                        controller.external_objects = controller.external_objects.filter(extObject => extObject !== this);
+                    });
+
+                    // Clear the object's external_objects_controllers array
+                    this.external_objects_controllers = [];
+
+                    // If the object has a mediator, remove the object from the mediator's external_objects array
+                    if (this.mediator) {
+                        this.mediator.external_objects = this.mediator.external_objects.filter(extObject => extObject !== this);
+                        // Remove the mediator from the object
+                        this.mediator = null;
+                    }
+                    saved_objects_controllers.forEach(element => {
+                        element.handleEvent("hardBuildingStep", {})
+                    });
+                    break;
+
             case 'removeModel':
                 //I would like to remove the curent model from this scene and current group as well
                 this.display.remove_from_scene(this.model.get_model())
@@ -279,6 +303,16 @@ class UconfigsController extends genericGarageController {
                     //this.group = new THREE.Group();  // Assign a new empty group
                 }
                 break;
+            case 'hardBuildingStep':
+                    this.external_objects_controllers.forEach(element => {
+                        element.handleEvent("hardBuildingStep", {})
+                    });
+        
+                    this.handleEvent('recursivelyRemoveModel');
+                    this.buildingStep()
+    
+                    break;
+
             case 'buildingStep':
                 this.handleEvent('recursivelyRemoveModel');
                 this.buildingStep()

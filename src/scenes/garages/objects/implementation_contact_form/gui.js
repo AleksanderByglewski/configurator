@@ -93,19 +93,19 @@ class UconfigImplementationWallGui extends genericGui {
     }
     createMarkup() {
         const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container--three');
+  
 
 
         const contactForm = document.createElement('form');
         contactForm.classList.add('contact-form');
-    
+        contactForm.classList.add('squares-container--1');
     
     
         const formFields = [
-            { label: 'Name', type: 'text', name: 'name' },
+            { label: 'Imie i nazwisko', type: 'text', name: 'name' },
             { label: 'Email', type: 'email', name: 'email' },
-            { label: 'Subject', type: 'text', name: 'subject' },
-            { label: 'Message', type: 'textarea', name: 'message' }
+            { label: 'Temat ', type: 'text', name: 'subject' },
+            { label: 'Wiadomość', type: 'textarea', name: 'message' }
         ];
     
         formFields.forEach(field => {
@@ -126,9 +126,9 @@ class UconfigImplementationWallGui extends genericGui {
     
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
-        submitButton.textContent = "Submit";
+        submitButton.textContent = "Wyślij wiadomość";
         contactForm.appendChild(submitButton);
-    
+        submitButton.classList.add('mt-2')
         // Event listener for form submission
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();

@@ -508,7 +508,7 @@ class UconfigImplementationGateGui extends genericGui {
        
 
         const removeModelBtn = document.createElement('button');
-        removeModelBtn.textContent = "Usuń element";
+        removeModelBtn.textContent = "Remove element";
         removeModelBtn.classList.add('remove-model-btn', 'mt-3');
         removeModelBtn.addEventListener('click', function () {
             // Call notifyMediator with 'recursivelyRemoveModel' event

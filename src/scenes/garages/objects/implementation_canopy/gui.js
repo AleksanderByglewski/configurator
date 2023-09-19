@@ -8,6 +8,8 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
+import {UconfigUserGui} from '../base/gui'
+
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
@@ -362,4 +364,131 @@ class UconfigImplementationWallGui extends genericGui {
     listenToChanges() {
     }
 }
- export{UconfigImplementationWallGui}
+
+class UconfigCanopyUserGui extends UconfigUserGui {
+    constructor() {
+        super();
+    }
+
+    createMarkup() {
+        const containerDiv = document.createElement('div');
+        containerDiv.classList.add('squares-container--three');
+
+
+        // let text_attributes = ['name'];
+        // console.log(this.mediator.state.state)
+
+        let text_attributes = Object.keys(this.mediator.state.state)
+        
+
+        function splitArrayByValue(array, values) {
+            //
+            // Create two arrays: one for items with certain values and another for the rest
+            let arrayWithValues = array.filter(item => values.includes(item));
+            let arrayWithoutValues = array.filter(item => !values.includes(item));
+        
+            // Return both arrays
+            return  arrayWithValues;
+        }
+        function restSplitArrayByValue(array, values){
+            let arrayWithoutValues = array.filter(item => !values.includes(item));
+            return  arrayWithoutValues 
+        }
+
+
+        
+        // let text_attributes = [1, 2, 3, 4, 5];
+        let values = ['object_width' ];
+        let label_values=[ 'Szerokość elementu']
+        
+        let positionValues=splitArrayByValue(text_attributes,values);
+        text_attributes=restSplitArrayByValue(text_attributes,values);
+        //TODO YOU CAN RETURN HERE AND MAKE IT BETTER
+        text_attributes=[]
+
+        let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
+        
+        
+ 
+
+        text_attributes.forEach(attr => {
+            const textLabel = document.createElement('label');
+            textLabel.textContent = attr;
+            containerDiv.appendChild(textLabel);
+
+            const filler = document.createElement('div');
+            containerDiv.appendChild(filler);
+
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.value = this.mediator.state.state[attr] || '';  // default to empty string if not set
+
+            // Event listener for input changes
+            textInput.addEventListener('input', function (e) {
+                this.mediator.state[attr] = e.target.value;
+               
+                this.notifyMediator('debugStateChange', { [attr]: e.target.value });
+              
+                console.log(this.mediator.state.state)
+            }.bind(this));
+
+            containerDiv.appendChild(textInput);
+        });
+
+
+
+        // const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
+        const attributes = []
+        attributes.forEach(attr => {
+            const sliderLabel = document.createElement('label');
+            sliderLabel.textContent = attr;
+            containerDiv.appendChild(sliderLabel);
+
+            const sliderInput = document.createElement('input');
+            sliderInput.type = 'range';
+            sliderInput.min = -10; // You can set min/max/default values according to your needs
+            sliderInput.max = 10;
+            sliderInput.step = 0.1;
+            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
+            sliderInput.addEventListener('input', function (e) {
+                this.mediator.state[attr] = e.target.value;
+                this.notifyMediator('stateChange', { [attr]: e.target.value });
+                this.notifyMediator('buildingStep', {});
+            }.bind(this));
+
+            const sliderValueDisplay = document.createElement('span');
+            sliderValueDisplay.textContent = sliderInput.value;
+            sliderInput.addEventListener('input', function (e) {
+                sliderValueDisplay.textContent = e.target.value;
+            });
+
+            containerDiv.appendChild(sliderInput);
+            containerDiv.appendChild(sliderValueDisplay);
+        });
+
+        // ... your previous code ...
+
+
+
+        const removeModelBtn = document.createElement('button');
+        removeModelBtn.textContent = "Usuń element";
+        removeModelBtn.classList.add('remove-model-btn', 'mt-2');
+        removeModelBtn.addEventListener('click', function () {
+            // Call notifyMediator with 'recursivelyRemoveModel' event
+            this.notifyMediator('unattachModel');
+            this.notifyMediator('recursivelyRemoveModel');
+            var element = document.getElementById('id-'+this.id);
+            if (element) {
+                element.remove();
+            }
+        }.bind(this));
+
+        containerDiv.appendChild(removeModelBtn);
+
+
+        return containerDiv;
+    }
+
+}
+
+ export{UconfigImplementationWallGui ,UconfigCanopyUserGui}

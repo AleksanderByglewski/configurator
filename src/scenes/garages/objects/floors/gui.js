@@ -221,7 +221,7 @@ class UconfigImplementationFloorGui extends genericGui {
                 // this.notifyMediator('buildingStep');
              
                 this.notifyMediator('changeObject',`${squareDiv.dataset.value}`)
-          
+              
             }.bind(this));
 
 
@@ -295,6 +295,7 @@ class UconfigImplementationFloorGui extends genericGui {
                         new accesser('material_type', squareDiv.dataset.value),
                     ]
                      this.notifyMediator('genericChangeObject',accessers)
+                     this.notifyMediator("hardBuildingStep", {})
                
                  }.bind(this));
      

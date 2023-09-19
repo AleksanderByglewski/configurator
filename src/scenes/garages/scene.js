@@ -7,7 +7,10 @@ import { AdditionalControllableBasicSystem } from './objects/doors/implementatio
 import { UconfigsImplementationController as TemplateControllableBasicSystem, UconfigsChildImplementationController as TemplateChildControllableBasicSystem } from './objects/wall/implementation'
 
 import { UconfigsChildImplementationController as GateSystem } from './objects/gate/implementation'
-import { UconfigsChildImplementationController as FloorSystem, UconfigsImplementationController as InvisibleSystem } from './objects/floors/implementation'
+import {
+   UconfigsSecondaryChildImplementationController as SecondaryFloorSystem,
+   UconfigsChildImplementationController as FloorSystem,
+   UconfigsImplementationController as InvisibleSystem } from './objects/floors/implementation'
 import { UconfigsImplementationController as RoofSystemOld } from './objects/roof/implementation'
 import { UconfigsImplementationController as OmegaSystem } from './objects/omega/implementation'
 
@@ -42,6 +45,10 @@ import {
 import {
   UconfigsImplementationController as OmegaAdvancedSystem,
 } from './objects/implementation_add_door/implementation'
+
+import {
+  UconfigsImplementationController as OmegaCanopySystem,
+} from './objects/implementation_add_canopy/implementation'
 
 import {
   UconfigsImplementationController as ContactFormSystem,
@@ -94,7 +101,7 @@ function populateScene(scene) {
     let RedGateSystem1;
 
 
-    GroupGarageSystem1 = createGarageObject(emptySystem, Advancedm);
+    GroupGarageSystem1 = createGarageObject(emptySystem, AdvancedPhysicsSystem);
     GroupGarageSystem2 = createGarageObject(emptySystem, SkewedAdvancedPhysicsSystem);
     GroupGarageSystem3 = createGarageObject(emptySystem, SkewedTopAdvancedPhysicsSystem);
 
@@ -109,7 +116,7 @@ function populateScene(scene) {
 
 
     // GroupGarageSystem2.handleEvent('buildingStep');
-    GroupGarageSystem1.state.state.position_y = 1
+    // GroupGarageSystem1.state.state.position_y = 1
 
 
     GroupGarageSystem1.handleEvent('buildingStep');
@@ -144,20 +151,21 @@ function populateScene(scene) {
 
 
   // attach_ground(scene)
-  // attach_fog(scene)
+   //attach_fog(scene)
   scene.background = new THREE.Color(0xcce7f0);
   scene.background = new THREE.Color(0x000000);
-  const grid = new THREE.GridHelper(50, 100, 0xffffff, 0xffffff);
+  const grid = new THREE.GridHelper(500, 1000, 0xdddddd, 0xdddddd);
   scene.add(grid);
 
-  var axesHelper = new THREE.AxesHelper(1);
-  scene.add(axesHelper)
-  const geometry = new THREE.PlaneGeometry(10, 10);
-  const material = new THREE.MeshBasicMaterial({ color: 0xcecece, side: THREE.DoubleSide });
+  // var axesHelper = new THREE.AxesHelper(1);
+  // scene.add(axesHelper)
+  const geometry = new THREE.PlaneGeometry(1000, 1000);
+  const material = new THREE.MeshBasicMaterial({ color: 0xbebebe, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
-  //scene.add(floor);
-
+  scene.add(floor);
+  scene.background=new THREE.Color(0x97DEFB);
+  scene.fog = new THREE.Fog(0xffffff, 10, 100);
 
   const emptySystem = [
     // new accesser('name', ' System'),
@@ -497,41 +505,6 @@ function populateScene(scene) {
     WallSystem4.mediator = GroupGarageSystem
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // RedGateSystem1=createGarageObject(emptySystem, AdvancedPhysicsSystem);
-
-    // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-    // GroupGarageSystem.external_objects.push(RedGateSystem1)
-    // RedGateSystem1.state.state['name']="Brama frontowa" 
-    // RedGateSystem1.state.state['width']=3.15
-    // RedGateSystem1.handleEvent('buildingStep');
-
-
-    // RedGateSystem1.handleEvent('generateInputs');
-
-
-
-
-    // GroupGarageSystem.handleEvent('stateChange', {'rotation_y': -1.57} )
-    // GroupGarageSystem.handleEvent('stateChange', {'position_x': 0.25} )
-
-    // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-    //eturn [GroupGarageSystem, WallSystem1, WallSystem2, WallSystem3, WallSystem4]
-
   }
   advanced_walls_object()
 
@@ -560,11 +533,12 @@ function populateScene(scene) {
     let RoofSystem2 = createGarageObject(emptySystem, SecondaryRoofSystem)
 
     CanopySystem1 = createGarageObject(emptySystem, CanopySystem)
-    CanopySystem1.state.state['name'] = "Canopy system"
+    CanopySystem1.state.state['name'] = "Kontrola Wiat"
+    
     GroupGarageSystem.external_objects.push(CanopySystem1)
     CanopySystem1.external_objects_controllers.push(GroupGarageSystem)
     CanopySystem1.mediator = GroupGarageSystem
-    CanopySystem1.state.state['position_x']=2.25
+    
 
     CanopySystem1.external_objects.push(RoofSystem2)
     RoofSystem2.external_objects_controllers.push(CanopySystem1)
@@ -574,13 +548,13 @@ function populateScene(scene) {
     // RoofSystem2.handleEvent('generateInputs')
 
 
-    let RedGateSystem1 = createGarageObject(emptySystem, FloorSystem);
+    let RedGateSystem1 = createGarageObject(emptySystem, SecondaryFloorSystem);
     RedGateSystem1.state.state['color'] = "#FFFFFF"
     CanopySystem1.external_objects.push(RedGateSystem1)
     RedGateSystem1.external_objects_controllers.push(CanopySystem1)
     RedGateSystem1.mediator = CanopySystem1
   }
-  advanced_canopy_object()
+  //advanced_canopy_object()
 
 
 
@@ -593,6 +567,7 @@ function populateScene(scene) {
     // GroupGarageSystem.handleEvent('buildingStep');
     // GroupGarageSystem.handleEvent('generateInputs');
     let RedGateSystem1 = createGarageObject(emptySystem, FloorSystem);
+    RedGateSystem1.status="main_floor"
     // let RedCubeSystem2=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
     // let RedCubeSystem3=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
     // let RedCubeSystem4=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
@@ -683,6 +658,35 @@ function populateScene(scene) {
   generic_attaching_doors()
 
 
+  function generic_attaching_canopies(){
+
+    let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
+
+
+    OmegaSystems.wall_front = GroupGarageSystem.external_objects[0]
+    OmegaSystems.wall_back = GroupGarageSystem.external_objects[1]
+    OmegaSystems.wall_left = GroupGarageSystem.external_objects[2]
+    OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
+
+    OmegaSystems.group_controller =GroupGarageSystem
+    // let front_wall=GroupGarageSystem.external_objects[1]
+
+
+    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
+    // front_wall.external_objects.push(DoorSystem1)
+    // DoorSystem1.external_objects_controllers.push(front_wall)
+    // DoorSystem1.mediator=front_wall
+
+
+
+    GroupGarageSystem.handleEvent('buildingStep')
+    OmegaSystems.state.state['name'] = "Dodaj wiatę"
+    OmegaSystems.door_type = true
+    OmegaSystems.handleEvent('generateInputs')
+  }
+  generic_attaching_canopies()
+
+
   function generic_contact_form() {
 
     let ContactSystems = createGarageObject(emptySystem, ContactFormSystem);
@@ -714,7 +718,7 @@ function populateScene(scene) {
 
 
   }
-  //generic_contact_form()
+  generic_contact_form()
 
 
   //DoorSystem1.handleEvent('generateInputs');

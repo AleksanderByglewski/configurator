@@ -228,11 +228,11 @@ class UconfigImplementationWallGui extends genericGui {
         //     containerDiv.appendChild(textInput);
         // });
 
-        let N=10
+        let N=25
         const vals1 = Array.from({length: N}, (_, i) => 0.5*i + 3.0);
-         N=10
+         N=25
         const vals2 = Array.from({length: N}, (_, i) => 0.1*i + 2.13);
-         N=10
+         N=25
         const vals3 = Array.from({length: N}, (_, i) => 0.5*i + 3.0);
 
         const attributes = [ 
