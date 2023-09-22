@@ -65,6 +65,8 @@ class UconfigGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
+
+        
         accordionButton.textContent = "Wymiary garażu";
         accordionHeaderH3.appendChild(accordionButton);
 

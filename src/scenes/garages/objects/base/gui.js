@@ -460,8 +460,8 @@ class UconfigUserGui extends genericGui {
 
         
         // let text_attributes = [1, 2, 3, 4, 5];
-        let values = ['position_x','object_width' ];
-        let label_values=['Przesunięcie od środka', 'Szerokość elementu']
+        let values = ['object_width' ];
+        let label_values=[ 'Szerokość elementu']
         
         let positionValues=splitArrayByValue(text_attributes,values);
         text_attributes=restSplitArrayByValue(text_attributes,values);

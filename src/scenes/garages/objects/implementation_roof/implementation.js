@@ -532,7 +532,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
          let targeted_parent = this.external_objects_controllers[0];
       
         // Assuming that each object has a 'parent' property leading to its parent object
-        while (targeted_parent && targeted_parent.status !== "top_level") {
+        while (targeted_parent && targeted_parent.status !== "top_level" ) {
             targeted_parent = targeted_parent.external_objects_controllers[0];
         }
         

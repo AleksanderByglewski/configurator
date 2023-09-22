@@ -55,6 +55,41 @@ import {
 } from './objects/implementation_contact_form/implementation'
 
 
+function check_the_lights(scene){
+
+  // Create a cube geometry
+// const geometry = new THREE.BoxGeometry(10, 10, 10);
+// // Create a material for the cube
+// const material = new THREE.MeshStandardMaterial({color: 0xffffff});
+// // Create a mesh with the geometry and material
+// const cube = new THREE.Mesh(geometry, material);
+
+// // Set the cube to cast shadows
+
+
+// // Add the cube to the scene
+// scene.add(cube);
+
+// Create a plane geometry
+const planeGeometry = new THREE.PlaneGeometry(15,15);
+// Rotate the plane geometry to make it horizontal
+planeGeometry.rotateX(- Math.PI / 2);
+
+
+// Create a material for the plane
+const planeMaterial = new THREE.MeshStandardMaterial({color: 0xffffff});
+
+// Create a mesh with the plane geometry and material
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+plane.position.set(0,0.1,0)
+
+// Set the plane to receive shadows
+
+
+// Add the plane to the scene
+scene.add(plane);
+}
 
 function setOptions(passedObject, accessers) {
   for (let i = 0; i < accessers.length; i++) {
@@ -63,13 +98,49 @@ function setOptions(passedObject, accessers) {
 
 }
 
+function addShadows(scene){
+
+  scene.traverse(function(object) {
+    if (object instanceof THREE.Mesh) {
+        // Enable casting shadows
+        object.castShadow = true;
+        // Enable receiving shadows
+        object.receiveShadow = true;
+    }
+});
+
+}
+
 function addLights(scene) {
-  let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
+  //let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xaaaaaa); // soft white light
   scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0x777777, 1);
+
+// Set the position of the light
+directionalLight.position.set(30, 30, -30);
+
+// Make the light look at the center of the scene
+directionalLight.lookAt(-30, -30, 30);
+directionalLight.castShadow = true;
+directionalLight.shadow.camera.top = 10
+directionalLight.shadow.camera.right = 10
+directionalLight.shadow.camera.left = -10
+directionalLight.shadow.camera.bottom = -10
+directionalLight.shadow.camera.near = 1
+directionalLight.shadow.camera.far = 100
+
+// Add the light to the scene
+scene.add(directionalLight);
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(directionalLightHelper);
+const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+scene.add(shadowCameraHelper);
+
 
   //Create a spotlight
   // var spotlight = new THREE.SpotLight(0xffffff); // white light
@@ -93,7 +164,7 @@ function populateScene(scene) {
   //  addLights2(scene)
   let value = {}
   addLights(scene)
-
+  //check_the_lights(scene)
   function advanced_physics_object() {
 
     // I would like to create an advanced physics object that would have some additional elements attached to it
@@ -160,7 +231,7 @@ function populateScene(scene) {
   // var axesHelper = new THREE.AxesHelper(1);
   // scene.add(axesHelper)
   const geometry = new THREE.PlaneGeometry(1000, 1000);
-  const material = new THREE.MeshBasicMaterial({ color: 0xbebebe, side: THREE.DoubleSide });
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
@@ -558,6 +629,10 @@ function populateScene(scene) {
 
 
 
+  
+
+
+
 
 
   function semiAdvanced_floor_object() {
@@ -900,7 +975,141 @@ function populateScene(scene) {
   // //   //  wall_right.handleEvent('stateChange', {'color': 10.57} ); 
   // //  }
 
+  let NicheSystem;
+  function advanced_niche_system() {
+    NicheSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
+    NicheSystem.status="top_level"
+    // NicheSystem.state.state['position_y']=4
+  }
 
+  function advanced_niche_walls_object() {
+
+    // I would like to create an advanced physics object that would have some additional elements attached to it
+
+    let WallSystem1, WallSystem2, WallSystem3, WallSystem4;
+
+
+
+
+    WallSystem1 = createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem2 = createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem3 = createGarageObject(emptySystem, AdvancedWallSystem)
+    WallSystem4 = createGarageObject(emptySystem, AdvancedWallSystem)
+
+
+
+    NicheSystem.external_objects.push(WallSystem1)
+    NicheSystem.external_objects.push(WallSystem2)
+    NicheSystem.external_objects.push(WallSystem3)
+    NicheSystem.external_objects.push(WallSystem4)
+
+    WallSystem1.external_objects_controllers.push(NicheSystem)
+    WallSystem2.external_objects_controllers.push(NicheSystem)
+    WallSystem3.external_objects_controllers.push(NicheSystem)
+    WallSystem4.external_objects_controllers.push(NicheSystem)
+
+    WallSystem1.mediator = NicheSystem
+    WallSystem2.mediator = NicheSystem
+    WallSystem3.mediator = NicheSystem
+    WallSystem4.mediator = NicheSystem
+
+  
+  }
+ 
+  let RoofSystem2
+  function advanced_niche_roof_object() {
+
+    RoofSystem2 = createGarageObject(emptySystem, RoofSystem)
+    RoofSystem2.state.state['name'] = "Kolory dachu"
+    RoofSystem2.status="main_roof"
+    NicheSystem.external_objects.push(RoofSystem2)
+    RoofSystem2.external_objects_controllers.push(NicheSystem)
+    RoofSystem2.mediator = NicheSystem
+
+
+
+  }
+
+  function semiAdvanced_niche_floor_object() {
+
+    // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    // let GroupGarageSystem = createGarageObject(emptySystem, InvisibleSystem);
+    // GroupGarageSystem.handleEvent('buildingStep');
+    // GroupGarageSystem.handleEvent('generateInputs');
+    let RedGateSystem1 = createGarageObject(emptySystem, FloorSystem);
+    RedGateSystem1.status="niche_floor"
+    // let RedCubeSystem2=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    // let RedCubeSystem3=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+    // let RedCubeSystem4=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
+
+    RedGateSystem1.state.state['name'] = "Typy podłoża"
+    RedGateSystem1.state.state['width'] = 5.0
+    RedGateSystem1.state.state['depth'] = 5.0
+    RedGateSystem1.state.state['color'] = "#FFFFFF"
+
+    NicheSystem.external_objects.push(RedGateSystem1)
+    RedGateSystem1.external_objects_controllers.push(NicheSystem)
+    RedGateSystem1.mediator = NicheSystem
+
+
+    RedGateSystem1.handleEvent('generateInputs')
+
+
+  }
+ 
+
+
+  function initialization_niche(){
+  advanced_niche_system()
+  advanced_niche_walls_object()
+  advanced_niche_roof_object()
+
+  semiAdvanced_niche_floor_object()
+
+  NicheSystem.state.state['name']="Nisza"
+  NicheSystem.state.state['position_z']=3
+  NicheSystem.state.state['object_width']=1
+  NicheSystem.state.state['object_height']=2.42
+  NicheSystem.state.state['position_x']=-1
+
+
+  NicheSystem.handleEvent('buildingStep')
+  NicheSystem.handleEvent('generateInputs')
+
+
+
+  
+  GroupGarageSystem.external_objects.push(NicheSystem)
+  NicheSystem.external_objects_controllers.push(GroupGarageSystem)
+  NicheSystem.mediator = GroupGarageSystem
+  }
+
+  function generic_attaching_niche_canopies(){
+
+    let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
+    OmegaSystems.wall_front = NicheSystem.external_objects[0]
+    OmegaSystems.wall_back = NicheSystem.external_objects[1]
+    OmegaSystems.wall_left = NicheSystem.external_objects[2]
+    OmegaSystems.wall_right = NicheSystem.external_objects[3]
+    OmegaSystems.group_controller = NicheSystem
+    // let front_wall=NicheSystem.external_objects[1]
+
+
+    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
+    // front_wall.external_objects.push(DoorSystem1)
+    // DoorSystem1.external_objects_controllers.push(front_wall)
+    // DoorSystem1.mediator=front_wall
+
+
+
+    NicheSystem.handleEvent('buildingStep')
+    OmegaSystems.state.state['name'] = "Dodaj dach do wnęki"
+    OmegaSystems.door_type = true
+    OmegaSystems.handleEvent('generateInputs')
+  }
+  //generic_attaching_niche_canopies()
+
+  addShadows(scene)
 
   return value
 

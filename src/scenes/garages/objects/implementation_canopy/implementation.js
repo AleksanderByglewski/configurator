@@ -17,7 +17,7 @@ class UconfigsImplementationCanopyController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigCanopyUserGui();
+        this.gui = new UconfigUserGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]

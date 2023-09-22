@@ -72,7 +72,9 @@ class UconfigImplementationWallGui extends genericGui {
             };
             }
 
-        let {accordionBodyDiv, accordionDiv}=generateAccordion.bind(this)('collapseTwo',"Wymiary garażu", true)
+        let pass_name = (attributes && attributes.name) ? attributes.name : "Wymiary garażu";
+
+        let {accordionBodyDiv, accordionDiv}=generateAccordion.bind(this)('collapseTwo',pass_name, true)
 
         // const squaresElement = 
         // const squaresElement2=

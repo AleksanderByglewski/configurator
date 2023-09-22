@@ -15,7 +15,8 @@ class UconfigsImplementationWallsController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new UconfigImplementationWallGui();
+         this.gui = new UconfigImplementationWallGui();
+        //this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects=[]
