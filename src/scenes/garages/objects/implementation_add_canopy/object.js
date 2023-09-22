@@ -88,7 +88,7 @@ class SphereObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-        let material = new THREE.MeshBasicMaterial({
+        let material = new THREE.MeshStandardMaterial({
             map: local_texture,
             color: color,
             // metalness: 0.0,

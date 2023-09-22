@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { accesser } from './base'
 import { Ground, closeGround } from './objects/ground'
 import { WallsControllableBasicSystem } from './objects/x-walls--old/implementation'
@@ -54,6 +55,87 @@ import {
   UconfigsImplementationController as ContactFormSystem,
 } from './objects/implementation_contact_form/implementation'
 
+
+function addEnvMap(scene){
+
+  const loader = new THREE.CubeTextureLoader();
+  loader.setPath( '/assets/textures/cube/Bridge2/' );
+	let textureEquirec, textureCube;
+  textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+  // const textureLoader = new THREE.TextureLoader();
+
+  // textureEquirec = textureLoader.load( 'textures/2294472375_24a3b8ef46_o.jpg' );
+  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+  // textureEquirec.colorSpace = THREE.SRGBColorSpace;
+
+  // scene.background = textureCube;
+
+	let sphereMesh, sphereMaterial;
+
+  const geometry = new THREE.IcosahedronGeometry( 3, 15 );
+  sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
+  sphereMaterial = new THREE.MeshStandardMaterial( { envMap: textureCube, color: 0xff4400, metalness: 0.6, roughness:0.0 } );
+  sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
+  sphereMesh.position.x=20
+  scene.add( sphereMesh );
+
+}
+
+function addEnvMapTextured(scene){
+
+  const gui = new GUI();
+
+  const params = {
+    envMap: 'HDR',
+    roughness: 0.02,
+    metalness: 0.22,
+    // exposure: 2.0,
+    // debug: false,
+    color: '#ffffff',
+    lightIntensity:1.8
+  };
+
+  // gui.add( params, 'envMap', [ 'Generated', 'LDR', 'HDR', 'RGBM16' ] );
+  gui.add( params, 'roughness', 0, 1, 0.01 );
+  gui.add( params, 'metalness', 0, 1, 0.01 );
+  gui.add( params, 'lightIntensity', 0, 25, 0.01 );
+  // gui.add( params, 'exposure', 0, 2, 0.01 );
+  // gui.add( params, 'debug', false );
+  gui.addColor( params, 'color' );
+  gui.open();
+
+  const loader = new THREE.CubeTextureLoader();
+  loader.setPath( '/assets/textures/cube/Bridge2/' );
+	let textureEquirec, textureCube;
+  textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+  // const textureLoader = new THREE.TextureLoader();
+
+  // textureEquirec = textureLoader.load( 'textures/2294472375_24a3b8ef46_o.jpg' );
+  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+  // textureEquirec.colorSpace = THREE.SRGBColorSpace;
+
+  // scene.background = textureCube;
+
+	let sphereMesh, sphereMaterial;
+
+  const geometry = new THREE.IcosahedronGeometry( 3, 15 );
+  sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
+  sphereMaterial = new THREE.MeshStandardMaterial( { 
+    
+    envMap: textureCube, 
+    color: 0xff4400, 
+
+    metalness: params.metalness,
+    roughness: params.roughness
+  
+  } );
+  sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
+  sphereMesh.position.x=10
+  scene.add( sphereMesh );
+  return {sphereMesh, params}
+}
 
 function check_the_lights(scene){
 
@@ -116,10 +198,10 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xaaaaaa); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff); // soft white light
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0x777777, 1);
+  const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
 
 // Set the position of the light
 directionalLight.position.set(30, 30, -30);
@@ -127,10 +209,10 @@ directionalLight.position.set(30, 30, -30);
 // Make the light look at the center of the scene
 directionalLight.lookAt(-30, -30, 30);
 directionalLight.castShadow = true;
-directionalLight.shadow.camera.top = 10
-directionalLight.shadow.camera.right = 10
-directionalLight.shadow.camera.left = -10
-directionalLight.shadow.camera.bottom = -10
+directionalLight.shadow.camera.top = 30
+directionalLight.shadow.camera.right = 30
+directionalLight.shadow.camera.left = -30
+directionalLight.shadow.camera.bottom = -30
 directionalLight.shadow.camera.near = 1
 directionalLight.shadow.camera.far = 100
 
@@ -141,7 +223,7 @@ scene.add(directionalLightHelper);
 const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
 scene.add(shadowCameraHelper);
 
-
+return directionalLight
   //Create a spotlight
   // var spotlight = new THREE.SpotLight(0xffffff); // white light
   // spotlight.position.set(2, 4, 4); // set position of the light
@@ -163,7 +245,9 @@ function populateScene(scene) {
   }
   //  addLights2(scene)
   let value = {}
-  addLights(scene)
+  let directionalLight=addLights(scene)
+
+
   //check_the_lights(scene)
   function advanced_physics_object() {
 
@@ -228,15 +312,22 @@ function populateScene(scene) {
   const grid = new THREE.GridHelper(500, 1000, 0xdddddd, 0xdddddd);
   scene.add(grid);
 
+
   // var axesHelper = new THREE.AxesHelper(1);
   // scene.add(axesHelper)
   const geometry = new THREE.PlaneGeometry(1000, 1000);
-  const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+  const material = new THREE.MeshStandardMaterial({ color: 0xbbbbbb, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
   scene.background=new THREE.Color(0x97DEFB);
   scene.fog = new THREE.Fog(0xffffff, 10, 100);
+
+
+  addEnvMap(scene)
+  value=addEnvMapTextured(scene)
+   
+
 
   const emptySystem = [
     // new accesser('name', ' System'),
@@ -1071,14 +1162,8 @@ function populateScene(scene) {
   NicheSystem.state.state['object_width']=1
   NicheSystem.state.state['object_height']=2.42
   NicheSystem.state.state['position_x']=-1
-
-
   NicheSystem.handleEvent('buildingStep')
   NicheSystem.handleEvent('generateInputs')
-
-
-
-  
   GroupGarageSystem.external_objects.push(NicheSystem)
   NicheSystem.external_objects_controllers.push(GroupGarageSystem)
   NicheSystem.mediator = GroupGarageSystem
@@ -1110,7 +1195,7 @@ function populateScene(scene) {
   //generic_attaching_niche_canopies()
 
   addShadows(scene)
-
+  value.light=directionalLight
   return value
 
 

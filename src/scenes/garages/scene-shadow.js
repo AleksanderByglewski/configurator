@@ -38,7 +38,7 @@ function addLights2(scene){
   let particleLight;
   particleLight = new THREE.Mesh(
     new THREE.SphereGeometry(0, 24, 24),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
+    new THREE.MeshStandardMaterial({ color: 0xffffff })
   );
   scene.add(particleLight);
 
@@ -52,7 +52,7 @@ function addLights2(scene){
 
   let particleLight2 = new THREE.Mesh(
     new THREE.SphereGeometry(0, 24, 24),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
+    new THREE.MeshStandardMaterial({ color: 0xffffff })
   );
   particleLight2.add(new THREE.PointLight(0xffffff, 0.3));
 

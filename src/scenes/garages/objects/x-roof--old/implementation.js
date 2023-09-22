@@ -478,7 +478,7 @@ class UconfigsImplementationController extends UconfigsController {
         // const scene = this.display.scene;
         // {
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //     let material22 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 
         //     // Create the first mesh and position it to the left (-2 on the x axis)
         //     var mesh1 = new THREE.Mesh(geometry22, material22);
@@ -508,7 +508,7 @@ class UconfigsImplementationController extends UconfigsController {
         //     // console.log(created_object)
             
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //     let material22 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 
         //     // Create the first mesh and position it to the left (-2 on the x axis)
         //     var mesh1 = new THREE.Mesh(geometry22, material22);
@@ -594,7 +594,7 @@ class UconfigsImplementationController extends UconfigsController {
                     // this.handleEvent('removeModel')
                     // Create the geometry, material, and mesh for the cube
                     // const geometry = new THREE.BoxGeometry(1, 5, 1);  // Cube of size 1x1x1
-                    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });  // Green color
+                    // const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });  // Green color
                     // const cube = new THREE.Mesh(geometry, material);
 
                     // // Add the cube to the scene
@@ -1055,7 +1055,7 @@ class RoofSideController extends UconfigsController {
         // const scene = this.display.scene;
         // {
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //     let material22 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 
         //     // Create the first mesh and position it to the left (-2 on the x axis)
         //     var mesh1 = new THREE.Mesh(geometry22, material22);
@@ -1085,7 +1085,7 @@ class RoofSideController extends UconfigsController {
         //     // console.log(created_object)
             
         //     let geometry22 = new THREE.BoxGeometry(1, 1, 1);
-        //     let material22 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //     let material22 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 
         //     // Create the first mesh and position it to the left (-2 on the x axis)
         //     var mesh1 = new THREE.Mesh(geometry22, material22);
@@ -1171,7 +1171,7 @@ class RoofSideController extends UconfigsController {
                     // this.handleEvent('removeModel')
                     // Create the geometry, material, and mesh for the cube
                     // const geometry = new THREE.BoxGeometry(1, 5, 1);  // Cube of size 1x1x1
-                    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });  // Green color
+                    // const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });  // Green color
                     // const cube = new THREE.Mesh(geometry, material);
 
                     // // Add the cube to the scene

@@ -93,7 +93,7 @@ class SphereObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-        let material = new THREE.MeshBasicMaterial({
+        let material = new THREE.MeshStandardMaterial({
             map: local_texture,
             color: color,
             // metalness: 0.0,
@@ -250,7 +250,7 @@ class RoofSideRightObject extends genericObject {
         // local_texture.wrapS=THREE.RepeatWrapping
         // local_texture.wrapT=THREE.RepeatWrapping
         // // let texture=global_texture
-        // let material = new THREE.MeshBasicMaterial({
+        // let material = new THREE.MeshStandardMaterial({
         //     map: local_texture,
         //     color: color,
         //     // metalness: 0.0,
@@ -292,7 +292,7 @@ class RoofSideRightObject extends genericObject {
         local_texture.wrapT=THREE.RepeatWrapping
         local_texture.repeat.set(1, 2*height);
         // Create a material
-        material = new THREE.MeshBasicMaterial({
+        material = new THREE.MeshStandardMaterial({
             map:local_texture,
             side:THREE.DoubleSide,
             color:color});
@@ -424,7 +424,7 @@ class RoofSideLeftObject extends genericObject {
         // local_texture.wrapS=THREE.RepeatWrapping
         // local_texture.wrapT=THREE.RepeatWrapping
         // // let texture=global_texture
-        // let material = new THREE.MeshBasicMaterial({
+        // let material = new THREE.MeshStandardMaterial({
         //     map: local_texture,
         //     color: color,
         //     // metalness: 0.0,
@@ -462,7 +462,7 @@ class RoofSideLeftObject extends genericObject {
         let local_texture=loader.load('/assets/config/default_1k.jpg');
         local_texture.repeat.set(1, 2*height);
         // Create a material
-        material = new THREE.MeshBasicMaterial({
+        material = new THREE.MeshStandardMaterial({
             map:local_texture,
             side:THREE.DoubleSide,
             color: wall_color });
@@ -591,7 +591,7 @@ class RoofSideSquareObject extends genericObject {
         // local_texture.wrapS=THREE.RepeatWrapping
         // local_texture.wrapT=THREE.RepeatWrapping
         // // let texture=global_texture
-        // let material = new THREE.MeshBasicMaterial({
+        // let material = new THREE.MeshStandardMaterial({
         //     map: local_texture,
         //     color: color,
         //     // metalness: 0.0,
@@ -634,7 +634,7 @@ class RoofSideSquareObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // Create a material
-        material = new THREE.MeshBasicMaterial({
+        material = new THREE.MeshStandardMaterial({
             map:local_texture,
             side:THREE.DoubleSide,
             color: color });
@@ -763,7 +763,7 @@ class RoofTopObject extends genericObject {
         // local_texture.wrapS=THREE.RepeatWrapping
         // local_texture.wrapT=THREE.RepeatWrapping
         // // let texture=global_texture
-        // let material = new THREE.MeshBasicMaterial({
+        // let material = new THREE.MeshStandardMaterial({
         //     map: local_texture,
         //     color: color,
         //     // metalness: 0.0,
@@ -875,7 +875,7 @@ class RoofTopObject extends genericObject {
         }
 
         // Create a material
-        material = new THREE.MeshBasicMaterial({
+        material = new THREE.MeshStandardMaterial({
             map:local_texture,
             
             color: color ,

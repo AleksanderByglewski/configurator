@@ -163,7 +163,7 @@ class UconfigInvisibleObject extends genericObject {
 
         //   })
 
-        const material = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color
+        const material = new THREE.MeshStandardMaterial({color: 0x00ff00});  // Green color
         let geometry = new RoundedBoxGeometry(
             parseFloat(attributes.width) || 1,
             parseFloat(attributes.height) || 1,

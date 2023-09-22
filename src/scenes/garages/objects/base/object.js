@@ -162,7 +162,7 @@ class UconfigInvisibleObject extends genericObject {
 
         //   })
 
-        // const material = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color
+        // const material = new THREE.MeshStandardMaterial({color: 0x00ff00});  // Green color
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 1,
         //     parseFloat(attributes.height) || 1,
@@ -172,7 +172,7 @@ class UconfigInvisibleObject extends genericObject {
         // );
 
         var geometry = new THREE.SphereGeometry(5, 32, 32);
-        var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        var material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 
         
 
@@ -486,7 +486,7 @@ class CubeObject extends genericObject {
         local_texture.wrapT=THREE.RepeatWrapping
         // local_texture.repeat.set(1, height);
         // let texture=global_texture
-        let material = new THREE.MeshBasicMaterial({
+        let material = new THREE.MeshStandardMaterial({
             map: local_texture,
             color: color,
             // metalness: 0.0,
@@ -645,7 +645,7 @@ class RedCubeObject extends genericObject {
          local_texture=global_texture
      
         //  local_texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        // let material = new THREE.MeshBasicMaterial({
+        // let material = new THREE.MeshStandardMaterial({
         //      map: local_texture,
         //     color:  0xCCCCCC,
         //     // metalness: 0.5,
@@ -654,7 +654,7 @@ class RedCubeObject extends genericObject {
         //     // clearcoatRoughness: 0.2
         // });
        
-         let material=new THREE.MeshBasicMaterial({ color: 0xffffff })
+         let material=new THREE.MeshStandardMaterial({ color: 0xffffff })
         
 
         // let geometry = new RoundedBoxGeometry(
@@ -718,7 +718,7 @@ class DoubleCubeObject extends genericObject {
     
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : -4;
         let color = (attributes && attributes.color) ? attributes.color : "#972727";
-        var material = new THREE.MeshBasicMaterial({
+        var material = new THREE.MeshStandardMaterial({
             color: "#972727",
             // metalness: 0.5,
             // roughness: 0.1,

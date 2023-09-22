@@ -97,7 +97,7 @@ class FloorObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-        let material = new THREE.MeshBasicMaterial({
+        let material = new THREE.MeshStandardMaterial({
             map: local_texture,
             color: color,
             // metalness: 1.0,
@@ -318,7 +318,7 @@ export {FloorObject}
 
 //         //   })
 
-//         const material = new THREE.MeshBasicMaterial({color: 0x00ff00});  // Green color
+//         const material = new THREE.MeshStandardMaterial({color: 0x00ff00});  // Green color
 //         let geometry = new RoundedBoxGeometry(
 //             parseFloat(attributes.width) || 1,
 //             parseFloat(attributes.height) || 1,

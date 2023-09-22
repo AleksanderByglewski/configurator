@@ -375,7 +375,7 @@ class UconfigsImplementationController extends UconfigsController {
                     // this.handleEvent('removeModel')
                     // Create the geometry, material, and mesh for the cube
                     // const geometry = new THREE.BoxGeometry(1, 5, 1);  // Cube of size 1x1x1
-                    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });  // Green color
+                    // const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });  // Green color
                     // const cube = new THREE.Mesh(geometry, material);
 
                     // // Add the cube to the scene

@@ -48,7 +48,7 @@ class PlanetObject extends genericObject {
         // For simplicity, creating a basic sphere using the size attribute as its radius
         // You can customize this creation process based on more attributes if needed
         const geometry = new THREE.SphereGeometry(attributes.size, 32, 32); // Using 'size' attribute for the radius of the sphere
-        const material = new THREE.MeshBasicMaterial({ color: 0x4488aa  }); // Basic green color for now
+        const material = new THREE.MeshStandardMaterial({ color: 0x4488aa  }); // Basic green color for now
         const sphere = new THREE.Mesh(geometry, material);
         sphere.position.set(attributes.position_x, attributes.position_y, 0); // Assuming z-position is always 0, adjust if needed
 
