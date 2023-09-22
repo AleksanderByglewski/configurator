@@ -6,6 +6,9 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 
 
+//GOBACKTO
+import {global_metal_material} from '../../textures/spawn'
+
 const loader = new THREE.TextureLoader();
 const global_texture = loader.load('/assets/config/default_1k.jpg');
 const global_texture_rotated = loader.load('/assets/config/default_rotated_1k.jpg');
@@ -345,8 +348,9 @@ class AdditionalObject extends genericObject {
             clearcoat: 0.8,
             clearcoatRoughness: 0.2
         });
-        
-
+        //GOBACKTO
+        material=global_metal_material
+        material.color=new THREE.Color(color)
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,
         //     parseFloat(attributes.height) || 1,
@@ -494,8 +498,9 @@ class CubeObject extends genericObject {
             // clearcoat: 0.8,
             // clearcoatRoughness: 0.2
         });
-
-        
+        //GOBACKTO
+        material=global_metal_material
+        material.color=new THREE.Color(color)
         
 
         // let geometry = new RoundedBoxGeometry(

@@ -81,8 +81,7 @@ function addEnvMap(scene){
   scene.add( sphereMesh );
 
 }
-
-function addEnvMapTextured(scene){
+function addEnvMapTextured1(scene){
 
   const gui = new GUI();
 
@@ -133,6 +132,126 @@ function addEnvMapTextured(scene){
   } );
   sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
   sphereMesh.position.x=10
+  sphereMesh.position.z=-10
+  
+  scene.add( sphereMesh );
+  return {sphereMesh, params}
+}
+function addEnvMapTextured(scene){
+
+  const gui = new GUI();
+
+  const params = {
+    envMap: 'HDR',
+    roughness: 0.25,
+    metalness: 0.95,
+    // exposure: 2.0,
+    // debug: false,
+    color: '#ffffff',
+    lightIntensity:1.8
+  };
+
+  // gui.add( params, 'envMap', [ 'Generated', 'LDR', 'HDR', 'RGBM16' ] );
+  gui.add( params, 'roughness', 0, 1, 0.01 );
+  gui.add( params, 'metalness', 0, 1, 0.01 );
+  gui.add( params, 'lightIntensity', 0, 25, 0.01 );
+  // gui.add( params, 'exposure', 0, 2, 0.01 );
+  // gui.add( params, 'debug', false );
+  gui.addColor( params, 'color' );
+  gui.open();
+
+  const loader = new THREE.CubeTextureLoader();
+  loader.setPath( '/assets/textures/cube/Bridge2/' );
+	let textureEquirec, textureCube;
+  textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+  // const textureLoader = new THREE.TextureLoader();
+
+  // textureEquirec = textureLoader.load( 'textures/2294472375_24a3b8ef46_o.jpg' );
+  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+  // textureEquirec.colorSpace = THREE.SRGBColorSpace;
+
+  // scene.background = textureCube;
+
+	let sphereMesh, sphereMaterial;
+
+  const geometry = new THREE.BoxGeometry( 5, 5,5 );
+  sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
+  sphereMaterial = new THREE.MeshStandardMaterial( { 
+    
+    envMap: textureCube, 
+    color: 0xff4400, 
+
+    metalness: params.metalness,
+    roughness: params.roughness
+  
+  } );
+
+  let repeat=5
+
+
+      function load_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolution="1k"){
+    
+
+      let sphereMaterial = new THREE.MeshStandardMaterial( { 
+      
+        envMap: textureCube, 
+        color: 0xff4400, 
+    
+        metalness: params.metalness,
+        roughness: params.roughness
+      
+      } );
+    
+        let repeat=5
+    
+    // const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+    //   texture.wrapS = THREE.RepeatWrapping
+    //   texture.wrapT = THREE.RepeatWrapping
+    //   texture.repeat.set(repeat,repeat)
+    // })
+        const normalMap = new THREE.TextureLoader().load(
+          path+'nor_gl_'+resolution+'.jpg',
+          (texture) => {
+            texture.wrapS = THREE.RepeatWrapping
+            texture.wrapT = THREE.RepeatWrapping
+            texture.repeat.set(repeat,repeat)
+          }
+        )
+        const bumpMap = new THREE.TextureLoader().load(
+          path+'disp_'+resolution+'.png',
+          (texture) => {
+            texture.wrapS = THREE.RepeatWrapping
+            texture.wrapT = THREE.RepeatWrapping
+            texture.repeat.set(repeat,repeat)
+          }
+        )
+      //  sphereMaterial.map = colorMap
+        sphereMaterial.normalMap = normalMap
+        sphereMaterial.bumpMap = bumpMap
+
+    
+      //  sphereMaterial.normalScale.set(2, 2); 
+      return sphereMaterial
+      }
+    //load_texture()
+
+
+    //load_texture('/assets/textures/metal_shutter/painted_metal_shutter_', '1k')
+    sphereMaterial=load_texture('/assets/textures/factory_wall/factory_wall_', '1k')
+    // sphereMaterial.bumpMap = bumpMap
+    sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
+    sphereMesh.position.x=10
+
+
+  // const roughnessTexture = new THREE.TextureLoader().load(
+  //   '/assets/textures/red-bricks/red_bricks_04_rough_gl_1k.jpg',
+  //   (texture) => {
+  //     texture.wrapS = THREE.RepeatWrapping
+  //     texture.wrapT = THREE.RepeatWrapping
+  //   }
+  // )
+  
   scene.add( sphereMesh );
   return {sphereMesh, params}
 }
@@ -198,7 +317,7 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // soft white light
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
@@ -325,6 +444,7 @@ function populateScene(scene) {
 
 
   addEnvMap(scene)
+  addEnvMapTextured1(scene)
   value=addEnvMapTextured(scene)
    
 
