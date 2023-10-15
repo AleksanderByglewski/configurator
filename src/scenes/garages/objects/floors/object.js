@@ -55,7 +55,7 @@ class FloorObject extends genericObject {
                 case "floor_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=loader.load('/assets/textures/foundation/foundation2.jpg');
 
@@ -100,8 +100,8 @@ class FloorObject extends genericObject {
         let material = new THREE.MeshStandardMaterial({
             map: local_texture,
             color: color,
-            // metalness: 1.0,
-            // roughness: 1.0,
+             metalness: 0.7,
+             roughness: 1.0,
             // clearcoat: 0.8,
             // clearcoatRoughness: 0.2
         });

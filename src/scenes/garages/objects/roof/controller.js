@@ -200,7 +200,7 @@ export {SupportSquareGarageController, SupportGarageController,GableGarageContro
 // class genericGarageController extends genericController {
 //     constructor() {
 //         super();
-//         // alert("hello")
+
 //         this.setModel(genericGarageObject);
 //         this.setGui(UconfigDebugGui);
 //         this.children = []

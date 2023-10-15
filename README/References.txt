@@ -1,0 +1,5 @@
+Implementation roof is a good place to start
+
+
+Good playground of materials
+"E:\general_learning\courses_categorization\playground\Html+js\three\examples\webgl_materials_texture_rotation.html"

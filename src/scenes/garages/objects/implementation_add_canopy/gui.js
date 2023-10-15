@@ -21,6 +21,10 @@ import {
       import {
         UconfigsImplementationCanopyController as CanopySystem,
       } from '../implementation_canopy/implementation'
+
+      import {
+        UconfigsImplementationSecondaryCanopyController as SecondaryCanopySystem,
+      } from '../implementation_canopy/implementation'
       import {
         UconfigsSecondaryChildImplementationController as SecondaryFloorSystem,
         UconfigsChildImplementationController as FloorSystem,
@@ -31,7 +35,52 @@ class UconfigImplementationGui extends genericGui {
     constructor() {
         super();
     }
+    initial_call(){
+        let scene = this.mediator.display.get_scene();
+        const emptySystem = [];
+     
+        let self=this
 
+        let GroupGarageSystem=self.mediator.group_controller
+
+        let RoofSystem2 = self.createGarageObject(emptySystem, SecondaryRoofSystem)
+        let CanopySystem1 = self.createGarageObject(emptySystem, SecondaryCanopySystem)
+
+        CanopySystem1.status="niche_canopy"
+        debugger
+        if(this.mediator.state.get('gui_child_name')=="Dodaj wiatę"){
+            CanopySystem1.state.state['name']= "Kontrola wiaty"
+        }
+        else{
+        CanopySystem1.state.state['name']=  "Kontrola Wnęk"
+        }
+        GroupGarageSystem.external_objects.push(CanopySystem1)
+        CanopySystem1.external_objects_controllers.push(GroupGarageSystem)
+        CanopySystem1.mediator = GroupGarageSystem
+        
+
+        CanopySystem1.external_objects.push(RoofSystem2)
+        RoofSystem2.external_objects_controllers.push(CanopySystem1)
+        CanopySystem1.mediator = GroupGarageSystem
+        // RoofSystem2.state.state['position_x']=3.25
+        // RoofSystem2.handleEvent('buildingStep')
+        // RoofSystem2.handleEvent('generateInputs')
+
+
+        let RedGateSystem1 = self.createGarageObject(emptySystem, SecondaryFloorSystem);
+        RedGateSystem1.state.state['color'] = "#FFFFFF"
+        CanopySystem1.external_objects.push(RedGateSystem1)
+        RedGateSystem1.external_objects_controllers.push(CanopySystem1)
+        RedGateSystem1.mediator = CanopySystem1
+
+        CanopySystem1.state.state['object_width']=2.7
+        CanopySystem1.handleEvent('hardBuildingStep')
+      
+       
+
+        CanopySystem1.handleEvent('generateInputs')
+      
+    }
     initialGeneration(){
         const emptySystem = [];
     
@@ -219,34 +268,7 @@ class UconfigImplementationGui extends genericGui {
                     return;
             }
     
-            let GroupGarageSystem=self.mediator.group_controller
-
-            let RoofSystem2 = self.createGarageObject(emptySystem, SecondaryRoofSystem)
-            let CanopySystem1 = self.createGarageObject(emptySystem, CanopySystem)
-            CanopySystem1.state.state['name'] = "Kontrola Wiat"
-            
-            GroupGarageSystem.external_objects.push(CanopySystem1)
-            CanopySystem1.external_objects_controllers.push(GroupGarageSystem)
-            CanopySystem1.mediator = GroupGarageSystem
-            
-
-            CanopySystem1.external_objects.push(RoofSystem2)
-            RoofSystem2.external_objects_controllers.push(CanopySystem1)
-            CanopySystem1.mediator = GroupGarageSystem
-            // RoofSystem2.state.state['position_x']=3.25
-            // RoofSystem2.handleEvent('buildingStep')
-            // RoofSystem2.handleEvent('generateInputs')
-
-
-            let RedGateSystem1 = self.createGarageObject(emptySystem, SecondaryFloorSystem);
-            RedGateSystem1.state.state['color'] = "#FFFFFF"
-            CanopySystem1.external_objects.push(RedGateSystem1)
-            RedGateSystem1.external_objects_controllers.push(CanopySystem1)
-            RedGateSystem1.mediator = CanopySystem1
-
-
-            CanopySystem1.handleEvent('hardBuildingStep')
-            CanopySystem1.handleEvent('generateInputs')
+         self.initial_call()
           
         });
     
@@ -260,7 +282,7 @@ class UconfigImplementationGui extends genericGui {
         removeModelBtn.addEventListener('click', function() {
             // Call notifyMediator with 'recursivelyRemoveModel' event
        
-            this.notifyMediator('recursivelyRemoveModel');
+        this.notifyMediator('recursivelyRemoveModel');
         }.bind(this));
     
         containerDiv.appendChild(submitButton); 
@@ -313,7 +335,7 @@ class UconfigImplementationGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -384,7 +406,7 @@ class UconfigImplementationGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -419,7 +441,7 @@ class UconfigImplementationGui extends genericGui {
      
              
              return containerDiv;
-         }
+    }
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);

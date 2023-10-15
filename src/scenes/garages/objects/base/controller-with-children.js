@@ -9,7 +9,7 @@ import { CubeObject, DoubleCubeObject,UconfigObject,WallGarageObject, genericGar
 class genericGarageController extends genericController {
     constructor() {
         super();
-        // alert("hello")
+        
         this.setModel(genericGarageObject);
         this.setGui(PlanetGui);
         this.children = []

@@ -4,7 +4,8 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-
+//GOBACKTO
+import {global_metal_material, select_texture} from '../../textures/spawn'
 
 const loader = new THREE.TextureLoader();
 const global_texture = loader.load('/assets/config/default_1k.jpg');
@@ -54,7 +55,7 @@ class SphereObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture_rotated.clone();
 
@@ -210,7 +211,7 @@ class DoorObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture.clone();
                     local_texture.rotation = Math.PI / 2;
@@ -287,7 +288,18 @@ class DoorObject extends genericObject {
             parseFloat(attributes.segments) || 1,
             parseFloat(attributes.radius) || 0.005
         );
+        //Gobackto
+        // material=global_metal_material.clone()
+        // material.bumpMap = material.bumpMap.clone();
+        // material.normalMap = material.normalMap.clone();
+        // material.bumpMap.repeat.set(1.2*width, height);
+        // material.normalMap.repeat.set(1.2*width, height);
+        // material.bumpMap.offset.set(1.2*width, width);
+        // material.normalMap.offset.set(1.2*width, width);
+        // material.color=new THREE.Color(color)
+      
 
+        material=select_texture({width:1.2*width,height:height,color:color})
         
         const mesh = new THREE.Mesh(geometry, material);
      

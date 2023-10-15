@@ -421,7 +421,7 @@ class UconfigsImplementationController extends UconfigsController {
                 break;
 
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -435,7 +435,7 @@ class UconfigsImplementationController extends UconfigsController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]

@@ -55,7 +55,7 @@ function setupGuiHelper(scene){
     //     myBoolean: true,
     //     myString: 'lil-gui',
     //     myNumber: 1,
-    //     myFunction: function() { alert( 'hi' ) }
+    
     // }
     // gui.add( obj, 'myBoolean' ); 	// checkbox
     // gui.add( obj, 'myString' ); 	// text field

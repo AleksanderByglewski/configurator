@@ -317,7 +317,7 @@ class UconfigsController extends genericGarageController {
                     break
                 }
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -331,7 +331,7 @@ class UconfigsController extends genericGarageController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]

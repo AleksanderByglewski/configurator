@@ -246,7 +246,7 @@ class UconfigImplementationRoofGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -291,6 +291,8 @@ class UconfigImplementationRoofGui extends genericGui {
                  { value: 'roof_type_2',  display_value:"Spad w lewo",  display_image:'/assets/display/roof/2.jpg'},
                  { value: 'roof_type_3',  display_value:"Spad w przód",  display_image:'/assets/display/roof/3.jpg'},
                  { value: 'roof_type_4',  display_value:"Dach w prawo",  display_image:'/assets/display/roof/4.jpg'},
+                 { value: 'roof_type_5',  display_value:"Dach dwuspadowy w przód",  display_image:'/assets/display/roof/5.jpg'},
+                 { value: 'roof_type_6',  display_value:"Dach dwuspadowy na boki",  display_image:'/assets/display/roof/6.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
                 
              ];
@@ -319,7 +321,7 @@ class UconfigImplementationRoofGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -396,7 +398,7 @@ class UconfigImplementationRoofGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -474,7 +476,7 @@ class UconfigImplementationRoofGui extends genericGui {
      
     //              // Attach event listener directly to the squareDiv
     //              squareDiv.addEventListener('click', function (e) {
-    //                  // alert(squareDiv.dataset.value);
+    
     //                  // Notify the mediator or perform some action
                      
                    

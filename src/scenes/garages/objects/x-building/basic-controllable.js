@@ -15,7 +15,7 @@ class WallGarageObject extends genericObject {
     }
     create(attributes) {
         let loader = new THREE.TextureLoader();
-        // alert(attributes.color)
+        
     
         let texture = global_texture
         var material = new THREE.MeshPhysicalMaterial({
@@ -233,7 +233,7 @@ class UconfigGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -549,7 +549,7 @@ class UconfigsController extends genericGarageController {
                 break
 
             case 'changeObject':
-                    // alert(data)
+                    
                     {
                     const accessers=[
                         new accesser('color', data),
@@ -563,7 +563,7 @@ class UconfigsController extends genericGarageController {
                     }
                     break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers=[
                     new accesser('color', data),
                 ]  

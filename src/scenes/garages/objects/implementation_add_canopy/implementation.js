@@ -26,7 +26,11 @@ class UconfigsImplementationController extends UconfigsController {
         this.external_objects_controllers=[]
         
     }
+
+    
     determineState() {
+        this.request_an_update()
+
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'

@@ -211,7 +211,7 @@ class UconfigImplementationFloorGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -282,7 +282,7 @@ class UconfigImplementationFloorGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -573,7 +573,7 @@ class UconfigImplementationFloorGui extends genericGui {
 
 //             // Attach event listener directly to the squareDiv
 //             squareDiv.addEventListener('click', function (e) {
-//                 // alert(squareDiv.dataset.value);
+
 //                 // Notify the mediator or perform some action
                 
               
@@ -644,7 +644,7 @@ class UconfigImplementationFloorGui extends genericGui {
      
 //                  // Attach event listener directly to the squareDiv
 //                  squareDiv.addEventListener('click', function (e) {
-//                      // alert(squareDiv.dataset.value);
+
 //                      // Notify the mediator or perform some action
                      
                    
@@ -946,7 +946,7 @@ class UconfigImplementationFloorGui extends genericGui {
 
 //             // Attach event listener directly to the squareDiv
 //             squareDiv.addEventListener('click', function (e) {
-//                 // alert(squareDiv.dataset.value);
+
 //                 // Notify the mediator or perform some action
                 
               
@@ -1017,7 +1017,7 @@ class UconfigImplementationFloorGui extends genericGui {
      
 //                  // Attach event listener directly to the squareDiv
 //                  squareDiv.addEventListener('click', function (e) {
-//                      // alert(squareDiv.dataset.value);
+
 //                      // Notify the mediator or perform some action
                      
                    

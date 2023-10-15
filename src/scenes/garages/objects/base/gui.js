@@ -209,7 +209,7 @@ class UconfigDebugGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
 
 
@@ -279,7 +279,7 @@ class UconfigDebugGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
 
 
@@ -423,6 +423,7 @@ class UconfigUserGui extends genericGui {
 
         let { accordionBodyDiv, accordionDiv } = generateAccordion.bind(this)()
 
+  
         accordionBodyDiv.appendChild(this.createMarkup());
 
         accordionBodyDiv.appendChild(this.generateSep());
@@ -443,14 +444,8 @@ class UconfigUserGui extends genericGui {
         let text_attributes = Object.keys(this.mediator.state.state)
         
 
-        function splitArrayByValue(array, values) {
-            //
-            // Create two arrays: one for items with certain values and another for the rest
-            let arrayWithValues = array.filter(item => values.includes(item));
-            let arrayWithoutValues = array.filter(item => !values.includes(item));
-        
-            // Return both arrays
-            return  arrayWithValues;
+        function getOrderedAttributes(attributes, order) {
+            return order.filter(value => attributes.includes(value));
         }
         function restSplitArrayByValue(array, values){
             let arrayWithoutValues = array.filter(item => !values.includes(item));
@@ -460,42 +455,47 @@ class UconfigUserGui extends genericGui {
 
         
         // let text_attributes = [1, 2, 3, 4, 5];
-        let values = ['object_width' ];
-        let label_values=[ 'Szerokość elementu']
+        // let values = ['object_width' ,'position_x'];
+        // let label_values=[ 'Szerokość elementu', 'pozycja_x']
         
-        let positionValues=splitArrayByValue(text_attributes,values);
-        text_attributes=restSplitArrayByValue(text_attributes,values);
+        // let positionValues=splitArrayByValue(text_attributes,values);
+        // text_attributes=restSplitArrayByValue(text_attributes,values);
         //TODO YOU CAN RETURN HERE AND MAKE IT BETTER
-        text_attributes=[]
+        //text_attributes=[]
 
-        let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
-        
+        // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
+        // debugger
+        var display_values=['position_x', 'position_y', 'door_height', 'door_width']
+        var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
+       var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
+
+        let generate_all=this.generateTextInputs(containerDiv,selected_text_attributes, {type:"number", step:"0.1"}, display_label_value)
         
  
 
-        text_attributes.forEach(attr => {
-            const textLabel = document.createElement('label');
-            textLabel.textContent = attr;
-            containerDiv.appendChild(textLabel);
+        // positionValues.forEach(attr => {
+        //     const textLabel = document.createElement('label');
+        //     textLabel.textContent = attr;
+        //     containerDiv.appendChild(textLabel);
 
-            const filler = document.createElement('div');
-            containerDiv.appendChild(filler);
+        //     const filler = document.createElement('div');
+        //     containerDiv.appendChild(filler);
 
-            const textInput = document.createElement('input');
-            textInput.type = 'text';
-            textInput.value = this.mediator.state.state[attr] || '';  // default to empty string if not set
+        //     const textInput = document.createElement('input');
+        //     textInput.type = 'text';
+        //     textInput.value = this.mediator.state.state[attr] || '';  // default to empty string if not set
 
-            // Event listener for input changes
-            textInput.addEventListener('input', function (e) {
-                this.mediator.state[attr] = e.target.value;
+        //     // Event listener for input changes
+        //     textInput.addEventListener('input', function (e) {
+        //         this.mediator.state[attr] = e.target.value;
                
-                this.notifyMediator('debugStateChange', { [attr]: e.target.value });
+        //         this.notifyMediator('debugStateChange', { [attr]: e.target.value });
               
-                console.log(this.mediator.state.state)
-            }.bind(this));
+        //         console.log(this.mediator.state.state)
+        //     }.bind(this));
 
-            containerDiv.appendChild(textInput);
-        });
+        //     containerDiv.appendChild(textInput);
+        // });
 
 
 
@@ -595,7 +595,7 @@ class UconfigUserGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
 
 
@@ -665,7 +665,7 @@ class UconfigUserGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
 
 

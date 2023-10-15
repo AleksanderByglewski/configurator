@@ -12,11 +12,11 @@ class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
     }
-     generateSep(){
+    generateSep(){
         const sepElem= document.createElement('hr');
         sepElem.classList.add('my-2' , 'my-lg-4')
         return sepElem
-     }
+    }
     generateInputs(attributes) {
 
         function generateAccordion(who_to_collapse="collapseTwo", pass_name="Kontroler", show=false){
@@ -127,8 +127,8 @@ class UconfigImplementationWallGui extends genericGui {
              containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
+                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/2.jpg'},
+                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/1.jpg'},
                  { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
                  { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
@@ -159,7 +159,7 @@ class UconfigImplementationWallGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -198,8 +198,7 @@ class UconfigImplementationWallGui extends genericGui {
      
              
              return containerDiv;
-         }
-
+    }
     createMarkupSize() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
@@ -229,18 +228,39 @@ class UconfigImplementationWallGui extends genericGui {
 
         //     containerDiv.appendChild(textInput);
         // });
-
+        let name = this.mediator.state.state["name"]
+        let initial=3.0
+        let initial_height=2.13
+        let step=0.5
+        let step_height=0.1
         let N=25
-        const vals1 = Array.from({length: N}, (_, i) => 0.5*i + 3.0);
+        if(!name){
+            name="garażu"
+        }
+        if(name && name.toUpperCase()=="NISZA"){
+              
+                    N=150
+                    initial=0.1
+                    step=0.1
+            
+
+        }
+        
+    
+
+       
+        const vals1 = Array.from({length: N}, (_, i) => step*i + initial);
          N=25
-        const vals2 = Array.from({length: N}, (_, i) => 0.1*i + 2.13);
+        const vals2 = Array.from({length: N}, (_, i) => step*i + initial);
          N=25
-        const vals3 = Array.from({length: N}, (_, i) => 0.5*i + 3.0);
+        const vals3 = Array.from({length: N}, (_, i) => step_height*i +2.13);
+   
+        
 
         const attributes = [ 
-            ['object_width', 'Szerokość garażu', vals1],
-            ['object_depth', 'Głębokość garażu', vals3],
-            ['object_height', 'Wysokość garażu', vals2],
+            ['object_width', 'Szerokość '+name, vals1],
+            ['object_depth', 'Głębokość '+name, vals2],
+            ['object_height', 'Wysokość '+name, vals3],
         ];
         
         attributes.forEach(([attr, description,vals]) => {
@@ -368,22 +388,25 @@ class UconfigImplementationWallGui extends genericGui {
         return containerDiv;
     }
     createMarkupColors(){
-   const containerDiv = document.createElement('div');
+        const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
-            { value: '#8781a3',  display_value:"RAL2007", color_value:"#656179"},
-            { value: '#a7a1c3',  display_value:"RAL2009", color_value:"#858199"},
-            { value: '#c7c1e3',  display_value:"RAL2000", color_value:"#a5a1b9"},
-            { value: '#e7e1f3',  display_value:"RAL2011", color_value:"#c5c1d9"},
-            { value: '#757375',  display_value:"RAL2015", color_value:"#434143"},
-            { value: '#858385',  display_value:"RAL2017", color_value:"#535153"},
-            { value: '#959395',  display_value:"RAL2019", color_value:"#737173"},
-            { value: '#A5A3A5',  display_value:"RAL2021", color_value:"#838183"},
-            { value: '#B5B3B5',  display_value:"RAL2023", color_value:"#939193"},
-            { value: '#C5C3C5',  display_value:"RAL2025", color_value:"#a3a1a3"},
-            { value: '#D5D3D5',  display_value:"RAL2027", color_value:"#b4b1b3"},
-            { value: '#E5E3E5',  display_value:"RAL2029", color_value:"#c4c1c3"},
+            { value: '#ED972A',  display_value:"Złoty dąb", color_value:"#ED972A"},
+            { value: '#C76E3C',  display_value:"Złoty dąb ciemny", color_value:"#C76E3C"},
+            { value: '#925f50',  display_value:"Orzech", color_value:"#623B2F"},
+            { value: '#653d3c',  display_value:"RAL8017", color_value:"#653d3c"},
+            { value: '#0d5733',  display_value:"RAL6005", color_value:"#0d5733"},
+            { value: '#00a35e',  display_value:"RAL2011", color_value:"#00a35e"},
+            { value: '#acc6af',  display_value:"RAL6034", color_value:"#acc6af"},
+            { value: '#eeeeee',  display_value:"RAL9010", color_value:"#eeeeee"},
+            { value: '#661d24',  display_value:"RAL3005", color_value:"#661d24"},
+            { value: '#a62926',  display_value:"RAL3011", color_value:"#a62926"},
+   
+         
+            { value: '#c3a79f',  display_value:"RAL9002", color_value:"#c3a79f"},
+            { value: '#1c1e1f',  display_value:"RAL9005", color_value:"#1c1e1f"},
+            { value: '#c6eaff',  display_value:"Ocynk", color_value:"#c6e9fd"},
         ];
 
         squareButtons.forEach(button => {
@@ -408,7 +431,7 @@ class UconfigImplementationWallGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -446,7 +469,6 @@ class UconfigImplementationWallGui extends genericGui {
         
         return containerDiv;
     }
-
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
              containerDiv.classList.add('squares-container', 'squares-container--material');
@@ -484,7 +506,7 @@ class UconfigImplementationWallGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -519,7 +541,7 @@ class UconfigImplementationWallGui extends genericGui {
      
              
              return containerDiv;
-         }
+    }
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);

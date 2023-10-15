@@ -198,7 +198,7 @@ class UconfigsImplementationController extends UconfigsController {
      let rotation_y=0
      let second_displacement=0
      let second_rotation=0
-    //  alert(object_type)
+    
      switch (object_type) {
        case 'slope_left':
           rotation_y=0
@@ -640,7 +640,7 @@ class UconfigsImplementationController extends UconfigsController {
                 break;
 
             case 'changeObject':
-                // alert(data)
+                
                 {
                
                     const accessers = [
@@ -656,7 +656,7 @@ class UconfigsImplementationController extends UconfigsController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                     new accesser('roof_color_top', data),
@@ -1217,7 +1217,7 @@ class RoofSideController extends UconfigsController {
                 break;
 
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -1231,7 +1231,7 @@ class RoofSideController extends UconfigsController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]

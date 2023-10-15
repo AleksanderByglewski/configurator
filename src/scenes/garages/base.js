@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+const gui = new GUI();
 
 export class accesser {
     constructor(resource_locator, value = "", name = "") {
@@ -197,6 +199,14 @@ class genericState extends Generic {
 
     update(key, value) {
     
+        if (key instanceof accesser) {
+            // Use resource_locator as the key
+            return this.state[key.resource_locator]=value;
+        } else {
+            // Use key directly
+            return this.state[key]=value;
+        }
+
         this.state[key] = value;
         // console.log(`State updated: ${key} changed to ${value}`)
     }
@@ -276,7 +286,7 @@ class genericController extends Generic {
             //     } else {
             //         console.log('Key or value does not exist');
             //     }
-            //      alert("hi")
+            
             //     break;
             // Handle other events...
             default:
@@ -285,4 +295,4 @@ class genericController extends Generic {
     }
 }
 
-export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } 
+export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController , gui } 

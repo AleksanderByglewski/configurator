@@ -213,7 +213,7 @@ class UconfigImplementationWallGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -284,7 +284,7 @@ class UconfigImplementationWallGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    
@@ -398,8 +398,8 @@ class UconfigCanopyUserGui extends UconfigUserGui {
 
         
         // let text_attributes = [1, 2, 3, 4, 5];
-        let values = ['object_width' ];
-        let label_values=[ 'Szerokość elementu']
+        let values = ['object_width', 'object_depth' ];
+        let label_values=[ 'Szerokość elementu', 'Głębokość elementu']
         
         let positionValues=splitArrayByValue(text_attributes,values);
         text_attributes=restSplitArrayByValue(text_attributes,values);

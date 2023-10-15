@@ -140,11 +140,11 @@ class UconfigGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
                 this.notifyMediator('changeFloor',`${squareDiv.dataset.value}`)
-                // alert(this.id)
+                
                 // console.log(`Clicked on square with value: ${this.dataset.value}`);
             }.bind(this));
 
@@ -328,7 +328,7 @@ class UconfigController extends groupGenericGarageController{
                 break
 
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers=[
                     new accesser('object_type', data),
                 ]  
@@ -511,7 +511,7 @@ class UconfigsController extends genericGarageController {
                 break
 
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers=[
                     new accesser('object_type', data),
                 ]  

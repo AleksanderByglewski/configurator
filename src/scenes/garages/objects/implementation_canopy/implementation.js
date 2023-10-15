@@ -34,6 +34,7 @@ class UconfigsImplementationCanopyController extends UconfigsController {
             // new accesser('position_z'),
             // new accesser('rotation_y'),
             new accesser('object_width'),
+            new accesser('object_depth')
         ]
         return dynamic_accessers
 
@@ -342,6 +343,337 @@ class UconfigsImplementationCanopyController extends UconfigsController {
             return array
     }   
 }
+class UconfigsImplementationSecondaryCanopyController extends UconfigsController {
+    constructor() {
+        super()
+        this.setModel(UconfigInvisibleObject)
+        this.gui = new UconfigCanopyUserGui();
+        this.gui.set_mediator(this)
+        this.group = new THREE.Group()
+        this.external_objects=[]
+        this.external_objects_controllers=[]
+       
+    }
+
+    generateDynamicAccessers() {
+        console.log("This should be overriden")
+        const dynamic_accessers = [
+            // new accesser('name', 'Menu do debugowania obiektu'),
+            // new accesser('position_x'),
+            // new accesser('position_y'),
+            // new accesser('position_z'),
+            // new accesser('rotation_y'),
+            new accesser('object_width'),
+            new accesser('object_depth')
+        ]
+        return dynamic_accessers
+
+    }
+    request_an_update(){
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+
+        // let targeted_parent=this.external_objects_controllers[0]
+        
+         let targeted_parent = this.external_objects_controllers[0];
+        
+        // Assuming that each object has a 'parent' property leading to its parent object
+        while (targeted_parent && targeted_parent.status !== "niche_level" && targeted_parent.status !== "top_level") {
+            targeted_parent = targeted_parent.external_objects_controllers[0];
+        }
+        
+        // At this point, targeted_parent is either the top level object or null/undefined
+        if (targeted_parent) {
+            console.log("Found the top level object:", targeted_parent);
+        } else {
+            console.log("Top level object not found.");
+        }
+
+        let accessers = [
+          
+            // new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            // new accesser('wall_color'),
+        ]
+        
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers[i].resource_locator, val);
+        }
+
+
+        accessers = [
+          
+            new accesser('object_width'),
+            new accesser('object_depth'),
+            new accesser('object_height'),
+            new accesser('wall_color'),
+        ]
+        let accessers_assign=[
+          
+            new accesser('garage_width'),
+            new accesser('garage_depth'),
+            new accesser('garage_height'),
+            new accesser('wall_color'),
+    
+        ]
+        
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers_assign[i].resource_locator, val);
+        }
+
+
+        //Now you need to go down to find the roof
+        let targeted_elements = targeted_parent.external_objects;
+        targeted_parent = targeted_elements.find(element => element.status === "main_roof");
+        accessers = [
+            new accesser('roof_type'),
+        ]
+        accessers_assign=[
+          
+            new accesser('received_roof_type'),    
+        ]
+        
+
+        
+
+
+        if (targeted_parent) {
+            console.log("Found the element with status 'main_roof':", targeted_parent);
+            for (let i = 0; i < accessers.length; i++) {
+                const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+                this.state.update(accessers_assign[i].resource_locator, val);
+            }
+        } else {
+            console.log("Element with status 'main_roof' not found.");
+        }
+
+
+    }
+
+    determineState() {
+        //You can get the current state of the object by using the 
+        this.request_an_update()
+
+        let received_roof_type=this.state.get('received_roof_type') || 'roof_type_1'
+
+ 
+
+        //You need to figure the modifiers for the front,back, left and  right 
+        //How to do that 
+        //Request an update from the parent check the type of canopy added and then modify the height of children walls by some +adjustment
+        
+        let garage_width = parseFloat(this.state.get('garage_width')) || 3
+        let garage_depth = parseFloat(this.state.get('garage_depth')) || 5
+
+
+        let name = this.state.get('name') || 'Wall'
+        let object_type = this.state.get('object_type') || 'flat'
+        let object_width = parseFloat(this.state.get('object_width')) || 3
+        let object_height = parseFloat(this.state.get('object_height')) || 2.13
+        let object_depth = parseFloat(this.state.get('object_depth')) || 4
+        let object_color = this.state.get('wall_color') || "#FEFEFE"
+     
+
+
+        this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+
+        let texture_type=""
+        let material_type=this.state.get('material_type') || "material_type_1" 
+        let position_x = this.state.get('position_x') || 0
+        let position_y = this.state.get('position_y') || 0
+        let position_z = this.state.get('position_z') || 0
+
+        let height = this.state.get('height') || 2.13
+        let width = this.state.get('width') || 2.0
+        let depth = this.state.get('depth') || 4.0
+        
+        // // object_height = height
+        // // object_width = width
+        // object_depth = depth
+        let debug_x=0
+        let debug_y=object_height/2
+        //let object_angle=parseFloat(this.state.get('object_angle'))||30
+        let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
+
+
+
+        let modifier_left_wall=0
+        let modifier_right_wall=0
+        let modifier_front_wall=0
+        let modifier_back_wall=0
+
+        let 
+        modifier_front_pole_left=0,
+        modifier_front_pole_right=0,
+        modifier_back_pole_left=0,
+        modifier_back_pole_right=0,
+        modifier_right_pole_left=0,
+        modifier_right_pole_right=0,
+        modifier_left_pole_left=0,
+        modifier_left_pole_right=0
+
+        let roof_slant=5.5*Math.PI/180
+        //The dimension of the top part of the roof 
+        let roof_top_height=object_width*(1/Math.cos(roof_slant))
+        let roof_height=roof_top_height*Math.sin(roof_slant);
+
+        //How high should the roof top extrude
+        let garage_roof_top_height=object_width*(1/Math.cos(roof_slant))
+        let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
+
+        switch (received_roof_type)
+        {
+
+        
+                case 'roof_type_1':
+                    break;
+                    
+                case 'roof_type_2':
+          
+                    modifier_front_pole_left=roof_height+garage_roof_height
+                    modifier_front_pole_right=roof_height
+                    modifier_back_pole_left=roof_height
+                    modifier_back_pole_right=roof_height+garage_roof_height
+                    modifier_right_pole_left=roof_height+garage_roof_height
+                    modifier_right_pole_right=roof_height+garage_roof_height
+                    modifier_left_pole_left=roof_height
+                    modifier_left_pole_right=roof_height
+
+ 
+                    break;
+                    
+                case 'roof_type_3':
+                    break;
+                    
+                case 'roof_type_4':
+
+                    modifier_front_pole_left=-roof_height
+                    modifier_front_pole_right=-roof_height
+                    modifier_back_pole_left=-roof_height
+                    modifier_back_pole_right=-roof_height
+                    modifier_right_pole_left=-roof_height
+                    modifier_right_pole_right=-roof_height
+                    modifier_left_pole_left=-roof_height
+                    modifier_left_pole_right=-roof_height
+
+                    break;
+
+                default:
+                    break;
+
+        }
+        //  modifier_left_wall=roof_height
+        //  modifier_right_wall=roof_height
+        //  modifier_front_wall=roof_height
+        //  modifier_back_wall=roof_height
+
+
+        const accessersWallFront = [
+            new accesser('name', name + "_fronts"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0+debug_x),
+            new accesser('position_y', 0+debug_y),
+            new accesser('position_z', object_depth/2),
+            new accesser('color', object_color),
+            // new accesser('position_relative', 'true'),
+            new accesser('rotation_y', 0*Math.PI),
+            // new accesser('modifier_front', modifier_right_wall),
+            // new accesser('modifier_back', modifier_back_wall),
+            new accesser('modifier_left_pole', modifier_front_pole_left),
+            new accesser('modifier_right_pole', modifier_front_pole_right)
+        ]
+       
+        const accessersWallBack = [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_width),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x',  0+debug_x),
+            new accesser('position_y', 0+debug_y),
+            new accesser('position_z',-object_depth/2),
+            new accesser('color', object_color),
+            // new accesser('position_relative', 'true'),
+             new accesser('rotation_y',2* Math.PI/2),
+            //  new accesser('modifier_front', modifier_right_wall),
+            //  new accesser('modifier_back', modifier_back_wall),
+            new accesser('modifier_left_pole', modifier_back_pole_left),
+            new accesser('modifier_right_pole', modifier_back_pole_right)
+
+        ]
+        const accessersWallLeft = [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', -object_width/2 + 0+debug_x),
+            new accesser('position_y', 0+debug_y),
+            new accesser('position_z',-0*object_depth/2),
+            new accesser('color', object_color),
+            // new accesser('position_relative', 'true'),
+             new accesser('rotation_y',-1* Math.PI/2),
+            //  new accesser('modifier_front', modifier_right_wall),
+            //  new accesser('modifier_back', modifier_back_wall),
+            new accesser('modifier_left_pole', modifier_left_pole_left),
+            new accesser('modifier_right_pole', modifier_left_pole_right)
+
+        ]
+        const accessersWallRight= [
+            new accesser('name', name + "_back"),
+            new accesser('width', object_depth),
+            new accesser('height', object_height),
+            new accesser('sheet_depth', sheet_depth),
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x',object_width/2 + 0+debug_x),
+            new accesser('position_y', 0+debug_y),
+            new accesser('position_z',-0*object_depth/2),
+            new accesser('color', object_color),
+            new accesser('rotation_y',Math.PI/2),
+            // new accesser('modifier_front', modifier_right_wall),
+            // new accesser('modifier_back', modifier_back_wall),
+            new accesser('modifier_left_pole', modifier_right_pole_left),
+            new accesser('modifier_right_pole', modifier_right_pole_right)
+            // new accesser('position_relative', 'true'),
+            // new accesser('rotation_y',2* Math.PI/2),
+
+        ]
+        // const iterate=[accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight  ]
+        // iterate.forEach(accessersObject => {  
+        //     const added_accesser = new accesser('material_type', material_type);
+        //     accessersObject.push(added_accesser);
+        // });
+
+
+
+        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, "accessersWallLeft": accessersWallLeft, "accessersWallRight": accessersWallRight,  }
+    }
+    generatePassiveObjects(){
+            const { accessersWallFront, accessersWallBack,accessersWallLeft, accessersWallRight } = this.determineState();
+
+            let array = [
+                { objectOptions: accessersWallFront, classInstance: UconfigsImplementationWallController},
+                { objectOptions: accessersWallBack,  classInstance: UconfigsImplementationWallController },
+                { objectOptions: accessersWallLeft,  classInstance: UconfigsImplementationWallController },
+                { objectOptions: accessersWallRight, classInstance: UconfigsImplementationLameledWallController }
+                ]
+            return array
+    }   
+}
+
 class UconfigsImplementationWallController extends UconfigsController{
     constructor() {
         super()
@@ -649,4 +981,4 @@ class UconfigsImplementationLameledWallController extends UconfigsController{
 }
 
 
-export {  UconfigsImplementationCanopyController}
+export {  UconfigsImplementationCanopyController, UconfigsImplementationSecondaryCanopyController}

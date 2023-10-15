@@ -317,7 +317,7 @@
 //                     break
 //                 }
 //             case 'changeObject':
-//                 // alert(data)
+
 //                 {
 //                     const accessers = [
 //                         new accesser('color', data),
@@ -331,7 +331,7 @@
 //                 }
 //                 break;
 //             case 'changeFloor':
-//                 // alert(data)
+
 //                 const accessers = [
 //                     new accesser('color', data),
 //                 ]

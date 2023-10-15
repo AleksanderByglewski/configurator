@@ -24,6 +24,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
     }
     determineState() {
         //You can get the current state of the object by using the 
+       
         this.request_an_update()
   
         let name = this.state.get('name') || 'Wall'
@@ -38,7 +39,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         let material_type=this.state.get('material_type') || "material_type_1" 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
-        let position_z = this.state.get('position_z') || 0.05
+        let position_z = this.state.get('position_z') || 0.01
 
         let height = this.state.get('height') || 1.93
         let width = this.state.get('width') || 2.0
@@ -54,7 +55,8 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
         let door_width = parseFloat(this.state.get('door_width')) || 2.23
         let door_height = parseFloat(this.state.get('door_height')) || 2.03
-         this.adjust_position(0.05+(door_height-object_height)/2)
+       
+        let adjust_bottom_height=-0.5*parseFloat(this.state.get('garage_height'))+0.5*door_height+0.035
         const accessersWallFront = [
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
@@ -68,7 +70,8 @@ class UconfigsImplementationDoorController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-    
+            new accesser('position_y', adjust_bottom_height),
+            
             new accesser('position_z', position_z),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
@@ -82,7 +85,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-      
+            new accesser('position_x', adjust_bottom_height),
             new accesser('position_z',0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
@@ -135,20 +138,20 @@ class UconfigsImplementationDoorController extends UconfigsController {
         let targeted_parent=this.external_objects_controllers[0]
 
         const accessers = [
-          
-            new accesser('object_width'),
-            new accesser('object_depth'),
-            new accesser('object_height'),
-            
+            new accesser('height'),        
+        ]
+
+        const accessers_labels=[
+            new accesser('garage_height'),
         ]
 
         for (let i = 0; i < accessers.length; i++) {
             const val=targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
-            this.state.update(accessers[i].resource_locator, val);
+            this.state.update(accessers_labels[i].resource_locator, val);
         }
     }
     adjust_position( garage_height=2.13,garage_width=0, garage_depth=0,){
-        this.state.update('position_y', garage_height)
+        this.state.update('position_y',0)
     
     }
 }

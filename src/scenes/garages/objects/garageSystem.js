@@ -63,7 +63,7 @@ class GarageSystem extends genericGarageController {
         return { "walls": walls, "roof": roof }
     }
     calculateState() {
-        //  alert("hello state2")
+        
         console.log(this.children)
         const accessersDict = this.determineState();
         Object.keys(accessersDict).forEach((key, index) => {

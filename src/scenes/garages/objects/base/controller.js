@@ -9,7 +9,7 @@ import { DoubleCubeObject, RedCubeObject, CubeObject, UconfigObject, UconfigInvi
 class genericGarageController extends genericController {
     constructor() {
         super();
-        // alert("hello")
+        
         // this.setModel(genericGarageObject);
         // this.setGui(UconfigDebugGui);
         // this.children = []
@@ -77,6 +77,37 @@ class UconfigsController extends genericGarageController {
 
 
     }
+    request_find_element(element_status="top_level"){
+        /**
+        * A helper function for finding an element in request_an_update
+        */
+
+        let targeted_parent = this.external_objects_controllers[0];
+
+        // Assuming that each object has a 'parent' property leading to its parent object
+        while (targeted_parent && targeted_parent.status !== element_status) {
+            targeted_parent = targeted_parent.external_objects_controllers[0];
+        }
+
+        
+        // Return the targeted_parent_element
+        return targeted_parent
+        
+
+
+    }
+    request_update_state(targeted_parent,accessers_to_get , accessers_to_set ){
+        /**
+        * A helper function for updating accessers in request_an_update
+        */
+
+        accessers_to_set = accessers_to_set || accessers_to_get
+        for (let i = 0; i < accessers_to_get.length; i++) {
+            const val = targeted_parent.state.get(accessers_to_get[i].resource_locator, accessers_to_set[i].value);
+            this.state.update(accessers_to_set[i].resource_locator, val);
+        }
+    }
+
 
     determineState() {
 
@@ -216,8 +247,9 @@ class UconfigsController extends genericGarageController {
         // }
 
         //GOBACKTO
-        const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
-        this.group.add(axesHelper);
+        //Axes
+        // const axesHelper = new THREE.AxesHelper(1.5); // Set the size based on your needs
+        // this.group.add(axesHelper);
    
 
         let hasControllers = false;
@@ -366,7 +398,7 @@ class UconfigsController extends genericGarageController {
                     }
                     break;
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -380,7 +412,7 @@ class UconfigsController extends genericGarageController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]
@@ -402,7 +434,7 @@ class UconfigsController extends genericGarageController {
                     // let keys = Object.keys(data);
                     // keys[0]
                     // let firstValue = data[keys[0]];
-                    // alert("hello")
+                    
                     if (data && typeof data === 'object') {
                         let keys = Object.keys(data);
                         if (keys.length > 0) {

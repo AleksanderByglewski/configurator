@@ -56,6 +56,9 @@ import {
 } from './objects/implementation_contact_form/implementation'
 
 
+import {gui} from  './base'
+
+
 function addEnvMap(scene){
 
   const loader = new THREE.CubeTextureLoader();
@@ -137,9 +140,9 @@ function addEnvMapTextured1(scene){
   scene.add( sphereMesh );
   return {sphereMesh, params}
 }
-function addEnvMapTextured(scene){
+function addEnvMapTextured(scene, gui){
 
-  const gui = new GUI();
+
 
   const params = {
     envMap: 'HDR',
@@ -175,7 +178,7 @@ function addEnvMapTextured(scene){
 
 	let sphereMesh, sphereMaterial;
 
-  const geometry = new THREE.BoxGeometry( 5, 5,5 );
+  const geometry = new THREE.BoxGeometry( 3.01, 4.24,4.01 );
   sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
   sphereMaterial = new THREE.MeshStandardMaterial( { 
     
@@ -210,6 +213,13 @@ function addEnvMapTextured(scene){
     //   texture.wrapT = THREE.RepeatWrapping
     //   texture.repeat.set(repeat,repeat)
     // })
+
+    
+        const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+          texture.wrapS = THREE.MirroredRepeatWrapping;
+          texture.wrapT = THREE.MirroredRepeatWrapping;
+          texture.repeat.set(repeat,repeat)
+        })
         const normalMap = new THREE.TextureLoader().load(
           path+'nor_gl_'+resolution+'.jpg',
           (texture) => {
@@ -226,7 +236,8 @@ function addEnvMapTextured(scene){
             texture.repeat.set(repeat,repeat)
           }
         )
-      //  sphereMaterial.map = colorMap
+        sphereMaterial.map = colorMap
+        sphereMaterial.map.repeat.set(1, 1);
         sphereMaterial.normalMap = normalMap
         sphereMaterial.bumpMap = bumpMap
 
@@ -238,10 +249,10 @@ function addEnvMapTextured(scene){
 
 
     //load_texture('/assets/textures/metal_shutter/painted_metal_shutter_', '1k')
-    sphereMaterial=load_texture('/assets/textures/factory_wall/factory_wall_', '1k')
+    sphereMaterial=load_texture('/assets/textures/factory_oak/factory_wall_', '1k')
     // sphereMaterial.bumpMap = bumpMap
     sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
-    sphereMesh.position.x=10
+    sphereMesh.position.x=15
 
 
   // const roughnessTexture = new THREE.TextureLoader().load(
@@ -254,6 +265,103 @@ function addEnvMapTextured(scene){
   
   scene.add( sphereMesh );
   return {sphereMesh, params}
+}
+
+function checkTheUVs(scene,gui, params){
+  let material
+  let geometry;
+  let width=params.width;
+  let height=params.height;
+  let offset_x=params.offset_x
+  let offset_y=params.offset_x
+
+  let color=new THREE.Color("#FF00FF")
+  let shape = new THREE.Shape();
+  shape.moveTo(-width/2,0)
+  shape.lineTo(width/2,0)
+  shape.lineTo(-width/2,height)
+ // shape.moveTo( 0, height );  // Move to the first point
+ // shape.lineTo( -1, -1 );  // Draw a line to the second point
+ // shape.lineTo( 1, -1 );  // Draw a line to the third point
+  shape.closePath();  // Close the path to create a triangle
+  
+  geometry = new THREE.ShapeGeometry( shape );
+  
+
+  // Create a material
+
+  // Create a material
+  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
+  // local_texture.wrapS=THREE.RepeatWrapping
+  // local_texture.wrapT=THREE.RepeatWrapping
+  // local_texture.repeat.set(1, 2*height);
+  // Create a material
+  material = new THREE.MeshStandardMaterial({
+      map:local_texture,
+      side:THREE.DoubleSide,
+      // color:color
+    }
+      
+      );
+
+        
+    const mesh = new THREE.Mesh(geometry, material);
+    let object = scene.getObjectByName('triangle')
+    if(object){
+      scene.remove(object)
+    }
+    mesh.name="triangle"
+    mesh.position.z=4.3
+    scene.add(mesh)
+}
+
+function checkTheUVs2(scene,gui, params){
+  let material
+  let geometry;
+  let width=params.width;
+  let height=params.height;
+  let offset_x=params.offset_x
+  let offset_y=params.offset_x
+
+  let color=new THREE.Color("#FF00FF")
+  let shape = new THREE.Shape();
+  shape.moveTo(-width/2,0)
+  shape.lineTo(width/2,0)
+  shape.lineTo(-width/2,height)
+ // shape.moveTo( 0, height );  // Move to the first point
+ // shape.lineTo( -1, -1 );  // Draw a line to the second point
+ // shape.lineTo( 1, -1 );  // Draw a line to the third point
+  shape.closePath();  // Close the path to create a triangle
+  
+  geometry = new THREE.ShapeGeometry( shape );
+  
+
+  // Create a material
+
+  // Create a material
+  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
+  // local_texture.wrapS=THREE.RepeatWrapping
+  // local_texture.wrapT=THREE.RepeatWrapping
+  // local_texture.repeat.set(1, 2*height);
+  // Create a material
+  material = new THREE.MeshStandardMaterial({
+      map:local_texture,
+      side:THREE.DoubleSide,
+      // color:color
+    }
+      
+      );
+
+        
+    const mesh = new THREE.Mesh(geometry, material);
+    let object = scene.getObjectByName('square')
+    if(object){
+      scene.remove(object)
+    }
+    mesh.name="square"
+    mesh.position.z=4.3
+    mesh.position.x=5.3
+    scene.add(mesh)
 }
 
 function check_the_lights(scene){
@@ -317,7 +425,7 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff, 7.5); // soft white light
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
@@ -440,13 +548,56 @@ function populateScene(scene) {
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
   scene.background=new THREE.Color(0x97DEFB);
+  // scene.background=new THREE.Color(0x000000);
   scene.fog = new THREE.Fog(0xffffff, 10, 100);
+  // addEnvMap(scene)
+  // addEnvMapTextured1(scene)
 
 
-  addEnvMap(scene)
-  addEnvMapTextured1(scene)
-  value=addEnvMapTextured(scene)
-   
+  value=addEnvMapTextured(scene, gui)
+  const params = {
+    envMap: 'LDR',
+    height: 5.25,
+    width: 3,
+    offset_x: 0,
+    offset_y: 0,
+    // exposure: 2.0,
+    // debug: false,
+    color: '#ffffff',
+    lightIntensity:1.8
+  };
+
+  // {
+  // const folderTriangle=gui.addFolder("folderTriangle")
+  // folderTriangle.add( params, 'height', 0, 10, 0.01 );
+  // folderTriangle.add( params, 'width', 0, 10, 0.01 );
+  // folderTriangle.add( params, 'offset_x', 0, 25, 0.01 ); 
+  // folderTriangle.add( params, 'offset_y', 0, 25, 0.01 );
+  // // folderTriangle.add( params, 'exposure', 0, 2, 0.01 );
+  // // folderTriangle.add( params, 'debug', false );
+  // folderTriangle.addColor( params, 'color' );
+  // folderTriangle.open();
+
+
+
+  // checkTheUVs(scene,gui, {height:params.height, width:5, offset_x:0, offset_y:0})
+  // checkTheUVs2(scene,gui, {height:params.height, width:5, offset_x:0, offset_y:0})
+
+
+  // folderTriangle.onChange( event => {
+  //   debugger
+  //   params
+  //   checkTheUVs(scene,gui, {height:params.height, width:params.width, offset_x:0, offset_y:0})
+  //   // console.log(event)
+  //   // event.object     // object that was modified
+  //   // event.property   // string, name of property
+  //   // event.value      // new value of controller
+  //   // event.controller // controller that was modified
+  
+  // } );
+  // checkTheUVs(scene,gui, {height:params.height, width:5, offset_x:0, offset_y:0})
+
+  // }
 
 
   const emptySystem = [
@@ -840,7 +991,36 @@ function populateScene(scene) {
 
 
 
-  
+  function generic_attaching_canopies(){
+
+    let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
+
+
+    OmegaSystems.wall_front = GroupGarageSystem.external_objects[0]
+    OmegaSystems.wall_back = GroupGarageSystem.external_objects[1]
+    OmegaSystems.wall_left = GroupGarageSystem.external_objects[2]
+    OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
+    OmegaSystems.group_controller = GroupGarageSystem
+    
+
+
+
+    // let front_wall=GroupGarageSystem.external_objects[1]
+
+
+    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
+    // front_wall.external_objects.push(DoorSystem1)
+    // DoorSystem1.external_objects_controllers.push(front_wall)
+    // DoorSystem1.mediator=front_wall
+
+
+
+    GroupGarageSystem.handleEvent('buildingStep')
+    OmegaSystems.state.state['name'] = "Dodaj wiatę"
+    OmegaSystems.state.state['gui_child_name'] = "Dodaj wiatę"
+    OmegaSystems.door_type = true
+    OmegaSystems.handleEvent('generateInputs')
+  }
 
 
 
@@ -872,7 +1052,7 @@ function populateScene(scene) {
 
 
   }
- semiAdvanced_floor_object()
+  semiAdvanced_floor_object()
 
 
   function initialization_system() {
@@ -944,35 +1124,6 @@ function populateScene(scene) {
   generic_attaching_doors()
 
 
-  function generic_attaching_canopies(){
-
-    let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
-
-
-    OmegaSystems.wall_front = GroupGarageSystem.external_objects[0]
-    OmegaSystems.wall_back = GroupGarageSystem.external_objects[1]
-    OmegaSystems.wall_left = GroupGarageSystem.external_objects[2]
-    OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
-
-    OmegaSystems.group_controller =GroupGarageSystem
-    // let front_wall=GroupGarageSystem.external_objects[1]
-
-
-    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
-    // front_wall.external_objects.push(DoorSystem1)
-    // DoorSystem1.external_objects_controllers.push(front_wall)
-    // DoorSystem1.mediator=front_wall
-
-
-
-    GroupGarageSystem.handleEvent('buildingStep')
-    OmegaSystems.state.state['name'] = "Dodaj wiatę"
-    OmegaSystems.door_type = true
-    OmegaSystems.handleEvent('generateInputs')
-  }
-  generic_attaching_canopies()
-
-
   function generic_contact_form() {
 
     let ContactSystems = createGarageObject(emptySystem, ContactFormSystem);
@@ -1007,189 +1158,11 @@ function populateScene(scene) {
   generic_contact_form()
 
 
-  //DoorSystem1.handleEvent('generateInputs');
-  //value = advanced_physics_object()
-
-  // let wall_front, wall_left, wall_right, wall_back;
-  // let addition_front, addition_left, addition_right, addition_back
-  // //A two depth test is a failure right now
-  // function the_gate_test1() {
-
-  //   // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  //   let GroupGarageSystem = createGarageObject(emptySystem, TemplateControllableBasicSystem);
-
-  //   GroupGarageSystem.handleEvent('buildingStep');
-  //   //  GroupGarageSystem.handleEvent('generateInputs');
-
-
-  //   let RedGateSystem1 = createGarageObject(emptySystem, GateSystem);
-
-  //   RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  //   GroupGarageSystem.external_objects.push(RedGateSystem1)
-  //   RedGateSystem1.state.state['name'] = "Brama frontowa"
-  //   RedGateSystem1.state.state['width'] = 3.15
-  //   RedGateSystem1.handleEvent('buildingStep');
-
-
-  //   RedGateSystem1.handleEvent('generateInputs');
-
-
-
-
-  //   GroupGarageSystem.handleEvent('stateChange', { 'rotation_y': 0 })
-
-  //   // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  //   return [GroupGarageSystem, RedGateSystem1]
-
-  // }
-  // function the_gate_test2() {
-
-  //   // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  //   let GroupGarageSystem = createGarageObject(emptySystem, TemplateControllableBasicSystem);
-
-  //   GroupGarageSystem.handleEvent('buildingStep');
-  //   //  GroupGarageSystem.handleEvent('generateInputs');
-
-
-  //   let RedGateSystem1 = createGarageObject(emptySystem, GateSystem);
-
-  //   RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  //   GroupGarageSystem.external_objects.push(RedGateSystem1)
-  //   RedGateSystem1.state.state['name'] = "Drzwi prawe"
-
-
-  //   RedGateSystem1.handleEvent('buildingStep');
-
-
-
-  //   RedGateSystem1.handleEvent('generateInputs');
-
-  //   GroupGarageSystem.handleEvent('stateChange', { 'rotation_y': 1.57 })
-
-  //   // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  //   return [GroupGarageSystem, RedGateSystem1]
-
-  // }
-  // function the_gate_test3() {
-
-  //   // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  //   let GroupGarageSystem = createGarageObject(emptySystem, TemplateControllableBasicSystem);
-
-  //   GroupGarageSystem.handleEvent('buildingStep');
-  //   // GroupGarageSystem.handleEvent('generateInputs');
-
-
-  //   let RedGateSystem1 = createGarageObject(emptySystem, GateSystem);
-
-  //   // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  //   // GroupGarageSystem.external_objects.push(RedGateSystem1)
-
-  //   // RedGateSystem1.handleEvent('buildingStep');
-  //   // RedGateSystem1.handleEvent('generateInputs');
-
-  //   GroupGarageSystem.handleEvent('stateChange', { 'rotation_y': 2 * Math.PI / 2 })
-
-  //   // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  //   return [GroupGarageSystem, RedGateSystem1]
-
-  // }
-  // function the_gate_test4() {
-
-  //   // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  //   let GroupGarageSystem = createGarageObject(emptySystem, TemplateControllableBasicSystem);
-
-  //   GroupGarageSystem.handleEvent('buildingStep');
-  //   // GroupGarageSystem.handleEvent('generateInputs');
-
-
-  //   // let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-  //   // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  //   // GroupGarageSystem.external_objects.push(RedGateSystem1)
-
-  //   // RedGateSystem1.handleEvent('buildingStep');
-  //   // RedGateSystem1.handleEvent('generateInputs');
-
-  //   GroupGarageSystem.handleEvent('stateChange', { 'rotation_y': 3 * Math.PI / 2 })
-
-  //   // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  //   return [GroupGarageSystem]
-
-  // }
-
-
-
-
-
-
-
-  // let design = true
-  // if (typeof design === 'undefined' || !design) {
-
-  //   roof_test();
-  //   [wall_front, addition_front] = the_gate_test1();
-  //   [wall_right, addition_right] = the_gate_test2();
-  //   [wall_back, addition_back] = the_gate_test3();
-  //   [wall_left] = the_gate_test4();
-
-  //   //[wall_back, addition_back] = the_gate_test3();
-  //   //walls_test()
-  //   //door_test()
-
-  // }
-
-  // function the_omega() {
-
-  //   // let RedCubeSystem=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
-  //   let OmegaSystems = createGarageObject(emptySystem, OmegaSystem);
-  //   OmegaSystems.wall_left = GroupGarageSystem.external_objects[0]
-  //   OmegaSystems.wall_right = GroupGarageSystem.external_objects[1]
-  //   OmegaSystems.wall_back = GroupGarageSystem.external_objects[2]
-  //   OmegaSystems.wall_front = GroupGarageSystem.external_objects[3]
-
-  //   OmegaSystems.handleEvent('buildingStep');
-  //   OmegaSystems.handleEvent('generateInputs');
-
-
-  //   // let RedGateSystem1=createGarageObject(emptySystem, GateSystem);
-
-  //   // RedGateSystem1.external_objects_controllers.push(GroupGarageSystem);
-  //   // GroupGarageSystem.external_objects.push(RedGateSystem1)
-
-  //   // RedGateSystem1.handleEvent('buildingStep');
-  //   // RedGateSystem1.handleEvent('generateInputs');
-
-  //   // GroupGarageSystem.handleEvent('stateChange', { 'rotation_y': 3 * Math.PI / 2 })
-  //   // GroupGarageSystem.handleEvent('stateChange', { 'position_x': 0 })
-
-  //   // GroupGarageSystem.handleEvent('stateChange', {'width': .57} )
-  //   return [GroupGarageSystem]
-
-  // }
-  // //the_omega()
-
-
-  // // function the_omega(){
-
-  // //   let GroupGarageSystem=createGarageObject(emptySystem,OmegaSystem);
-
-  // //   GroupGarageSystem.handleEvent('buildingStep');
-  // //   GroupGarageSystem.handleEvent('generate_inputs');
-  // //   //  wall_front.handleEvent('stateChange', {'width': 10.57} );
-  // //   //  wall_back.handleEvent('stateChange', {'width': 10.57} );
-  // //   //  wall_left.handleEvent('stateChange', {'width': 10.57} );
-  // //   //  wall_right.handleEvent('stateChange', {'width': 10.57} ); 
-
-  // //   //  wall_front.handleEvent('stateChange', {'color': 10.57} );
-  // //   //  wall_back.handleEvent('stateChange', {'color': 10.57} );
-  // //   //  wall_left.handleEvent('stateChange', {'color': 10.57} );
-  // //   //  wall_right.handleEvent('stateChange', {'color': 10.57} ); 
-  // //  }
 
   let NicheSystem;
   function advanced_niche_system() {
     NicheSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
-    NicheSystem.status="top_level"
+    NicheSystem.status="niche_level"
     // NicheSystem.state.state['position_y']=4
   }
 
@@ -1230,13 +1203,14 @@ function populateScene(scene) {
   let RoofSystem2
   function advanced_niche_roof_object() {
 
-    RoofSystem2 = createGarageObject(emptySystem, RoofSystem)
-    RoofSystem2.state.state['name'] = "Kolory dachu"
-    RoofSystem2.status="main_roof"
+    RoofSystem2 = createGarageObject(emptySystem, SecondaryRoofSystem)
+    RoofSystem2.state.state['name'] = "Kolory dachu wnęka"
+    RoofSystem2.status="niche_roof"
     NicheSystem.external_objects.push(RoofSystem2)
     RoofSystem2.external_objects_controllers.push(NicheSystem)
     RoofSystem2.mediator = NicheSystem
 
+    RoofSystem2.handleEvent('generateInputs')
 
 
   }
@@ -1247,7 +1221,7 @@ function populateScene(scene) {
     // let GroupGarageSystem = createGarageObject(emptySystem, InvisibleSystem);
     // GroupGarageSystem.handleEvent('buildingStep');
     // GroupGarageSystem.handleEvent('generateInputs');
-    let RedGateSystem1 = createGarageObject(emptySystem, FloorSystem);
+    let RedGateSystem1 = createGarageObject(emptySystem, SecondaryFloorSystem);
     RedGateSystem1.status="niche_floor"
     // let RedCubeSystem2=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
     // let RedCubeSystem3=createGarageObject(emptySystem, TemplateChildControllableBasicSystem);
@@ -1267,27 +1241,29 @@ function populateScene(scene) {
 
 
   }
- 
-
-
   function initialization_niche(){
   advanced_niche_system()
   advanced_niche_walls_object()
   advanced_niche_roof_object()
-
   semiAdvanced_niche_floor_object()
 
-  NicheSystem.state.state['name']="Nisza"
-  NicheSystem.state.state['position_z']=3
-  NicheSystem.state.state['object_width']=1
-  NicheSystem.state.state['object_height']=2.42
-  NicheSystem.state.state['position_x']=-1
-  NicheSystem.handleEvent('buildingStep')
-  NicheSystem.handleEvent('generateInputs')
   GroupGarageSystem.external_objects.push(NicheSystem)
   NicheSystem.external_objects_controllers.push(GroupGarageSystem)
   NicheSystem.mediator = GroupGarageSystem
+
+  NicheSystem.state.state['name']="Nisza"
+  NicheSystem.state.state['position_z']=3.0
+  // NicheSystem.state.state['object_width']=0.3
+  NicheSystem.state.state['object_depth']=2.0
+  NicheSystem.state.state['object_height']=2.52
+  //NicheSystem.state.state['position_x']=0
+  NicheSystem.handleEvent('buildingStep')
+  NicheSystem.handleEvent('generateInputs')
+
+
   }
+
+
 
   function generic_attaching_niche_canopies(){
 
@@ -1297,22 +1273,28 @@ function populateScene(scene) {
     OmegaSystems.wall_left = NicheSystem.external_objects[2]
     OmegaSystems.wall_right = NicheSystem.external_objects[3]
     OmegaSystems.group_controller = NicheSystem
-    // let front_wall=NicheSystem.external_objects[1]
-
-
-    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
-    // front_wall.external_objects.push(DoorSystem1)
-    // DoorSystem1.external_objects_controllers.push(front_wall)
-    // DoorSystem1.mediator=front_wall
-
-
+  
 
     NicheSystem.handleEvent('buildingStep')
     OmegaSystems.state.state['name'] = "Dodaj dach do wnęki"
     OmegaSystems.door_type = true
     OmegaSystems.handleEvent('generateInputs')
+    OmegaSystems.gui.initial_call()
+
+
+    
+    NicheSystem.external_objects.push(OmegaSystems)
+    OmegaSystems.external_objects_controllers.push(NicheSystem)
+    OmegaSystems.mediator = NicheSystem
+ 
   }
-  //generic_attaching_niche_canopies()
+
+ //initialization_niche()
+ //generic_attaching_niche_canopies()
+ //generic_attaching_canopies()
+
+
+
 
   addShadows(scene)
   value.light=directionalLight

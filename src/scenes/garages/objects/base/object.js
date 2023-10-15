@@ -6,8 +6,7 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 
 
-//GOBACKTO
-import {global_metal_material} from '../../textures/spawn'
+import {global_metal_material, select_texture} from '../../textures/spawn'
 
 const loader = new THREE.TextureLoader();
 const global_texture = loader.load('/assets/config/default_1k.jpg');
@@ -237,6 +236,15 @@ class UconfigObject extends genericObject {
             map: texture
         });
 
+
+                //GOBACKTO
+                // material=global_metal_material.clone()
+                // material.bumpMap = material.bumpMap.clone();
+                // material.normalMap = material.normalMap.clone();
+                // material.bumpMap.repeat.set(width, height/2);
+                // material.normalMap.repeat.set(width, height/2);
+                // material.color=new THREE.Color(color)
+            material=select_texture({width:width,height:height,color:color})
         let geometry = new RoundedBoxGeometry(
             parseFloat(attributes.width) || 5,
             parseFloat(attributes.height) || 1,
@@ -303,7 +311,7 @@ class AdditionalObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture_rotated.clone();
 
@@ -349,8 +357,8 @@ class AdditionalObject extends genericObject {
             clearcoatRoughness: 0.2
         });
         //GOBACKTO
-        material=global_metal_material
-        material.color=new THREE.Color(color)
+        
+        material=select_texture({width:width,height:height,color:color, material_type:roof_material_type})
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,
         //     parseFloat(attributes.height) || 1,
@@ -402,7 +410,6 @@ class AdditionalObject extends genericObject {
         }
     }
 }
-
 class CubeObject extends genericObject {
     constructor() {
         super();
@@ -435,6 +442,7 @@ class CubeObject extends genericObject {
         let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
         
         switch(material_type){
+        
             case "material_type_1":
                     // texture=global_texture
                     //  color ="#ee2797";
@@ -447,7 +455,7 @@ class CubeObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture.clone();
                     local_texture.rotation = Math.PI / 2;
@@ -499,8 +507,15 @@ class CubeObject extends genericObject {
             // clearcoatRoughness: 0.2
         });
         //GOBACKTO
-        material=global_metal_material
-        material.color=new THREE.Color(color)
+        // material=global_metal_material.clone()
+        // material.bumpMap = material.bumpMap.clone();
+        // material.normalMap = material.normalMap.clone();
+        // material.bumpMap.repeat.set(width, height/2);
+        // material.normalMap.repeat.set(width, height/2);
+        // material.color=new THREE.Color(color)
+
+
+        material=select_texture({width:width,height:height,color:color, material_type:material_type})
         
 
         // let geometry = new RoundedBoxGeometry(
@@ -610,7 +625,7 @@ class RedCubeObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture_rotated.clone();
 
@@ -713,7 +728,6 @@ class RedCubeObject extends genericObject {
         }
     }
 }
-
 class DoubleCubeObject extends genericObject {
     constructor() {
         super();

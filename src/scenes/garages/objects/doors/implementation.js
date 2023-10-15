@@ -385,7 +385,7 @@ class UconfigsImplementationController extends UconfigsController {
                 break;
 
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -399,7 +399,7 @@ class UconfigsImplementationController extends UconfigsController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]
@@ -527,7 +527,7 @@ class WallController extends UconfigsController {
     
 
     buildingStep() {
-        // alert('am i called?')
+        
         const accessers = [
             //new accesser('name', 'The floor grouping'),
             //new accesser('color','#379737' )
@@ -676,7 +676,7 @@ class WallController extends UconfigsController {
                     break
                 }
             case 'changeObject':
-                // alert(data)
+                
                 {
                     const accessers = [
                         new accesser('color', data),
@@ -691,7 +691,7 @@ class WallController extends UconfigsController {
                 }
                 break;
             case 'changeFloor':
-                // alert(data)
+                
                 const accessers = [
                     new accesser('color', data),
                 ]

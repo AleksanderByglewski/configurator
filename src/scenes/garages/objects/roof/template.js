@@ -315,7 +315,7 @@ import {UconfigController,CubeController,WallGarageController,groupGenericGarage
 //                     break
 //                 }
 //             case 'changeObject':
-//                 // alert(data)
+
 //                 {
 //                     const accessers = [
 //                         new accesser('color', data),
@@ -329,7 +329,7 @@ import {UconfigController,CubeController,WallGarageController,groupGenericGarage
 //                 }
 //                 break;
 //             case 'changeFloor':
-//                 // alert(data)
+
 //                 const accessers = [
 //                     new accesser('color', data),
 //                 ]

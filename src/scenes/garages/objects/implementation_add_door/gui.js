@@ -22,8 +22,6 @@ class UconfigImplementationGui extends genericGui {
 
     initialGeneration(){
         const emptySystem = [];
-    
-    
         let targetWall = this.mediator.wall_front;
         // Create DoorSystem1 and assign appropriate values based on the selected option
         let DoorSystem1 = this.createGarageObject(emptySystem, DoorSystem);
@@ -31,7 +29,7 @@ class UconfigImplementationGui extends genericGui {
         DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
         DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
         //DoorSystem1.state.state['color']="#C20000"
-        DoorSystem1.state.state['position_z']=0.01
+        DoorSystem1.state.state['position_z']=-0.001
         if(this.mediator.door_type){
 
         DoorSystem1.state.state['door_width']=1.13
@@ -40,7 +38,6 @@ class UconfigImplementationGui extends genericGui {
 
         DoorSystem1.state.state['name']="Brama frontowa" ;
         targetWall.handleEvent('buildingStep');
-       
         DoorSystem1.handleEvent('generateInputs')
 
     }
@@ -214,7 +211,7 @@ class UconfigImplementationGui extends genericGui {
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
             DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
             DoorSystem1.state.state['color']="#A5A3A5"
-            DoorSystem1.state.state['position_z']=0.03
+            DoorSystem1.state.state['position_z']=0.003
             if(self.mediator.door_type){
 
             DoorSystem1.state.state['door_width']=1.13
@@ -223,7 +220,6 @@ class UconfigImplementationGui extends genericGui {
 
             DoorSystem1.state.state['name']=print_elemnt+" "+options_mapping[selectedValue]
             targetWall.handleEvent('buildingStep');
-           
             DoorSystem1.handleEvent('generateInputs')
         });
     
@@ -290,7 +286,7 @@ class UconfigImplementationGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                // alert(squareDiv.dataset.value);
+                
                 // Notify the mediator or perform some action
                 
               
@@ -361,7 +357,7 @@ class UconfigImplementationGui extends genericGui {
      
                  // Attach event listener directly to the squareDiv
                  squareDiv.addEventListener('click', function (e) {
-                     // alert(squareDiv.dataset.value);
+                     
                      // Notify the mediator or perform some action
                      
                    

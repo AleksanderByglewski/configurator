@@ -51,7 +51,7 @@ class SphereObject extends genericObject {
                 case "material_type_2":
                     // color ="#2727ee";
                     // local_texture=global_texture_rotated
-                    // alert("hello")
+                    
                     
                     local_texture=global_texture_rotated.clone();
 
