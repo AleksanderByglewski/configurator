@@ -338,7 +338,7 @@ class DoorHandleObject extends genericObject {
 
         let door = (attributes && attributes.door) ? attributes.door : false;
         let gate_type = (attributes && attributes.gate_type) ? attributes.gate_type : false;
-
+        debugger
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",
@@ -474,27 +474,8 @@ class DoorHandleObject extends genericObject {
 
 
 
-        if(!door){
-            gltfLoader.load('/assets/models/door_handle_pull/scene.gltf', (gltf) => {
-              
-              const root = gltf.scene;
-              let handle=root.children[0]
-              handle.rotateY(Math.PI/2)
-              handle.rotateX(Math.PI/2)
-              
-              handle.position.z=-0.09
-              handle.position.x=0.0*width
-              handle.position.y=-0.20*height
-              handle.scale.set(0.005,0.005,0.005)
-              handle.material= new THREE.MeshBasicMaterial({ color: 0xffffff}); // Use your own materia
-    
-    
-              mesh.add(root.children[0])
-            })
-        }   
- 
-    
-        if (gate_type = "door_type_1") {
+        if(door){
+           
             gltfLoader.load('/assets/models/door_handle/scene.gltf', (gltf) => {
 
                 const root = gltf.scene;
@@ -521,11 +502,55 @@ class DoorHandleObject extends genericObject {
                 //   //handle1.visible = false;
                 //   handle1.translateY(0.97 * (-object_height / 2))
 
-                mesh.add(root.children[0])
+                mesh.add(root.children[0])   
+               
             })
 
-        }
 
+
+       
+        }   
+ 
+        else{
+            if (gate_type === "gate_type_1") {
+                gltfLoader.load('/assets/models/door_handle_pull/scene.gltf', (gltf) => {
+              
+                    const root = gltf.scene;
+                    let handle=root.children[0]
+                    handle.rotateY(Math.PI/2)
+                    handle.rotateX(Math.PI/2)
+                    
+                    handle.position.z=-0.09
+                    handle.position.x=0.0*width
+                    handle.position.y=-0.20*height
+                    handle.scale.set(0.005,0.005,0.005)
+                    handle.material= new THREE.MeshBasicMaterial({ color: 0xffffff}); // Use your own materia
+          
+          
+                    mesh.add(root.children[0])
+                  })
+
+            }
+            if (gate_type === "gate_type_2") {
+                gltfLoader.load('/assets/models/door_handle_pull/scene.gltf', (gltf) => {
+              
+                    const root = gltf.scene;
+                    let handle=root.children[0]
+                    handle.rotateY(Math.PI/2)
+                    handle.rotateX(Math.PI/2)
+                    
+                    handle.position.z=-0.09
+                    handle.position.x=0.0*width
+                    handle.position.y=-0.20*height
+                    handle.scale.set(1.005,0.005,0.005)
+                    handle.material= new THREE.MeshBasicMaterial({ color: 0xffffff}); // Use your own materia
+          
+          
+                    mesh.add(root.children[0])
+                  })
+
+            }
+        }
         this.set(mesh);
     }
 

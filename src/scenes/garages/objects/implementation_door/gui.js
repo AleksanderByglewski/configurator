@@ -676,10 +676,15 @@ class DedicatedGui extends genericGui {
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
 
-                const accessers = [
-                    new accesser('gate_type', squareDiv.dataset.value),
-                ]
-                this.notifyMediator('genericChangeObject', accessers)
+                // const accessers = [
+                //     new accesser('gate_type', squareDiv.dataset.value),
+                // ]
+                // this.notifyMediator('genericChangeObject', accessers)
+
+                this.notifyMediator('stateChange', { 'gate_type': squareDiv.dataset.value});
+                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('hardBuildingStep', {})
+
 
             }.bind(this));
 
