@@ -36,6 +36,8 @@ import {
 
 import {
   UconfigsImplementationDoorController as DoorSystem,
+  UconfigsImplementationGateController as GateLikeSystem,
+  
 } from './objects/implementation_door/implementation'
 
 
@@ -46,6 +48,7 @@ import {
 
 import {
   UconfigsImplementationController as OmegaAdvancedSystem,
+  UconfigsImplementationDoorController as OmegaDoorAdvancedSystem,
 } from './objects/implementation_add_door/implementation'
 
 import {
@@ -1029,7 +1032,7 @@ function populateScene(scene) {
 
   function generic_attaching_doors() {
 
-    let OmegaSystems = createGarageObject(emptySystem, OmegaAdvancedSystem);
+    let OmegaSystems = createGarageObject(emptySystem, OmegaDoorAdvancedSystem);
 
 
     OmegaSystems.wall_front = GroupGarageSystem.external_objects[0]
@@ -1233,9 +1236,9 @@ function populateScene(scene) {
  
   }
 
- //initialization_niche()
- //generic_attaching_niche_canopies()
- //generic_attaching_canopies()
+ initialization_niche()
+ generic_attaching_niche_canopies()
+ generic_attaching_canopies()
 
   {
   let geometry = new THREE.BoxGeometry();

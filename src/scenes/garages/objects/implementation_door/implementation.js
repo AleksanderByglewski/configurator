@@ -5,19 +5,19 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { CubeObject, UconfigObject, WallGarageObject, UconfigInvisibleObject, genericGarageObject } from '../base/object'
 import { UconfigInvisibleGui, UconfigGui, UconfigDebugGui, UconfigUserGui } from '../base/gui'
-import { DedicatedGui } from './gui'
+import { DedicatedDoorGui , DedicatedGateGui } from './gui'
 
 import { UconfigController, CubeController, RedCubeController, WallGarageController, groupGenericGarageController, genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/controller'
 
 import { UconfigImplementationDoorGui } from './gui'
-import { SimpleController, DoorController, DoorHandleController } from './controller'
+import { SimpleController, DoorController, DoorHandleController, CentralLineController } from './controller'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationDoorController extends UconfigsController {
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
-        this.gui = new DedicatedGui();
+        this.gui = new DedicatedGateGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.external_objects = []
@@ -136,6 +136,34 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
         ]
 
+        
+        const accessersCentralLine = [
+            new accesser('name', name + "drzwi"),
+            new accesser('width', object_width),
+
+            new accesser('material_type', material_type),
+            new accesser('door_width', door_width),
+            new accesser('gate_type', gate_type),
+
+
+            new accesser('door_height', door_height),
+            new accesser('height', door_height),
+            new accesser('sheet_depth', sheet_depth),
+
+
+
+
+            new accesser('segments', 1),
+            new accesser('radius', 0.01),
+            new accesser('position_x', 0),
+            new accesser('position_y', adjust_bottom_height),
+
+            new accesser('position_z', position_z),
+            new accesser('color', object_color),
+            new accesser('position_relative', 'true'),
+
+        ]
+
         const iterate = [accessersWallFront]
         iterate.forEach(accessersObject => {
             const added_accesser = new accesser('material_type', material_type);
@@ -144,15 +172,20 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
 
 
-        return { "accessersWallFront": accessersWallFront, "accessersWallBack": accessersWallBack, }
+        return { 
+        "accessersWallFront": accessersWallFront, 
+        "accessersWallBack": accessersWallBack, 
+        "accessersCentralLine": accessersCentralLine, 
+        }
     }
     generatePassiveObjects() {
-        const { accessersWallFront, accessersWallBack } = this.determineState();
+        const { accessersWallFront, accessersWallBack, accessersCentralLine } = this.determineState();
 
         let array = [
             // { objectOptions: accessersWallFront, classInstance:SimpleController},
             { objectOptions: accessersWallFront, classInstance: DoorController },
             { objectOptions: accessersWallBack, classInstance: DoorHandleController },
+            { objectOptions: accessersCentralLine, classInstance: CentralLineController },
             // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
             // { objectOptions: accessersWallRight, classInstance: SimpleController }
         ]
@@ -200,6 +233,19 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
     }
 }
+class UconfigsImplementationGateController extends UconfigsImplementationDoorController {
+    constructor() {
+        super()
+        this.setModel(UconfigInvisibleObject)
+        this.gui = new DedicatedDoorGui();
+        this.gui.set_mediator(this)
+        this.group = new THREE.Group()
+        this.external_objects = []
+        this.external_objects_controllers = []
+    }
+
+}
+
 class UconfigsImplementationSkewedController extends UconfigsController {
     constructor() {
         super()
@@ -377,4 +423,4 @@ class UconfigsImplementationSkewedTopController extends UconfigsController {
     }
 }
 
-export { UconfigsImplementationDoorController }
+export { UconfigsImplementationDoorController, UconfigsImplementationGateController }

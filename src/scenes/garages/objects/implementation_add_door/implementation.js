@@ -8,7 +8,7 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/controller'
  
-import { UconfigImplementationGui} from './gui'
+import { UconfigImplementationGui, UconfigImplementationDoorGui} from './gui'
 import {SimpleController} from './controller'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
@@ -102,6 +102,19 @@ class UconfigsImplementationController extends UconfigsController {
             return array
     }   
 }
+class UconfigsImplementationDoorController extends UconfigsImplementationController {
+    constructor() {
+        super()
+        this.setModel(UconfigInvisibleObject)
+        this.gui = new UconfigImplementationDoorGui();
+        this.gui.set_mediator(this)
+        this.group = new THREE.Group()
+        this.external_objects=[]
+        this.external_objects_controllers=[]
+        
+    }
+}
+
 class UconfigsImplementationSkewedController extends UconfigsController{
     constructor() {
         super()
@@ -275,4 +288,4 @@ class UconfigsImplementationSkewedTopController extends UconfigsController{
 }   
 }
 
-export {  UconfigsImplementationController}
+export {  UconfigsImplementationController, UconfigsImplementationDoorController}
