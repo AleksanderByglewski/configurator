@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 const gui = new GUI();
-
+const GLOBAL_ORIENTATION="SIDEWAYS"
 export class accesser {
     constructor(resource_locator, value = "", name = "") {
       this.resource_locator = resource_locator
@@ -295,4 +295,4 @@ class genericController extends Generic {
     }
 }
 
-export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController , gui } 
+export { Generic, genericGui, genericState, genericObject, genericDisplay, genericController , gui , GLOBAL_ORIENTATION} 

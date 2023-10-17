@@ -12,8 +12,7 @@ function load_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolut
         metalness: 0.95,
         // exposure: 2.0,
         // debug: false,
-        color: '#ffffff',
-        lightIntensity:1.8
+
       };
     let sphereMaterial = new THREE.MeshStandardMaterial( { 
     
@@ -76,8 +75,7 @@ function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', r
       metalness: 0.95,
       // exposure: 2.0,
       // debug: false,
-      color: '#ffffff',
-      lightIntensity:1.8
+   
     };
   let sphereMaterial = new THREE.MeshStandardMaterial( { 
   
@@ -134,7 +132,7 @@ function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', r
       }
 
 
-      function load_texture_debug(path='/assets/textures/debug/debug_04_', resolution="1k"){
+function load_texture_debug(path='/assets/textures/roof_tile/roof_07_', resolution="1k"){
         const loader = new THREE.CubeTextureLoader();
         loader.setPath( '/assets/textures/cube/Bridge2/' );
         let textureEquirec, textureCube;
@@ -145,8 +143,7 @@ function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', r
             metalness: 0.95,
             // exposure: 2.0,
             // debug: false,
-            color: '#ffffff',
-            lightIntensity:1.8
+  
           };
         let sphereMaterial = new THREE.MeshStandardMaterial( { 
         
@@ -206,12 +203,85 @@ function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', r
       
         //  sphereMaterial.normalScale.set(2, 2); 
         return sphereMaterial
-        }
+      }
+function load_texture_tiling(path='/assets/textures/roof_tile/roof_07_', resolution="1k"){
+        const loader = new THREE.CubeTextureLoader();
+        loader.setPath( '/assets/textures/cube/Bridge2/' );
+        let textureEquirec, textureCube;
+        textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+        const params = {
+            envMap: 'HDR',
+            roughness: 0.75,
+            metalness: 0.9,
+            // exposure: 2.0,
+            // debug: false,
+    
+          };
 
+          
+        let sphereMaterial = new THREE.MeshStandardMaterial( { 
+        
+          envMap: textureCube, 
+          color: 0xff4400, 
+      
+          metalness: params.metalness,
+          roughness: params.roughness
+        
+        } );
+      
+          let repeat=5
+      
+      // const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+      //   texture.wrapS = THREE.RepeatWrapping
+      //   texture.wrapT = THREE.RepeatWrapping
+      //   texture.repeat.set(repeat,repeat)
+      // })
+          const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping
+            texture.wrapT = THREE.RepeatWrapping
+            texture.repeat.set(repeat,repeat)
+          })
+
+          const normalMap = new THREE.TextureLoader().load(
+            path+'nor_gl_'+resolution+'.jpg',
+            (texture) => {
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(repeat,repeat)
+            }
+          )
+          const bumpMap = new THREE.TextureLoader().load(
+            path+'disp_'+resolution+'.png',
+            (texture) => {
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(repeat,repeat)
+            }
+          )
+    
+          sphereMaterial.map = colorMap
+          sphereMaterial.normalMap = normalMap
+          sphereMaterial.bumpMap = bumpMap
+          
+          sphereMaterial.map.wrapS=THREE.RepeatWrapping
+          sphereMaterial.map.wrapT=THREE.RepeatWrapping
+          
+          sphereMaterial.normalMap.wrapS=THREE.RepeatWrapping
+          sphereMaterial.normalMap.wrapT=THREE.RepeatWrapping
+
+          sphereMaterial.bumpMap.wrapS=THREE.RepeatWrapping
+          sphereMaterial.bumpMap.wrapT=THREE.RepeatWrapping
+      
+        //  sphereMaterial.normalScale.set(2, 2); 
+        return sphereMaterial
+        }
+    
 
 const global_debug=load_texture_debug('/assets/textures/debug/debug_', '1k')
 
 const global_metal_material= load_texture('/assets/textures/factory_wall/factory_wall_', '1k')
+
+const global_metal_tiling=load_texture_tiling('/assets/textures/roof_tile/roof_07_', '1k')
 
 const global_golden_oak= load_color_texture('/assets/textures/factory_oak/factory_wall_', '1k')
 
@@ -228,7 +298,7 @@ function select_texture(args){
 
 let material
 let material_output
-debug=true
+// debug=true
 
 if(debug){
 material_output=global_debug.clone()
@@ -270,7 +340,7 @@ switch(color){
       break;
   case '#925f50':
     material_output=global_golden_oak.clone()
-    material_output.color=new THREE.Color("#925f50")
+    
     material_output.bumpMap = global_golden_oak.bumpMap.clone();
     material_output.normalMap = global_golden_oak.normalMap.clone();
     material_output.map = global_golden_oak.map.clone();
@@ -278,6 +348,7 @@ switch(color){
     material_output.bumpMap.repeat.set(width, height/2);
     material_output.normalMap.repeat.set(width, height/2);
     material_output.color=new THREE.Color(color)
+    material_output.color=new THREE.Color("#a9705e")
     
     break;
   default:
@@ -295,7 +366,7 @@ switch(color){
 switch(material_type){
   
   case "material_type_1":
-    // debugger
+  
           // texture=global_texture
           
           break;
@@ -350,6 +421,62 @@ switch(material_type){
           
           
           break;
+      case "material_type_6":
+            //  color ="#ee2797";
+                // local_texture=global_texture.clone();
+                // local_texture.wrapS=THREE.RepeatWrapping
+                material_output.bumpMap.rotation = Math.PI / 2;
+                material_output.normalMap.rotation = Math.PI / 2;
+      
+                
+                material_output.bumpMap.repeat.set(0.62*height, 0.62*width );
+                material_output.normalMap.repeat.set(0.62*height, 0.62*width );
+                // local_texture.wrapT=THREE.RepeatWrapping
+                // material_output.repeat.set(width, height/2);
+            
+                break;
+          case "material_type_7":
+                  //  color ="#ee2797";
+                      // local_texture=global_texture.clone();
+                      // local_texture.wrapS=THREE.RepeatWrapping
+                      material_output.bumpMap.rotation = Math.PI / 2;
+                      material_output.normalMap.rotation = Math.PI / 2;
+            
+                      
+                      material_output.bumpMap.repeat.set(0.81*height, 0.81*width );
+                      material_output.normalMap.repeat.set(0.81*height, 0.81*width );
+                      // local_texture.wrapT=THREE.RepeatWrapping
+                      // material_output.repeat.set(width, height/2);
+                  
+                      break;
+            case "material_type_8":
+                        //  color ="#ee2797";
+                            // local_texture=global_texture.clone();
+                            // local_texture.wrapS=THREE.RepeatWrapping
+                         
+                            material_output=global_metal_tiling.clone()
+                            material_output.map= global_metal_tiling.map.clone();
+
+
+                            material_output.bumpMap = global_metal_material.bumpMap.clone();
+                            material_output.normalMap = global_metal_material.normalMap.clone();
+
+                            // material_output.bumpMap = global_metal_tiling.bumpMap.clone();
+                            // material_output.normalMap = global_metal_tiling.normalMap.clone();
+
+                            material_output.bumpMap.rotation = Math.PI / 2;
+                            material_output.normalMap.rotation = Math.PI / 2;
+                  
+                            material_output.map.repeat.set(0.5*height, 0.5*width );
+                            material_output.bumpMap.repeat.set(0.25*height, 0.25*width );
+                            material_output.normalMap.repeat.set(0.25*height, 0.25*width );
+
+                            // material_output.color=new THREE.Color()
+                            // local_texture.wrapT=THREE.RepeatWrapping
+                            // material_output.repeat.set(width, height/2);
+                        
+                            break;
+
       default:
             // code to be executed if expression doesn't match any cases
   }

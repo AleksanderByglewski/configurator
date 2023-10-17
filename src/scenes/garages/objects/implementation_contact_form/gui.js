@@ -100,13 +100,34 @@ class UconfigImplementationWallGui extends genericGui {
         contactForm.classList.add('contact-form');
         contactForm.classList.add('squares-container--1');
     
-    
+        let voivodships = [
+            'Dolnośląskie',
+            'Kujawsko-Pomorskie',
+            'Lubelskie',
+            'Lubuskie',
+            'Łódzkie',
+            'Małopolskie',
+            'Mazowieckie',
+            'Opolskie',
+            'Podkarpackie',
+            'Podlaskie',
+            'Pomorskie',
+            'Śląskie',
+            'Świętokrzyskie',
+            'Warmińsko-Mazurskie',
+            'Wielkopolskie',
+            'Zachodniopomorskie'
+        ];
+        
         const formFields = [
             { label: 'Imie i nazwisko', type: 'text', name: 'name' },
             { label: 'Email', type: 'email', name: 'email' },
-            { label: 'Temat ', type: 'text', name: 'subject' },
+            { label: 'Temat', type: 'text', name: 'subject' },
+            { label: 'Województwo', type: 'select', name: 'voivodship', options: voivodships },
             { label: 'Wiadomość', type: 'textarea', name: 'message' }
         ];
+    
+   
     
         formFields.forEach(field => {
             const fieldLabel = document.createElement('label');
@@ -116,6 +137,14 @@ class UconfigImplementationWallGui extends genericGui {
             let inputElement;
             if (field.type === 'textarea') {
                 inputElement = document.createElement('textarea');
+            } else if (field.type === 'select') {
+                inputElement = document.createElement('select');
+                field.options.forEach(optionValue => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = optionValue;
+                    optionElement.textContent = optionValue;
+                    inputElement.appendChild(optionElement);
+                });
             } else {
                 inputElement = document.createElement('input');
                 inputElement.type = field.type;
@@ -123,7 +152,6 @@ class UconfigImplementationWallGui extends genericGui {
             inputElement.name = field.name;
             contactForm.appendChild(inputElement);
         });
-    
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
         submitButton.textContent = "Wyślij wiadomość";

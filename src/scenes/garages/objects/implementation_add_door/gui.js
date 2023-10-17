@@ -31,7 +31,7 @@ class UconfigImplementationGui extends genericGui {
         //DoorSystem1.state.state['color']="#C20000"
         DoorSystem1.state.state['position_z']=-0.001
         if(this.mediator.door_type){
-
+        
         DoorSystem1.state.state['door_width']=1.13
         }
 
@@ -213,7 +213,7 @@ class UconfigImplementationGui extends genericGui {
             DoorSystem1.state.state['color']="#A5A3A5"
             DoorSystem1.state.state['position_z']=0.003
             if(self.mediator.door_type){
-
+            DoorSystem1.state.state['door']=true
             DoorSystem1.state.state['door_width']=1.13
             }
 

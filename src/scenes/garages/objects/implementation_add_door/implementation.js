@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -32,7 +32,12 @@ class UconfigsImplementationController extends UconfigsController {
         let object_color = this.state.get('color') || "#FEFEFE"
      
         let texture_type=""
+
         let material_type=this.state.get('material_type') || "material_type_1" 
+        debugger
+        if(GLOBAL_ORIENTATION=="SIDEWAYS"){
+            material_type=this.state.get('material_type') || "material_type_6"
+        } 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0

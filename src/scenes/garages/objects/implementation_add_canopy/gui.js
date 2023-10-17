@@ -47,7 +47,7 @@ class UconfigImplementationGui extends genericGui {
         let CanopySystem1 = self.createGarageObject(emptySystem, SecondaryCanopySystem)
 
         CanopySystem1.status="niche_canopy"
-        debugger
+    
         if(this.mediator.state.get('gui_child_name')=="Dodaj wiatę"){
             CanopySystem1.state.state['name']= "Kontrola wiaty"
         }

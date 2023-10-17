@@ -1,6 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -364,8 +364,9 @@ class UconfigImplementationRoofGui extends genericGui {
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
              containerDiv.classList.add('squares-container','squares-container--material');
-     
-             const squareButtons = [
+             let squareButtons
+             if(GLOBAL_ORIENTATION!="SIDEWAYS"){
+             squareButtons = [
                  { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
                  { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
                  { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
@@ -373,7 +374,18 @@ class UconfigImplementationRoofGui extends genericGui {
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
                 
              ];
-     
+            }
+             else{
+                
+            squareButtons = [
+                { value: 'material_type_1',  display_value:"Blacha typ 14",  display_image:'/assets/display/material/1.jpg'},
+                { value: 'material_type_8',  display_value:"Blachodachówka",  display_image:'/assets/display/material/8.jpg'},
+           
+               //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
+               
+            ];
+            } 
+
              squareButtons.forEach(button => {
                  const squareDiv = document.createElement('div');
                  squareDiv.classList.add('square');

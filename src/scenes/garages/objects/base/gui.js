@@ -464,7 +464,7 @@ class UconfigUserGui extends genericGui {
         //text_attributes=[]
 
         // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
-        // debugger
+  
         var display_values=['position_x', 'position_y', 'door_height', 'door_width']
         var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
        var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);

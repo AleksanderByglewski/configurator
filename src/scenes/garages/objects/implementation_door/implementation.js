@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -9,7 +9,7 @@ import { UconfigController,CubeController, RedCubeController,WallGarageControlle
 import { UconfigsController } from '../base/controller'
  
 import { UconfigImplementationDoorGui} from './gui'
-import {SimpleController, DoorController} from './controller'
+import {SimpleController, DoorController, DoorHandleController} from './controller'
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationDoorController extends UconfigsController {
     constructor() {
@@ -37,6 +37,9 @@ class UconfigsImplementationDoorController extends UconfigsController {
         
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
+        if(GLOBAL_ORIENTATION=="SIDEWAYS"){
+            material_type=this.state.get('material_type') || "material_type_6"
+        } 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0.01
@@ -45,7 +48,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         let width = this.state.get('width') || 2.0
         let depth = this.state.get('depth') || 4.0
   
-
+        let door = this.state.get('door') || false
 
         // object_height = height
         // object_width = width
@@ -61,12 +64,13 @@ class UconfigsImplementationDoorController extends UconfigsController {
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
 
-
+            new accesser('material_type', material_type),
             new accesser('door_width', door_width),
 
             new accesser('door_height', door_height),
             new accesser('height', door_height),
             new accesser('sheet_depth', sheet_depth),
+        
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
@@ -78,20 +82,27 @@ class UconfigsImplementationDoorController extends UconfigsController {
         ]
        
         const accessersWallBack = [
-            new accesser('name', name + "_back"),
+            new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
-            new accesser('height', object_height),
+
+
+            new accesser('door_width', door_width),
+
+            new accesser('door_height', door_height),
+            new accesser('height', door_height),
             new accesser('sheet_depth', sheet_depth),
+            new accesser('door', door),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_x', adjust_bottom_height),
-            new accesser('position_z',0),
+            new accesser('position_y', adjust_bottom_height),
+            
+            new accesser('position_z', position_z),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),
-            new accesser('rotation_y', Math.PI),
 
         ]
+
         const iterate=[accessersWallFront  ]
         iterate.forEach(accessersObject => {  
             const added_accesser = new accesser('material_type', material_type);
@@ -108,6 +119,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
             let array = [
                 // { objectOptions: accessersWallFront, classInstance:SimpleController},
                 { objectOptions: accessersWallFront, classInstance: DoorController  },
+                { objectOptions: accessersWallBack, classInstance: DoorHandleController  },
                 // { objectOptions: accessersWallLeft, classInstance: SimpleController  },
                 // { objectOptions: accessersWallRight, classInstance: SimpleController }
                 ]

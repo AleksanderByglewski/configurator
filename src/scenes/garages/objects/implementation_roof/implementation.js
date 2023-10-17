@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -77,7 +77,8 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
 
         let roof_type = this.state.get('roof_type') || 'roof_type_1'
-
+        //Different default
+   
 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -89,7 +90,15 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         let texture_type = ""
         
         let material_type = this.state.get('material_type') || "material_type_1"
+        if(GLOBAL_ORIENTATION=="SIDEWAYS"){
+            material_type=this.state.get('material_type') || "material_type_2"
+        } 
+
+      
         let roof_material_type = this.state.get('roof_material_type') || "material_type_1"
+        if(GLOBAL_ORIENTATION=="SIDEWAYS"){
+            roof_material_type = this.state.get('roof_material_type') || "material_type_7"
+        } 
 
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 2.13
@@ -305,7 +314,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                 let roof_object_depth=object_depth/2
                 y_displacement = roof_top_height * Math.sin(roof_slant) / 2
                 this.state.state['rotation_y'] = 0 * Math.PI / 2
-
+                var GOBACKTO_variable=1
                 accessersWallLeft = [
                         new accesser('name', name + "left"),
                         new accesser('width', roof_object_depth),
@@ -316,6 +325,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                         new accesser('position_x', -object_width / 2),
                         new accesser('position_y', 0),
                         new accesser('position_z', -roof_object_depth/2),
+                        new accesser('texture_offset', GOBACKTO_variable),
                         new accesser('color', object_color),
                         new accesser('wall_color', wall_color),
                         new accesser('position_relative', 'true'),
@@ -333,6 +343,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                         new accesser('position_x', object_width / 2),
                         new accesser('position_y', 0),
                         new accesser('position_z', -roof_object_depth/2),
+                        new accesser('texture_offset', GOBACKTO_variable),
                         new accesser('right_piece', true),
                         new accesser('color', object_color),
                         new accesser('wall_color', wall_color),
@@ -471,6 +482,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                         new accesser('rotation_y', -Math.PI / 2),
             
                     ]
+                var GOBACKTO_variable=1
                 accessersWallRight = [
                         new accesser('name', name + "right"),
                         new accesser('wall_color', "#FF0000"),
@@ -482,6 +494,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                         new accesser('position_x', object_width / 2),
                         new accesser('position_y', 0),
                         new accesser('position_z', -roof_object_depth/2),
+                        new accesser('texture_offset', GOBACKTO_variable),
                         new accesser('right_piece', true),
                         new accesser('color', object_color),
                         new accesser('wall_color', wall_color),
@@ -530,7 +543,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
 
                 ]
-                var GOBACKTO_variable=1
+                
                 accessersWallLeft2 = [
                     new accesser('name', name + "left"),
                     new accesser('width',roof_object_depth),

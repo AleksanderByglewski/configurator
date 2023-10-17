@@ -31,7 +31,7 @@ function initGui() {
 //     const gui2 = new GUI();
 
     const folder = gui.addFolder( 'Position' );
-    debugger
+
     folder.add( API, 'offsetX', 0.0, 1.0 ).name( 'offset.x' )
     folder.add( API, 'offsetY', 0.0, 1.0 ).name( 'offset.y' )
     folder.add( API, 'repeatX', 0.25, 10.0 ).name( 'repeat.x' )
@@ -219,10 +219,10 @@ class RoofSideRightObject extends genericObject {
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "#FFFFFF";
-   
+       
         let texture_offset = (attributes && attributes.texture_offset) ? attributes.texture_offset : 0;
-
-        texture_offset=API.offsetX
+   
+        //texture_offset=API.offsetX
         
       
         // texture_offset=1.25
@@ -838,7 +838,7 @@ class RoofTopObject extends genericObject {
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
-        
+        debugger
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION, } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -8,9 +8,13 @@ import { UconfigInvisibleGui,UconfigGui, UconfigDebugGui } from '../base/gui'
 import { UconfigController,CubeController, RedCubeController,WallGarageController,groupGenericGarageController,genericGarageController } from '../base/controller'
 import { UconfigsController } from '../base/controller'
  
+
 import { UconfigImplementationWallGui} from './gui'
 import {SimpleController} from './controller'
 //Now i would like to add objects to it dynamically
+
+
+
 class UconfigsImplementationWallsController extends UconfigsController {
     constructor() {
         super()
@@ -345,6 +349,10 @@ class UconfigsImplementationWallsController extends UconfigsController {
 
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
+        //Different default
+        if(GLOBAL_ORIENTATION=="SIDEWAYS"){
+         material_type=this.state.get('material_type') || "material_type_2"
+        } 
 
         //Check your status, if you are a niche move yourself
         if (this.status==="niche_level"){
