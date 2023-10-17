@@ -54,7 +54,6 @@ class UconfigsImplementationDoorController extends UconfigsController {
         let door = this.state.get('door') || false
         let gate_type
         if (door) {
-
             gate_type = this.state.get('gate_type') || 'door_type_1'
         }
         else {
