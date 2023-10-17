@@ -16,15 +16,15 @@ function initScene(){
   const scene = new THREE.Scene();
   const system=populateScene(scene)
   //Camera and renderer setup
-  const camera=setupCamera()
-  const renderer=setupRenderer()
-  const composer=setupComposer(renderer, scene, camera)
-  const controls=setupControls(camera, renderer);
+  // const camera=setupCamera()
+  // const renderer=setupRenderer()
+  // const composer=setupComposer(renderer, scene, camera)
+  // const controls=setupControls(camera, renderer);
 
-  // Setting up the animation of the scene using Renderer
-  const animate=setupAnimationRenderer(renderer, system,scene, camera)
-  // const animate = setupAnimation(composer, system,scene);
-  requestAnimationFrame(animate);
+  // // Setting up the animation of the scene using Renderer
+  // const animate=setupAnimationRenderer(renderer, system,scene, camera)
+  // // const animate = setupAnimation(composer, system,scene);
+  // requestAnimationFrame(animate);
 
   
   
@@ -32,7 +32,7 @@ function initScene(){
 
   // setupGuiHelper(scene)
   //Handling of the screen size change
-  window.addEventListener('resize', handleResize(camera, renderer, composer));
+  // window.addEventListener('resize', handleResize(camera, renderer, composer));
 
 
 }
