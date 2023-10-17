@@ -110,10 +110,13 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
         ];
         
         const formFields = [
-            { label: 'Rynny', value: 'Rynny',type:"checkbox" , name:'rynny' },
-            { label: 'Automatyka', value: 'Automatyka', type:"checkbox",  name:'automatyka' },
-            { label: 'Kotiwiczenia', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Membrana Antyskropleniowa', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+            { label: 'Konstrukcja standardowa ocynkowana', value: 'Rynny',type:"checkbox" , name:'rynny' },
+            { label: 'Konstrukcja z profili zamkniętych pomalowanych farbą podkładową', value: 'Automatyka', type:"checkbox",  name:'automatyka' },
+            { label: 'Konstrukcja z profili zamkniętych ocynkowanych', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+            { label: 'Przystosowanie bramy uchylnej pod automat', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+            { label: 'Filc pod dachem', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+            { label: 'Kotwiczenie', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+            { label: 'Rynny', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
             
         ];
     
