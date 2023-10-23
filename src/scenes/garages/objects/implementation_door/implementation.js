@@ -37,6 +37,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
+        console.log(material_type)
         if(GLOBAL_ORIENTATION=="SIDEWAYS"){
             material_type=this.state.get('material_type') || "material_type_6"
         } 

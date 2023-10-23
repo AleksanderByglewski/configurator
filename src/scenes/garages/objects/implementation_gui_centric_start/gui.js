@@ -42,7 +42,7 @@ class UconfigImplementationWallGui extends genericGui {
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name=  this.mediator.state.state['name'] || "Wybór pergoli";
+        let name= "Formularze";
 
         accordionButton.textContent = name;
       
@@ -74,15 +74,15 @@ class UconfigImplementationWallGui extends genericGui {
 
         // const squaresElement = 
         // const squaresElement2=
-        //  accordionBodyDiv.appendChild(this.createMarkupColors());
+        // accordionBodyDiv.appendChild(this.createMarkupColors());
 
-        //  accordionBodyDiv.appendChild(this.generateSep());
+        // accordionBodyDiv.appendChild(this.generateSep());
 
-        // accordionBodyDiv.appendChild(this.createMarkup());
+        accordionBodyDiv.appendChild(this.createMarkup());
        
         // accordionBodyDiv.appendChild(this.generateSep());
       
-         accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        // accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
    
@@ -266,12 +266,12 @@ class UconfigImplementationWallGui extends genericGui {
              containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
-                 { value: 'object_type_1',  display_value:"Model Toscana",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'object_type_2',  display_value:"Model Portofino",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'object_type_3',  display_value:"Model Verona",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'object_type_4',  display_value:"Model Milano",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'object_type_5',  display_value:"Model Palermo",  display_image:'/assets/display/material/5.jpg'},
-                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
+                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
+                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
+                 { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
+                
              ];
      
              squareButtons.forEach(button => {
@@ -307,9 +307,11 @@ class UconfigImplementationWallGui extends genericGui {
                      // this.notifyMediator('recursivelyRemoveModel');
                      // this.notifyMediator('buildingStep');
                   
-                     this.notifyMediator('stateChange', { 'object_type': squareDiv.dataset.value});
-                     this.notifyMediator('buildingStep', { });
-                    //  this.notifyMediator('hardBuildingStep', { });
+                    const accessers = [
+                        new accesser('material_type', squareDiv.dataset.value),
+                    ]
+                     this.notifyMediator('genericChangeObject',accessers)
+               
                  }.bind(this));
      
      

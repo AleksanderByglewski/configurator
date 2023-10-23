@@ -1,0 +1,11 @@
+Hi chat i will need some of your help with designing my system. 
+I have a set of classes located in :
+controller.js
+object.js 
+gui.js 
+implementation.js
+The controller.js is responsible for setting the object to the implementation
+The object controls the display of elements 
+The gui is responsible for interactions with the help of graphical user interface. 
+
+I would like you t

@@ -10,35 +10,6 @@ import { UconfigsController } from '../base/controller'
  
 import { UconfigImplementationWallGui} from './gui'
 import {SimpleController} from './controller'
-
-
-  
-
-async function repaint(system) {
-    // Clear the current content
-    const content = document.querySelector('#app');
-    debugger
-    const object_type=system['object_type']
-    if (content) {
-        try {
-            const response = await fetch(`/assets/templates/type/${object_type}.html`);
-            if (response.ok) {
-                const html = await response.text();
-                content.innerHTML = html;
-            } else {
-                console.error(`Failed to load template for object type: ${object_type}`);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    } else {
-        console.error("Element with #app not found");
-    }
-   
-  
-    // Re-render the new content
-    // renderHTML(system);
-  }
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
     constructor() {
@@ -54,21 +25,14 @@ class UconfigsImplementationController extends UconfigsController {
     determineState() {
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
-        //let object_type = this.state.get('object_type') || 'flat'
+        let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
         let object_color = this.state.get('color') || "#FEFEFE"
      
         let texture_type=""
-       
         let material_type=this.state.get('material_type') || "material_type_1" 
-        debugger
-        let object_type=this.state.get('object_type') || "object_type_1" 
-        const system={object_type:object_type}
-        repaint(system)
-        
-
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
@@ -218,17 +182,6 @@ class UconfigsImplementationSkewedController extends UconfigsController{
             ]
         return array
 }   
-        handleEvent(event, data) {
-            switch (event) {
-                case  "repaint":
-                    repaint(data)
-                    break;
-                default:
-                    super.handleEvent(event, data);
-                    break;
-            }
-        }
-
 }
 class UconfigsImplementationSkewedTopController extends UconfigsController{
     constructor() {

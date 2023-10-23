@@ -14,33 +14,36 @@ import {SimpleController} from './controller'
 
   
 
-async function repaint(system) {
-    // Clear the current content
-    const content = document.querySelector('#app');
-    debugger
-    const object_type=system['object_type']
-    if (content) {
-        try {
-            const response = await fetch(`/assets/templates/type/${object_type}.html`);
-            if (response.ok) {
-                const html = await response.text();
-                content.innerHTML = html;
-            } else {
-                console.error(`Failed to load template for object type: ${object_type}`);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    } else {
-        console.error("Element with #app not found");
-    }
-   
-  
-    // Re-render the new content
-    // renderHTML(system);
-  }
+
 //Now i would like to add objects to it dynamically
 class UconfigsImplementationController extends UconfigsController {
+
+    async  repaint(system) {
+        // Clear the current content
+        const content = document.querySelector('#app');
+        debugger
+        const object_type=system['object_type']
+        if (content) {
+            try {
+                const response = await fetch(`/assets/templates/colors/${object_type}.html`);
+                if (response.ok) {
+                    const html = await response.text();
+                    content.innerHTML = html;
+                } else {
+                    console.error(`Failed to load template for object type: ${object_type}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        } else {
+            console.error("Element with #app not found");
+        }
+       
+      
+        // Re-render the new content
+        // renderHTML(system);
+      }
+
     constructor() {
         super()
         this.setModel(UconfigInvisibleObject)
@@ -66,7 +69,7 @@ class UconfigsImplementationController extends UconfigsController {
         debugger
         let object_type=this.state.get('object_type') || "object_type_1" 
         const system={object_type:object_type}
-        repaint(system)
+        this.repaint(system)
         
 
         let position_x = this.state.get('position_x') || 0

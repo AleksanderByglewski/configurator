@@ -65,7 +65,15 @@ import {
 
 
 import {gui} from  './base'
+import {
+  UconfigsImplementationController as ConfigSystem,
 
+} from './objects/implementation_contact_form/implementation'
+
+import {
+  UconfigsImplementationController as ColorSystem,
+
+} from './objects/implementation_gui_centric_colors/implementation'
 
 function addEnvMap(scene){
 
@@ -93,329 +101,7 @@ function addEnvMap(scene){
 
 }
 
-function addEnvMapTextured(scene, gui){
 
-
-
-  const params = {
-    envMap: 'HDR',
-    roughness: 0.25,
-    metalness: 0.95,
-    // exposure: 2.0,
-    // debug: false,
-    color: '#ffffff',
-    lightIntensity:3.25
-  };
-
-  // gui.add( params, 'envMap', [ 'Generated', 'LDR', 'HDR', 'RGBM16' ] );
-  gui.add( params, 'roughness', 0, 1, 0.01 );
-  gui.add( params, 'metalness', 0, 1, 0.01 );
-  gui.add( params, 'lightIntensity', 0, 25, 0.01 );
-  // gui.add( params, 'exposure', 0, 2, 0.01 );
-  // gui.add( params, 'debug', false );
-  gui.addColor( params, 'color' );
-  gui.open();
-
-  const loader = new THREE.CubeTextureLoader();
-  loader.setPath( '/assets/textures/cube/Bridge2/' );
-	let textureEquirec, textureCube;
-  textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
-
-  // const textureLoader = new THREE.TextureLoader();
-
-  // textureEquirec = textureLoader.load( 'textures/2294472375_24a3b8ef46_o.jpg' );
-  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
-  // textureEquirec.colorSpace = THREE.SRGBColorSpace;
-
-  // scene.background = textureCube;
-
-	let sphereMesh, sphereMaterial;
-
-  const geometry = new THREE.BoxGeometry( 3.01, 4.24,4.01 );
-  sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
-  sphereMaterial = new THREE.MeshStandardMaterial( { 
-    
-    envMap: textureCube, 
-    color: 0xff4400, 
-
-    metalness: params.metalness,
-    roughness: params.roughness
-  
-  } );
-
-  let repeat=5
-
-
-      function load_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolution="1k"){
-    
-
-      let sphereMaterial = new THREE.MeshStandardMaterial( { 
-      
-        envMap: textureCube, 
-        color: 0xff4400, 
-    
-        metalness: params.metalness,
-        roughness: params.roughness
-      
-      } );
-    
-        let repeat=5
-    
-    // const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
-    //   texture.wrapS = THREE.RepeatWrapping
-    //   texture.wrapT = THREE.RepeatWrapping
-    //   texture.repeat.set(repeat,repeat)
-    // })
-
-    
-        const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
-          texture.wrapS = THREE.MirroredRepeatWrapping;
-          texture.wrapT = THREE.MirroredRepeatWrapping;
-          texture.repeat.set(repeat,repeat)
-        })
-        const normalMap = new THREE.TextureLoader().load(
-          path+'nor_gl_'+resolution+'.jpg',
-          (texture) => {
-            texture.wrapS = THREE.RepeatWrapping
-            texture.wrapT = THREE.RepeatWrapping
-            texture.repeat.set(repeat,repeat)
-          }
-        )
-        const bumpMap = new THREE.TextureLoader().load(
-          path+'disp_'+resolution+'.png',
-          (texture) => {
-            texture.wrapS = THREE.RepeatWrapping
-            texture.wrapT = THREE.RepeatWrapping
-            texture.repeat.set(repeat,repeat)
-          }
-        )
-        sphereMaterial.map = colorMap
-        sphereMaterial.map.repeat.set(1, 1);
-        sphereMaterial.normalMap = normalMap
-        sphereMaterial.bumpMap = bumpMap
-
-    
-      //  sphereMaterial.normalScale.set(2, 2); 
-      return sphereMaterial
-      }
-    //load_texture()
-
-
-    //load_texture('/assets/textures/metal_shutter/painted_metal_shutter_', '1k')
-    sphereMaterial=load_texture('/assets/textures/factory_oak/factory_wall_', '1k')
-    // sphereMaterial.bumpMap = bumpMap
-    sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
-    sphereMesh.position.x=15
-
-
-  // const roughnessTexture = new THREE.TextureLoader().load(
-  //   '/assets/textures/red-bricks/red_bricks_04_rough_gl_1k.jpg',
-  //   (texture) => {
-  //     texture.wrapS = THREE.RepeatWrapping
-  //     texture.wrapT = THREE.RepeatWrapping
-  //   }
-  // )
-  
-  scene.add( sphereMesh );
-  return {sphereMesh, params}
-}
-
-function checkTheUVs(scene,gui, params){
-  let material
-  let geometry;
-  let width=params.width;
-  let height=params.height;
-  let offset_x=params.offset_x
-  let offset_y=params.offset_x
-
-  let color=new THREE.Color("#FF00FF")
-  let shape = new THREE.Shape();
-  shape.moveTo(-width/2,0)
-  shape.lineTo(width/2,0)
-  shape.lineTo(-width/2,height)
- // shape.moveTo( 0, height );  // Move to the first point
- // shape.lineTo( -1, -1 );  // Draw a line to the second point
- // shape.lineTo( 1, -1 );  // Draw a line to the third point
-  shape.closePath();  // Close the path to create a triangle
-  
-  geometry = new THREE.ShapeGeometry( shape );
-  
-
-  // Create a material
-
-  // Create a material
-  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
-  // local_texture.wrapS=THREE.RepeatWrapping
-  // local_texture.wrapT=THREE.RepeatWrapping
-  // local_texture.repeat.set(1, 2*height);
-  // Create a material
-  material = new THREE.MeshStandardMaterial({
-      map:local_texture,
-      side:THREE.DoubleSide,
-      // color:color
-    }
-      
-      );
-
-        
-    const mesh = new THREE.Mesh(geometry, material);
-    let object = scene.getObjectByName('triangle')
-    if(object){
-      scene.remove(object)
-    }
-    mesh.name="triangle"
-    mesh.position.z=4.3
-    scene.add(mesh)
-}
-
-function checkTheUVs2(scene,gui, params){
-  let material
-  let geometry;
-  let width=params.width;
-  let height=params.height;
-  let offset_x=params.offset_x
-  let offset_y=params.offset_x
-
-  let color=new THREE.Color("#FF00FF")
-  let shape = new THREE.Shape();
-  shape.moveTo(-width/2,0)
-  shape.lineTo(width/2,0)
-  shape.lineTo(-width/2,height)
- // shape.moveTo( 0, height );  // Move to the first point
- // shape.lineTo( -1, -1 );  // Draw a line to the second point
- // shape.lineTo( 1, -1 );  // Draw a line to the third point
-  shape.closePath();  // Close the path to create a triangle
-  
-  geometry = new THREE.ShapeGeometry( shape );
-  
-
-  // Create a material
-
-  // Create a material
-  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
-  // local_texture.wrapS=THREE.RepeatWrapping
-  // local_texture.wrapT=THREE.RepeatWrapping
-  // local_texture.repeat.set(1, 2*height);
-  // Create a material
-  material = new THREE.MeshStandardMaterial({
-      map:local_texture,
-      side:THREE.DoubleSide,
-      // color:color
-    }
-      
-      );
-
-        
-    const mesh = new THREE.Mesh(geometry, material);
-    let object = scene.getObjectByName('square')
-    if(object){
-      scene.remove(object)
-    }
-    mesh.name="square"
-    mesh.position.z=4.3
-    mesh.position.x=5.3
-    scene.add(mesh)
-}
-
-function check_the_lights(scene){
-
-  // Create a cube geometry
-// const geometry = new THREE.BoxGeometry(10, 10, 10);
-// // Create a material for the cube
-// const material = new THREE.MeshStandardMaterial({color: 0xffffff});
-// // Create a mesh with the geometry and material
-// const cube = new THREE.Mesh(geometry, material);
-
-// // Set the cube to cast shadows
-
-
-// // Add the cube to the scene
-// scene.add(cube);
-
-// Create a plane geometry
-const planeGeometry = new THREE.PlaneGeometry(15,15);
-// Rotate the plane geometry to make it horizontal
-planeGeometry.rotateX(- Math.PI / 2);
-
-
-// Create a material for the plane
-const planeMaterial = new THREE.MeshStandardMaterial({color: 0xffffff});
-
-// Create a mesh with the plane geometry and material
-const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-plane.position.set(0,0.1,0)
-
-// Set the plane to receive shadows
-
-
-// Add the plane to the scene
-scene.add(plane);
-}
-
-function setOptions(passedObject, accessers) {
-  for (let i = 0; i < accessers.length; i++) {
-    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
-  }
-
-}
-
-function addShadows(scene){
-
-  scene.traverse(function(object) {
-    if (object instanceof THREE.Mesh) {
-        // Enable casting shadows
-        object.castShadow = true;
-        // Enable receiving shadows
-        object.receiveShadow = true;
-    }
-});
-
-}
-
-function addLights(scene) {
-  //let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
-  //scene.add(directionalLight); // add the light to the scene
-  // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 6.5); // soft white light
-  scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
-
-// Set the position of the light
-directionalLight.position.set(-30, 30, 30);
-
-// Make the light look at the center of the scene
-directionalLight.lookAt(30, -30, -30);
-directionalLight.castShadow = true;
-directionalLight.shadow.camera.top = 30
-directionalLight.shadow.camera.right = 30
-directionalLight.shadow.camera.left = -30
-directionalLight.shadow.camera.bottom = -30
-directionalLight.shadow.camera.near = 1
-directionalLight.shadow.camera.far = 100
-
-// Add the light to the scene
-scene.add(directionalLight);
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
-scene.add(directionalLightHelper);
-const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
-scene.add(shadowCameraHelper);
-
-return directionalLight
-  //Create a spotlight
-  // var spotlight = new THREE.SpotLight(0xffffff); // white light
-  // spotlight.position.set(2, 4, 4); // set position of the light
-  // var spotLightHelper = new THREE.SpotLightHelper(spotlight);
-  // scene.add(spotLightHelper);
-  // spotlight.target.position.set(0, 0, 0);
-  // // Adjust the angle, intensity and distance of the light
-  // spotlight.angle = Math.PI/28; // Angle of the light in radians (cone width)
-  // spotlight.intensity = 10; // Intensity/brightness of the light
-  // spotlight.distance = 100; // Maximum distance the light reaches. If 0, then it's infinite.
-  // scene.add(spotlight);
-}
 function populateScene(scene) {
   function createGarageObject(accessers, ObjectClass) {
     const passedObject = new ObjectClass();
@@ -550,6 +236,71 @@ function populateScene(scene) {
     // new accesser('position_y', 0.0),
     // new accesser('position_z',0.0),
   ]
+
+  function generic_contact_form() {
+
+    let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+
+
+
+
+
+
+    ContactSystems.handleEvent('generateInputs')
+
+    // GroupGarageSystem.handleEvent('buildingStep')
+
+    return ContactSystems
+  }
+
+  let contact_systems=generic_contact_form()
+
+  function generic_color_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    ContactSystems.state.state['name']="Kolory pergoli"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  generic_color_form();
+
+
+  function generic_dimensions_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    ContactSystems.state.state['name']="Wymiary pergoli"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  generic_dimensions_form();
+
+  function generic_additives_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+    ContactSystems.state.state['name']="Dodatki do pergoli"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  generic_additives_form();
+
+  function generic_contact_benstal_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+    ContactSystems.state.state['name']="Formularze kontaktowe"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  generic_contact_benstal_form();
+
+
+
+  //let contact_systems_value="Hello beautiful world"
+  let system={template_type:'start/start'}
+  return system
 
   function the_floor_test() {
 
@@ -1103,6 +854,7 @@ function populateScene(scene) {
 
 
 
+
   let NicheSystem;
   function advanced_niche_system() {
     NicheSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
@@ -1206,9 +958,6 @@ function populateScene(scene) {
 
 
   }
-
-
-
   function generic_attaching_niche_canopies(){
 
     let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
@@ -1257,10 +1006,336 @@ function populateScene(scene) {
   }
   addShadows(scene)
   value.light=directionalLight
-  return value
+  //return value
+
+
+
 
 
 }
 
 
 export { populateScene }
+function addEnvMapTextured(scene, gui){
+
+
+
+  const params = {
+    envMap: 'HDR',
+    roughness: 0.25,
+    metalness: 0.95,
+    // exposure: 2.0,
+    // debug: false,
+    color: '#ffffff',
+    lightIntensity:3.25
+  };
+
+  // gui.add( params, 'envMap', [ 'Generated', 'LDR', 'HDR', 'RGBM16' ] );
+  gui.add( params, 'roughness', 0, 1, 0.01 );
+  gui.add( params, 'metalness', 0, 1, 0.01 );
+  gui.add( params, 'lightIntensity', 0, 25, 0.01 );
+  // gui.add( params, 'exposure', 0, 2, 0.01 );
+  // gui.add( params, 'debug', false );
+  gui.addColor( params, 'color' );
+  gui.open();
+
+  const loader = new THREE.CubeTextureLoader();
+  loader.setPath( '/assets/textures/cube/Bridge2/' );
+	let textureEquirec, textureCube;
+  textureCube = loader.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+  // const textureLoader = new THREE.TextureLoader();
+
+  // textureEquirec = textureLoader.load( 'textures/2294472375_24a3b8ef46_o.jpg' );
+  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+  // textureEquirec.colorSpace = THREE.SRGBColorSpace;
+
+  // scene.background = textureCube;
+
+	let sphereMesh, sphereMaterial;
+
+  const geometry = new THREE.BoxGeometry( 3.01, 4.24,4.01 );
+  sphereMaterial = new THREE.MeshBasicMaterial( { envMap: textureCube } );
+  sphereMaterial = new THREE.MeshStandardMaterial( { 
+    
+    envMap: textureCube, 
+    color: 0xff4400, 
+
+    metalness: params.metalness,
+    roughness: params.roughness
+  
+  } );
+
+  let repeat=5
+
+
+      function load_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolution="1k"){
+    
+
+      let sphereMaterial = new THREE.MeshStandardMaterial( { 
+      
+        envMap: textureCube, 
+        color: 0xff4400, 
+    
+        metalness: params.metalness,
+        roughness: params.roughness
+      
+      } );
+    
+        let repeat=5
+    
+    // const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+    //   texture.wrapS = THREE.RepeatWrapping
+    //   texture.wrapT = THREE.RepeatWrapping
+    //   texture.repeat.set(repeat,repeat)
+    // })
+
+    
+        const colorMap = new THREE.TextureLoader().load(path + 'diff_'+resolution+'.jpg', (texture) => {
+          texture.wrapS = THREE.MirroredRepeatWrapping;
+          texture.wrapT = THREE.MirroredRepeatWrapping;
+          texture.repeat.set(repeat,repeat)
+        })
+        const normalMap = new THREE.TextureLoader().load(
+          path+'nor_gl_'+resolution+'.jpg',
+          (texture) => {
+            texture.wrapS = THREE.RepeatWrapping
+            texture.wrapT = THREE.RepeatWrapping
+            texture.repeat.set(repeat,repeat)
+          }
+        )
+        const bumpMap = new THREE.TextureLoader().load(
+          path+'disp_'+resolution+'.png',
+          (texture) => {
+            texture.wrapS = THREE.RepeatWrapping
+            texture.wrapT = THREE.RepeatWrapping
+            texture.repeat.set(repeat,repeat)
+          }
+        )
+        sphereMaterial.map = colorMap
+        sphereMaterial.map.repeat.set(1, 1);
+        sphereMaterial.normalMap = normalMap
+        sphereMaterial.bumpMap = bumpMap
+
+    
+      //  sphereMaterial.normalScale.set(2, 2); 
+      return sphereMaterial
+      }
+    //load_texture()
+
+
+    //load_texture('/assets/textures/metal_shutter/painted_metal_shutter_', '1k')
+    sphereMaterial=load_texture('/assets/textures/factory_oak/factory_wall_', '1k')
+    // sphereMaterial.bumpMap = bumpMap
+    sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
+    sphereMesh.position.x=15
+
+
+  // const roughnessTexture = new THREE.TextureLoader().load(
+  //   '/assets/textures/red-bricks/red_bricks_04_rough_gl_1k.jpg',
+  //   (texture) => {
+  //     texture.wrapS = THREE.RepeatWrapping
+  //     texture.wrapT = THREE.RepeatWrapping
+  //   }
+  // )
+  
+  scene.add( sphereMesh );
+  return {sphereMesh, params}
+}
+
+function checkTheUVs(scene,gui, params){
+  let material
+  let geometry;
+  let width=params.width;
+  let height=params.height;
+  let offset_x=params.offset_x
+  let offset_y=params.offset_x
+
+  let color=new THREE.Color("#FF00FF")
+  let shape = new THREE.Shape();
+  shape.moveTo(-width/2,0)
+  shape.lineTo(width/2,0)
+  shape.lineTo(-width/2,height)
+ // shape.moveTo( 0, height );  // Move to the first point
+ // shape.lineTo( -1, -1 );  // Draw a line to the second point
+ // shape.lineTo( 1, -1 );  // Draw a line to the third point
+  shape.closePath();  // Close the path to create a triangle
+  
+  geometry = new THREE.ShapeGeometry( shape );
+  
+
+  // Create a material
+
+  // Create a material
+  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
+  // local_texture.wrapS=THREE.RepeatWrapping
+  // local_texture.wrapT=THREE.RepeatWrapping
+  // local_texture.repeat.set(1, 2*height);
+  // Create a material
+  material = new THREE.MeshStandardMaterial({
+      map:local_texture,
+      side:THREE.DoubleSide,
+      // color:color
+    }
+      
+      );
+
+        
+    const mesh = new THREE.Mesh(geometry, material);
+    let object = scene.getObjectByName('triangle')
+    if(object){
+      scene.remove(object)
+    }
+    mesh.name="triangle"
+    mesh.position.z=4.3
+    scene.add(mesh)
+}
+
+function checkTheUVs2(scene,gui, params){
+  let material
+  let geometry;
+  let width=params.width;
+  let height=params.height;
+  let offset_x=params.offset_x
+  let offset_y=params.offset_x
+
+  let color=new THREE.Color("#FF00FF")
+  let shape = new THREE.Shape();
+  shape.moveTo(-width/2,0)
+  shape.lineTo(width/2,0)
+  shape.lineTo(-width/2,height)
+ // shape.moveTo( 0, height );  // Move to the first point
+ // shape.lineTo( -1, -1 );  // Draw a line to the second point
+ // shape.lineTo( 1, -1 );  // Draw a line to the third point
+  shape.closePath();  // Close the path to create a triangle
+  
+  geometry = new THREE.ShapeGeometry( shape );
+  
+
+  // Create a material
+
+  // Create a material
+  let local_texture=new THREE.TextureLoader().load('/assets/config/testing/uv_grid.jpg');
+  // local_texture.wrapS=THREE.RepeatWrapping
+  // local_texture.wrapT=THREE.RepeatWrapping
+  // local_texture.repeat.set(1, 2*height);
+  // Create a material
+  material = new THREE.MeshStandardMaterial({
+      map:local_texture,
+      side:THREE.DoubleSide,
+      // color:color
+    }
+      
+      );
+
+        
+    const mesh = new THREE.Mesh(geometry, material);
+    let object = scene.getObjectByName('square')
+    if(object){
+      scene.remove(object)
+    }
+    mesh.name="square"
+    mesh.position.z=4.3
+    mesh.position.x=5.3
+    scene.add(mesh)
+}
+
+function check_the_lights(scene){
+
+  // Create a cube geometry
+// const geometry = new THREE.BoxGeometry(10, 10, 10);
+// // Create a material for the cube
+// const material = new THREE.MeshStandardMaterial({color: 0xffffff});
+// // Create a mesh with the geometry and material
+// const cube = new THREE.Mesh(geometry, material);
+
+// // Set the cube to cast shadows
+
+
+// // Add the cube to the scene
+// scene.add(cube);
+
+// Create a plane geometry
+const planeGeometry = new THREE.PlaneGeometry(15,15);
+// Rotate the plane geometry to make it horizontal
+planeGeometry.rotateX(- Math.PI / 2);
+
+
+// Create a material for the plane
+const planeMaterial = new THREE.MeshStandardMaterial({color: 0xffffff});
+
+// Create a mesh with the plane geometry and material
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+plane.position.set(0,0.1,0)
+
+// Set the plane to receive shadows
+
+
+// Add the plane to the scene
+scene.add(plane);
+}
+
+function setOptions(passedObject, accessers) {
+  for (let i = 0; i < accessers.length; i++) {
+    passedObject.state.update(accessers[i].resource_locator, accessers[i].value);
+  }
+
+}
+
+function addShadows(scene){
+
+  scene.traverse(function(object) {
+    if (object instanceof THREE.Mesh) {
+        // Enable casting shadows
+        object.castShadow = true;
+        // Enable receiving shadows
+        object.receiveShadow = true;
+    }
+});
+
+}
+
+function addLights(scene) {
+  //let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
+  //scene.add(directionalLight); // add the light to the scene
+  // Create an ambient light with color white and intensity 0.5
+  let ambientLight = new THREE.AmbientLight(0xffffff, 6.5); // soft white light
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
+
+// Set the position of the light
+directionalLight.position.set(-30, 30, 30);
+
+// Make the light look at the center of the scene
+directionalLight.lookAt(30, -30, -30);
+directionalLight.castShadow = true;
+directionalLight.shadow.camera.top = 30
+directionalLight.shadow.camera.right = 30
+directionalLight.shadow.camera.left = -30
+directionalLight.shadow.camera.bottom = -30
+directionalLight.shadow.camera.near = 1
+directionalLight.shadow.camera.far = 100
+
+// Add the light to the scene
+scene.add(directionalLight);
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(directionalLightHelper);
+const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+scene.add(shadowCameraHelper);
+
+return directionalLight
+  //Create a spotlight
+  // var spotlight = new THREE.SpotLight(0xffffff); // white light
+  // spotlight.position.set(2, 4, 4); // set position of the light
+  // var spotLightHelper = new THREE.SpotLightHelper(spotlight);
+  // scene.add(spotLightHelper);
+  // spotlight.target.position.set(0, 0, 0);
+  // // Adjust the angle, intensity and distance of the light
+  // spotlight.angle = Math.PI/28; // Angle of the light in radians (cone width)
+  // spotlight.intensity = 10; // Intensity/brightness of the light
+  // spotlight.distance = 100; // Maximum distance the light reaches. If 0, then it's infinite.
+  // scene.add(spotlight);
+}

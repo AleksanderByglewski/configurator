@@ -41,9 +41,9 @@ class UconfigImplementationWallGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-
         let name=  this.mediator.state.state['name'] || "Wybór pergoli";
-
+      
+        
         accordionButton.textContent = name;
       
         accordionHeaderH3.appendChild(accordionButton);
@@ -266,11 +266,11 @@ class UconfigImplementationWallGui extends genericGui {
              containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
-                 { value: 'object_type_1',  display_value:"Model Toscana",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'object_type_2',  display_value:"Model Portofino",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'object_type_3',  display_value:"Model Verona",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'object_type_4',  display_value:"Model Milano",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'object_type_5',  display_value:"Model Palermo",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'RAL5001',  display_value:"RAL 5001",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'RAL5010',  display_value:"RAL 5010",  display_image:'/assets/display/material/2.jpg'},
+                 { value: 'RAL6002',  display_value:"RAL 6002",  display_image:'/assets/display/material/3.jpg'},
+                 { value: 'RAL7003',  display_value:"RAL 7003",  display_image:'/assets/display/material/4.jpg'},
+                 { value: 'RAL9003',  display_value:"RAL 9003",  display_image:'/assets/display/material/5.jpg'},
                  { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/5.jpg'},
              ];
      

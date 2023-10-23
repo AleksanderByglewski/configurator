@@ -11,10 +11,40 @@ import {draggableUI} from '../markup/draggable-ui'
 
 
 
+async function repaint(system) {
+  // Clear the current content
+  const content = document.querySelector('#app');
+  debugger
+  const object_type=system['template_type']
+  if (content) {
+      try {
+          const response = await fetch(`/assets/templates/${object_type}.html`);
+          if (response.ok) {
+              const html = await response.text();
+              content.innerHTML = html;
+          } else {
+              console.error(`Failed to load template for object type: ${object_type}`);
+          }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  } else {
+      console.error("Element with #app not found");
+  }
+ 
+
+  // Re-render the new content
+  // renderHTML(system);
+}
+
 function initScene(){
   //Initialization and population of the scene
+  
   const scene = new THREE.Scene();
-  const system=populateScene(scene)
+  const system = populateScene(scene);
+
+  // The scene element should contain an object with the html to be rendered
+  repaint(system);
   //Camera and renderer setup
   // const camera=setupCamera()
   // const renderer=setupRenderer()

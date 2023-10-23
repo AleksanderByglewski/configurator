@@ -39,7 +39,7 @@
             position: sticky;
             top: 50%;
             transform: translateY(-50%);
-            left:calc( 100% - 12px) !important;
+            left:calc( 100% - 18px) !important;
             width: 10px;
             height: 30px;
             cursor: ew-resize;
@@ -68,17 +68,33 @@
         .side-menu>div:nth-child(2) {
         /* border: 10px solid lime; */
         margin-top: -10px;
+        
 }
         }
         @media screen and (min-width:992px){
+            .flex-container{
+                display:flex;
+                width:100vw;
+            }
             .side-menu {
             left: 0;
             top: 0;
             width: 30vw;
-       
+            position: relative;
             background-color: rgba(220, 220, 220, 0.8);
             margin-top:-30px;
-            height:calc(100% + 30px);
+            height:calc(100vh );
+            overflow-y: auto;
+
+            }
+
+
+            #app{
+                flex-grow: 1;
+                
+                position: relative;
+                height: 100vh;
+              
             }
         }
         .remove-model-btn{
@@ -87,12 +103,13 @@ grid-column:  1/-1;
     </style>
 </head>
 <body>
-
-    <div id="app"></div>
+<div class="flex-container">
+  
     <div class="side-menu">
         <div class="resize-handle"></div>
     </div>
-
+    <div id="app" style="overflow-y: scroll;"></div>
+</div>
     <!-- Main Theme Script -->
     <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
