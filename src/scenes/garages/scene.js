@@ -71,9 +71,30 @@ import {
 } from './objects/implementation_contact_form/implementation'
 
 import {
+  UconfigsImplementationController as DimensionSystem,
+
+} from './objects/implementation_gui_centric_dimensions/implementation'
+
+
+
+import {
   UconfigsImplementationController as ColorSystem,
 
 } from './objects/implementation_gui_centric_colors/implementation'
+
+
+import {
+  UconfigsImplementationController as AdditivesSystem,
+
+} from './objects/implementation_gui_centric_additives/implementation'
+
+
+import {
+  UconfigsImplementationController as ContactSystem,
+
+} from './objects/implementation_gui_centric_contact/implementation'
+
+
 
 function addEnvMap(scene){
 
@@ -237,15 +258,9 @@ function populateScene(scene) {
     // new accesser('position_z',0.0),
   ]
 
-  function generic_contact_form() {
+  function generic_selection_form() {
 
     let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
-
-
-
-
-
-
     ContactSystems.handleEvent('generateInputs')
 
     // GroupGarageSystem.handleEvent('buildingStep')
@@ -253,22 +268,12 @@ function populateScene(scene) {
     return ContactSystems
   }
 
-  let contact_systems=generic_contact_form()
-
-  function generic_color_form() {
-    
-    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
-    ContactSystems.state.state['name']="Kolory pergoli"
-    ContactSystems.handleEvent('generateInputs')
-    //return ContactSystems
-  }
-
-  generic_color_form();
+  let contact_systems=generic_selection_form()
 
 
   function generic_dimensions_form() {
     
-    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    let ContactSystems = createGarageObject(emptySystem, DimensionSystem);
     ContactSystems.state.state['name']="Wymiary pergoli"
     ContactSystems.handleEvent('generateInputs')
     //return ContactSystems
@@ -276,9 +281,34 @@ function populateScene(scene) {
 
   generic_dimensions_form();
 
+
+  function generic_color_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    ContactSystems.state.state['name']="Kolor konstrukcji"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  
+  generic_color_form();
+
+
+  function additional_color_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    ContactSystems.state.state['name']="Kolory dodatków"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  additional_color_form();
+
+
+
   function generic_additives_form() {
     
-    let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+    let ContactSystems = createGarageObject(emptySystem, AdditivesSystem);
     ContactSystems.state.state['name']="Dodatki do pergoli"
     ContactSystems.handleEvent('generateInputs')
     //return ContactSystems
@@ -288,7 +318,7 @@ function populateScene(scene) {
 
   function generic_contact_benstal_form() {
     
-    let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+    let ContactSystems = createGarageObject(emptySystem, ContactSystem);
     ContactSystems.state.state['name']="Formularze kontaktowe"
     ContactSystems.handleEvent('generateInputs')
     //return ContactSystems

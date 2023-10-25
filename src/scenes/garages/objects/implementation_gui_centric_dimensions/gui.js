@@ -41,9 +41,9 @@ class UconfigImplementationWallGui extends genericGui {
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
-
         let name=  this.mediator.state.state['name'] || "Wybór pergoli";
-
+      
+        
         accordionButton.textContent = name;
       
         accordionHeaderH3.appendChild(accordionButton);
@@ -82,7 +82,7 @@ class UconfigImplementationWallGui extends genericGui {
        
         // accordionBodyDiv.appendChild(this.generateSep());
       
-         accordionBodyDiv.appendChild(this.createMarkupCoverType());
+         accordionBodyDiv.appendChild(this.createMarkup());
 
 
    
@@ -100,31 +100,30 @@ class UconfigImplementationWallGui extends genericGui {
         contactForm.classList.add('contact-form');
         contactForm.classList.add('squares-container--1');
     
-        let voivodships = [
-            'Dolnośląskie',
-            'Kujawsko-Pomorskie',
-            'Lubelskie',
-            'Lubuskie',
-            'Łódzkie',
-            'Małopolskie',
-            'Mazowieckie',
-            'Opolskie',
-            'Podkarpackie',
-            'Podlaskie',
-            'Pomorskie',
-            'Śląskie',
-            'Świętokrzyskie',
-            'Warmińsko-Mazurskie',
-            'Wielkopolskie',
-            'Zachodniopomorskie'
+        let dimension_x = [
+            '2m',
+            '3m',
+            '4m',
+            '5m',
+            '6m',
+            '7m',
         ];
         
+
+        let dimension_z = [
+            '2m',
+            '3m',
+            '4m',
+            '5m',
+            '6m',
+        ];
+        
+
         const formFields = [
-            { label: 'Imie i nazwisko', type: 'text', name: 'name' },
-            { label: 'Email', type: 'email', name: 'email' },
-            { label: 'Temat', type: 'text', name: 'subject' },
-            { label: 'Województwo', type: 'select', name: 'voivodship', options: voivodships },
-            { label: 'Wiadomość', type: 'textarea', name: 'message' }
+
+            { label: 'Szerokość', type: 'select', name: 'voivodship', options: dimension_x },
+            { label: 'Wysokość', type: 'select', name: 'voivodship', options: dimension_z },
+
         ];
     
    
@@ -152,30 +151,30 @@ class UconfigImplementationWallGui extends genericGui {
             inputElement.name = field.name;
             contactForm.appendChild(inputElement);
         });
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.textContent = "Wyślij wiadomość";
-        contactForm.appendChild(submitButton);
-        submitButton.classList.add('mt-2')
-        // Event listener for form submission
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // const submitButton = document.createElement('button');
+        // submitButton.type = 'submit';
+        // submitButton.textContent = "Wyślij wiadomość";
+        // contactForm.appendChild(submitButton);
+        // submitButton.classList.add('mt-2')
+        // // Event listener for form submission
+        // contactForm.addEventListener('submit', function(e) {
+        //     e.preventDefault();
     
-            // Here you would send the form data to your backend server that handles email sending
-            // For example:
-            const formData = new FormData(contactForm);
-            fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
+        //     // Here you would send the form data to your backend server that handles email sending
+        //     // For example:
+        //     const formData = new FormData(contactForm);
+        //     fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
+        //         method: 'POST',
+        //         body: formData
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log('Success:', data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+        // });
     
         containerDiv.appendChild(contactForm);
 
@@ -261,19 +260,19 @@ class UconfigImplementationWallGui extends genericGui {
         return containerDiv;
     }
 
-    createMarkupCoverType(){
+    createColorType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container', );
+             containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
-                 { value: 'object_type_1',  display_value:"Model Toscana",  display_image:'/assets/display/model/1.webp'},
-                 { value: 'object_type_5',  display_value:"Model Palermo",  display_image:'/assets/display/model/5.webp'},
-                 { value: 'object_type_4',  display_value:"Model Milano",  display_image:'/assets/display/model/4.webp'},
-               
-                 { value: 'object_type_2',  display_value:"Model Portofino",  display_image:'/assets/display/model/2.webp'},
-                 { value: 'object_type_3',  display_value:"Model Verona",  display_image:'/assets/display/model/3.webp'},
-                
-                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/model/0.png'},
+                 { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/material/RAL7016.jpg'},
+                 { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/material/RAL9005.jpg'},
+                 { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/material/RAL9016.jpg'},
+                 { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/material/RAL1015.jpg'},
+                 { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/material/RAL7032.jpg'},
+                 { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/material/RAL8019.jpg'},
+                 { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/material/WOOD.jpg'},
+                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/0.png'},
              ];
      
              squareButtons.forEach(button => {
@@ -288,7 +287,6 @@ class UconfigImplementationWallGui extends genericGui {
                 imageEl.src =button.display_image;
 
                  imageEl.style.aspectRatio= "1 / 1"
-                 imageEl.style.objectFit= "cover"
                  imageEl.alt = button.display_value;  // for accessibility
                  squareDiv.appendChild(imageEl);  // append the image to the squareDiv
      

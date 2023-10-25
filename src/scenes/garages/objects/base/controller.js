@@ -6,6 +6,32 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { UconfigInvisibleGui, UconfigGui, UconfigDebugGui } from './gui'
 import { DoubleCubeObject, RedCubeObject, CubeObject, UconfigObject, UconfigInvisibleObject, WallGarageObject, genericGarageObject } from './object'
 
+async function repaint(system) {
+    // Clear the current content
+    const content = document.querySelector('#app');
+
+    const object_type=system['object_type']
+    if (content) {
+        try {
+            const response = await fetch(`/assets/templates/type/${object_type}.html`);
+            if (response.ok) {
+                const html = await response.text();
+                content.innerHTML = html;
+            } else {
+                console.error(`Failed to load template for object type: ${object_type}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        console.error("Element with #app not found");
+    }
+    lightGallery(document.querySelector(".gallery"), {selector:'.gallery-item'})
+  
+    // Re-render the new content
+    // renderHTML(system);
+  }
+
 class genericGarageController extends genericController {
     constructor() {
         super();
@@ -524,4 +550,4 @@ class DebugController extends UconfigsController {
 
 
 
-export { UconfigsController, CubeController, RedCubeController, DebugController,  genericGarageController, }
+export { UconfigsController, CubeController, RedCubeController, DebugController,  genericGarageController, repaint}

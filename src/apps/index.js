@@ -14,7 +14,7 @@ import {draggableUI} from '../markup/draggable-ui'
 async function repaint(system) {
   // Clear the current content
   const content = document.querySelector('#app');
-  debugger
+
   const object_type=system['template_type']
   if (content) {
       try {
@@ -31,7 +31,7 @@ async function repaint(system) {
   } else {
       console.error("Element with #app not found");
   }
- 
+  lightGallery(document.querySelector(".gallery"), {selector:'.gallery-item'})
 
   // Re-render the new content
   // renderHTML(system);

@@ -838,7 +838,7 @@ class RoofTopObject extends genericObject {
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
-        debugger
+       
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",

@@ -82,7 +82,7 @@ class UconfigImplementationWallGui extends genericGui {
        
         // accordionBodyDiv.appendChild(this.generateSep());
       
-         accordionBodyDiv.appendChild(this.createMarkupCoverType());
+         accordionBodyDiv.appendChild(this.createColorType());
 
 
    
@@ -261,17 +261,19 @@ class UconfigImplementationWallGui extends genericGui {
         return containerDiv;
     }
 
-    createMarkupCoverType(){
+    createColorType(){
         const containerDiv = document.createElement('div');
              containerDiv.classList.add('squares-container', 'squares-container--material');
      
              const squareButtons = [
-                 { value: 'RAL5001',  display_value:"RAL 5001",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'RAL5010',  display_value:"RAL 5010",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'RAL6002',  display_value:"RAL 6002",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'RAL7003',  display_value:"RAL 7003",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'RAL9003',  display_value:"RAL 9003",  display_image:'/assets/display/material/5.jpg'},
-                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/material/RAL7016.jpg'},
+                 { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/material/RAL9005.jpg'},
+                 { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/material/RAL9016.jpg'},
+                 { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/material/RAL1015.jpg'},
+                 { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/material/RAL7032.jpg'},
+                 { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/material/RAL8019.jpg'},
+                 { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/material/WOOD.jpg'},
+                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/0.png'},
              ];
      
              squareButtons.forEach(button => {

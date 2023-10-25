@@ -4,6 +4,7 @@
     
     <link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
     <link rel="stylesheet" media="screen" href="/assets/css/config.css">
+    <link rel="stylesheet" media="screen" href="/assets/vendor/lightgallery/css/lightgallery-bundle.min.css">
     <meta charset="UTF-8">
     <title>Three.js figurator</title>
     <style>
@@ -21,11 +22,28 @@
         }
         }
 
-        .resize-handle {
+        .resize-handle__wrapper{
+            z-index: 100;
             position: sticky;
             top: 0%;
             transform: translate(-50%,10px);
             left:calc( 50% ) !important;
+            width: 30px;
+            height: 0px;
+        }
+
+        @media screen and (min-width:992px){
+        .resize-handle__wrapper {
+            position: sticky;
+            top: 50%;
+            transform: translateY(-50%);
+            left:calc( 100% - 18px) !important;
+            width: 10px;
+            height: 0px;
+            }
+        }
+        .resize-handle {
+    
             width: 30px;
             height: 10px;
             cursor: ns-resize;
@@ -36,10 +54,7 @@
 
         @media screen and (min-width:992px){
         .resize-handle {
-            position: sticky;
-            top: 50%;
-            transform: translateY(-50%);
-            left:calc( 100% - 18px) !important;
+
             width: 10px;
             height: 30px;
             cursor: ew-resize;
@@ -55,7 +70,7 @@
 
         @media screen and (max-width:991px){
             .side-menu {
-            
+            z-index: 100;
             height:40vh;
             width:100%;
             bottom:0;
@@ -65,11 +80,15 @@
 
         }
         @media screen and (max-width:992px){
+            #app{
+                height: 100vh;
+            }
+
         .side-menu>div:nth-child(2) {
         /* border: 10px solid lime; */
-        margin-top: -10px;
+        margin-top: 0px;
         
-}
+        }
         }
         @media screen and (min-width:992px){
             .flex-container{
@@ -82,7 +101,7 @@
             width: 30vw;
             position: relative;
             background-color: rgba(220, 220, 220, 0.8);
-            margin-top:-30px;
+            margin-top:0px;
             height:calc(100vh );
             overflow-y: auto;
 
@@ -100,20 +119,38 @@
         .remove-model-btn{
 grid-column:  1/-1;
         }
+
+
+        .gallery-item::after{
+            content:"" !important
+        }
     </style>
 </head>
 <body>
 <div class="flex-container">
   
     <div class="side-menu">
-        <div class="resize-handle"></div>
+        <div  class="resize-handle__wrapper">
+            <div class="resize-handle"></div>
+        </div>
     </div>
     <div id="app" style="overflow-y: scroll;"></div>
+
+
+
+
 </div>
     <!-- Main Theme Script -->
+
+    
     <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-    <script src="/assets/js/draggable.js"></script>
+    <script src="/assets/vendor/lightgallery/lightgallery.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/fullscreen/lg-fullscreen.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/zoom/lg-zoom.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/video/lg-video.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script>
+    <script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
     <script src="/assets/js/theme.min.js"></script>
 
 </body>
