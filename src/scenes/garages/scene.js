@@ -294,15 +294,7 @@ function populateScene(scene) {
   generic_color_form();
 
 
-  function additional_color_form() {
-    
-    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
-    ContactSystems.state.state['name']="Kolory dodatków"
-    ContactSystems.handleEvent('generateInputs')
-    //return ContactSystems
-  }
 
-  additional_color_form();
 
 
 
@@ -315,6 +307,16 @@ function populateScene(scene) {
   }
 
   generic_additives_form();
+
+  function additional_color_form() {
+    
+    let ContactSystems = createGarageObject(emptySystem, ColorSystem);
+    ContactSystems.state.state['name']="Kolory dodatków"
+    ContactSystems.handleEvent('generateInputs')
+    //return ContactSystems
+  }
+
+  additional_color_form();
 
   function generic_contact_benstal_form() {
     

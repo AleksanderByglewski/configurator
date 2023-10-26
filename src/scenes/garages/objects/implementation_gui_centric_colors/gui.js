@@ -263,17 +263,19 @@ class UconfigImplementationWallGui extends genericGui {
 
     createColorType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container', 'squares-container--material');
+             containerDiv.classList.add('squares-container', 'squares-container--material', 'squares-container--4');
      
              const squareButtons = [
-                 { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/material/RAL7016.jpg'},
-                 { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/material/RAL9005.jpg'},
-                 { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/material/RAL9016.jpg'},
-                 { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/material/RAL1015.jpg'},
-                 { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/material/RAL7032.jpg'},
-                 { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/material/RAL8019.jpg'},
-                 { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/material/WOOD.jpg'},
-                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/0.png'},
+                 { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/colors/RAL7016.jpg'},
+                 { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/colors/RAL9005.jpg'},
+                 { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/colors/RAL8019.jpg'},
+                 { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/colors/WOOD.jpg'},
+
+                 { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/colors/RAL7032.jpg'},
+                 
+                 { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/colors/RAL9016.jpg'},
+                 { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/colors/RAL1015.jpg'},
+                           { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/colors/0.png'},
              ];
      
              squareButtons.forEach(button => {
@@ -287,12 +289,14 @@ class UconfigImplementationWallGui extends genericGui {
                 //  imageEl.style.backgroundColor = button.value;
                 imageEl.src =button.display_image;
 
-                 imageEl.style.aspectRatio= "1 / 1"
+                 imageEl.style.aspectRatio= "1 / 1 !important"
                  imageEl.alt = button.display_value;  // for accessibility
+                
                  squareDiv.appendChild(imageEl);  // append the image to the squareDiv
      
                  const textDiv = document.createElement('div');
                  textDiv.textContent = button.display_value;
+                 textDiv.style.whiteSpace = "nowrap"
                  squareDiv.appendChild(textDiv)
      
      
