@@ -964,6 +964,7 @@ function populateScene(scene) {
     OmegaSystems.state.state['gui_child_name'] = "Dodaj wiatę"
     OmegaSystems.door_type = true
     OmegaSystems.handleEvent('generateInputs')
+    OmegaSystems.gui.initial_call('left')
   }
 
   function semiAdvanced_floor_object() {
@@ -1237,8 +1238,8 @@ function populateScene(scene) {
  
   }
 
- //initialization_niche()
- //generic_attaching_niche_canopies()
+//  initialization_niche()
+//  generic_attaching_niche_canopies()
  generic_attaching_canopies()
 
   {

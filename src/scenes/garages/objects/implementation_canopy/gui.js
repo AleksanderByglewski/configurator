@@ -469,11 +469,11 @@ class UconfigCanopyUserGui extends UconfigUserGui {
        
 
         const formFields = [
-            { label: 'Lamele ściana frontowa', value: 'Rynny',type:"checkbox" , name:'lameled_wall_front' },
-            { label: 'Lamele ściana tylnia', value: 'Automatyka', type:"checkbox",  name:'lameled_wall_back' },
             { label: 'Lamele ściana prawa', value: 'Dodatkowe spady',type:"checkbox", name:'lameled_wall_right'  },
             { label: 'Lamele ściana lewa', value: 'Dodatkowe spady',type:"checkbox", name:'lameled_wall_left'  },
-
+            { label: 'Lamele ściana tylnia', value: 'Automatyka', type:"checkbox",  name:'lameled_wall_back' },
+            { label: 'Lamele ściana frontowa', value: 'Rynny',type:"checkbox" , name:'lameled_wall_front' },
+          
             
         ];
     
