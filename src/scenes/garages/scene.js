@@ -849,6 +849,7 @@ function populateScene(scene) {
   function advanced_garage_system() {
     GroupGarageSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
     GroupGarageSystem.status="top_level"
+    GroupGarageSystem.state.state['object_depth']=4
   }
   advanced_garage_system()
 
@@ -1236,8 +1237,8 @@ function populateScene(scene) {
  
   }
 
- initialization_niche()
- generic_attaching_niche_canopies()
+ //initialization_niche()
+ //generic_attaching_niche_canopies()
  generic_attaching_canopies()
 
   {

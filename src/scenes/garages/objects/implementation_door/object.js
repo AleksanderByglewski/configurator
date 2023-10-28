@@ -246,7 +246,6 @@ class DoorObject extends genericObject {
             material_type ="material_type_6"
         }
         
-        debugger
 
         material = select_texture({ width: 1.2 * width, height: height, color: color, material_type: material_type })
 
@@ -292,7 +291,7 @@ class DoorHandleObject extends genericObject {
 
         let door = (attributes && attributes.door) ? attributes.door : false;
         let gate_type = (attributes && attributes.gate_type) ? attributes.gate_type : false;
-        debugger
+      
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",

@@ -393,7 +393,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         let accessers = [
           
             // new accesser('object_width'),
-            new accesser('object_depth'),
+            // new accesser('object_depth'),
             new accesser('object_height'),
             // new accesser('wall_color'),
         ]
@@ -479,9 +479,43 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         let object_depth = parseFloat(this.state.get('object_depth')) || 4
         let object_color = this.state.get('wall_color') || "#FEFEFE"
      
+        let debug_x=0
+        let debug_y=object_height/2
+        let targeted_wall=this.state.get('targeted_wall_name') || 'targeted_wall_name'
 
+        function swap(a, b) {
+            let temp = a;
+            a = b;
+            b = temp;
+            return [a, b];
+        }
+        switch (targeted_wall){
+        case "front":
+            // debug_x=garage_width/2+object_width/2
+            this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
+            object_width=parseFloat(this.state.get('object_width')) || 3
+            object_depth=parseFloat(this.state.get('object_depth')) || 4
+            break;
+        case "back":
+            this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
+            object_width=parseFloat(this.state.get('object_width')) || 3
+            object_depth=parseFloat(this.state.get('object_depth')) || 4
+            break;
+        case "left":
+            this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
+       
+            // debug_x=-2*garage_width/2-object_width/2
+            break;
+        case "right":
+            this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+            // debug_x=garage_width/2+object_width/2
+            break;
+        case "default":
+            break;
+        }
+    
 
-        this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+        // this.state.update('position_x', 0 || 1.5+1.5)
 
         let texture_type=""
         let material_type=this.state.get('material_type') || "material_type_1" 
@@ -496,8 +530,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         // // object_height = height
         // // object_width = width
         // object_depth = depth
-        let debug_x=0
-        let debug_y=object_height/2
+ 
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
@@ -590,9 +623,9 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             // new accesser('modifier_front', modifier_right_wall),
             // new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_front_pole_left),
-            new accesser('modifier_right_pole', modifier_front_pole_right)
+            new accesser('modifier_right_pole', modifier_front_pole_right),
+            new accesser('lameled', false)
         ]
-       
         const accessersWallBack = [
             new accesser('name', name + "_back"),
             new accesser('width', object_width),
@@ -609,7 +642,8 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             //  new accesser('modifier_front', modifier_right_wall),
             //  new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_back_pole_left),
-            new accesser('modifier_right_pole', modifier_back_pole_right)
+            new accesser('modifier_right_pole', modifier_back_pole_right),
+            new accesser('lameled', false)
 
         ]
         const accessersWallLeft = [
@@ -628,7 +662,8 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             //  new accesser('modifier_front', modifier_right_wall),
             //  new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_left_pole_left),
-            new accesser('modifier_right_pole', modifier_left_pole_right)
+            new accesser('modifier_right_pole', modifier_left_pole_right),
+            new accesser('lameled', false)
 
         ]
         const accessersWallRight= [
@@ -646,7 +681,8 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             // new accesser('modifier_front', modifier_right_wall),
             // new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_right_pole_left),
-            new accesser('modifier_right_pole', modifier_right_pole_right)
+            new accesser('modifier_right_pole', modifier_right_pole_right),
+            new accesser('lameled', false)
             // new accesser('position_relative', 'true'),
             // new accesser('rotation_y',2* Math.PI/2),
 
@@ -663,12 +699,27 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
     }
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack,accessersWallLeft, accessersWallRight } = this.determineState();
+            function selected_instance(accessers_wall){
+                const foundAccesser = accessers_wall.find(accesser => accesser.resource_locator === 'lameled');
+                debugger
+                // If found, check its resource_locator value
+                if (foundAccesser) {
+                    if (foundAccesser.value === true) { // Assuming resource_locator is a boolean. Adjust accordingly if it's another type.
+                        // Do something
+                        return UconfigsImplementationLameledWallController
+                    } 
+                } 
+                return UconfigsImplementationWallController
+            
+
+           
+            }
 
             let array = [
-                { objectOptions: accessersWallFront, classInstance: UconfigsImplementationWallController},
-                { objectOptions: accessersWallBack,  classInstance: UconfigsImplementationWallController },
-                { objectOptions: accessersWallLeft,  classInstance: UconfigsImplementationWallController },
-                { objectOptions: accessersWallRight, classInstance: UconfigsImplementationLameledWallController }
+                { objectOptions: accessersWallFront, classInstance: selected_instance(accessersWallFront)},
+                { objectOptions: accessersWallBack,  classInstance: selected_instance(accessersWallBack) },
+                { objectOptions: accessersWallLeft,  classInstance: selected_instance(accessersWallLeft) },
+                { objectOptions: accessersWallRight, classInstance: selected_instance(accessersWallRight) }
                 ]
             return array
     }   

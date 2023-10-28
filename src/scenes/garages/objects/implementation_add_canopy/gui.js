@@ -35,14 +35,16 @@ class UconfigImplementationGui extends genericGui {
     constructor() {
         super();
     }
-    initial_call(){
+    initial_call(targeted_wall_name){
         let scene = this.mediator.display.get_scene();
         const emptySystem = [];
      
         let self=this
-
+     
         let GroupGarageSystem=self.mediator.group_controller
-
+        // if(targeted_wall){
+        // GroupGarageSystem=targeted_wall
+        // }
         let RoofSystem2 = self.createGarageObject(emptySystem, SecondaryRoofSystem)
         let CanopySystem1 = self.createGarageObject(emptySystem, SecondaryCanopySystem)
 
@@ -73,11 +75,9 @@ class UconfigImplementationGui extends genericGui {
         RedGateSystem1.external_objects_controllers.push(CanopySystem1)
         RedGateSystem1.mediator = CanopySystem1
 
-        CanopySystem1.state.state['object_width']=2.7
+        // CanopySystem1.state.state['object_width']=2.7
+        CanopySystem1.state.state['targeted_wall_name']=targeted_wall_name
         CanopySystem1.handleEvent('hardBuildingStep')
-      
-       
-
         CanopySystem1.handleEvent('generateInputs')
       
     }
@@ -268,7 +268,7 @@ class UconfigImplementationGui extends genericGui {
                     return;
             }
     
-         self.initial_call()
+         self.initial_call(selectedValue)
           
         });
     
