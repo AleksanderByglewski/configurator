@@ -470,7 +470,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         
         let garage_width = parseFloat(this.state.get('garage_width')) || 3
         let garage_depth = parseFloat(this.state.get('garage_depth')) || 5
-
+        let garage_height = parseFloat(this.state.get('garage_height')) || 2.13
 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -480,40 +480,75 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         let object_color = this.state.get('wall_color') || "#FEFEFE"
      
         let debug_x=0
-        let debug_y=object_height/2
-        let targeted_wall=this.state.get('targeted_wall_name') || 'targeted_wall_name'
+       
+        let targeted_wall_name=this.state.get('targeted_wall_name') || 'targeted_wall_name'
 
-        function swap(a, b) {
-            let temp = a;
-            a = b;
-            b = temp;
-            return [a, b];
-        }
-        switch (targeted_wall){
+        let roof_slant=5.5*Math.PI/180
+        //The dimension of the top part of the roof 
+        let roof_top_height=object_width*(1/Math.cos(roof_slant))
+        let roof_height=roof_top_height*Math.sin(roof_slant);
+
+        //How high should the roof top extrude
+        let garage_roof_top_height=object_width*(1/Math.cos(roof_slant))
+        let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
+
+        switch (targeted_wall_name){
         case "front":
+        
             // debug_x=garage_width/2+object_width/2
             this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
             object_width=parseFloat(this.state.get('object_width')) || 3
             object_depth=parseFloat(this.state.get('object_depth')) || 4
+
+            //The dimension of the top part of the roof 
+             roof_top_height=garage_depth*(1/Math.cos(roof_slant))
+             roof_height=roof_top_height*Math.sin(roof_slant);
+
+            //How high should the roof top extrude
+            // let garage_roof_top_height=garage_depth*(1/Math.cos(roof_slant))
+            // let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
+
+            object_height=object_height+roof_height
             break;
+       
         case "back":
+            
             this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
             object_width=parseFloat(this.state.get('object_width')) || 3
             object_depth=parseFloat(this.state.get('object_depth')) || 4
+
+             roof_top_height=object_depth*(1/Math.cos(roof_slant))
+            roof_height=roof_top_height*Math.sin(roof_slant);
+
+          
+
+           
+
+            object_height=object_height-roof_height
             break;
+            
         case "left":
             this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
-       
+            object_height=object_height+0
             // debug_x=-2*garage_width/2-object_width/2
             break;
         case "right":
             this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
             // debug_x=garage_width/2+object_width/2
+            object_height=object_height+0
             break;
         case "default":
             break;
         }
-    
+        let debug_y=object_height/2
+
+        let lameled_wall_front=this.state.get('lameled_wall_front') || 'false'
+        
+        let lameled_wall_back=this.state.get('lameled_wall_back') || 'false'
+        
+        let lameled_wall_left=this.state.get('lameled_wall_left') || 'false'
+        
+        let lameled_wall_right=this.state.get('lameled_wall_right') || 'false'
 
         // this.state.update('position_x', 0 || 1.5+1.5)
 
@@ -551,14 +586,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
         modifier_left_pole_left=0,
         modifier_left_pole_right=0
 
-        let roof_slant=5.5*Math.PI/180
-        //The dimension of the top part of the roof 
-        let roof_top_height=object_width*(1/Math.cos(roof_slant))
-        let roof_height=roof_top_height*Math.sin(roof_slant);
 
-        //How high should the roof top extrude
-        let garage_roof_top_height=object_width*(1/Math.cos(roof_slant))
-        let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
 
         switch (received_roof_type)
         {
@@ -624,7 +652,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             // new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_front_pole_left),
             new accesser('modifier_right_pole', modifier_front_pole_right),
-            new accesser('lameled', false)
+            new accesser('lameled', lameled_wall_front)
         ]
         const accessersWallBack = [
             new accesser('name', name + "_back"),
@@ -643,7 +671,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             //  new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_back_pole_left),
             new accesser('modifier_right_pole', modifier_back_pole_right),
-            new accesser('lameled', false)
+            new accesser('lameled', lameled_wall_back)
 
         ]
         const accessersWallLeft = [
@@ -663,7 +691,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             //  new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_left_pole_left),
             new accesser('modifier_right_pole', modifier_left_pole_right),
-            new accesser('lameled', false)
+            new accesser('lameled', lameled_wall_left)
 
         ]
         const accessersWallRight= [
@@ -682,7 +710,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             // new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_right_pole_left),
             new accesser('modifier_right_pole', modifier_right_pole_right),
-            new accesser('lameled', false)
+            new accesser('lameled', lameled_wall_right)
             // new accesser('position_relative', 'true'),
             // new accesser('rotation_y',2* Math.PI/2),
 
@@ -701,7 +729,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             const { accessersWallFront, accessersWallBack,accessersWallLeft, accessersWallRight } = this.determineState();
             function selected_instance(accessers_wall){
                 const foundAccesser = accessers_wall.find(accesser => accesser.resource_locator === 'lameled');
-                debugger
+             
                 // If found, check its resource_locator value
                 if (foundAccesser) {
                     if (foundAccesser.value === true) { // Assuming resource_locator is a boolean. Adjust accordingly if it's another type.
@@ -866,8 +894,6 @@ class UconfigsImplementationWallController extends UconfigsController{
         return array
 }   
 }
-
-
 class UconfigsImplementationLameledWallController extends UconfigsController{
     constructor() {
         super()

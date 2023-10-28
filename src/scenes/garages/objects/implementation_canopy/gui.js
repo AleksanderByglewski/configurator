@@ -466,8 +466,74 @@ class UconfigCanopyUserGui extends UconfigUserGui {
             containerDiv.appendChild(sliderValueDisplay);
         });
 
-        // ... your previous code ...
+       
 
+        const formFields = [
+            { label: 'Lamele ściana frontowa', value: 'Rynny',type:"checkbox" , name:'lameled_wall_front' },
+            { label: 'Lamele ściana tylnia', value: 'Automatyka', type:"checkbox",  name:'lameled_wall_back' },
+            { label: 'Lamele ściana prawa', value: 'Dodatkowe spady',type:"checkbox", name:'lameled_wall_right'  },
+            { label: 'Lamele ściana lewa', value: 'Dodatkowe spady',type:"checkbox", name:'lameled_wall_left'  },
+
+            
+        ];
+    
+        
+        const checkboxes = document.createElement('div');
+        checkboxes.style.gridColumn="1/-1"
+        checkboxes.classList.add('mt-2')
+        containerDiv.appendChild(checkboxes);
+
+        formFields.forEach(field => {
+
+            let inputElement;
+            if (field.type === 'textarea') {
+                inputElement = document.createElement('textarea');
+            } else if (field.type === 'select') {
+                inputElement = document.createElement('select');
+                field.options.forEach(optionValue => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = optionValue;
+                    optionElement.textContent = optionValue;
+                    inputElement.appendChild(optionElement);
+                });
+            } 
+            else  if (field.type === 'checkbox') {
+                const checkboxDiv = document.createElement('div');
+                checkboxDiv.classList.add('input-group', 'mb-2');
+        
+                const inputGroupTextDiv = document.createElement('div');
+                inputGroupTextDiv.classList.add('input-group-text');
+        
+                const input = document.createElement('input');
+                input.classList.add('form-check-input');
+                input.type = 'checkbox';
+                input.value = field.value;
+                input.name = field.value.toLowerCase().replace(/\s+/g, '-');  // Example to generate name attribute
+        
+                input.addEventListener('change', function(e) {
+                    this.mediator.state[field.name] = e.target.checked;
+                    this.notifyMediator('stateChange', { [field.name]: e.target.checked });
+                    this.notifyMediator('buildingStep', {});
+                }.bind(this));
+
+                inputGroupTextDiv.appendChild(input);
+                checkboxDiv.appendChild(inputGroupTextDiv);
+        
+                const textDiv = document.createElement('div');
+                textDiv.classList.add('form-control');
+                textDiv.textContent = field.label;
+                textDiv.setAttribute('disabled', '');
+        
+                checkboxDiv.appendChild(textDiv);
+                checkboxes.appendChild(checkboxDiv);
+            } 
+            else {
+                inputElement = document.createElement('input');
+                inputElement.type = field.type;
+            }
+            // inputElement.name = field.name;
+            // contactForm.appendChild(inputElement);
+        });
 
 
         const removeModelBtn = document.createElement('button');
