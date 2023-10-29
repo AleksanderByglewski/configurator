@@ -908,11 +908,11 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             switch (targeted_wall_name) {
                 case 'front':
                
-                    roof_top_height = (garage_width - object_width) * (1 / Math.cos(roof_slant))
+                    roof_top_height = (garage_width-object_width) * (1 / Math.cos(roof_slant))
                   
                     roof_height = roof_top_height * Math.sin(roof_slant);
 
-                    modify_accesser(state, 'position_y', -1*roof_height / 2)
+                    modify_accesser(state, 'position_y', +1*roof_height / 2)
 
 
                     break;
@@ -926,7 +926,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
 
                     break;
                 case 'right':
-                    roof_top_height = (object_width) * (1 / Math.cos(roof_slant))
+                    roof_top_height = (garage_width) * (1 / Math.cos(roof_slant))
                     roof_height = roof_top_height * Math.sin(roof_slant);
 
                     modify_accesser(state, 'position_y', roof_height)
@@ -938,8 +938,6 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
                     break;
             }
         }
-
-
         if (received_roof_type == "roof_type_4") {
             switch (targeted_wall_name) {
                 case 'front':

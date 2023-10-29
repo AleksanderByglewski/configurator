@@ -490,27 +490,154 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
 
         //How high should the roof top extrude
         let garage_roof_top_height=object_width*(1/Math.cos(roof_slant))
-        let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
+        let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.00;
 
+        let modifier_front=0
+        let modifier_back=0
+        let modifier_left=0
+        let modifier_right=0
+        let modifier_general=0
+  
+        // if (received_roof_type == "roof_type_1") {
+        //     switch (targeted_wall_name) {
+        //         case 'front':
+        //             roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             //modify_accesser(state, 'position_y', +roof_height)
+        //             modifier_front=roof_height
+        //             break;
+        //         case 'left':
+        //             roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             modifier_general=roof_height;
+        //             //modify_accesser(state, 'position_y', roof_height / 2)
+
+        //             break;
+        //         case 'right':
+        //             roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             modifier_general=roof_height;
+        //             // modify_accesser(state, 'position_y', roof_height / 2)
+        //             break;
+        //         case 'back':
+        //             roof_top_height = object_depth * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             // modify_accesser(state, 'position_y', -roof_height)
+        //             break;
+        //     }
+        // }
+        // if (received_roof_type == "roof_type_3") {
+        //     switch (targeted_wall_name) {
+        //         case 'front':
+
+        //             roof_top_height = object_depth * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', -roof_height)
+
+
+        //             break;
+        //         case 'left':
+
+        //             roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', roof_height / 2)
+
+
+        //             break;
+        //         case 'right':
+        //             roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', roof_height / 2)
+        //             break;
+        //         case 'back':
+        //             roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             modify_accesser(state, 'position_y', +roof_height)
+        //             break;
+        //     }
+        // }
+        // if (received_roof_type == "roof_type_2") {
+        //     switch (targeted_wall_name) {
+        //         case 'front':
+               
+        //             roof_top_height = (garage_width - object_width) * (1 / Math.cos(roof_slant))
+                  
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', -1*roof_height / 2)
+
+
+        //             break;
+        //         case 'left':
+
+        //             roof_top_height = (object_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', -roof_height)
+
+
+        //             break;
+        //         case 'right':
+        //             roof_top_height = (object_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', roof_height)
+        //             break;
+        //         case 'back':
+        //             roof_top_height = (garage_width - object_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             modify_accesser(state, 'position_y', +roof_height / 2)
+        //             break;
+        //     }
+        // }
+        // if (received_roof_type == "roof_type_4") {
+        //     switch (targeted_wall_name) {
+        //         case 'front':
+        //             roof_top_height = (garage_width - object_width) * (1 / Math.cos(roof_slant))
+                   
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', +roof_height / 2)
+
+
+        //             break;
+        //         case 'left':
+
+        //             roof_top_height = (garage_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', +roof_height)
+
+
+        //             break;
+        //         case 'right':
+        //             roof_top_height = (object_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+
+        //             modify_accesser(state, 'position_y', -roof_height)
+        //             break;
+        //         case 'back':
+        //             roof_top_height = (garage_width - object_width) * (1 / Math.cos(roof_slant))
+        //             roof_height = roof_top_height * Math.sin(roof_slant);
+        //             modify_accesser(state, 'position_y', +roof_height / 2)
+        //             break;
+        //     }
+        // }
+
+        if (received_roof_type == "roof_type_1"){
         switch (targeted_wall_name){
         case "front":
-        
-            // debug_x=garage_width/2+object_width/2
             this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
             object_width=parseFloat(this.state.get('object_width')) || 3
             object_depth=parseFloat(this.state.get('object_depth')) || 4
-
-            //The dimension of the top part of the roof 
-             roof_top_height=garage_depth*(1/Math.cos(roof_slant))
-             roof_height=roof_top_height*Math.sin(roof_slant);
-
-            //How high should the roof top extrude
-            // let garage_roof_top_height=garage_depth*(1/Math.cos(roof_slant))
-            // let garage_roof_height=garage_roof_top_height*Math.sin(roof_slant)-0.05;
-
+            roof_top_height=garage_depth*(1/Math.cos(roof_slant))
+            roof_height=roof_top_height*Math.sin(roof_slant);
             object_height=object_height+roof_height
-            break;
-       
+            break;      
         case "back":
             
             this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
@@ -525,21 +652,175 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
            
 
             object_height=object_height-roof_height
-            break;
-            
+            break;      
         case "left":
             this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
             object_height=object_height+0
+
+            roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+            roof_height = roof_top_height * Math.sin(roof_slant);
+            object_height=object_height+roof_height/2
             // debug_x=-2*garage_width/2-object_width/2
             break;
         case "right":
             this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
             // debug_x=garage_width/2+object_width/2
-            object_height=object_height+0
-            break;
-        case "default":
+            roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+            roof_height = roof_top_height * Math.sin(roof_slant);
+            object_height=object_height+roof_height/2
             break;
         }
+        
+        }
+        if (received_roof_type == "roof_type_3"){
+            switch (targeted_wall_name){
+
+                case "front":
+                    
+                this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
+                object_width=parseFloat(this.state.get('object_width')) || 3
+                object_depth=parseFloat(this.state.get('object_depth')) || 4
+                roof_top_height=object_depth*(1/Math.cos(roof_slant))
+                roof_height=roof_top_height*Math.sin(roof_slant);
+                object_height=object_height-roof_height
+            
+                break;      
+
+                case "back":
+                    this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+        
+                     roof_top_height=garage_depth*(1/Math.cos(roof_slant))
+                    roof_height=roof_top_height*Math.sin(roof_slant);
+                    object_height=object_height+roof_height
+                    break;
+           
+                case "left":
+                    this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
+                    object_height=object_height+0
+        
+                    roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height+roof_height/2
+                    // debug_x=-2*garage_width/2-object_width/2
+                    break;
+                case "right":
+                    this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+                    // debug_x=garage_width/2+object_width/2
+                    roof_top_height = (garage_depth - object_depth) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height+roof_height/2
+                    break;
+                }
+                
+                
+
+        }
+
+
+        if (received_roof_type == "roof_type_2"){
+            switch (targeted_wall_name){
+                case "front":
+                  
+                    this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+                    roof_top_height=(garage_width-object_width)*(1/Math.cos(roof_slant))
+                    roof_height=roof_top_height*Math.sin(roof_slant);
+                    object_height=object_height-roof_height/2
+                    break;      
+                case "back":
+                    
+                    this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+        
+                     roof_top_height=(garage_width-object_width)*(1/Math.cos(roof_slant))
+                    roof_height=roof_top_height*Math.sin(roof_slant);
+        
+                  
+        
+                   
+        
+                    object_height=object_height-roof_height/2
+                    break;      
+                case "left":
+             
+                    {   debugger
+                    this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
+                    
+                    roof_top_height = (object_width ) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height-2*roof_height
+                    // debug_x=-2*garage_width/2-object_width/2
+                    break;
+                    }
+                case "right":
+                    {
+                    this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+                    // debug_x=garage_width/2+object_width/2
+                    roof_top_height = (garage_width ) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height+0*roof_height
+                    break;
+                    }
+                }
+            }
+       
+
+        
+            if (received_roof_type == "roof_type_4"){
+                switch (targeted_wall_name){
+                    case "front":
+                  
+                    this.state.update('position_z',  +garage_depth/2+object_depth/2 || -1.5-1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+                    roof_top_height=(garage_width-object_width)*(1/Math.cos(roof_slant))
+                    roof_height=roof_top_height*Math.sin(roof_slant);
+                    object_height=object_height-roof_height/2-garage_roof_height
+                    break;      
+                case "back":
+                    {
+                    this.state.update('position_z',  -garage_depth/2-object_depth/2 || -1.5-1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+        
+                    roof_top_height=(garage_width-object_width)*(1/Math.cos(roof_slant))
+                    roof_height=roof_top_height*Math.sin(roof_slant);
+        
+                  
+        
+                   
+        
+                    object_height=object_height-roof_height/2-garage_roof_height
+                    break;
+                    }      
+                case "left":
+             
+                    {  
+                    this.state.update('position_x',  -garage_width/2-object_width/2 || -1.5-1.5)
+                    roof_top_height = (garage_width-object_width) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height+0*roof_height/2-0*garage_roof_height/2
+                    // debug_x=-2*garage_width/2-object_width/2
+                    break;
+                    }
+                case "right":
+                    {
+                    this.state.update('position_x', garage_width/2+object_width/2 || 1.5+1.5)
+                    object_width=parseFloat(this.state.get('object_width')) || 3
+                    object_depth=parseFloat(this.state.get('object_depth')) || 4
+                    
+                    roof_top_height = (garage_width+object_width) * (1 / Math.cos(roof_slant))
+                    roof_height = roof_top_height * Math.sin(roof_slant);
+                    object_height=object_height-1*roof_height-2*garage_roof_height
+                    break;
+                    }
+                }
+                }
+
         let debug_y=object_height/2
 
         let lameled_wall_front=this.state.get('lameled_wall_front') || 'false'
@@ -614,14 +895,16 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
                     
                 case 'roof_type_4':
 
-                    modifier_front_pole_left=-roof_height
-                    modifier_front_pole_right=-roof_height
-                    modifier_back_pole_left=-roof_height
-                    modifier_back_pole_right=-roof_height
-                    modifier_right_pole_left=-roof_height
-                    modifier_right_pole_right=-roof_height
-                    modifier_left_pole_left=-roof_height
-                    modifier_left_pole_right=-roof_height
+                modifier_front_pole_left=roof_height+garage_roof_height
+                modifier_back_pole_right=roof_height+garage_roof_height
+                modifier_right_pole_left=roof_height+garage_roof_height
+                modifier_right_pole_right=roof_height+garage_roof_height
+
+
+                modifier_front_pole_right=roof_height+garage_roof_height
+                modifier_back_pole_left=roof_height+garage_roof_height
+                modifier_left_pole_left=roof_height+garage_roof_height
+                modifier_left_pole_right=roof_height+garage_roof_height
 
                     break;
 
