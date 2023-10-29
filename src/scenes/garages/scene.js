@@ -1116,7 +1116,7 @@ function advanced_garage_system() {
   GroupGarageSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
   GroupGarageSystem.status="top_level"
   GroupGarageSystem.state.state['object_depth']=4
-  GroupGarageSystem.state.state['position_z']=5
+  GroupGarageSystem.state.state['position_z']=-4
 }
 function generic_attaching_canopies(){
 
