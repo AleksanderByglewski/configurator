@@ -29,7 +29,8 @@ import {
         UconfigsSecondaryChildImplementationController as SecondaryFloorSystem,
         UconfigsChildImplementationController as FloorSystem,
         UconfigsImplementationController as InvisibleSystem } from '../floors/implementation'
-      
+        import {
+            UconfigsImplementationFloorsController as AnotherFloorSystem } from '../implementation_floor/implementation'
 
 class UconfigImplementationGui extends genericGui {
     constructor() {
@@ -46,6 +47,8 @@ class UconfigImplementationGui extends genericGui {
         // GroupGarageSystem=targeted_wall
         // }
         let RoofSystem2 = self.createGarageObject(emptySystem, SecondaryRoofSystem)
+
+       
         let CanopySystem1 = self.createGarageObject(emptySystem, SecondaryCanopySystem)
 
         CanopySystem1.status="niche_canopy"
@@ -68,9 +71,14 @@ class UconfigImplementationGui extends genericGui {
         // RoofSystem2.handleEvent('buildingStep')
         // RoofSystem2.handleEvent('generateInputs')
 
+        GroupGarageSystem.external_objects.push(CanopySystem1)
+        CanopySystem1.external_objects_controllers.push(GroupGarageSystem)
+        CanopySystem1.mediator = GroupGarageSystem
 
-        let RedGateSystem1 = self.createGarageObject(emptySystem, SecondaryFloorSystem);
+       
+        let RedGateSystem1 = self.createGarageObject(emptySystem, AnotherFloorSystem);
         RedGateSystem1.state.state['color'] = "#FFFFFF"
+        
         CanopySystem1.external_objects.push(RedGateSystem1)
         RedGateSystem1.external_objects_controllers.push(CanopySystem1)
         RedGateSystem1.mediator = CanopySystem1

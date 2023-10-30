@@ -63,7 +63,6 @@ function load_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolut
     //  sphereMaterial.normalScale.set(2, 2); 
     return sphereMaterial
     }
-
 function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', resolution="1k"){
   const loader = new THREE.CubeTextureLoader();
   loader.setPath( '/assets/textures/cube/Bridge2/' );
@@ -130,8 +129,6 @@ function load_color_texture(path='/assets/textures/red-bricks/red_bricks_04_', r
   // return sphereMaterialet(2, 2); 
       return sphereMaterial
       }
-
-
 function load_texture_debug(path='/assets/textures/roof_tile/roof_07_', resolution="1k"){
         const loader = new THREE.CubeTextureLoader();
         loader.setPath( '/assets/textures/cube/Bridge2/' );
@@ -364,8 +361,26 @@ switch(color){
 }
 
 switch(material_type){
-  
-  case "material_type_1":
+      case "material_glass":
+        material_output.map = undefined
+                  // local_texture.wrapS=THREE.RepeatWrapping
+        material_output.bumpMap.rotation = Math.PI / 2;
+        material_output.normalMap.rotation = Math.PI / 2;
+        material_output.bumpMap.repeat.set(1,1 );
+        material_output.normalMap.repeat.set(1, 1 );
+     
+        material_output.bumpMap = undefined;
+         material_output.normalMap = undefined;
+         material_output.color = new THREE.Color(0xfbfdff);
+         material_output.metalness = 0.91;
+         material_output.reflectivity = 1.0;
+         material_output.envMapIntensity = 5.0;
+         material_output.clearcoat = 1.00; 
+         material_output.clearcoatRoughness = 0.00;
+      // texture=global_texture
+      
+      break;
+      case "material_type_1":
   
           // texture=global_texture
           
@@ -435,7 +450,7 @@ switch(material_type){
                 // material_output.repeat.set(width, height/2);
             
                 break;
-          case "material_type_7":
+      case "material_type_7":
                   //  color ="#ee2797";
                       // local_texture=global_texture.clone();
                       // local_texture.wrapS=THREE.RepeatWrapping
@@ -449,7 +464,7 @@ switch(material_type){
                       // material_output.repeat.set(width, height/2);
                   
                       break;
-            case "material_type_8":
+      case "material_type_8":
                         //  color ="#ee2797";
                             // local_texture=global_texture.clone();
                             // local_texture.wrapS=THREE.RepeatWrapping

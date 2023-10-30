@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, CANOPIES_AUTOMATIC } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -501,7 +501,7 @@ class UconfigsSecondaryChildImplementationController extends UconfigsImplementat
         this.gui = new UconfigImplementationFloorGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
-        this.external_objects=[]
+        // this.external_objects=[]
     }
     generatePassiveObjects(){
             const { accessersWallFront, accessersWallBack, accessersWallLeft, accessersWallRight } = this.determineState();
@@ -603,6 +603,8 @@ class UconfigsSecondaryChildImplementationController extends UconfigsImplementat
         }
 
     }
+
+    
 }
 
 
@@ -686,9 +688,11 @@ class SimpleRedController extends UconfigsImplementationController{
         // this.setModel(UconfigInvisibleObject)
         this.gui = new UconfigImplementationFloorGui();
         //this.gui = new UconfigDebugGui();
-        this.gui.set_mediator(this)
+        // this.gui.set_mediator(this)
         // this.group = new THREE.Group()
     }
+
+ 
   
     specifySelf(){
         const accessersWallFront = [
@@ -707,7 +711,9 @@ class SimpleRedController extends UconfigsImplementationController{
         return [{ "accessersWallFront": accessersWallFront}]
     }
     determineState() {
-        //You can get the current state of the object by using the 
+        //You can get the current state of the object by using the
+       
+      
         let name = 'Door'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3
@@ -726,12 +732,44 @@ class SimpleRedController extends UconfigsImplementationController{
         let height = this.state.get('height') || 0.05
         let width = this.state.get('width') || 3.0
         let depth = this.state.get('depth') || 4.0
+
+  
         object_height = height
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
         let material_type = this.state.get('material_type') || "floor_type_1"
+
+        let targeted_wall_name = this.state.get('targeted_wall_name') || undefined
+
+        if (CANOPIES_AUTOMATIC) {
+            switch (targeted_wall_name) {
+                case "front":
+                    {
+                        width = parseFloat(this.state.get('garage_width')) || 3
+                        break;
+                    }
+                case "back":
+                    {
+                        width = parseFloat(this.state.get('garage_width')) || 3
+                        break;
+                    }
+                case "left":
+                    {
+                        depth = parseFloat(this.state.get('garage_depth')) || 3
+                        break;
+                    }
+                case "right":
+                    {
+                        depth = parseFloat(this.state.get('garage_depth')) || 3
+                        break;
+                    }
+                default:
+                    break;
+            }
+    }
+
 
         const accessersWallFront = [
             new accesser('passivness', "This is a passive object"),

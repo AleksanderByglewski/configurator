@@ -1,6 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser, GLOBAL_ORIENTATION } from '../../base'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
@@ -8,7 +8,7 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
-class UconfigImplementationAdditonalOptionsGui extends genericGui {
+class UconfigImplementationFloorGui extends genericGui {
     constructor() {
         super();
     }
@@ -34,15 +34,14 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
         accordionItemDiv.appendChild(accordionHeaderH3);
 
         const accordionButton = document.createElement('button');
-        accordionButton.classList.add('accordion-button');
-        accordionButton.classList.add('collapsed');
+        accordionButton.classList.add('accordion-button', 'collapsed');
         accordionButton.type = 'button';
         accordionButton.dataset.bsToggle = "collapse";
         accordionButton.dataset.bsTarget = '#collapseTwo-' + this.id;
-        accordionButton.setAttribute('aria-expanded', 'true');
+        // accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name= "Dodatkowe opcje";
+        let name= (attributes && attributes.name) ? attributes.name: "Budowa systemów";
 
         accordionButton.textContent = name;
       
@@ -78,11 +77,11 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
 
         // accordionBodyDiv.appendChild(this.generateSep());
 
-        accordionBodyDiv.appendChild(this.createMarkup());
+        // accordionBodyDiv.appendChild(this.createMarkup());
        
-        // accordionBodyDiv.appendChild(this.generateSep());
+        //  accordionBodyDiv.appendChild(this.generateSep());
       
-        // accordionBodyDiv.appendChild(this.createMarkupCoverType());
+        accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
    
@@ -93,113 +92,82 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
     }
     createMarkup() {
         const containerDiv = document.createElement('div');
-  
+        containerDiv.classList.add('squares-container--three');
 
 
-        const contactForm = document.createElement('form');
-        contactForm.classList.add('contact-form');
-        contactForm.classList.add('squares-container--1');
-    
-        let voivodships = [
-          
-            'Śląskie',
-            'Świętokrzyskie',
-            'Warmińsko-Mazurskie',
-            'Wielkopolskie',
-            'Zachodniopomorskie'
-        ];
-        
-        const formFields = [
-            { label: 'Konstrukcja standardowa ocynkowana', value: 'Rynny',type:"checkbox" , name:'rynny' },
-            { label: 'Konstrukcja z profili zamkniętych pomalowanych farbą podkładową', value: 'Automatyka', type:"checkbox",  name:'automatyka' },
-            { label: 'Konstrukcja z profili zamkniętych ocynkowanych', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Przystosowanie bramy uchylnej pod automat', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Obróbka blacharska', value: 'Obróbka blacharska',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Filc pod dachem', value: 'Filc pod dachem',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Kotwiczenie', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Rynny', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            
-        ];
-    
-   
-    
-        formFields.forEach(field => {
+        const text_attributes = ['name'];
 
-            let inputElement;
-            if (field.type === 'textarea') {
-                inputElement = document.createElement('textarea');
-            } else if (field.type === 'select') {
-                inputElement = document.createElement('select');
-                field.options.forEach(optionValue => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = optionValue;
-                    optionElement.textContent = optionValue;
-                    inputElement.appendChild(optionElement);
-                });
-            } 
-            else  if (field.type === 'checkbox') {
-                const checkboxDiv = document.createElement('div');
-                checkboxDiv.classList.add('input-group', 'mb-2');
-        
-                const inputGroupTextDiv = document.createElement('div');
-                inputGroupTextDiv.classList.add('input-group-text');
-        
-                const input = document.createElement('input');
-                input.classList.add('form-check-input');
-                input.type = 'checkbox';
-                input.value = field.value;
-                input.name = field.value.toLowerCase().replace(/\s+/g, '-');  // Example to generate name attribute
-        
-                inputGroupTextDiv.appendChild(input);
-                checkboxDiv.appendChild(inputGroupTextDiv);
-        
-                const textDiv = document.createElement('div');
-                textDiv.classList.add('form-control');
-                textDiv.textContent = field.label;
-                textDiv.setAttribute('disabled', '');
-        
-                checkboxDiv.appendChild(textDiv);
-                contactForm.appendChild(checkboxDiv);
-            } 
-            else {
-                inputElement = document.createElement('input');
-                inputElement.type = field.type;
-            }
-            // inputElement.name = field.name;
-            // contactForm.appendChild(inputElement);
+        text_attributes.forEach(attr => {
+            const textLabel = document.createElement('label');
+            textLabel.textContent = attr;
+            containerDiv.appendChild(textLabel);
+
+            const filler = document.createElement('div');
+            containerDiv.appendChild(filler);
+
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.value = this.mediator.state[attr] || 'State name';  // default to empty string if not set
+
+            // Event listener for input changes
+            textInput.addEventListener('input', function (e) {
+                this.mediator.state[attr] = e.target.value;
+                this.notifyMediator('stateChange', { [attr]: e.target.value });
+                
+                console.log(this.mediator.state.state)
+            }.bind(this));
+
+            containerDiv.appendChild(textInput);
         });
-        // const submitButton = document.createElement('button');
-        // submitButton.type = 'submit';
-        // submitButton.textContent = "Wyślij wiadomość";
-        // contactForm.appendChild(submitButton);
-        // submitButton.classList.add('mt-2')
-        // // Event listener for form submission
-        // contactForm.addEventListener('submit', function(e) {
-        //     e.preventDefault();
-    
-        //     // Here you would send the form data to your backend server that handles email sending
-        //     // For example:
-        //     const formData = new FormData(contactForm);
-        //     fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Success:', data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-        // });
-    
-        containerDiv.appendChild(contactForm);
+
+        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth' , 'repeat_x', 'repeat_y'];
+
+        attributes.forEach(attr => {
+            const sliderLabel = document.createElement('label');
+            sliderLabel.textContent = attr;
+            containerDiv.appendChild(sliderLabel);
+
+            const sliderInput = document.createElement('input');
+            sliderInput.type = 'range';
+            sliderInput.min = -10; // You can set min/max/default values according to your needs
+            sliderInput.max = 10;
+            sliderInput.step = 0.1;
+            sliderInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
+            sliderInput.addEventListener('input', function (e) {
+                this.mediator.state[attr] = e.target.value;
+                this.notifyMediator('stateChange', { [attr]: e.target.value });
+                this.notifyMediator('buildingStep', { });
+            }.bind(this));
+
+            const sliderValueDisplay = document.createElement('span');
+            sliderValueDisplay.textContent = sliderInput.value;
+            sliderInput.addEventListener('input', function (e) {
+                sliderValueDisplay.textContent = e.target.value;
+            });
+
+            containerDiv.appendChild(sliderInput);
+            containerDiv.appendChild(sliderValueDisplay);
+        });
+
+        // ... your previous code ...
+
+       
+
+        const removeModelBtn = document.createElement('button');
+        removeModelBtn.textContent = "Remove Model";
+        removeModelBtn.classList.add('remove-model-btn');
+        removeModelBtn.addEventListener('click', function () {
+            // Call notifyMediator with 'recursivelyRemoveModel' event
+            this.notifyMediator('recursivelyRemoveModel');
+        }.bind(this));
+
+        containerDiv.appendChild(removeModelBtn);
 
 
         return containerDiv;
     }
     createMarkupColors(){
-   const containerDiv = document.createElement('div');
+        const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
@@ -253,7 +221,7 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
                 // this.notifyMediator('buildingStep');
              
                 this.notifyMediator('changeObject',`${squareDiv.dataset.value}`)
-          
+              
             }.bind(this));
 
 
@@ -279,14 +247,14 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container', 'squares-container--material');
+             containerDiv.classList.add('squares-container--2');
      
              const squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
+                 { value: 'floor_type_1',  display_value:"Podłoże 1",  display_image:'/assets/display/foundation/1.jpg'},
+                 { value: 'floor_type_2',  display_value:"Podłoże 2",  display_image:'/assets/display/foundation/2.jpg'},
+                 { value: 'floor_type_3',  display_value:"Podłoże 3",  display_image:'/assets/display/foundation/3.jpg'},
+                 { value: 'floor_type_4',  display_value:"Podłoże 4",  display_image:'/assets/display/foundation/4.jpg'},
+                //  { value: 'floor_type_5',  display_value:"Podłoże 5",  display_image:'/assets/display/material/5.jpg'},
                 
              ];
      
@@ -327,6 +295,7 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
                         new accesser('material_type', squareDiv.dataset.value),
                     ]
                      this.notifyMediator('genericChangeObject',accessers)
+                     this.notifyMediator("hardBuildingStep", {})
                
                  }.bind(this));
      
@@ -394,4 +363,5 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
     listenToChanges() {
     }
 }
- export{UconfigImplementationAdditonalOptionsGui}
+
+ export{UconfigImplementationFloorGui}
