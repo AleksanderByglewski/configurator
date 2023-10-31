@@ -34,7 +34,8 @@ class UconfigImplementationWallGui extends genericGui {
             accordionItemDiv.appendChild(accordionHeaderH3);
     
             const accordionButton = document.createElement('button');
-            accordionButton.classList.add('accordion-button', 'collapsed');
+            accordionButton.classList.add('accordion-button');
+            accordionButton.classList.add('collapsed');
             accordionButton.type = 'button';
             accordionButton.dataset.bsToggle = "collapse";
             accordionButton.dataset.bsTarget = '#'+who_to_collapse+'-' + this.id;

@@ -18,7 +18,7 @@ class UconfigImplementationRoofGui extends genericGui {
         return sepElem
      }
     generateInputs(attributes) {
-
+        debugger
         function generateAccordion(who_to_collapse="collapseTwo", pass_name="Kontroler"){
         const accordionDiv = document.createElement('div');
         accordionDiv.classList.add('accordion');
@@ -281,7 +281,6 @@ class UconfigImplementationRoofGui extends genericGui {
         
         return containerDiv;
     }
-
     createMarkupType(){
         const containerDiv = document.createElement('div');
              containerDiv.classList.add('squares-container');
