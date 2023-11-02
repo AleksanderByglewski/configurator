@@ -166,7 +166,7 @@ function load_texture_debug(path='/assets/textures/roof_tile/roof_07_', resoluti
       })
 
           const normalMap = new THREE.TextureLoader().load(
-            path+'nor_dx_'+resolution+'.jpg',
+            path+'nor_gl_'+resolution+'.jpg',
             (texture) => {
               texture.wrapS = THREE.RepeatWrapping
               texture.wrapT = THREE.RepeatWrapping
@@ -201,7 +201,7 @@ function load_texture_debug(path='/assets/textures/roof_tile/roof_07_', resoluti
         //  sphereMaterial.normalScale.set(2, 2); 
         return sphereMaterial
       }
-function load_texture_tiling(path='/assets/textures/roof_tile/roof_07_', resolution="1k"){
+function load_texture_tiling(path='/assets/textures/roof_tile/grey_roof_tiles_02', resolution="1k"){
         const loader = new THREE.CubeTextureLoader();
         loader.setPath( '/assets/textures/cube/Bridge2/' );
         let textureEquirec, textureCube;
@@ -278,7 +278,7 @@ const global_debug=load_texture_debug('/assets/textures/debug/debug_', '1k')
 
 const global_metal_material= load_texture('/assets/textures/factory_wall/factory_wall_', '1k')
 
-const global_metal_tiling=load_texture_tiling('/assets/textures/roof_tile/roof_07_', '1k')
+const global_metal_tiling=load_texture_tiling('/assets/textures/roof_tile2/grey_roof_tiles_02_', '1k')
 
 const global_golden_oak= load_color_texture('/assets/textures/factory_oak/factory_wall_', '1k')
 
@@ -468,24 +468,30 @@ switch(material_type){
                         //  color ="#ee2797";
                             // local_texture=global_texture.clone();
                             // local_texture.wrapS=THREE.RepeatWrapping
-                         
+                            //material_output=global_metal_material.clone()
+                           
+
                             material_output=global_metal_tiling.clone()
-                            material_output.map= global_metal_tiling.map.clone();
+                            // material_output.map= global_metal_tiling.map.clone();
 
 
-                            material_output.bumpMap = global_metal_material.bumpMap.clone();
-                            material_output.normalMap = global_metal_material.normalMap.clone();
+  //                          material_output.bumpMap = global_metal_material.bumpMap.clone();
+//                            material_output.normalMap = global_metal_material.normalMap.clone();
 
-                            // material_output.bumpMap = global_metal_tiling.bumpMap.clone();
-                            // material_output.normalMap = global_metal_tiling.normalMap.clone();
+                            material_output.bumpMap = global_metal_tiling.bumpMap.clone();
+                            material_output.normalMap = global_metal_tiling.normalMap.clone();
 
-                            material_output.bumpMap.rotation = Math.PI / 2;
-                            material_output.normalMap.rotation = Math.PI / 2;
+                          
+                           // material_output.bumpMap = global_metal_material.bumpMap.clone();
+                           // material_output.normalMap = global_metal_material.normalMap.clone();
+
+                            // material_output.bumpMap.rotation = Math.PI / 2;
+                            // material_output.normalMap.rotation = Math.PI / 2;
                   
-                            material_output.map.repeat.set(0.5*height, 0.5*width );
-                            material_output.bumpMap.repeat.set(0.25*height, 0.25*width );
-                            material_output.normalMap.repeat.set(0.25*height, 0.25*width );
-
+                             material_output.map.repeat.set(height, width );
+                             material_output.bumpMap.repeat.set(height, width );
+                            material_output.normalMap.repeat.set(height, width );
+                            material_output.color=new THREE.Color(color)
                             // material_output.color=new THREE.Color()
                             // local_texture.wrapT=THREE.RepeatWrapping
                             // material_output.repeat.set(width, height/2);

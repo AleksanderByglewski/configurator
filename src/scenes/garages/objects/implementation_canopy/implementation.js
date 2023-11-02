@@ -68,7 +68,7 @@ class UconfigsImplementationCanopyController extends UconfigsController {
             // new accesser('wall_color'),
         ]
 
-
+    
         for (let i = 0; i < accessers.length; i++) {
             const val = targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
             this.state.update(accessers[i].resource_locator, val);
@@ -129,6 +129,7 @@ class UconfigsImplementationCanopyController extends UconfigsController {
 
     determineState() {
         //You can get the current state of the object by using the 
+        debugger
         this.request_an_update()
 
         let received_roof_type = this.state.get('received_roof_type') || 'roof_type_1'
@@ -717,8 +718,6 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
 
 
         }
-
-
         if (received_roof_type == "roof_type_2") {
             switch (targeted_wall_name) {
                 case "front":
@@ -767,7 +766,6 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
                     }
             }
         }
-
         if (received_roof_type == "roof_type_4") {
             switch (targeted_wall_name) {
                 case "front":
@@ -1195,6 +1193,7 @@ class UconfigsImplementationSecondaryCanopyController extends UconfigsController
             // new accesser('modifier_back', modifier_back_wall),
             new accesser('modifier_left_pole', modifier_front_pole_left),
             new accesser('modifier_right_pole', modifier_front_pole_right),
+            new accesser('material_type', material_type),
             new accesser('lameled', lameled_wall_front)
         ]
         const accessersWallBack = [
@@ -1331,8 +1330,9 @@ class UconfigsImplementationWallController extends UconfigsController {
         // }
     }
     determineState() {
-
+        //debugger
         this.request_an_update()
+        
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -1359,7 +1359,7 @@ class UconfigsImplementationWallController extends UconfigsController {
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
-
+        
         let canopy_support_width = this.state.get('canopy_support_width') || 0.1
 
         let canopy_support_bottom_height = this.state.get('canopy_support_width') || 0.1

@@ -791,6 +791,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('object_depth'),
             new accesser('object_height'),
             new accesser('wall_color'),
+            new accesser('material_type')
         ]
 
         accessers_assign = [
@@ -798,6 +799,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('garage_depth'),
             new accesser('garage_height'),
             new accesser('wall_color'),
+            new accesser('material_type')
         ]
 
         this.request_update_state(targeted_parent, accessers, accessers_assign)
@@ -913,7 +915,13 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         //Case where the roof falls back
 
         let received_roof_type = this.state.get('roof_type') || 'roof_type_1'
+        debugger
 
+
+        let received_material_type = this.state.get('material_type') || 'material_type_1'
+
+        
+        set_value_accesser(state, 'material_type', received_material_type)
         let molly=CANOPIES_AUTOMATIC ? 0 : 1;
 
         if (received_roof_type == "roof_type_1") {

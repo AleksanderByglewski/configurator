@@ -100,7 +100,7 @@ class UconfigsImplementationFloorsController extends UconfigsController {
 
         this.request_update_state(targeted_parent, accessers, accessers_assign)
 
-        debugger
+        
         targeted_parent = this.request_find_element('top_level').external_objects.find(obj=>obj.status=="main_floor")
         // At this point, targeted_parent is either the top level object or null/undefined
         accessers = [
@@ -123,7 +123,7 @@ class UconfigsImplementationFloorsController extends UconfigsController {
         
         this.request_an_update()
         
-debugger
+
         // this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
 
         let roof_type = this.state.get('roof_type') || 'roof_type_1'

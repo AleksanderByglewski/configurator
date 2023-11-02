@@ -18,113 +18,152 @@ class UconfigImplementationRoofGui extends genericGui {
         return sepElem
      }
     generateInputs(attributes) {
-        debugger
-        function generateAccordion(who_to_collapse="collapseTwo", pass_name="Kontroler"){
-        const accordionDiv = document.createElement('div');
-        accordionDiv.classList.add('accordion');
-        accordionDiv.id = 'parent-inputs-accordion-' + this.id;
-
-        const accordionItemDiv = document.createElement('div');
-        accordionItemDiv.classList.add('accordion-item', 'rounded-0', 'border-end-0', 'border-top-0', 'border-start-0');
-        accordionDiv.appendChild(accordionItemDiv);
-
-        const accordionHeaderH3 = document.createElement('h3');
-        accordionHeaderH3.classList.add('accordion-header');
-        accordionHeaderH3.id = 'headingTwo-' + this.id;
-        accordionItemDiv.appendChild(accordionHeaderH3);
-
-        const accordionButton = document.createElement('button');
-        accordionButton.classList.add('accordion-button', 'collapsed');
-        accordionButton.type = 'button';
-        accordionButton.dataset.bsToggle = "collapse";
-        accordionButton.dataset.bsTarget = '#'+who_to_collapse+'-' + this.id;
-        accordionButton.setAttribute('aria-expanded', 'true');
-        accordionButton.setAttribute('aria-controls', ''+who_to_collapse+'-' + this.id);
-
-        let name= pass_name
-
-        accordionButton.textContent = name;
       
-        accordionHeaderH3.appendChild(accordionButton);
+        function generateAccordion(who_to_collapse="collapseTwo", pass_name="Kontroler", show=false, master=false){
+            const accordionDiv = document.createElement('div');
+            accordionDiv.classList.add('accordion');
+            accordionDiv.id = 'parent-inputs-accordion-' + this.id;
+    
+            const accordionItemDiv = document.createElement('div');
+            accordionItemDiv.classList.add('accordion-item', 'rounded-0', 'border-end-0', 'border-top-0', 'border-start-0');
+            accordionDiv.appendChild(accordionItemDiv);
+    
+            const accordionHeaderH3 = document.createElement('h3');
+            accordionHeaderH3.classList.add('accordion-header');
+            accordionHeaderH3.id = 'headingTwo-' + this.id;
+            accordionItemDiv.appendChild(accordionHeaderH3);
+    
+            const accordionButton = document.createElement('button');
+            accordionButton.classList.add('accordion-button', 'accordion-button' ,'bg-primary' ,'text-light', 'rounded-0');
+            accordionButton.classList.add('collapsed');
+            accordionButton.type = 'button';
+            accordionButton.dataset.bsToggle = "collapse";
+            accordionButton.dataset.bsTarget = '#'+who_to_collapse+'-' + this.id;
+            accordionButton.setAttribute('aria-expanded', 'true');
+            accordionButton.setAttribute('aria-controls', ''+who_to_collapse+'-' + this.id);
+    
+            let name= pass_name
+    
+            accordionButton.textContent = name;
+        
+            accordionHeaderH3.appendChild(accordionButton);
+    
+            const accordionCollapseDiv = document.createElement('div');
+            accordionCollapseDiv.id = ''+who_to_collapse+'-' + this.id;
+            accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
+            //You can add remove this line to collapse it by default
+            if(show){
+            accordionCollapseDiv.classList.add('show');
+            }
+            accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
+            accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
+            accordionItemDiv.appendChild(accordionCollapseDiv);
+    
+            const accordionBodyDiv = document.createElement('div');
+            if(!master){
+            accordionBodyDiv.classList.add('accordion-body' ,'px-0');
+            }
+            // accordionBodyDiv.textContent = 'Control system for a body';
+            accordionCollapseDiv.appendChild(accordionBodyDiv);
+    
+            const inputGroupDiv = document.createElement('div');
+            inputGroupDiv.classList.add('input-group', 'align-items-center');
+            accordionBodyDiv.appendChild(inputGroupDiv);
+                return {
+                accordionDiv: accordionDiv,
+                accordionBodyDiv: accordionBodyDiv
+            };
+    }
 
-        const accordionCollapseDiv = document.createElement('div');
-        accordionCollapseDiv.id = ''+who_to_collapse+'-' + this.id;
-        accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
-        //You can add remove this line to collapse it by default
-        //accordionCollapseDiv.classList.add('show');
-        accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
-        accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
-        accordionItemDiv.appendChild(accordionCollapseDiv);
 
-        const accordionBodyDiv = document.createElement('div');
-        accordionBodyDiv.classList.add('accordion-body');
-        // accordionBodyDiv.textContent = 'Control system for a body';
-        accordionCollapseDiv.appendChild(accordionBodyDiv);
+        function generateSimpleContainer(who_to_collapse="collapseTwo", pass_name="Kontroler", show=false, master=false){
+            const accordionDiv = document.createElement('div');
+            accordionDiv.classList.add('accordion');
+            accordionDiv.id = 'parent-inputs-accordion-' + this.id;
+    
+            const accordionItemDiv = document.createElement('div');
+            accordionItemDiv.classList.add('accordion-item', 'rounded-0', 'border-end-0', 'border-top-0', 'border-start-0', 'border-bottom-0');
+            accordionDiv.appendChild(accordionItemDiv);
+    
+            const accordionHeaderH3 = document.createElement('h3');
+            accordionHeaderH3.classList.add('accordion-header');
+            accordionHeaderH3.id = 'headingTwo-' + this.id;
+            accordionItemDiv.appendChild(accordionHeaderH3);
+    
+            const accordionButton = document.createElement('div');
+            accordionButton.classList.add('fs-lg', 'px-4' ,'py-2', 'border-bottom', 'border-primary');
+            accordionButton.classList.add('collapsed');
+            accordionButton.type = 'button';
+            accordionButton.dataset.bsToggle = "collapse";
+            accordionButton.dataset.bsTarget = '#'+who_to_collapse+'-' + this.id;
+            accordionButton.setAttribute('aria-expanded', 'true');
+            accordionButton.setAttribute('aria-controls', ''+who_to_collapse+'-' + this.id);
+    
+            let name= pass_name
+    
+            accordionButton.textContent = name;
+        
+            accordionHeaderH3.appendChild(accordionButton);
+    
+            const accordionCollapseDiv = document.createElement('div');
+            // accordionCollapseDiv.id = ''+who_to_collapse+'-' + this.id;
+            // accordionCollapseDiv.classList.add('accordion-collapse', 'collapse');
+            //You can add remove this line to collapse it by default
+            if(show){
+            accordionCollapseDiv.classList.add('show');
+            }
+            // accordionCollapseDiv.setAttribute('aria-labelledby', 'headingTwo-' + this.id);
+            accordionCollapseDiv.dataset.bsParent = '#parent-inputs-accordion-' + this.id;
+            accordionItemDiv.appendChild(accordionCollapseDiv);
+    
+            const accordionBodyDiv = document.createElement('div');
+            if(!master){
+            accordionBodyDiv.classList.add('accordion-body');
+            }
+            // accordionBodyDiv.textContent = 'Control system for a body';
+            accordionCollapseDiv.appendChild(accordionBodyDiv);
+    
+            const inputGroupDiv = document.createElement('div');
+            inputGroupDiv.classList.add('input-group', 'align-items-center');
+            accordionBodyDiv.appendChild(inputGroupDiv);
+                return {
+                accordionDiv: accordionDiv,
+                accordionBodyDiv: accordionBodyDiv
+            };
 
-        const inputGroupDiv = document.createElement('div');
-        inputGroupDiv.classList.add('input-group', 'align-items-center');
-        accordionBodyDiv.appendChild(inputGroupDiv);
-            return {
-            accordionDiv: accordionDiv,
-            accordionBodyDiv: accordionBodyDiv
-        };
+
+
         }
 
-        let {accordionBodyDiv, accordionDiv}=
-        generateAccordion.bind(this)('collapseTwo',"Wybór dachu")
+        // let {accordionBodyDiv, accordionDiv}=
+        // generateAccordion.bind(this)('collapseTwo',"Wybór dachu")
 
 
 
-        // const squaresElement = 
-        // const squaresElement2=
+        let masterAccordionName = "Kontrola Dachu"; // The name for the master accordion
+        let {accordionBodyDiv: masterAccordionBody, accordionDiv: masterAccordionDiv} = generateAccordion.bind(this)('collapseMaster', masterAccordionName, true);
+    
+        // Roof type accordion
+        let {accordionBodyDiv, accordionDiv} = generateSimpleContainer.bind(this)('collapseTwo', "Wybór dachu", true);
         accordionBodyDiv.appendChild(this.createMarkupType());
-
-
-        // accordionBodyDiv.appendChild(this.generateSep());
-
-        // accordionBodyDiv.appendChild(this.createMarkupType());
-
-        // accordionBodyDiv.appendChild(this.createMarkup());
-       
-        // accordionBodyDiv.appendChild(this.generateSep());
-      
-        //accordionBodyDiv.appendChild(this.createMarkupCoverType());
-
-
-   
-        const escapedId = '#id-' + this.id + '.input-values';
-        this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
-
-        let { accordionBodyDiv: accordionBodyDiv2, accordionDiv: accordionDiv2 } = 
-        generateAccordion.bind(this)('collapseThree',"Kolor dachu")
-
-
-        // accordionBodyDiv2.appendChild(this.createMarkupColors());
-        // accordionBodyDiv2.appendChild(this.generateSep());
+        masterAccordionBody.appendChild(accordionDiv); // Append to master accordion body
+    
+        // Roof color accordion
+        let {accordionBodyDiv: accordionBodyDiv2, accordionDiv: accordionDiv2} = generateSimpleContainer.bind(this)('collapseThree', "Kolor dachu", true);
         accordionBodyDiv2.appendChild(this.createMarkupColors());
         accordionBodyDiv2.appendChild(this.generateSep());
+        masterAccordionBody.appendChild(accordionDiv2); // Append to master accordion body
     
-        const escapedId2 = '#id-' + this.id + '.input-values2'; // Assuming you have a different container for the second accordion
-        this.insertContent(accordionDiv2, escapedId2, 'input-values', this.id);
-
-
-
-
-
-        let { accordionBodyDiv: accordionBodyDiv3, accordionDiv: accordionDiv3 } = 
-        generateAccordion.bind(this)('collapseFour',"Pokrycie dachu")
-
-
-        // accordionBodyDiv2.appendChild(this.createMarkupColors());
-        // accordionBodyDiv2.appendChild(this.generateSep());
-        
+        // Roof cover type accordion
+        let {accordionBodyDiv: accordionBodyDiv3, accordionDiv: accordionDiv3} = generateSimpleContainer.bind(this)('collapseFour', "Pokrycie dachu", true);
         accordionBodyDiv3.appendChild(this.createMarkupCoverType());
+        masterAccordionBody.appendChild(accordionDiv3); // Append to master accordion body
     
-        const escapedId3 = '#id-' + this.id + '.input-values3'; // Assuming you have a different container for the second accordion
-        this.insertContent(accordionDiv3, escapedId3, 'input-values', this.id);
-
-
+        const masterContainerId = '#master-container-' + this.id; 
+        this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', this.id);
+    
         this.listenToChanges();
+    
     }
     createMarkup() {
         const containerDiv = document.createElement('div');
@@ -205,7 +244,7 @@ class UconfigImplementationRoofGui extends genericGui {
     }
     createMarkupColors(){
    const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container--8');
+        containerDiv.classList.add('squares-container--material', 'squares-container--4');
 
         const squareButtons = [
            
@@ -233,7 +272,7 @@ class UconfigImplementationRoofGui extends genericGui {
             // Create the image element
             const imageEl = document.createElement('div');
             imageEl.style.backgroundColor = button.color_value;
-            imageEl.style.aspectRatio= "1 / 1"
+            imageEl.style.aspectRatio= "2 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv
 
@@ -283,7 +322,7 @@ class UconfigImplementationRoofGui extends genericGui {
     }
     createMarkupType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
+             containerDiv.classList.add('squares-container', 'squares-container--8');
      
              const squareButtons = [
                  { value: 'roof_type_1',  display_value:"Spad w tył",  display_image:'/assets/display/roof/1.jpg'},
@@ -362,7 +401,7 @@ class UconfigImplementationRoofGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container','squares-container--material');
+             containerDiv.classList.add('squares-container','squares-container--material','squares-container--4');
              let squareButtons
              if(GLOBAL_ORIENTATION!="SIDEWAYS"){
              squareButtons = [
@@ -370,6 +409,7 @@ class UconfigImplementationRoofGui extends genericGui {
                  { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
                  { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
                  { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
+                 { value: 'material_type_8',  display_value:"Blachodachówka",  display_image:'/assets/display/material/8.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
                 
              ];
@@ -396,7 +436,7 @@ class UconfigImplementationRoofGui extends genericGui {
                 //  imageEl.style.backgroundColor = button.value;
                 imageEl.src =button.display_image;
 
-                 imageEl.style.aspectRatio= "1 / 1"
+                 imageEl.style.aspectRatio= "2 / 1"
                  imageEl.alt = button.display_value;  // for accessibility
                  squareDiv.appendChild(imageEl);  // append the image to the squareDiv
      

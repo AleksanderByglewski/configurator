@@ -50,7 +50,7 @@ class FloorObject extends genericObject {
         super();
     }
     create(attributes={}) {
-        debugger
+       
     
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
