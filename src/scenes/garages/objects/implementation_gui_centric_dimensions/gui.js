@@ -7,12 +7,13 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
-
+import { ComponentFactory } from '../base_gui/basic.js';
+import { stateMachine } from '../../../../components/state.js';
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
     }
-     generateSep(){
+    generateSep(){
         const sepElem= document.createElement('hr');
         sepElem.classList.add('my-2' , 'my-lg-4')
         return sepElem
@@ -92,94 +93,97 @@ class UconfigImplementationWallGui extends genericGui {
         this.listenToChanges();
     }
     createMarkup() {
+        console.log("Wtf1", this)
         const containerDiv = document.createElement('div');
-  
+        containerDiv.classList.add('squares-container','squares-container--1' );
 
-
-        const contactForm = document.createElement('form');
-        contactForm.classList.add('contact-form');
-        contactForm.classList.add('squares-container--1');
-    
-        let dimension_x = [
-            '2m',
-            '3m',
-            '4m',
-            '5m',
-            '6m',
-            '7m',
-        ];
+        const handleClick = (value, e) => {
+            // Here, 'this' refers to the UconfigImplementationWallGui instance.
         
-
-        let dimension_z = [
-            '2m',
-            '3m',
-            '4m',
-            '5m',
-            '6m',
-        ];
-        
-
-        const formFields = [
-
-            { label: 'Szerokość', type: 'select', name: 'voivodship', options: dimension_x },
-            { label: 'Wysokość', type: 'select', name: 'voivodship', options: dimension_z },
-
-        ];
-    
+            this.notifyMediator('stateChange', { 'object_width': value });
+            this.notifyMediator('buildingStep', {});
    
-    
-        formFields.forEach(field => {
-            const fieldLabel = document.createElement('label');
-            fieldLabel.textContent = field.label;
-            contactForm.appendChild(fieldLabel);
-    
-            let inputElement;
-            if (field.type === 'textarea') {
-                inputElement = document.createElement('textarea');
-            } else if (field.type === 'select') {
-                inputElement = document.createElement('select');
-                field.options.forEach(optionValue => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = optionValue;
-                    optionElement.textContent = optionValue;
-                    inputElement.appendChild(optionElement);
-                });
-            } else {
-                inputElement = document.createElement('input');
-                inputElement.type = field.type;
+     
+            console.log('I am targetting this changed to:', value);
+            // Add other actions you need to perform on click
+          };
+
+
+
+          function createHandleClick(propertyName) {
+            console.log("Wtf2",  this)
+            return (value)=> {
+         
+              // Ensure 'this' is bound correctly, it refers to the UconfigImplementationWallGui instance
+              this.notifyMediator('stateChange', { [propertyName]: value });
+              this.notifyMediator('buildingStep', {});
+              console.log(propertyName + ' changed to:', value);
             }
-            inputElement.name = field.name;
-            contactForm.appendChild(inputElement);
+          }
+          
+          // Generate specific handlers
+        const handleClickHeight = createHandleClick.bind(this)('object_height');
+        const handleClickWidth = createHandleClick.bind(this)('object_width');
+        const handleClickDepth = createHandleClick.bind(this)('object_depth');
+        // Function that creates a partially applied handleClick function for each type of input
+  
+        const heightInput = ComponentFactory.createInputField({
+            label: 'Wysokość obiektu (m)',
+            inputType: 'number',
+            step: '0.1',
+            changeCallback: handleClickHeight 
+          });
+          
+
+        // Create width input
+        const widthInput = ComponentFactory.createInputField({
+            label: 'Szerokość obiektu (m)', // Label for the width input
+            inputType: 'number', // Type of input
+            step: '0.5', // Step size
+            // You can also include callback functions for events like 'change' if needed
+            changeCallback: handleClickWidth
         });
-        // const submitButton = document.createElement('button');
-        // submitButton.type = 'submit';
-        // submitButton.textContent = "Wyślij wiadomość";
-        // contactForm.appendChild(submitButton);
-        // submitButton.classList.add('mt-2')
-        // // Event listener for form submission
-        // contactForm.addEventListener('submit', function(e) {
-        //     e.preventDefault();
-    
-        //     // Here you would send the form data to your backend server that handles email sending
-        //     // For example:
-        //     const formData = new FormData(contactForm);
-        //     fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Success:', data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
+
+        const depthInput = ComponentFactory.createInputField({
+            label: 'Głębokość obiektu (m)', // Label for the width input
+            inputType: 'number', // Type of input
+            step: '0.5', // Step size
+            // You can also include callback functions for events like 'change' if needed
+            changeCallback: handleClickDepth 
+        });
+
+        // Assuming you have a container div in your HTML to append these inputs
+        containerDiv.appendChild(heightInput);
+        containerDiv.appendChild(widthInput);
+        containerDiv.appendChild(depthInput);
+
+   
+        //   buttons.forEach(buttonData => {
+        //     // Here, you're passing an object with 'buttonData' and 'clickCallback' as keys
+        //     const squareButton = ComponentFactory.createSquareButton({
+        //       buttonData: buttonData,
+        //       clickCallback: handleClick.bind(this) // Use .bind to ensure 'this' inside handleClick refers to your class instance
         //     });
-        // });
-    
-        containerDiv.appendChild(contactForm);
+        //     containerDiv.appendChild(squareButton);
+        //   });
+      
 
 
-        return containerDiv;
+        const confirmation = ComponentFactory.confirmationButton({
+            text: 'Zapisz wybory', // Label for the width input
+
+            // You can also include callback functions for events like 'change' if needed
+            changeCallback: function(value) {
+            
+                console.log('Dimensions confirmed:', value);
+                stateMachine.transition('InputDimensionsState')
+            }
+});
+
+containerDiv.appendChild(confirmation);
+
+// containerDiv.appendChild(depthInput);
+return containerDiv
     }
     createMarkupColors(){
    const containerDiv = document.createElement('div');

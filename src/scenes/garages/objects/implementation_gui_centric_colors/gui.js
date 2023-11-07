@@ -7,7 +7,9 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { ComponentFactory } from '../base_gui/basic.js';
 
+import { stateMachine } from '../../../../components/state.js';
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
@@ -57,7 +59,7 @@ class UconfigImplementationWallGui extends genericGui {
         accordionItemDiv.appendChild(accordionCollapseDiv);
 
         const accordionBodyDiv = document.createElement('div');
-        accordionBodyDiv.classList.add('accordion-body');
+        accordionBodyDiv.classList.add('accordion-body', 'p-1');
         // accordionBodyDiv.textContent = 'Control system for a body';
         accordionCollapseDiv.appendChild(accordionBodyDiv);
 
@@ -262,67 +264,70 @@ class UconfigImplementationWallGui extends genericGui {
     }
 
     createColorType(){
+       
+        const headerElement = ComponentFactory.createHeader({
+            text: 'Wymiary garażu',
+            additionalClasses: '' // You can add more classes if needed
+        });
+
+
+
+
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container', 'squares-container--material', 'squares-container--4');
-     
-             const squareButtons = [
-                 { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/colors/RAL7016.jpg'},
-                 { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/colors/RAL9005.jpg'},
-                 { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/colors/RAL8019.jpg'},
-                 { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/colors/WOOD.jpg'},
+        containerDiv.classList.add('squares-container','squares-container--3' );
 
-                 { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/colors/RAL7032.jpg'},
-                 
-                 { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/colors/RAL9016.jpg'},
-                 { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/colors/RAL1015.jpg'},
-                           { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/colors/0.png'},
-             ];
-     
-             squareButtons.forEach(button => {
-                 const squareDiv = document.createElement('div');
-                 squareDiv.classList.add('square');
-                 // squareDiv.style.backgroundColor = button.color;
-                 squareDiv.dataset.value = button.value;
-     
-                 // Create the image element
-                 const imageEl = document.createElement('img');
-                //  imageEl.style.backgroundColor = button.value;
-                imageEl.src =button.display_image;
+        const squareButtons = [
+            { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/colors/RAL7016.jpg'},
+            { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/colors/RAL9005.jpg'},
+            { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/colors/RAL8019.jpg'},
+            { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/colors/WOOD.jpg'},
 
-                 imageEl.style.aspectRatio= "1 / 1 !important"
-                 imageEl.alt = button.display_value;  // for accessibility
-                
-                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+            { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/colors/RAL7032.jpg'},
+            
+            { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/colors/RAL9016.jpg'},
+            { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/colors/RAL1015.jpg'},
+            { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/colors/0.png'},
+        ];
+
+        const handleClick = (e, value) => {
+           // Here, 'this' refers to the UconfigImplementationWallGui instance.
+           this.notifyMediator('stateChange', { 'object_type': value });
+           this.notifyMediator('buildingStep', {});
+           stateMachine.transition('InputColorState')
+           // Add other actions you need to perform on click
+         };
+
+        squareButtons.forEach(buttonData => {
+           // Here, you're passing an object with 'buttonData' and 'clickCallback' as keys
+           const squareButton = ComponentFactory.createSquareButton({
+             buttonData: buttonData,
+             clickCallback: handleClick.bind(this) // Use .bind to ensure 'this' inside handleClick refers to your class instance
+           });
+           containerDiv.appendChild(squareButton);
+         });
      
-                 const textDiv = document.createElement('div');
-                 textDiv.textContent = button.display_value;
-                 textDiv.style.whiteSpace = "nowrap"
-                 squareDiv.appendChild(textDiv)
-     
-     
+         const confirmation = ComponentFactory.confirmationButton({
+            text: 'Zapisz wybory', // Label for the width input
+
+            // You can also include callback functions for events like 'change' if needed
+            changeCallback: function(value) {
+            
+                console.log('Dimensions confirmed:', value);
+                stateMachine.transition('InputColorState')
+            }
+        });
+
+containerDiv.appendChild(confirmation);
+
+
+
+        
+        return containerDiv;
+ 
         
      
-                 // Attach event listener directly to the squareDiv
-                 squareDiv.addEventListener('click', function (e) {
-                     
-                     // Notify the mediator or perform some action
-                     
-                   
-     
-                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-                     // this.notifyMediator('recursivelyRemoveModel');
-                     // this.notifyMediator('buildingStep');
-                  
-                     this.notifyMediator('stateChange', { 'object_type': squareDiv.dataset.value});
-                     this.notifyMediator('buildingStep', { });
-                    //  this.notifyMediator('hardBuildingStep', { });
-                 }.bind(this));
      
      
-     
-                 
-                 containerDiv.appendChild(squareDiv);
-             });
      
      
              // const removeModelBtn = document.createElement('button');

@@ -7,7 +7,9 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { ComponentFactory } from '../base_gui/basic.js';
 
+import { stateMachine } from '../../../../components/state.js';
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
@@ -262,162 +264,45 @@ class UconfigImplementationWallGui extends genericGui {
     }
 
     createAdditivestype(){
-        // const containerDiv = document.createElement('div');
-        //      containerDiv.classList.add('squares-container', 'squares-container--material');
-     
-        //      const squareButtons = [
-        //          { value: 'RAL7016',  display_value:"RAL 7016",  display_image:'/assets/display/material/RAL7016.jpg'},
-        //          { value: 'RAL9005',  display_value:"RAL 9005",  display_image:'/assets/display/material/RAL9005.jpg'},
-        //          { value: 'RAL9016',  display_value:"RAL 9016",  display_image:'/assets/display/material/RAL9016.jpg'},
-        //          { value: 'RAL1015',  display_value:"RAL 1015",  display_image:'/assets/display/material/RAL1015.jpg'},
-        //          { value: 'RAL7032',  display_value:"RAL 7032",  display_image:'/assets/display/material/RAL7032.jpg'},
-        //          { value: 'RAL8019',  display_value:"RAL 8019",  display_image:'/assets/display/material/RAL8019.jpg'},
-        //          { value: 'WOOD',  display_value:"Drewnopodobny",  display_image:'/assets/display/material/WOOD.jpg'},
-        //          { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/material/0.png'},
-        //      ];
-     
-        //      squareButtons.forEach(button => {
-        //          const squareDiv = document.createElement('div');
-        //          squareDiv.classList.add('square');
-        //          // squareDiv.style.backgroundColor = button.color;
-        //          squareDiv.dataset.value = button.value;
-     
-        //          // Create the image element
-        //          const imageEl = document.createElement('img');
-        //         //  imageEl.style.backgroundColor = button.value;
-        //         imageEl.src =button.display_image;
 
-        //          imageEl.style.aspectRatio= "1 / 1"
-        //          imageEl.alt = button.display_value;  // for accessibility
-        //          squareDiv.appendChild(imageEl);  // append the image to the squareDiv
-     
-        //          const textDiv = document.createElement('div');
-        //          textDiv.textContent = button.display_value;
-        //          squareDiv.appendChild(textDiv)
-     
-     
-        
-     
-        //          // Attach event listener directly to the squareDiv
-        //          squareDiv.addEventListener('click', function (e) {
-                     
-        //              // Notify the mediator or perform some action
-                     
-                   
-     
-        //              // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-        //              // this.notifyMediator('recursivelyRemoveModel');
-        //              // this.notifyMediator('buildingStep');
-                  
-        //              this.notifyMediator('stateChange', { 'object_type': squareDiv.dataset.value});
-        //              this.notifyMediator('buildingStep', { });
-        //             //  this.notifyMediator('hardBuildingStep', { });
-        //          }.bind(this));
-     
-     
-     
-                 
-        //          containerDiv.appendChild(squareDiv);
-        //      });
-     
-     
-             // const removeModelBtn = document.createElement('button');
-             // removeModelBtn.textContent = "Remove Model";
-             // removeModelBtn.classList.add('remove-model-btn');
-             // removeModelBtn.addEventListener('click', function() {
-             //     // Call notifyMediator with 'recursivelyRemoveModel' event
-             //     this.notifyMediator('recursivelyRemoveModel');
-             // }.bind(this));
-             
-             // containerDiv.appendChild(removeModelBtn);
-     
-             const containerDiv = document.createElement('div');
-  
+                 const containerDiv = document.createElement('div');
+
+                const checkboxField1 = ComponentFactory.createCheckboxField({
+                    label: 'Oświetlenie',
+                    value: 'lighting',
+                    name: 'lighing',
+                    inputAttributes: { 'aria-label': 'Checkbox for following text input' },
+                    changeCallback: function(value) {
+                        console.log('Width changed to:', value);
+                    }
+                });
+
+                const checkboxField2 = ComponentFactory.createCheckboxField({
+                    label: 'Przesłony boczne',
+                    value: 'side-protection',
+                    name: 'side-protection',
+                    inputAttributes: { 'aria-label': 'Checkbox for following text input' },
+                    changeCallback: function(value) {
+                        console.log('Width changed to:', value);
+                    }
+                });
 
 
-             const contactForm = document.createElement('form');
-             contactForm.classList.add('contact-form');
-             contactForm.classList.add('squares-container--1');
-         
-             let voivodships = [
-                 'Dolnośląskie',
-                 'Kujawsko-Pomorskie',
-                 'Lubelskie',
-                 'Lubuskie',
-                 'Łódzkie',
-                 'Małopolskie',
-                 'Mazowieckie',
-                 'Opolskie',
-                 'Podkarpackie',
-                 'Podlaskie',
-                 'Pomorskie',
-                 'Śląskie',
-                 'Świętokrzyskie',
-                 'Warmińsko-Mazurskie',
-                 'Wielkopolskie',
-                 'Zachodniopomorskie'
-             ];
-             
-             const formFields = [
-                 { label: 'Imie i nazwisko', type: 'text', name: 'name' },
-                 { label: 'Email', type: 'email', name: 'email' },
-                 { label: 'Temat', type: 'text', name: 'subject' },
-                 { label: 'Województwo', type: 'select', name: 'voivodship', options: voivodships },
-                 { label: 'Wiadomość', type: 'textarea', name: 'message' }
-             ];
-         
-        
-         
-             formFields.forEach(field => {
-                 const fieldLabel = document.createElement('label');
-                 fieldLabel.textContent = field.label;
-                 contactForm.appendChild(fieldLabel);
-         
-                 let inputElement;
-                 if (field.type === 'textarea') {
-                     inputElement = document.createElement('textarea');
-                 } else if (field.type === 'select') {
-                     inputElement = document.createElement('select');
-                     field.options.forEach(optionValue => {
-                         const optionElement = document.createElement('option');
-                         optionElement.value = optionValue;
-                         optionElement.textContent = optionValue;
-                         inputElement.appendChild(optionElement);
-                     });
-                 } else {
-                     inputElement = document.createElement('input');
-                     inputElement.type = field.type;
-                 }
-                 inputElement.name = field.name;
-                 contactForm.appendChild(inputElement);
-             });
-             const submitButton = document.createElement('button');
-             submitButton.type = 'submit';
-             submitButton.textContent = "Wyślij wiadomość";
-             contactForm.appendChild(submitButton);
-             submitButton.classList.add('mt-2')
-             // Event listener for form submission
-             contactForm.addEventListener('submit', function(e) {
-                 e.preventDefault();
-         
-                 // Here you would send the form data to your backend server that handles email sending
-                 // For example:
-                 const formData = new FormData(contactForm);
-                 fetch('https://formsubmit.co/ajax/alexbyglewski@icloud.com', {
-                     method: 'POST',
-                     body: formData
-                 })
-                 .then(response => response.json())
-                 .then(data => {
-                     console.log('Success:', data);
-                 })
-                 .catch(error => {
-                     console.error('Error:', error);
-                 });
-             });
-         
-             containerDiv.appendChild(contactForm);
-     
+             containerDiv.appendChild( checkboxField1);
+             containerDiv.appendChild( checkboxField2);
+
+             const confirmation = ComponentFactory.confirmationButton({
+                text: 'Zapisz wybory', // Label for the width input
+    
+                // You can also include callback functions for events like 'change' if needed
+                changeCallback: function(value) {
+                
+                    console.log('Dimensions confirmed:', value);
+                    stateMachine.transition('InputAdditiveState')
+                }
+    });
+    
+    containerDiv.appendChild(confirmation);
 
              
              return containerDiv;

@@ -12,7 +12,7 @@ import { UconfigImplementationWallGui} from './gui'
 import {SimpleController} from './controller'
 
 
-  
+import { ComponentFactory } from '../base_gui/basic.js';
 
 
 //Now i would like to add objects to it dynamically
@@ -43,8 +43,14 @@ class UconfigsImplementationController extends UconfigsController {
        
         let material_type=this.state.get('material_type') || "material_type_1" 
 
+        let width= parseFloat(this.state.get('object_width')) || 2
+        let depth = parseFloat(this.state.get('object_depth')) || 2
+        let height = parseFloat(this.state.get('object_height')) || 2.13
+
+        let color = this.state.get('color') || "#FEFEFE"
+
         let object_type=this.state.get('object_type') || "object_type_1" 
-        const system={object_type:object_type}
+        const system={width:width, depth:depth, height:height}
         repaint(system)
         
 
@@ -52,12 +58,12 @@ class UconfigsImplementationController extends UconfigsController {
         let position_y = this.state.get('position_y') || 0
         let position_z = this.state.get('position_z') || 0
 
-        let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
-        let depth = this.state.get('depth') || 4.0
-        object_height = height
-        object_width = width
-        object_depth = depth
+        // let height = this.state.get('height') || 2.13
+        // let width = this.state.get('width') || 4.0
+        // let depth = this.state.get('depth') || 4.0
+        // object_height = height
+        // object_width = width
+        // object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 

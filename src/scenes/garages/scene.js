@@ -94,7 +94,7 @@ import {
 
 } from './objects/implementation_gui_centric_contact/implementation'
 
-
+import { stateMachine } from '../../components/state';
 
 function addEnvMap(scene){
 
@@ -214,7 +214,7 @@ function populateScene(scene) {
   // addEnvMapTextured1(scene)
 
 
-  value=addEnvMapTextured(scene, gui)
+  //value=addEnvMapTextured(scene, gui)
 
 
   // {
@@ -261,10 +261,18 @@ function populateScene(scene) {
   function generic_selection_form() {
 
     let ContactSystems = createGarageObject(emptySystem, ConfigSystem);
+    ContactSystems.state.state['name']="Wybór pergoli"
     ContactSystems.handleEvent('generateInputs')
 
     // GroupGarageSystem.handleEvent('buildingStep')
-
+ 
+    stateMachine.storeComponentId('TypeSystem','id-'+ ContactSystems.gui.id);
+    var typeSystem =document.getElementById(stateMachine.componentIds['TypeSystem']);
+    typeSystem.classList.add('active')
+    let accordions=typeSystem.querySelectorAll(' .accordion-collapse');
+    accordions.forEach(element => {
+      element.classList.add("show")
+    });
     return ContactSystems
   }
 
@@ -276,8 +284,13 @@ function populateScene(scene) {
     let ContactSystems = createGarageObject(emptySystem, DimensionSystem);
     ContactSystems.state.state['name']="Wymiary pergoli"
     ContactSystems.handleEvent('generateInputs')
+    
+    stateMachine.storeComponentId('DimensionsSystem', 'id-'+ContactSystems.gui.id);
+
     //return ContactSystems
   }
+
+  
 
   generic_dimensions_form();
 
@@ -285,8 +298,10 @@ function populateScene(scene) {
   function generic_color_form() {
     
     let ContactSystems = createGarageObject(emptySystem, ColorSystem);
-    ContactSystems.state.state['name']="Kolor konstrukcji"
+    ContactSystems.state.state['name']="Kolorystyka"
     ContactSystems.handleEvent('generateInputs')
+
+    stateMachine.storeComponentId('ColorSystem','id-'+ ContactSystems.gui.id);
     //return ContactSystems
   }
 
@@ -303,6 +318,8 @@ function populateScene(scene) {
     let ContactSystems = createGarageObject(emptySystem, AdditivesSystem);
     ContactSystems.state.state['name']="Dodatki do pergoli"
     ContactSystems.handleEvent('generateInputs')
+
+    stateMachine.storeComponentId('AdditiveSystem','id-'+ ContactSystems.gui.id);
     //return ContactSystems
   }
 
@@ -316,13 +333,15 @@ function populateScene(scene) {
     //return ContactSystems
   }
 
-  additional_color_form();
+  // additional_color_form();
 
   function generic_contact_benstal_form() {
     
     let ContactSystems = createGarageObject(emptySystem, ContactSystem);
     ContactSystems.state.state['name']="Formularze kontaktowe"
     ContactSystems.handleEvent('generateInputs')
+
+    stateMachine.storeComponentId('ContactSystem','id-'+ ContactSystems.gui.id);
     //return ContactSystems
   }
 

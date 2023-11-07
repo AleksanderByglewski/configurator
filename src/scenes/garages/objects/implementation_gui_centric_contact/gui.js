@@ -7,6 +7,8 @@ import { Generic, genericGui, genericState, genericObject, genericDisplay, gener
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { stateMachine } from '../../../../components/state.js';
+import { ComponentFactory } from '../base_gui/basic.js';
 
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
@@ -154,7 +156,7 @@ class UconfigImplementationWallGui extends genericGui {
         });
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
-        submitButton.textContent = "Wyślij wiadomość";
+        submitButton.textContent = "Wyślijs wiadomość";
         contactForm.appendChild(submitButton);
         submitButton.classList.add('mt-2')
         // Event listener for form submission
@@ -178,6 +180,20 @@ class UconfigImplementationWallGui extends genericGui {
         });
     
         containerDiv.appendChild(contactForm);
+
+        const confirmation = ComponentFactory.confirmationButton({
+            text: 'Zapisz wybory', // Label for the width input
+
+            // You can also include callback functions for events like 'change' if needed
+            changeCallback: function(value) {
+            
+                console.log('Contact confirmed:', value);
+                stateMachine.transition('InputContactState')
+            }
+        });
+
+        containerDiv.appendChild(confirmation);
+
 
 
         return containerDiv;
@@ -418,6 +434,22 @@ class UconfigImplementationWallGui extends genericGui {
          
              containerDiv.appendChild(contactForm);
      
+
+             const confirmation = ComponentFactory.confirmationButton({
+                text: 'Wyślij wiadomość', // Label for the width input
+                additionalClasses:"w-100",
+                // You can also include callback functions for events like 'change' if needed
+                changeCallback: function(value) {
+                
+                    console.log('Dimensions confirmed:', value);
+            
+                    stateMachine.transition('InputContactState')
+                }
+                });
+                
+                containerDiv.appendChild(confirmation);
+    
+
 
              
              return containerDiv;

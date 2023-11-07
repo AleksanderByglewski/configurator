@@ -8,6 +8,8 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
+import {ComponentFactory} from '../base_gui/basic.js'
+import { stateMachine } from '../../../../components/state.js';
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
@@ -57,7 +59,7 @@ class UconfigImplementationWallGui extends genericGui {
         accordionItemDiv.appendChild(accordionCollapseDiv);
 
         const accordionBodyDiv = document.createElement('div');
-        accordionBodyDiv.classList.add('accordion-body');
+        accordionBodyDiv.classList.add('accordion-body', 'p-1');
         // accordionBodyDiv.textContent = 'Control system for a body';
         accordionCollapseDiv.appendChild(accordionBodyDiv);
 
@@ -263,75 +265,41 @@ class UconfigImplementationWallGui extends genericGui {
 
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container', );
+             containerDiv.classList.add('squares-container','squares-container--3' );
      
              const squareButtons = [
                  { value: 'object_type_1',  display_value:"Model Toscana",  display_image:'/assets/display/model/1.webp'},
-                 { value: 'object_type_5',  display_value:"Model Palermo",  display_image:'/assets/display/model/5.webp'},
-                 { value: 'object_type_4',  display_value:"Model Milano",  display_image:'/assets/display/model/4.webp'},
+                 { value: 'object_type_2',  display_value:"Model Palermo",  display_image:'/assets/display/model/5.webp'},
+                 { value: 'object_type_3',  display_value:"Model Milano",  display_image:'/assets/display/model/4.webp'},
                
-                 { value: 'object_type_2',  display_value:"Model Portofino",  display_image:'/assets/display/model/2.webp'},
-                 { value: 'object_type_3',  display_value:"Model Verona",  display_image:'/assets/display/model/3.webp'},
+                 { value: 'object_type_4',  display_value:"Model Portofino",  display_image:'/assets/display/model/2.webp'},
+                 { value: 'object_type_5',  display_value:"Model Verona",  display_image:'/assets/display/model/3.webp'},
                 
                  { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/model/0.png'},
              ];
      
-             squareButtons.forEach(button => {
-                 const squareDiv = document.createElement('div');
-                 squareDiv.classList.add('square');
-                 // squareDiv.style.backgroundColor = button.color;
-                 squareDiv.dataset.value = button.value;
-     
-                 // Create the image element
-                 const imageEl = document.createElement('img');
-                //  imageEl.style.backgroundColor = button.value;
-                imageEl.src =button.display_image;
 
-                 imageEl.style.aspectRatio= "1 / 1"
-                 imageEl.style.objectFit= "cover"
-                 imageEl.alt = button.display_value;  // for accessibility
-                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
-     
-                 const textDiv = document.createElement('div');
-                 textDiv.textContent = button.display_value;
-                 squareDiv.appendChild(textDiv)
-     
-     
-        
-     
-                 // Attach event listener directly to the squareDiv
-                 squareDiv.addEventListener('click', function (e) {
-                     
-                     // Notify the mediator or perform some action
-                     
-                   
-     
-                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-                     // this.notifyMediator('recursivelyRemoveModel');
-                     // this.notifyMediator('buildingStep');
-                  
-                     this.notifyMediator('stateChange', { 'object_type': squareDiv.dataset.value});
-                     this.notifyMediator('buildingStep', { });
-                    //  this.notifyMediator('hardBuildingStep', { });
-                 }.bind(this));
+             const handleClick = (e, value) => {
+                // Here, 'this' refers to the UconfigImplementationWallGui instance.
+                this.notifyMediator('stateChange', { 'object_type': value });
+                this.notifyMediator('buildingStep', {});
+       
+                stateMachine.transition("SelectTypeState")
+                // Add other actions you need to perform on click
+              };
+
+             squareButtons.forEach(buttonData => {
+                // Here, you're passing an object with 'buttonData' and 'clickCallback' as keys
+                const squareButton = ComponentFactory.createSquareButton({
+                  buttonData: buttonData,
+                  clickCallback: handleClick.bind(this) // Use .bind to ensure 'this' inside handleClick refers to your class instance
+                });
+                containerDiv.appendChild(squareButton);
+              });
+          
      
      
-     
-                 
-                 containerDiv.appendChild(squareDiv);
-             });
-     
-     
-             // const removeModelBtn = document.createElement('button');
-             // removeModelBtn.textContent = "Remove Model";
-             // removeModelBtn.classList.add('remove-model-btn');
-             // removeModelBtn.addEventListener('click', function() {
-             //     // Call notifyMediator with 'recursivelyRemoveModel' event
-             //     this.notifyMediator('recursivelyRemoveModel');
-             // }.bind(this));
-             
-             // containerDiv.appendChild(removeModelBtn);
-     
+
              
              return containerDiv;
          }
