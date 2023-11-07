@@ -74,7 +74,8 @@ async function repaint(system) {
         case "SelectTypeState":
             {
             templateName = "type";
-            const object_type = system.object_type; // Adjust this as per your system's structure
+            system =system || {}
+            const object_type = system.object_type || "ALL"; // Adjust this as per your system's structure
 
             if (content) {
                 try {
