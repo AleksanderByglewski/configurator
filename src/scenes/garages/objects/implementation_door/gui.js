@@ -1108,7 +1108,7 @@ class DedicatedGateGui extends genericGui {
         containerDiv.classList.add('squares-container');
 
         const squareButtons = [
-            { value: 'gate_type_1', display_value: "Brama uchylna ", display_image: '/assets/display/gate/1.jpg' },
+            { value: 'gate_type_1', display_value: "Brama uchylna 2", display_image: '/assets/display/gate/1.jpg' },
             { value: 'gate_type_2', display_value: "Brama dwudrzwiowa", display_image: '/assets/display/gate/2.jpg' },
             { value: 'gate_type_3', display_value: "Brama uchylna", display_image: '/assets/display/gate/3.jpg' },
          

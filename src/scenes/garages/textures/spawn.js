@@ -268,8 +268,8 @@ function load_texture_tiling(path='/assets/textures/roof_tile/grey_roof_tiles_02
 
           sphereMaterial.bumpMap.wrapS=THREE.RepeatWrapping
           sphereMaterial.bumpMap.wrapT=THREE.RepeatWrapping
-      
-        //  sphereMaterial.normalScale.set(2, 2); 
+    
+      //  sphereMaterial.normalScale.set(2, 2); 
         return sphereMaterial
         }
     

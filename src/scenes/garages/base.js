@@ -64,6 +64,26 @@ class genericGui extends Generic {
                 textInput[optionKey] = options[optionKey];
             });
             
+
+            // Create increment and decrement buttons
+            const incrementButton = document.createElement('button');
+            incrementButton.textContent = '▲'; // Use a suitable arrow symbol or an icon
+            incrementButton.addEventListener('click', () => {
+                textInput.value = (parseFloat(textInput.value || 0) + 0.1).toFixed(2); // Increment the value
+                textInput.dispatchEvent(new Event('input')); // Trigger the input event
+            });
+
+            const decrementButton = document.createElement('button');
+            decrementButton.textContent = '▼'; // Use a suitable arrow symbol or an icon
+            decrementButton.addEventListener('click', () => {
+                textInput.value = (parseFloat(textInput.value || 0) - 0.1).toFixed(2); // Decrement the value
+                textInput.dispatchEvent(new Event('input')); // Trigger the input event
+            });
+
+
+            filler.appendChild(decrementButton);
+            filler.appendChild(incrementButton);
+
             textInput.value = this.mediator.state.state[attributeName] || '';  // default to empty string if not set
 
             textInput.addEventListener('input', function (e) {

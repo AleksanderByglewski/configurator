@@ -171,7 +171,7 @@ class UconfigImplementationGui extends genericGui {
     
         // Create a submit button
         const submitButton = document.createElement('button');
-        submitButton.textContent = "Dodaj element";
+        submitButton.textContent = "Dodaj element 1";
         submitButton.classList.add('submit-button');
     
         //Todo make it better
@@ -207,10 +207,34 @@ class UconfigImplementationGui extends genericGui {
             
             // Create DoorSystem1 and assign appropriate values based on the selected option
             let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
+            debugger
+            if(!self.mediator.door_type){
+    
+         
+                const emptySystem = [];
+                 
+                // Create DoorSystem1 and assign appropriate values based on the selected option
+                let DoorSystem1 = self.createGarageObject(emptySystem, GateSystem);
+                targetWall.external_objects.push(DoorSystem1);
+                DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+                DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
+                //DoorSystem1.state.state['color']="#C20000"
+                DoorSystem1.state.state['position_z']=-0.001
+                if( DoorSystem1.mediator.door_type){
+                
+                DoorSystem1.state.state['door_width']=1.13
+                }
+        
+        
+                DoorSystem1.state.state['name']="Brama frontowa" ;
+                targetWall.handleEvent('buildingStep');
+                DoorSystem1.handleEvent('generateInputs')
+            }
+            else{
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
             DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
-            DoorSystem1.state.state['color']="#A5A3A5"
+            DoorSystem1.state.state['color']="#A6A3A5"
             DoorSystem1.state.state['position_z']=0.003
             if(self.mediator.door_type){
             DoorSystem1.state.state['door']=true
@@ -221,6 +245,7 @@ class UconfigImplementationGui extends genericGui {
             DoorSystem1.state.state['name']=print_elemnt+" "+options_mapping[selectedValue]
             targetWall.handleEvent('buildingStep');
             DoorSystem1.handleEvent('generateInputs')
+            }
         });
     
         containerDiv.appendChild(selectElement);
@@ -576,7 +601,7 @@ class UconfigImplementationDoorGui extends genericGui {
         print_elemnt="Drzwi"
         options = ['front', 'left', 'right', 'back'];
         options_mapping={
-            "front":"frontowe",
+            "front":"frontowa",
             "left": "lewe",
             "right":"prawe",
             "back":"tylnie"
@@ -608,6 +633,7 @@ class UconfigImplementationDoorGui extends genericGui {
         // Add click event listener to the submit button
         submitButton.addEventListener('click', function() {
             let targetWall;
+      
             const selectedValue = selectElement.value;
             switch (selectedValue) {
                 case 'front':
@@ -629,6 +655,7 @@ class UconfigImplementationDoorGui extends genericGui {
     
             
             // Create DoorSystem1 and assign appropriate values based on the selected option
+            debugger
             let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
@@ -644,6 +671,7 @@ class UconfigImplementationDoorGui extends genericGui {
             DoorSystem1.state.state['name']=print_elemnt+" "+options_mapping[selectedValue]
             targetWall.handleEvent('buildingStep');
             DoorSystem1.handleEvent('generateInputs')
+
         });
     
         containerDiv.appendChild(selectElement);
