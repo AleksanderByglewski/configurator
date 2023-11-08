@@ -262,51 +262,55 @@ class UconfigImplementationWallGui extends genericGui {
         
         return containerDiv;
     }
-
-    createAdditivestype(){
-
-                 const containerDiv = document.createElement('div');
-
-                const checkboxField1 = ComponentFactory.createCheckboxField({
-                    label: 'Oświetlenie',
-                    value: 'lighting',
-                    name: 'lighing',
-                    inputAttributes: { 'aria-label': 'Checkbox for following text input' },
-                    changeCallback: function(value) {
-                        console.log('Width changed to:', value);
-                    }
-                });
-
-                const checkboxField2 = ComponentFactory.createCheckboxField({
-                    label: 'Przesłony boczne',
-                    value: 'side-protection',
-                    name: 'side-protection',
-                    inputAttributes: { 'aria-label': 'Checkbox for following text input' },
-                    changeCallback: function(value) {
-                        console.log('Width changed to:', value);
-                    }
-                });
-
-
-             containerDiv.appendChild( checkboxField1);
-             containerDiv.appendChild( checkboxField2);
-
-             const confirmation = ComponentFactory.confirmationButton({
-                text: 'Zapisz wybory', // Label for the width input
+    createAdditivestype() {
+        const containerDiv = document.createElement('div');
+        const selectedAdditives = {}; // Object to keep track of selected additives
     
-                // You can also include callback functions for events like 'change' if needed
-                changeCallback: function(value) {
-                
-                    console.log('Dimensions confirmed:', value);
-                    stateMachine.transition('InputAdditiveState')
+        // Function to notify the mediator with the current state of selected additives
+        const notifyChange = () => {
+            const list_of_object_additives = Object.keys(selectedAdditives).filter(key => selectedAdditives[key]);
+            this.notifyMediator('stateChange', { 'object_addives':list_of_object_additives });
+        };
+    
+        // Create checkboxes for the additives
+        const additives = [
+            { label: 'Oświetlenie', value: 'lighting', name: 'lighting' },
+            { label: 'Przesłony boczne', value: 'side-protection', name: 'side-protection' }
+        ];
+    
+        additives.forEach(additive => {
+            const checkboxField = ComponentFactory.createCheckboxField({
+                label: additive.label,
+                value: additive.value,
+                name: additive.name,
+                inputAttributes: { 'aria-label': `Checkbox for ${additive.label}` },
+                changeCallback: function(checked) {
+                    // Update the selectedAdditives object based on the checkbox state
+                    selectedAdditives[additive.value] = checked;
+                    console.log(`${additive.label} changed to:`, checked);
+    
+                    // Notify the mediator with the current state of selected additives
+                    notifyChange();
                 }
-    });
+            });
+            containerDiv.appendChild(checkboxField);
+        });
     
-    containerDiv.appendChild(confirmation);
-
-             
-             return containerDiv;
-         }
+        // Confirmation button
+        const confirmation = ComponentFactory.confirmationButton({
+            text: 'Zapisz wybory',
+            changeCallback: () => {
+                // Transition the state machine to the next state
+                stateMachine.transition('InputAdditiveState');
+            }
+        });
+    
+        containerDiv.appendChild(confirmation);
+    
+        return containerDiv;
+    }
+    
+    
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);

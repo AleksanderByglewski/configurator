@@ -35,7 +35,7 @@ function getDescriptionForDimension(dimension, value) {
     return range.text;
   }
   
-  function getDimensionDescriptions(dimensions) {
+function getDimensionDescriptions(dimensions) {
     return {
       width: getDescriptionForDimension('width', dimensions.width),
       depth: getDescriptionForDimension('depth', dimensions.depth),
@@ -44,7 +44,7 @@ function getDescriptionForDimension(dimension, value) {
   }
 
 
-  function updateDimensionDescriptions(dimensions, descriptions) {
+function updateDimensionDescriptions(dimensions, descriptions) {
     const widthValueElement = document.getElementById('pergolaWidth');
     const depthValueElement = document.getElementById('pergolaDepth');
     const heightValueElement = document.getElementById('pergolaHeight');
@@ -62,6 +62,86 @@ function getDescriptionForDimension(dimension, value) {
     if (heightDescriptionElement) heightDescriptionElement.textContent = descriptions.height;
   }
 
+function getColorDescription(colorName) {
+    const colorDescriptions = {
+        RAL7016: "RAL 7016, znany również jako Antracyt Szary, to głęboki, ciemny odcień szarości, który dodaje elegancji i nowoczesności.",
+        RAL9005: "RAL 9005, czyli Czarny Głęboki, to intensywnie czarny kolor nadający wyrazistości i wyjątkowego charakteru.",
+        RAL8019: "RAL 8019, Grafitowy Brąz, to ciepły, ciemnobrązowy odcień, który wprowadza atmosferę spokoju i stabilności.",
+        WOOD: "Wykończenie drewnopodobne, które łączy w sobie naturalne piękno drewna z wytrzymałością nowoczesnych materiałów.",
+        RAL7032: "RAL 7032, czyli Kamienno Szary, to jasny, neutralny odcień szarości, który wprowadza harmonię i jest łatwy w komponowaniu z otoczeniem.",
+        RAL9016: "RAL 9016, Traffic White, to czysty i jasny odcień bieli, który rozjaśnia przestrzeń i optycznie ją powiększa.",
+        RAL1015: "RAL 1015, Świetlisty Piaskowy, to delikatny, ciepły odcień beżu, który wprowadza spokój i naturalność."
+            };
+  
+    return colorDescriptions[colorName.toUpperCase()] || "Wybrany kolor nie jest dostępny.";
+  }
+
+function updateColorInformation(colorName) {
+    const colorElement = document.getElementById('pergolaColor');
+    const colorDescriptionElement = document.getElementById('colorDescription');
+  
+    if (colorElement) colorElement.textContent = colorName;
+    if (colorDescriptionElement) colorDescriptionElement.textContent = getColorDescription(colorName);
+  }
+
+function getAdditiveDescription(additive) {
+    const additiveDescriptions = {
+      'additive1': "Opis dodatku 1: Zapewnia dodatkową wytrzymałość struktury.",
+      'additive2': "Opis dodatku 2: Oferuje lepszą ochronę przed warunkami atmosferycznymi.",
+      // Add descriptions for all the additives you have
+    };
+  
+    return additiveDescriptions[additive] || "Opis tego dodatku nie jest dostępny.";
+  }
+function updateAdditiveDescriptions(additives) {
+    // const additiveListElement = document.getElementById('additiveList');
+    // additiveListElement.innerHTML = ''; // Clear existing list items
+  
+    // const {object_additives}=additives
+    // object_additives.forEach(additive => {
+    //   const description = getAdditiveDescription(additive);
+    //   const listItem = document.createElement('li');
+    //   listItem.classList.add('has-large-font-size', 'mb-2');
+    //   listItem.textContent = description;
+    //   additiveListElement.appendChild(listItem);
+    // });
+  }
+
+async function repaint__gallery(templateName){
+    if (content) {
+        try {
+            const response = await fetch(`/assets/templates/${templateName}/template.html`); // Modify as needed
+            if (response.ok) {
+                const html = await response.text();
+                content.innerHTML = html;
+
+                // // After setting the new HTML, update dimension descriptions
+        
+                // const systemDimensions = {
+                //     width: system.width, // Example width
+                //     depth: system.depth, // Example depth
+                //     height: system.height // Example height
+                //   };
+                  
+                // const descriptions = getDimensionDescriptions(system);
+                // updateDimensionDescriptions(systemDimensions, descriptions);
+
+                // Re-initialize components or JavaScript behaviors if needed
+                // ...
+                lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+    
+            } else {
+                console.error(`Failed to load template for state: ${currentState}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        console.error("Element with #app not found");
+    }
+}
+
+
 async function repaint(system) {
     // Clear the current content
     const content = document.querySelector('#app');
@@ -69,6 +149,8 @@ async function repaint(system) {
     // Determine the template name based on the current state
     const currentState = stateMachine.currentState;
     let templateName;
+
+
 
     switch (currentState) {
         case "SelectTypeState":
@@ -100,7 +182,8 @@ async function repaint(system) {
         case "InputDimensionsState":
             {
             templateName = "dimensions";
-            if (content) {
+            if (content) 
+            {
                 try {
                     const response = await fetch(`/assets/templates/${templateName}/template.html`); // Modify as needed
                     if (response.ok) {
@@ -108,6 +191,7 @@ async function repaint(system) {
                         content.innerHTML = html;
         
                         // After setting the new HTML, update dimension descriptions
+                
                         const systemDimensions = {
                             width: system.width, // Example width
                             depth: system.depth, // Example depth
@@ -119,24 +203,81 @@ async function repaint(system) {
         
                         // Re-initialize components or JavaScript behaviors if needed
                         // ...
+                        lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+            
                     } else {
                         console.error(`Failed to load template for state: ${currentState}`);
                     }
                 } catch (error) {
                     console.error('Error:', error);
                 }
-            } else {
+            } 
+            else
+            {
                 console.error("Element with #app not found");
             }
             }
+            
             break;
           
-        case "InputColorState":
-            templateName = "color";
-            break;
-        case "InputAdditiveState":
-            templateName = "additive";
-            break;
+
+            case "InputColorState":
+                templateName = "color";
+                if (content) {
+                  try {
+                    debugger
+                    const response = await fetch(`/assets/templates/${templateName}/template.html`); // Modify as needed
+                    if (response.ok) {
+                      const html = await response.text();
+                      content.innerHTML = html;
+                        debugger
+                      // Call the function to update color information
+                     let object_color=system.object_color|| "RAL 1002"
+                      updateColorInformation(object_color);
+              
+                      // Re-initialize components or JavaScript behaviors if needed
+                      lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+              
+                    } else {
+                      console.error(`Failed to load template for state: ${currentState}`);
+                    }
+                  } catch (error) {
+                    console.error('Error:', error);
+                  }
+                } else {
+                  console.error("Element with #app not found");
+                }
+                break;
+            case "InputAdditiveState":
+                    templateName = "additive";
+                    if (content) {
+                      try {
+                        const response = await fetch(`/assets/templates/${templateName}/template.html`);
+                        if (response.ok) {
+                          const html = await response.text();
+                          content.innerHTML = html;
+                  
+                            debugger
+                          // Assuming state.object_additive is an array of additive identifiers
+                          let object_additive=system.object_additive|| {object_additive:[]}
+                      
+              
+                          updateAdditiveDescriptions(object_additive);
+                  
+                          // Re-initialize components or JavaScript behaviors if needed
+                          lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+                  
+                        } else {
+                          console.error(`Failed to load template for state: ${currentState}`);
+                        }
+                      } catch (error) {
+                        console.error('Error:', error);
+                      }
+                    } else {
+                      console.error("Element with #app not found");
+                    }
+                    break;
+                  
         case "InputContactState":
             templateName = "contact";
             break;
@@ -169,6 +310,8 @@ async function repaint(system) {
             break;
     }
 
+  
+    
     // Assuming 'system' contains relevant data for fetching the template
 
 }

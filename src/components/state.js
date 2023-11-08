@@ -12,9 +12,22 @@ class StateMachine {
       this.componentIds = {}; // Object to store IDs of components
     }
     transition(event) {
+
+      if(event=="FirstConfiguration"){
+        this.currentState = "SelectTypeState";
+          //Collapse some gui's
+      }
+      if(event=="SelectTypeState")
+      {
+        this.currentState="SelectTypeState"
+        
+        //Collapse some gui's
+        return
+      }
+      
       switch (this.currentState) {
         case "SelectTypeState":
-          if (event === "SelectTypeState") {
+          if (event === "ConfirmTypeState") {
             this.currentState = "InputDimensionsState";
             this.promptHeightInput();
           }
@@ -26,6 +39,9 @@ class StateMachine {
           } else if (event === "ValidationError") {
             this.handleError("Please input a valid height.");
           }
+
+
+          
           break;
         case "InputColorState":
           if (event === "InputColorState") {

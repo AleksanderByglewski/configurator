@@ -275,7 +275,7 @@ class UconfigImplementationWallGui extends genericGui {
                  { value: 'object_type_4',  display_value:"Model Portofino",  display_image:'/assets/display/model/2.webp'},
                  { value: 'object_type_5',  display_value:"Model Verona",  display_image:'/assets/display/model/3.webp'},
                 
-                 { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/model/0.png'},
+             //    { value: 'ALL',  display_value:"Zobacz wszystkie",  display_image:'/assets/display/model/0.png'},
              ];
      
 
@@ -283,8 +283,15 @@ class UconfigImplementationWallGui extends genericGui {
                 // Here, 'this' refers to the UconfigImplementationWallGui instance.
                 this.notifyMediator('stateChange', { 'object_type': value });
                 this.notifyMediator('buildingStep', {});
-       
-                stateMachine.transition("SelectTypeState")
+                 // Check if the 'ALL' button was clicked and transition accordingly
+                if (value === 'ALL') {
+                    stateMachine.transition("FirstConfiguration");
+                } else {
+                    stateMachine.transition("SelectTypeState");
+                }
+                // Add other actions you need to perform on click
+               
+                // stateMachine.transition("SelectTypeState")
                 // Add other actions you need to perform on click
               };
 
@@ -297,7 +304,22 @@ class UconfigImplementationWallGui extends genericGui {
                 containerDiv.appendChild(squareButton);
               });
           
-     
+              const confirmation = ComponentFactory.confirmationButton({
+                text: 'Do wyboru wymiarów', // Label for the width input
+    
+                // You can also include callback functions for events like 'change' if needed
+                changeCallback: function(value) {
+                
+                    console.log('Dimensions confirmed:', value);
+                    stateMachine.transition("ConfirmTypeState");
+                }
+            });
+    
+    containerDiv.appendChild(confirmation);
+    
+    
+    containerDiv.appendChild(confirmation);
+    
      
 
              

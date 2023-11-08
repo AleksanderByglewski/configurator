@@ -681,7 +681,7 @@ My previous write me the proper text in polish that will take about dimensions o
 <section class="container pb-3">
   <div class="row pt-2 ">
     <div class="col-12 text-center text-md-start pt-md-2 pb-2 pb-md-0  mb-md-0">
-      <h2 class="pb-3 mb-1">Any questions? Check out the Models</h2>
+      <h2 class="pb-3 mb-1">Chcesz porozmawiać w sprawie najlepszego rozwiązania, skontaktuj się z nami</h2>
 
       <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4">
         <div class="col">
@@ -717,3 +717,108 @@ My previous write me the proper text in polish that will take about dimensions o
 </section>
 
 I would also like to include the system variables width, height and depth to be there as well. 
+
+
+
+
+Hi chat i have this template 
+<div class="container">
+  <h2 class="wp-block-heading h1 mt-2 mb-0">Pergole Benstal</h2>
+  
+  <h3>Odnośnie wymiarów Twojej pergoli:</h3>
+  <p>Skonfiguruj swoją pergolę dopasowując wymiary szerokości, wysokości oraz głębokości do Twoich potrzeb.</p>
+  
+  <p class="has-large-font-size my-0">Wysokość: <strong id="pergolaHeight">___</strong> metrów</p>
+  <p class="has-large-font-size mb-0">Szerokość: <strong id="pergolaWidth">___</strong> metrów</p>
+  <p class="has-large-font-size my-0">Głębokość: <strong id="pergolaDepth">___</strong> metrów</p>
+
+  <!-- ... other content ... -->
+  <div class="dimension-descriptions">
+    <p class="has-large-font-size mb-0" id="widthDescription">Desc1</p>
+    <p class="has-large-font-size mb-0" id="depthDescription">Desc2</p>
+    <p class="has-large-font-size mb-0" id="heightDescription">Desc3</p>
+  </div>
+  <div class="mb-4"></div>
+  <!-- Gallery with thumbnails -->
+    <div class="gallery row g-4" data-thumbnails="true">
+          <!-- Item -->
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/toscana/2.jpg" class="gallery-item rounded-3 mb-0" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 4</h6>'>
+            <img src="/assets/img/gallery/toscana/2.jpg" loading="lazy" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">[]Opis 3</div>
+          </a>
+      
+        </div>
+      
+     
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+     
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+     
+      
+      
+    </div>
+  
+   
+
+  </div>
+    <!-- ... additional content ... -->
+  
+<!-- <section class="container pb-3">
+  <div class="row pt-2 ">
+    <div class="col-12 text-center text-md-start pt-md-2 pb-2 pb-md-0  mb-md-0">
+      <h2 class="pb-3 mb-1">Any questions? Check out the Models</h2>
+
+      <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4">
+        <div class="col">
+          <div class="card card-hover">
+            <div class="card-body pb-3">
+
+              <img src="/assets/icons/phone-call-solid-24.png" class="bx fs-xl me-2 mb-2">
+              <p class="fs-sm mb-2">Still have  questions?</p>
+              <a href="#" class="btn btn-link stretched-link px-0">
+                Call us
+                <img src="/assets/icons/right-arrow-alt-regular-24.png" class=" fs-xl ms-md-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-hover">
+            <div class="card-body pb-3">
+              <img src="/assets/icons/message-rounded-dots-solid-24.png" class="bx fs-xl me-md-2 mb-2">
+ 
+              <p class="fs-sm mb-2">Still have  questions?</p>
+              <a href="#" class="btn btn-link text-success stretched-link px-0">
+                Chat with us
+                <img src="/assets/icons/right-arrow-alt-regular-24.png" class=" fs-xl ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section> -->

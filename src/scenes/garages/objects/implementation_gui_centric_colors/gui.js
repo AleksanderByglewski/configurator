@@ -291,9 +291,11 @@ class UconfigImplementationWallGui extends genericGui {
 
         const handleClick = (e, value) => {
            // Here, 'this' refers to the UconfigImplementationWallGui instance.
-           this.notifyMediator('stateChange', { 'object_type': value });
+           this.notifyMediator('stateChange', { 'object_color': value });
            this.notifyMediator('buildingStep', {});
+           if(value=="ALL"){
            stateMachine.transition('InputColorState')
+           }
            // Add other actions you need to perform on click
          };
 

@@ -43,8 +43,8 @@ class UconfigsImplementationController extends UconfigsController {
        
         let material_type=this.state.get('material_type') || "material_type_1" 
 
-        let object_type=this.state.get('object_type') || "object_type_1" 
-        const system={object_type:object_type}
+        let object_additives=this.state.get('object_additives') || {} 
+        const system={object_additives:object_additives}
         repaint(system)
         
 

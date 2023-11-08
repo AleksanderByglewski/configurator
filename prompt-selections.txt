@@ -1,0 +1,320 @@
+Hi chat i have this template file:
+<div class="container">
+  <h2 class="wp-block-heading h1 mt-2 mb-0">Pergole Benstal</h2>
+  
+  <h3>Odnośnie wymiarów Twojej pergoli:</h3>
+  <p>Skonfiguruj swoją pergolę dopasowując wymiary szerokości, wysokości oraz głębokości do Twoich potrzeb.</p>
+  
+  <p class="has-large-font-size my-0">Wysokość: <strong id="pergolaHeight">___</strong> metrów</p>
+  <p class="has-large-font-size mb-0">Szerokość: <strong id="pergolaWidth">___</strong> metrów</p>
+  <p class="has-large-font-size my-0">Głębokość: <strong id="pergolaDepth">___</strong> metrów</p>
+
+  <!-- ... other content ... -->
+  <div class="dimension-descriptions">
+    <p class="has-large-font-size mb-0" id="widthDescription">Desc1</p>
+    <p class="has-large-font-size mb-0" id="depthDescription">Desc2</p>
+    <p class="has-large-font-size mb-0" id="heightDescription">Desc3</p>
+  </div>
+  <div class="mb-4"></div>
+  <!-- Gallery with thumbnails -->
+    <div class="gallery row g-4" data-thumbnails="true">
+          <!-- Item -->
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/toscana/2.jpg" class="gallery-item rounded-3 mb-0" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 4</h6>'>
+            <img src="/assets/img/gallery/toscana/2.jpg" loading="lazy" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">[]Opis 3</div>
+          </a>
+      
+        </div>
+      
+     
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+     
+        <div class="col-6">
+          <a href="/assets/img/gallery/01.jpg" class="gallery-item rounded-3" data-sub-html='<h6 class="fs-sm text-light">Gallery image caption 1</h6>'>
+            <img src="/assets/img/gallery/01.jpg" alt="Gallery thumbnail">
+            <div class="gallery-item-caption fs-sm fw-medium">Gallery image caption 1</div>
+          </a>
+        </div>
+      
+     
+      
+      
+    </div>
+  
+   
+
+  </div>
+    <!-- ... additional content ... -->
+  
+<!-- <section class="container pb-3">
+  <div class="row pt-2 ">
+    <div class="col-12 text-center text-md-start pt-md-2 pb-2 pb-md-0  mb-md-0">
+      <h2 class="pb-3 mb-1">Any questions? Check out the Models</h2>
+
+      <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4">
+        <div class="col">
+          <div class="card card-hover">
+            <div class="card-body pb-3">
+
+              <img src="/assets/icons/phone-call-solid-24.png" class="bx fs-xl me-2 mb-2">
+              <p class="fs-sm mb-2">Still have  questions?</p>
+              <a href="#" class="btn btn-link stretched-link px-0">
+                Call us
+                <img src="/assets/icons/right-arrow-alt-regular-24.png" class=" fs-xl ms-md-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card card-hover">
+            <div class="card-body pb-3">
+              <img src="/assets/icons/message-rounded-dots-solid-24.png" class="bx fs-xl me-md-2 mb-2">
+ 
+              <p class="fs-sm mb-2">Still have  questions?</p>
+              <a href="#" class="btn btn-link text-success stretched-link px-0">
+                Chat with us
+                <img src="/assets/icons/right-arrow-alt-regular-24.png" class=" fs-xl ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section> -->
+And a js function responsible for repainting it
+
+function getDescriptionForDimension(dimension, value) {
+    const ranges = {
+      width: [
+        { max: 2, text: "Mała szerokość idealna dla niewielkich ogrodów." },
+        { max: 5, text: "Średnia szerokość, dobra dla większości przestrzeni." },
+        { max: 10, text: "Duża szerokość, idealna dla obszernych przestrzeni zewnętrznych." },
+        { text: "Niezwykle szeroka przestrzeń, doskonała na duże zgromadzenia." }
+      ],
+      depth: [
+        { max: 1.5, text: "Płytkie, ale funkcjonalne głębokości." },
+        { max: 3, text: "Standardowa głębokość, uniwersalna dla wielu zastosowań." },
+        { max: 6, text: "Głęboka konstrukcja zapewniająca dużo miejsca." },
+        { text: "Niezwykle głęboka pergola, idealna na duże grupy i wydarzenia." }
+      ],
+      height: [
+        { max: 2, text: "Niska wysokość, zapewnia intymność." },
+        { max: 3, text: "Standardowa wysokość, dobra dla większości użytkowników." },
+        { max: 5, text: "Wysoka konstrukcja, przestronna i wygodna." },
+        { text: "Bardzo wysoka konstrukcja, dająca poczucie otwartości i przestrzeni." }
+      ]
+    };
+  
+    const dimensionRanges = ranges[dimension];
+    const range = dimensionRanges.find(r => value <= r.max) || dimensionRanges[dimensionRanges.length - 1];
+    return range.text;
+  }
+  
+  function getDimensionDescriptions(dimensions) {
+    return {
+      width: getDescriptionForDimension('width', dimensions.width),
+      depth: getDescriptionForDimension('depth', dimensions.depth),
+      height: getDescriptionForDimension('height', dimensions.height),
+    };
+  }
+
+
+  function updateDimensionDescriptions(dimensions, descriptions) {
+    const widthValueElement = document.getElementById('pergolaWidth');
+    const depthValueElement = document.getElementById('pergolaDepth');
+    const heightValueElement = document.getElementById('pergolaHeight');
+    
+    const widthDescriptionElement = document.getElementById('widthDescription');
+    const depthDescriptionElement = document.getElementById('depthDescription');
+    const heightDescriptionElement = document.getElementById('heightDescription');
+  
+    if (widthValueElement) widthValueElement.textContent = dimensions.width;
+    if (depthValueElement) depthValueElement.textContent = dimensions.depth;
+    if (heightValueElement) heightValueElement.textContent = dimensions.height;
+  
+    if (widthDescriptionElement) widthDescriptionElement.textContent = descriptions.width;
+    if (depthDescriptionElement) depthDescriptionElement.textContent = descriptions.depth;
+    if (heightDescriptionElement) heightDescriptionElement.textContent = descriptions.height;
+  }
+
+async function repaint(system) {
+    // Clear the current content
+    const content = document.querySelector('#app');
+
+    // Determine the template name based on the current state
+    const currentState = stateMachine.currentState;
+    let templateName;
+
+
+
+    switch (currentState) {
+        case "SelectTypeState":
+            {
+            templateName = "type";
+            system =system || {}
+            const object_type = system.object_type || "ALL"; // Adjust this as per your system's structure
+
+            if (content) {
+                try {
+                    const response = await fetch(`/assets/templates/${templateName}/${object_type}.html`);
+                    if (response.ok) {
+                        const html = await response.text();
+                        content.innerHTML = html;
+                        // After setting the new HTML, you may need to re-initialize components or JavaScript behaviors
+                        lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+                    } else {
+                        console.error(`Failed to load template for state: ${currentState}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                console.error("Element with #app not found");
+            }
+            }
+            break;
+            
+        case "InputDimensionsState":
+            {
+            templateName = "dimensions";
+            if (content) 
+            {
+                try {
+                    const response = await fetch(`/assets/templates/${templateName}/template.html`); // Modify as needed
+                    if (response.ok) {
+                        const html = await response.text();
+                        content.innerHTML = html;
+        
+                        // After setting the new HTML, update dimension descriptions
+                
+                        const systemDimensions = {
+                            width: system.width, // Example width
+                            depth: system.depth, // Example depth
+                            height: system.height // Example height
+                          };
+                          
+                        const descriptions = getDimensionDescriptions(system);
+                        updateDimensionDescriptions(systemDimensions, descriptions);
+        
+                        // Re-initialize components or JavaScript behaviors if needed
+                        // ...
+                        lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+            
+                    } else {
+                        console.error(`Failed to load template for state: ${currentState}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } 
+            else
+            {
+                console.error("Element with #app not found");
+            }
+            }
+            
+            break;
+          
+        case "InputColorState":
+            templateName = "color";
+            system =system || {}
+            const object_type = system.object_type || "ALL"; 
+            if (content) 
+            {
+                try {
+                    const response = await fetch(`/assets/templates/${templateName}/template.html`); // Modify as needed
+                    if (response.ok) {
+                        const html = await response.text();
+                        content.innerHTML = html;
+        
+                        // After setting the new HTML, update dimension descriptions
+                
+                        const systemDimensions = {
+                            width: system.width, // Example width
+                            depth: system.depth, // Example depth
+                            height: system.height // Example height
+                          };
+                          
+                        const descriptions = getDimensionDescriptions(system);
+                        updateDimensionDescriptions(systemDimensions, descriptions);
+        
+                        // Re-initialize components or JavaScript behaviors if needed
+                        // ...
+                        lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+            
+                    } else {
+                        console.error(`Failed to load template for state: ${currentState}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } 
+            else
+            {
+                console.error("Element with #app not found");
+            }
+            break;
+        case "InputAdditiveState":
+            templateName = "additive";
+            break;
+        case "InputContactState":
+            templateName = "contact";
+            break;
+        case "ErrorState":
+            templateName = "error";
+            break;
+        default:
+            {
+            templateName = "default";
+            const object_type = system.object_type; // Adjust this as per your system's structure
+
+            if (content) {
+                try {
+                    const response = await fetch(`/assets/templates/${templateName}/${object_type}.html`);
+                    if (response.ok) {
+                        const html = await response.text();
+                        content.innerHTML = html;
+                        // After setting the new HTML, you may need to re-initialize components or JavaScript behaviors
+                        lightGallery(document.querySelector(".gallery"), { selector: '.gallery-item' });
+                    } else {
+                        console.error(`Failed to load template for state: ${currentState}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                console.error("Element with #app not found");
+            }
+             }
+            break;
+    }
+
+  
+    
+    // Assuming 'system' contains relevant data for fetching the template
+
+}
+
+What i would like you to do now is to fill out the code in the colorSystem
+ so that it properly displays the color and it's description in the HTML template. 
+ PLease feel free to modify the HTML template and create and call functions appropriately to achieve your results.
+ The object holding the proper color is called state. The variable with color name can be acessed like this:
+ state.object_color

@@ -37,14 +37,14 @@ class UconfigsImplementationController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#FEFEFE"
+        //let object_color = this.state.get('color') || "#FEFEFE"
      
         let texture_type=""
        
         let material_type=this.state.get('material_type') || "material_type_1" 
 
-        let object_type=this.state.get('object_type') || "object_type_1" 
-        const system={object_type:object_type}
+        let object_color=this.state.get('object_color') || "RAL 1002" 
+        const system={object_color:object_color}
         repaint(system)
         
 
