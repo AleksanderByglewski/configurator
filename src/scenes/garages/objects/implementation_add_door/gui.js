@@ -34,6 +34,10 @@ class UconfigImplementationGui extends genericGui {
         
         DoorSystem1.state.state['door_width']=1.13
         }
+        else{
+            DoorSystem1.state.state['gate_type']='gate_type_2'
+            DoorSystem1.state.state['material_type']="material_type_2"
+        }
 
 
         DoorSystem1.state.state['name']="Brama frontowa" ;

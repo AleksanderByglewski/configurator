@@ -348,6 +348,25 @@ switch(color){
     material_output.color=new THREE.Color("#a9705e")
     
     break;
+
+
+  case '#c6eaff':
+    
+    material_output=global_metal_material.clone()
+    material_output.bumpMap = global_metal_material.bumpMap.clone();
+    material_output.normalMap = global_metal_material.normalMap.clone();
+    material_output.bumpMap.repeat.set(width, height/2);
+    material_output.normalMap.repeat.set(width, height/2);
+    material_output.color=new THREE.Color(color)
+    //material_output.bumpMap.repeat.set(width, height/2);
+    //material_output.normalMap.repeat.set(width, height/2);
+    material_output.metalness = 0.99;
+
+// You can also modify other properties similarly, like roughness
+material_output.roughness = 0.1; // Replace someRoughnessValue with your desired valu
+    material_output.color=new THREE.Color("#c6eaff")
+    material_output.color=new THREE.Color("#ffffff")
+      break;
   default:
     
     material_output=global_metal_material.clone()
@@ -359,7 +378,8 @@ switch(color){
     // material_output.color=new THREE.Color("#ff0000")
     break;
 }
-
+const t7_scaling=1.42
+const t17_scaling=0.76
 switch(material_type){
       case "material_glass":
         material_output.map = undefined
@@ -380,10 +400,16 @@ switch(material_type){
       // texture=global_texture
       
       break;
+
+
+
       case "material_type_1":
   
           // texture=global_texture
-          
+     
+          material_output.bumpMap.repeat.set(t7_scaling*width, height);
+          material_output.normalMap.repeat.set(t7_scaling*width, height);
+       
           break;
       case "material_type_2":
       //  color ="#ee2797";
@@ -393,8 +419,8 @@ switch(material_type){
           material_output.normalMap.rotation = Math.PI / 2;
 
           
-          material_output.bumpMap.repeat.set(height, width );
-          material_output.normalMap.repeat.set(height, width );
+          material_output.bumpMap.repeat.set(t7_scaling*height, width );
+          material_output.normalMap.repeat.set(t7_scaling*height, width );
           // local_texture.wrapT=THREE.RepeatWrapping
           // material_output.repeat.set(width, height/2);
       
@@ -406,8 +432,8 @@ switch(material_type){
           material_output.normalMap.rotation = Math.PI / 2;
           
      
-          material_output.bumpMap.repeat.set(2*height, width );
-          material_output.normalMap.repeat.set(2*height, width );
+          material_output.bumpMap.repeat.set(t17_scaling*height, width );
+          material_output.normalMap.repeat.set(t17_scaling*height, width );
           // material_output.repeat.set(width, height);
           // material_output=global_texture.clone();
           
@@ -420,8 +446,8 @@ switch(material_type){
           // material_output.bumpMap.rotation = Math.PI / 2;
           // material_output.normalMap.rotation = Math.PI / 2;
           
-          material_output.bumpMap.repeat.set(2*width, height);
-          material_output.normalMap.repeat.set(2*width, height);
+          material_output.bumpMap.repeat.set(t17_scaling*width, height);
+          material_output.normalMap.repeat.set(t17_scaling*width, height);
           // material_output.repeat.set(1, height);
           
           

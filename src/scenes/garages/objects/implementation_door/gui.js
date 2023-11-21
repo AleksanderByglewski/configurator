@@ -426,12 +426,17 @@ class DedicatedDoorGui extends genericGui {
         accordionBodyDiv.appendChild(this.generateSep());
 
   
+        accordionBodyDiv.appendChild(this.createMarkupCoverType());
+
+        accordionBodyDiv.appendChild(this.generateSep());
+
         accordionBodyDiv.appendChild(this.createMarkup());
 
         accordionBodyDiv.appendChild(this.generateSep());
 
 
      
+
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
@@ -754,11 +759,14 @@ class DedicatedDoorGui extends genericGui {
                 // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
+                this.notifyMediator('stateChange', { 'material_type': squareDiv.dataset.value});
+                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('hardBuildingStep', {})
 
-                const accessers = [
-                    new accesser('material_type', squareDiv.dataset.value),
-                ]
-                this.notifyMediator('genericChangeObject', accessers)
+                // const accessers = [
+                //     new accesser('material_type', squareDiv.dataset.value),
+                // ]
+                // this.notifyMediator('genericChangeObject', accessers)
 
             }.bind(this));
 

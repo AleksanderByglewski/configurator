@@ -1,0 +1,62 @@
+[]Ogólne 
+	[x]Wyłączyć cienie
+	[]Konfiguracja początkowa
+		[x]garaż bez wiaty 3x5
+		[x] brama dwuskrzydłowa
+		[x] złoty dąb
+		[x] przetłoczenia poziome
+		[x] przetłoczenie poziome brama
+	[]Pokrycie ścian
+		[]sparametryzowane
+		[x]Blacha typ przetłoczenie T7 pion  
+		[x]Blacha typ przetłoczenie T7 poziom <- na wysokości 2.13 ma być 21 przetłoczeń 
+		[x]Blacha typ T17 pion <-
+		[x]Blacha typ T17 poziom <- 
+	[]Kolory
+		[]Złoty dąb
+			[]suwaki
+			[]ten kolor staje się jaśniejszy bardziej pomarańczowy 
+			[x]zmienić nazwę na "Złoty dąb"
+		[]Jasny orzech
+			[]ten kolor staje się jaśniejszy
+			[x]zmienić nazwę na "Jasny orzech"
+		[]Ciemny orzech	
+			[x]zmienić nazwę na "Ciemny orzech"
+		[x]Ocynk
+		[x]Wszystkie kolory
+			[x]Symbol RAL na kolor 
+				[x]Na ciemne kolory jasne napisy (#fff)
+				[x]Na jasne kolory ciemne napisy (#000)
+		[]Układ kafelków
+			[]Zmienić kolejność kolorów
+				[x]Pierwszy rząd
+					[x]Złoty dąb
+					[x]"Jasny orzech"
+					[x]Ciemny orzech 
+					[x]Ocynk 
+				[x]Drugi 
+					[x]7016 Grafit
+					[x]8017
+					[x]6005 Ciemno zielony 
+					[x]6020 zielony 
+		[]Poprawy RAL
+			[x]9010 na biały #fafafa
+			[x]8017 <-brąz jąsniej
+			[]6005 <-kolor taki jak 6020 z refencji (ciut ciemniejszy;taki jak ikona)
+			[]6020 <-kolor  
+			[x]2011 <- wykasować  
+			[]3011 <- jasniej
+			[x]9002 <- zmienić na 8004
+			[]3005 <- jaśniej 
+		[]Utworzenie RALU
+			[]7016 Grafit 
+			[]1012 Piasek
+			[]9006 Srebrny
+			[]8004 jasny braz 
+		[x]Układ
+			[Grafit] [Ciemny Zielony] [Ciemnby braz] [Piasek]
+			[Srebrny] [jasny Cielony] [Jasny braz]  [Biały]
+
+	
+	
+	

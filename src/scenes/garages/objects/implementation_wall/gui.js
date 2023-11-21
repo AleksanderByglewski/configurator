@@ -169,10 +169,10 @@ class UconfigImplementationWallGui extends genericGui {
              let squareButtons
             
              squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
+                 { value: 'material_type_1',  display_value:"Blacha pozioma T7",  display_image:'/assets/display/material/2.jpg'},
+                 { value: 'material_type_2',  display_value:"Blacha pionpwa T7",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'material_type_3',  display_value:"Blacha pozioma T17",  display_image:'/assets/display/material/3.jpg'},
+                 { value: 'material_type_4',  display_value:"Blacha pionowa T17",  display_image:'/assets/display/material/4.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
                 
              ];
@@ -446,32 +446,93 @@ class UconfigImplementationWallGui extends genericGui {
         containerDiv.classList.add('squares-container--8', 'grid--colors');
 
         const squareButtons = [
-            { value: '#ED972A',  display_value:"Złoty dąb", color_value:"#ED972A"},
-            { value: '#C76E3C',  display_value:"Złoty dąb ciemny", color_value:"#C76E3C"},
-            { value: '#925f50',  display_value:"Orzech", color_value:"#623B2F"},
-            { value: '#653d3c',  display_value:"RAL8017", color_value:"#653d3c"},
-            { value: '#0d5733',  display_value:"RAL6005", color_value:"#0d5733"},
-            { value: '#00a35e',  display_value:"RAL2011", color_value:"#00a35e"},
-            { value: '#acc6af',  display_value:"RAL6034", color_value:"#acc6af"},
-            { value: '#eeeeee',  display_value:"RAL9010", color_value:"#eeeeee"},
-            { value: '#661d24',  display_value:"RAL3005", color_value:"#661d24"},
-            { value: '#a62926',  display_value:"RAL3011", color_value:"#a62926"},
-   
-         
-            { value: '#c3a79f',  display_value:"RAL9002", color_value:"#c3a79f"},
-            { value: '#1c1e1f',  display_value:"RAL9005", color_value:"#1c1e1f"},
-            { value: '#c6eaff',  display_value:"Ocynk", color_value:"#c6e9fd"},
-        ];
+            { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+            { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
 
-        squareButtons.forEach(button => {
+            { value: '#6d737a',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#4f545a"},
+            { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+
+
+
+            { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+
+  
+         
+            { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+          
+        
+         
+
+        ];
+        //'#661d24
+        squareButtons.forEach((button,index) => {
             const squareDiv = document.createElement('div');
             squareDiv.classList.add('square');
             // squareDiv.style.backgroundColor = button.color;
             squareDiv.dataset.value = button.value;
 
             // Create the image element
-            const imageEl = document.createElement('div');
-            imageEl.style.backgroundColor = button.color_value;
+            let imageEl = document.createElement('div');
+            // imageEl.style.backgroundColor = button.color_value;
+
+            switch (index) {
+                case 0:
+                    imageEl = document.createElement('img');
+                    // let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.style.objectFit="cover"
+                    imageEl.src = `assets/display/colors/wood/zloty_dab.jpg`; // Construct the image path
+                    break
+                case 1:
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/jasny_orzech.jpg`; // Construct the image path
+                    break
+                case 2:
+                    // For the first three buttons, use an 'img' element with custom image
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ciemny_orzech.jpg`; // Construct the image path
+                    break;
+                case 3:
+                        // For the first three buttons, use an 'img' element with custom image
+                        imageEl = document.createElement('img');
+                        imageEl.style.objectFit="cover"
+                        //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                        imageEl.src = `assets/display/colors/wood/ocynk.jpg`; // Construct the image path
+                        break;
+                default:
+
+               
+
+                    // For the rest, use a 'div' element with background color
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'bold';
+                    descText.style.bottom = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+                    break;
+            }
+        
+
             imageEl.style.aspectRatio= "2 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv

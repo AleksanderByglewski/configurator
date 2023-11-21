@@ -641,7 +641,7 @@ class CentralLineObject extends genericObject {
         
         // material = select_texture({ width: 1.2 * width, height: height, color: color, material_type: material_type })
          material = new THREE.MeshStandardMaterial({
-            color: 0x333345, // This is black color
+            color: 0x332335, // This is black color
             metalness: 0.78, // Full metallic effect
             roughness: 0.03 // Smooth surface for shiny metal effect
         });

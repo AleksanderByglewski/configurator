@@ -49,16 +49,16 @@ function setupComposer(renderer, scene, camera) {
 //     height: window.innerHeight
 //   });
 
- let  bokehPass = new BokehPass(scene, camera, {
-    focus: 1.0,
-    aperture: 0.00125,
-    maxblur: 0.0001,
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
-  composer.addPass(bokehPass);
-  const pass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
-  composer.addPass( pass );
+//  let  bokehPass = new BokehPass(scene, camera, {
+//     focus: 1.0,
+//     aperture: 0.00125,
+//     maxblur: 0.0001,
+//     width: window.innerWidth,
+//     height: window.innerHeight
+//   });
+//   composer.addPass(bokehPass);
+//   const pass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
+//   composer.addPass( pass );
 
   
 //   const ssaoPass = new SSAOPass( scene, camera, width, height );

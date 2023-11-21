@@ -391,30 +391,30 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 6.5); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff, 24.0); // soft white light
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xfffffff, 2);
+  const directionalLight = new THREE.DirectionalLight(0xfffffff, 1);
 
 // Set the position of the light
 directionalLight.position.set(-30, 30, 30);
 
 // Make the light look at the center of the scene
 directionalLight.lookAt(30, -30, -30);
-directionalLight.castShadow = true;
-directionalLight.shadow.camera.top = 30
-directionalLight.shadow.camera.right = 30
-directionalLight.shadow.camera.left = -30
-directionalLight.shadow.camera.bottom = -30
-directionalLight.shadow.camera.near = 1
-directionalLight.shadow.camera.far = 100
+// directionalLight.castShadow = true;
+// directionalLight.shadow.camera.top = 30
+// directionalLight.shadow.camera.right = 30
+// directionalLight.shadow.camera.left = -30
+// directionalLight.shadow.camera.bottom = -30
+// directionalLight.shadow.camera.near = 1
+// directionalLight.shadow.camera.far = 100
 
 // Add the light to the scene
 scene.add(directionalLight);
 const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
 scene.add(directionalLightHelper);
-const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
-scene.add(shadowCameraHelper);
+// const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+// scene.add(shadowCameraHelper);
 
 return directionalLight
   //Create a spotlight
@@ -501,15 +501,15 @@ function populateScene(scene) {
 
   // attach_ground(scene)
    //attach_fog(scene)
-  scene.background = new THREE.Color(0xcce7f0);
-  scene.background = new THREE.Color(0x000000);
-  const grid = new THREE.GridHelper(500, 1000, 0xdddddd, 0xdddddd);
+  // scene.background = new THREE.Color(0xcce7f0);
+  // scene.background = new THREE.Color(0x000000);
+  const grid = new THREE.GridHelper(100, 100, 0xdddddd, 0xdddddd);
   scene.add(grid);
 
 
   // var axesHelper = new THREE.AxesHelper(1);
   // scene.add(axesHelper)
-  const geometry = new THREE.PlaneGeometry(1000, 1000);
+  const geometry = new THREE.PlaneGeometry(100, 100);
   const material = new THREE.MeshStandardMaterial({ color: 0xbbbbbb, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
@@ -681,6 +681,16 @@ function populateScene(scene) {
 
     GroupGarageSystem.handleEvent('buildingStep')
     GroupGarageSystem.handleEvent('generateInputs')
+    GroupGarageSystem.state['object_depth'] = 5
+    GroupGarageSystem.gui.notifyMediator('stateChange', { ['object_depth']: 5 });
+    GroupGarageSystem.gui.notifyMediator('buildingStep', { });
+    GroupGarageSystem.gui.notifyMediator('stateChange', { 'object_color': "#ED972A"});
+    GroupGarageSystem.gui.notifyMediator('stateChange', { 'wall_color': "#ED972A"});
+
+    GroupGarageSystem.gui.notifyMediator('stateChange', { 'material_type': 'material_type_2'});
+    GroupGarageSystem.gui.notifyMediator('buildingStep', { });
+
+
   }
   initialization_system()
 
@@ -707,8 +717,14 @@ function populateScene(scene) {
     OmegaSystems.handleEvent('buildingStep')
     OmegaSystems.handleEvent('generateInputs')
 
+
+
+
     // GroupGarageSystem.handleEvent('buildingStep')
     OmegaSystems.gui.initialGeneration()
+
+
+
 
   }
   generic_attaching_gates()
@@ -738,6 +754,11 @@ function populateScene(scene) {
     OmegaSystems.state.state['name'] = "Dodaj drzwi"
     OmegaSystems.door_type = true
     OmegaSystems.handleEvent('generateInputs')
+
+    // OmegaSystems.gui.notifyMediator('stateChange', { 'gate_type': 'gate_type_2'});
+    // OmegaSystems.gui.notifyMediator('buildingStep', { });
+    // OmegaSystems.gui.notifyMediator('hardBuildingStep', {})
+
 
     // GroupGarageSystem.handleEvent('buildingStep')
 
@@ -787,7 +808,7 @@ function populateScene(scene) {
 
 
 
-  generic_attaching_canopies()
+ // generic_attaching_canopies()
 
 //Okay now for the niche
 
@@ -796,7 +817,7 @@ function populateScene(scene) {
 function advanced_garage_system() {
   GroupGarageSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
   GroupGarageSystem.status="top_level"
-  GroupGarageSystem.state.state['object_depth']=4
+  GroupGarageSystem.state.state['object_depth']=5
   GroupGarageSystem.state.state['position_z']=-4
 }
 function generic_attaching_canopies(){

@@ -50,7 +50,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         let width = this.state.get('width') || 2.0
         let depth = this.state.get('depth') || 4.0
 
-
+        
         let door = this.state.get('door') || false
         let gate_type
         if (door) {
