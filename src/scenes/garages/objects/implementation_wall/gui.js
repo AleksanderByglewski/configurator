@@ -169,8 +169,8 @@ class UconfigImplementationWallGui extends genericGui {
              let squareButtons
             
              squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha pozioma T7",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha pionpwa T7",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'material_type_1',  display_value:"Blacha pionowa T7",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'material_type_2',  display_value:"Blacha pozioma T7",  display_image:'/assets/display/material/2.jpg'},
                  { value: 'material_type_3',  display_value:"Blacha pozioma T17",  display_image:'/assets/display/material/3.jpg'},
                  { value: 'material_type_4',  display_value:"Blacha pionowa T17",  display_image:'/assets/display/material/4.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
@@ -524,8 +524,10 @@ class UconfigImplementationWallGui extends genericGui {
                     descText.textContent = button.additonal_desc;
                     descText.style.position = 'absolute';
                     descText.style.color = button.font_color;
-                    descText.style.fontWeight = 'bold';
-                    descText.style.bottom = '0px'; // Adjust as needed
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
                     descText.style.right= '5px'; // Adjust as needed
                     imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
                     imageEl.appendChild(descText);

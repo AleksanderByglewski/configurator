@@ -32,7 +32,7 @@ import {
 import {
   UconfigsImplementationRoofsController as RoofSystem,
   UconfigsImplementationSecondaryRoofsController as SecondaryRoofSystem
-} from './objects/implementation_roof/implementation'
+} from './objects/implementation_roof/implementation-save'
 
 import {
   UconfigsImplementationFloorsController as TertiaryFloorSystem,
@@ -391,10 +391,10 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 24.0); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xfffffff, 1);
+  const directionalLight = new THREE.DirectionalLight(0xfffffff, 4);
 
 // Set the position of the light
 directionalLight.position.set(-30, 30, 30);
@@ -411,7 +411,7 @@ directionalLight.lookAt(30, -30, -30);
 
 // Add the light to the scene
 scene.add(directionalLight);
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 10);
 scene.add(directionalLightHelper);
 // const shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
 // scene.add(shadowCameraHelper);
@@ -514,6 +514,7 @@ function populateScene(scene) {
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
+  floor.name="floor"
   scene.background=new THREE.Color(0x97DEFB);
   // scene.background=new THREE.Color(0x000000);
   scene.fog = new THREE.Fog(0xffffff, 10, 100);
@@ -687,7 +688,7 @@ function populateScene(scene) {
     GroupGarageSystem.gui.notifyMediator('stateChange', { 'object_color': "#ED972A"});
     GroupGarageSystem.gui.notifyMediator('stateChange', { 'wall_color': "#ED972A"});
 
-    GroupGarageSystem.gui.notifyMediator('stateChange', { 'material_type': 'material_type_2'});
+    GroupGarageSystem.gui.notifyMediator('stateChange', { 'material_type': 'material_type_3'});
     GroupGarageSystem.gui.notifyMediator('buildingStep', { });
 
 
@@ -808,7 +809,7 @@ function populateScene(scene) {
 
 
 
- // generic_attaching_canopies()
+ generic_attaching_canopies()
 
 //Okay now for the niche
 

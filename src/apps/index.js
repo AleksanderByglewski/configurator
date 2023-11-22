@@ -9,33 +9,55 @@ import {setupAnimation, setupAnimationRenderer} from '../scenes/garages/animatio
 import {setupGuiHelper} from '../helpers/quick-gui'
 import {draggableUI} from '../markup/draggable-ui'
 
+// Function to enable shadows for all lights and elements
+function attach_shadows(scene) {
+  scene.traverse((object) => {
+      // Skip the floor object
+      if (object.name === "floor") {
+          return;
+      }
 
+      if (object instanceof THREE.Light) {
+          object.castShadow = true;
+      }
+      if (object instanceof THREE.Mesh) {
+          object.castShadow = true;
+          object.receiveShadow = true;
+      }
+  });
+}
 
-function initScene(){
-  //Initialization and population of the scene
+function initScene() {
+  // Initialization and population of the scene
   const scene = new THREE.Scene();
-  const system=populateScene(scene)
-  //Camera and renderer setup
-  const camera=setupCamera()
-  const renderer=setupRenderer()
-  const composer=setupComposer(renderer, scene, camera)
-  const controls=setupControls(camera, renderer);
+  populateScene(scene);
+
+  // Camera and renderer setup
+  const camera = setupCamera();
+  const renderer = setupRenderer();
+  const composer = setupComposer(renderer, scene, camera);
+  const controls = setupControls(camera, renderer);
 
   // Setting up the animation of the scene using Renderer
-  const animate=setupAnimationRenderer(renderer, system,scene, camera)
-  // const animate = setupAnimation(composer, system,scene);
+  const animate = setupAnimation(composer, scene, camera);
   requestAnimationFrame(animate);
 
-  
-  
-  
+  // Create and attach the shadow button to the side menu
+  const enableShadowsButton = document.createElement('button');
+  enableShadowsButton.innerText = 'Enable Shadows';
+  enableShadowsButton.id = 'enableShadowsButton';
+  enableShadowsButton.addEventListener('click', () => attach_shadows(scene));
+  enableShadowsButton.style.position = 'absolute';
+  enableShadowsButton.style.right = '0';
+  const sideMenu = document.querySelector('body');
+  if (sideMenu) {
+      sideMenu.appendChild(enableShadowsButton);
+  }
 
-  // setupGuiHelper(scene)
-  //Handling of the screen size change
+  // Handling of the screen size change
   window.addEventListener('resize', handleResize(camera, renderer, composer));
-
-
 }
+
 function main() {
   initScene();
   draggableUI();

@@ -1,20 +1,20 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser, GLOBAL_ORIENTATION, CANOPIES_AUTOMATIC } from '../../base'
+import { accesser, GLOBAL_ORIENTATION, CANOPIES_AUTOMATIC } from '../../base.js'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
-import { CubeObject, UconfigObject, WallGarageObject, UconfigInvisibleObject, genericGarageObject, DoubleCubeObject } from '../base/object'
-import { UconfigInvisibleGui, UconfigGui, UconfigDebugGui } from '../base/gui'
+import { CubeObject, UconfigObject, WallGarageObject, UconfigInvisibleObject, genericGarageObject, DoubleCubeObject } from '../base/object.js'
+import { UconfigInvisibleGui, UconfigGui, UconfigDebugGui } from '../base/gui.js'
 import {
     UconfigController, CubeController, RedCubeController,
     WallGarageController, groupGenericGarageController, genericGarageController
-} from '../base/controller'
-import { UconfigsController } from '../base/controller'
+} from '../base/controller.js'
+import { UconfigsController } from '../base/controller.js'
 
 //Good reference file
 
-import { UconfigImplementationRoofGui } from './gui'
-import { SimpleController, RoofSideLeftController, RoofSideRightController, RoofSideSquareController, RoofTopController } from './controller'
+import { UconfigImplementationRoofGui } from './gui.js'
+import { SimpleController, RoofSideLeftController, RoofSideRightController, RoofSideSquareController, RoofTopController } from './controller.js'
 //Now i would like to add objects to it dynamically
 
 function set_value_accesser(accesser_array, locator = "position_y", new_value) {
@@ -246,7 +246,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         }
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
 
-        let roof_slant = 7.5 * Math.PI / 180
+        let roof_slant = 5.5 * Math.PI / 180
         //The dimension of the top part of the roof 
         let roof_top_height = object_depth * (1 / Math.cos(roof_slant))
         let y_displacement = roof_top_height * Math.sin(roof_slant)
@@ -442,7 +442,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
                 accessersWallTop2 = [
                     new accesser('name', name + "_back"),
-                    new accesser('width', object_width+0.1),
+                    new accesser('width', object_width),
                     new accesser('height', roof_top_height / 2),
                     new accesser('sheet_depth', sheet_depth),
                     new accesser('segments', 1),
@@ -573,15 +573,15 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
                     accessersWallTop = [
                         new accesser('name', name + "_back"),
-                        new accesser('width', object_width+0.1),
-                        new accesser('height',0.2+ roof_top_height / 2),
+                        new accesser('width', object_width),
+                        new accesser('height', roof_top_height / 2),
                         new accesser('sheet_depth', sheet_depth),
                         new accesser('segments', 1),
                         new accesser('radius', 0.01),
                         new accesser('position_x', 0),
 
                         new accesser('position_y', y_displacement / 2),
-                        new accesser('position_z', -roof_object_depth / 2-0.05),
+                        new accesser('position_z', -roof_object_depth / 2),
                         new accesser('color', object_color),
                         new accesser('position_relative', 'true'),
                         new accesser('rotation_y', 0),
@@ -593,15 +593,15 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
                     accessersWallTop2 = [
                         new accesser('name', name + "_back"),
-                        new accesser('width', object_width+0.1),
-                        new accesser('height',0.2+ roof_top_height / 2-0.1),
+                        new accesser('width', object_width),
+                        new accesser('height', roof_top_height / 2),
                         new accesser('sheet_depth', sheet_depth),
                         new accesser('segments', 1),
                         new accesser('radius', 0.01),
                         new accesser('position_x', 0),
                         //      new accesser('position_y', object_height+y_displacement/2),
                         new accesser('position_y', y_displacement / 2),
-                        new accesser('position_z', roof_object_depth / 2 +0.05),
+                        new accesser('position_z', roof_object_depth / 2),
                         new accesser('color', object_color),
                         new accesser('position_relative', 'true'),
                         new accesser('rotation_y', 0),
