@@ -242,7 +242,7 @@ class UconfigImplementationRoofGui extends genericGui {
 
         return containerDiv;
     }
-    createMarkupColors(){
+    createMarkupColorsOld(){
    const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--material', 'squares-container--4');
 
@@ -298,6 +298,179 @@ class UconfigImplementationRoofGui extends genericGui {
                 this.notifyMediator('stateChange', { 'object_color': squareDiv.dataset.value});
                 this.notifyMediator('buildingStep', { });
                 this.notifyMediator('hardBuildingStep', {})
+            }.bind(this));
+
+
+
+            
+            containerDiv.appendChild(squareDiv);
+        });
+
+
+        // const removeModelBtn = document.createElement('button');
+        // removeModelBtn.textContent = "Remove Model";
+        // removeModelBtn.classList.add('remove-model-btn');
+        // removeModelBtn.addEventListener('click', function() {
+        //     // Call notifyMediator with 'recursivelyRemoveModel' event
+        //     this.notifyMediator('recursivelyRemoveModel');
+        // }.bind(this));
+        
+        // containerDiv.appendChild(removeModelBtn);
+
+        
+        return containerDiv;
+    }
+    createMarkupColors(){
+        const containerDiv = document.createElement('div');
+        containerDiv.classList.add('squares-container--8', 'grid--colors');
+
+        const squareButtons = [
+            // { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            // { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+       
+
+            { value: '#6d737a',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#4f545a"},
+            { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+            { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+            { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+            { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+        
+         
+
+        ];
+        //'#661d24
+        squareButtons.forEach((button,index) => {
+            const squareDiv = document.createElement('div');
+            squareDiv.classList.add('square');
+            // squareDiv.style.backgroundColor = button.color;
+            squareDiv.dataset.value = button.value;
+
+            // Create the image element
+            let imageEl = document.createElement('div');
+            // imageEl.style.backgroundColor = button.color_value;
+            // imageEl.style.aspectRatio= "2 / 1"
+            
+            let available_wood=false
+            if (available_wood){
+            switch (index) {
+                case 0:
+                    imageEl = document.createElement('img');
+                    // let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.style.objectFit="cover"
+                    imageEl.src = `assets/display/colors/wood/zloty_dab.jpg`; // Construct the image path
+                    break
+                case 1:
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/jasny_orzech.jpg`; // Construct the image path
+                    break
+                case 2:
+                    // For the first three buttons, use an 'img' element with custom image
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ciemny_orzech.jpg`; // Construct the image path
+                    break;
+                case 3:
+                        // For the first three buttons, use an 'img' element with custom image
+                        imageEl = document.createElement('img');
+                        imageEl.style.objectFit="cover"
+                        //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                        imageEl.src = `assets/display/colors/wood/ocynk.jpg`; // Construct the image path
+                        break;
+                default:
+
+               
+
+                    // For the rest, use a 'div' element with background color
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+
+           
+                    break;
+            }
+            
+            }
+            else{
+                if(index==squareButtons.length-1){
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ocynk.jpg`; // Construct the image path
+                  
+                }
+                else{
+
+
+                imageEl = document.createElement('div');
+                imageEl.style.backgroundColor = button.color_value;
+
+
+                const descText = document.createElement('div');
+                descText.textContent = button.additonal_desc;
+                descText.style.position = 'absolute';
+                descText.style.color = button.font_color;
+                descText.style.fontWeight = 'normal';
+                descText.style.fontSize = '14px';
+                // descText.style.transform=t
+                descText.style.top = '0px'; // Adjust as needed
+                descText.style.right= '5px'; // Adjust as needed
+                imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                imageEl.appendChild(descText);
+                }
+            }
+            imageEl.style.aspectRatio= "2 / 1"
+            imageEl.alt = button.display_value;  // for accessibility
+            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+
+            const textDiv = document.createElement('div');
+            textDiv.textContent = button.display_value;
+            squareDiv.appendChild(textDiv)
+
+
+   
+
+            // Attach event listener directly to the squareDiv
+            squareDiv.addEventListener('click', function (e) {
+                
+                // Notify the mediator or perform some action
+                
+              
+
+                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                // this.notifyMediator('recursivelyRemoveModel');
+                // this.notifyMediator('buildingStep');
+                    //this.mediator.state[attr] = e.target.value;
+                    // this.notifyMediator('requestParentAssistance', { })
+             
+                    this.notifyMediator('stateChange', { 'object_color': squareDiv.dataset.value});
+                    
+                    this.notifyMediator('stateChange', { 'wall_color': squareDiv.dataset.value});
+                    this.notifyMediator('buildingStep', { });
+          
             }.bind(this));
 
 

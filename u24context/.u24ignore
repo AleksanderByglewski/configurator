@@ -1,0 +1,17 @@
+.vscode/
+.git/
+.expo/
+u24context/
+design/
+display/
+dist/
+docs/
+node_modules/
+web-build/
+assets/
+src/assets
+helper-decoding.py
+luxstal_brief.pdf
+package.json
+package-lock.json
+webpack.config.js

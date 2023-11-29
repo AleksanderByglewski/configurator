@@ -75,6 +75,11 @@ import {
 
 } from './objects/implementation_additional_options_form/implementation'
 
+import {
+
+  UconfigsImplementationRoofsController as SupportSystem,
+  UconfigsImplementationSecondaryRoofsController as SecondarySupportSystem
+} from './objects/implementation_supports/implementation'
 
 
 import {gui} from  './base'
@@ -391,10 +396,10 @@ function addLights(scene) {
   //directionalLight.position.set(1, 2.2, 0.4); // set the position of the light
   //scene.add(directionalLight); // add the light to the scene
   // Create an ambient light with color white and intensity 0.5
-  let ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
+  let ambientLight = new THREE.AmbientLight(0xffffff, 30.0); // soft white light
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xfffffff, 4);
+  const directionalLight = new THREE.DirectionalLight(0xfffffff, 0.5);
 
 // Set the position of the light
 directionalLight.position.set(-30, 30, 30);
@@ -588,6 +593,18 @@ function populateScene(scene) {
   advanced_roof_object()
 
 
+  function advanced_support_object() {
+
+    RoofSystem1 = createGarageObject(emptySystem, SupportSystem)
+    RoofSystem1.state.state['name'] = "Kolory dachu"
+    RoofSystem1.status="main_roof"
+    GroupGarageSystem.external_objects.push(RoofSystem1)
+    RoofSystem1.external_objects_controllers.push(GroupGarageSystem)
+    RoofSystem1.mediator = GroupGarageSystem
+  }
+  advanced_support_object()
+
+
 
   let CanopySystem1
   function advanced_canopy_object() {
@@ -646,7 +663,7 @@ function populateScene(scene) {
     OmegaSystems.state.state['gui_child_name'] = "Dodaj wiatę"
     OmegaSystems.door_type = true
     OmegaSystems.handleEvent('generateInputs')
-    OmegaSystems.gui.initial_call('left')
+    //OmegaSystems.gui.initial_call('left')
   }
 
   function semiAdvanced_floor_object() {

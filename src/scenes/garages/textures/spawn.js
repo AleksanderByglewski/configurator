@@ -321,7 +321,8 @@ switch(color){
     material_output.bumpMap.repeat.set(width, height/2);
     material_output.normalMap.repeat.set(width, height/2);
     material_output.color=new THREE.Color(color)
-    
+    material_output.color=new THREE.Color('#ed882a')
+    material_output.roughness = 0.5;
     break;
   case '#C76E3C':
     material_output=global_golden_oak.clone()
@@ -333,7 +334,8 @@ switch(color){
     material_output.bumpMap.repeat.set(width, height/2);
     material_output.normalMap.repeat.set(width, height/2);
     material_output.color=new THREE.Color(color)
-    
+    material_output.color=new THREE.Color('#c38a57')
+    material_output.roughness = 0.5;
       break;
   case '#925f50':
     material_output=global_golden_oak.clone()
@@ -346,7 +348,7 @@ switch(color){
     material_output.normalMap.repeat.set(width, height/2);
     material_output.color=new THREE.Color(color)
     material_output.color=new THREE.Color("#a9705e")
-    
+    material_output.roughness = 0.5;
     break;
 
 
@@ -375,6 +377,7 @@ material_output.roughness = 0.1; // Replace someRoughnessValue with your desired
     material_output.bumpMap.repeat.set(width, height/2);
     material_output.normalMap.repeat.set(width, height/2);
     material_output.color=new THREE.Color(color)
+    material_output.roughness = 0.5;
     // material_output.color=new THREE.Color("#ff0000")
     break;
 }
@@ -527,6 +530,8 @@ switch(material_type){
       default:
             // code to be executed if expression doesn't match any cases
   }
+
+  
 // if (color=="#ed972a"){
 //      console.log("texture loading trigger")
 // }

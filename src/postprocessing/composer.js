@@ -43,13 +43,13 @@ function setupComposer(renderer, scene, camera) {
   const renderPass = new RenderPass(scene, camera);
   composer.addPass(renderPass);
 
-  let bokehPass = new BokehPass(scene, camera, {
-    focus: 1.0,
-    aperture: 10.0125,
-    maxblur: 10.0,
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
+  // let bokehPass = new BokehPass(scene, camera, {
+  //   focus: 1.0,
+  //   aperture: 10.0125,
+  //   maxblur: 10.0,
+  //   width: window.innerWidth,
+  //   height: window.innerHeight
+  // });
 
 //  let  bokehPass = new BokehPass(scene, camera, {
 //     focus: 1.0,
@@ -58,23 +58,23 @@ function setupComposer(renderer, scene, camera) {
 //     width: window.innerWidth,
 //     height: window.innerHeight
 //   });
-  composer.addPass(bokehPass);
-  const pass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
-  composer.addPass( pass );
+  // composer.addPass(bokehPass);
+  // const pass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
+  // composer.addPass( pass );
 
   
-  const ssaoPass = new SSAOPass( scene, camera, window.innerWidth, window.innerHeight );
-  ssaoPass.kernelRadius = 16;
-  composer.addPass( ssaoPass );
-  const filmGrainPass = new ShaderPass(FilmGrainShader);
-  filmGrainPass.renderToScreen = true;
-  composer.addPass(filmGrainPass);
+  // const ssaoPass = new SSAOPass( scene, camera, window.innerWidth, window.innerHeight );
+  // ssaoPass.kernelRadius = 16;
+  // composer.addPass( ssaoPass );
+  // const filmGrainPass = new ShaderPass(FilmGrainShader);
+  // filmGrainPass.renderToScreen = true;
+  // composer.addPass(filmGrainPass);
 
-  const unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-  unrealBloomPass.threshold = 0.1;
-  unrealBloomPass.strength = 0.1;
-  unrealBloomPass.radius = 0.6;
-  composer.addPass(unrealBloomPass);
+  // const unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+  // unrealBloomPass.threshold = 0.1;
+  // unrealBloomPass.strength = 0.1;
+  // unrealBloomPass.radius = 0.6;
+  // composer.addPass(unrealBloomPass);
   return composer;
 }
 
