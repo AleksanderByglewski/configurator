@@ -625,95 +625,14 @@ class RoofSideSquareObject extends genericObject {
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.wall_color) ? attributes.wall_color : "#CCCCCC";
 
+         //debugger
+
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "#FFFFFF";
-        // var material = new THREE.MeshPhysicalMaterial({
-        //     map: texture,
-        //     color: attributes.color || "#ffffff",
-        //     metalness: 0.5,
-        //     roughness: 0.1,
-        //     clearcoat: 0.8,
-        //     clearcoatRoughness: 0.2
-            
-        // });
-     
-        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        // let local_texture=global_texture
-     
-        // let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-        
-        // switch(material_type){
-        //     case "material_type_1":
-        //             // texture=global_texture
-        //             //  color ="#ee2797";
-        //             local_texture=global_texture.clone();
-        //             // local_texture.wrapS=THREE.RepeatWrapping
-        //             // local_texture.wrapT=THREE.RepeatWrapping
-        //             local_texture.repeat.set(width, height/2);
-                    
-        //             break;
-        //         case "material_type_2":
-        //             // color ="#2727ee";
-        //             // local_texture=global_texture_rotated
-        
-                    
-        //             local_texture=global_texture_rotated.clone();
-
-        //             local_texture.repeat.set(width/2, height);
-                    
-        //             break;
-        //         case "material_type_3":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
-        //             // local_texture.repeat.set(width, height);
-        //             local_texture=global_texture.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-        //             break;
-        //         case "material_type_4":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-        //             local_texture=global_texture_rotated.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-                    
-        //             break;
-        //         case "material_type_5":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
-        //             local_texture=global_texture_testing.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-                    
-        //             break;
-        //     default:
-        //         // code to be executed if expression doesn't match any cases
-        // }
-        // local_texture.wrapS=THREE.RepeatWrapping
-        // local_texture.wrapT=THREE.RepeatWrapping
-        // // let texture=global_texture
-        // let material = new THREE.MeshStandardMaterial({
-        //     map: local_texture,
-        //     color: color,
-        //     // metalness: 0.0,
-        //     // roughness: 0.1,
-        //     // clearcoat: 0.8,
-        //     // clearcoatRoughness: 0.2
-        // });
-
-        
-        
-
-        // let geometry = new RoundedBoxGeometry(
-        //     parseFloat(attributes.width) || 5,
-        //     parseFloat(attributes.height) || 1,
-        //     parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
-        //     parseFloat(attributes.segments) || 2,
-        //     parseFloat(attributes.radius) || 0.005
-        // );
+    
         let material
         let geometry;
 
@@ -789,15 +708,46 @@ class RoofSideSquareObject extends genericObject {
         //console.log(position_x);
 
 
-        mesh.position.set(
-            parseFloat(position_x), // Assuming x position is always 0, adjust as needed
-            parseFloat(position_y),
-            parseFloat(position_z),  // Assuming z position is always 0, adjust as needed
-        );
+      
+
+        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 10;
+
+
+        const group = new THREE.Group();
+        let pillarWidth = 0.1; // Example width of a pillar
+        let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
+        
+        // Function to create a pillar
+        function createPillar() {
+            return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
+        }
+        
+        // Create and position pillars at each corner
+        const pillar1 = createPillar();
+        pillar1.position.set(garage_width / 2,0, garage_depth / 2);
+        group.add(pillar1);
+        
+        const pillar2 = createPillar();
+        pillar2.position.set(-garage_width / 2,0, garage_depth / 2);
+        group.add(pillar2);
+        
+        const pillar3 = createPillar();
+        pillar3.position.set(garage_width / 2,0, -garage_depth / 2);
+        group.add(pillar3);
+        
+        const pillar4 = createPillar();
+        pillar4.position.set(-garage_width / 2,0, -garage_depth / 2);
+        group.add(pillar4);
+        
+
+        // Add the group to the scene
+        this.set(group);
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
-        this.set(mesh);
+      
     }
 
     // update(attributes) {
@@ -826,7 +776,7 @@ class RoofTopObject extends genericObject {
         super();
     }
     create(attributes={}) {
-
+   
         let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
         
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
@@ -837,92 +787,10 @@ class RoofTopObject extends genericObject {
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        
         let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
 
-        // var material = new THREE.MeshPhysicalMaterial({
-        //     map: texture,
-        //     color: attributes.color || "#ffffff",
-        //     metalness: 0.5,
-        //     roughness: 0.1,
-        //     clearcoat: 0.8,
-        //     clearcoatRoughness: 0.2
-            
-        // });
-     
-        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        // let local_texture=global_texture
-     
-        // let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-        
-        // switch(material_type){
-        //     case "material_type_1":
-        //             // texture=global_texture
-        //             //  color ="#ee2797";
-        //             local_texture=global_texture.clone();
-        //             // local_texture.wrapS=THREE.RepeatWrapping
-        //             // local_texture.wrapT=THREE.RepeatWrapping
-        //             local_texture.repeat.set(width, height/2);
-                    
-        //             break;
-        //         case "material_type_2":
-        //             // color ="#2727ee";
-        //             // local_texture=global_texture_rotated
-        
-                    
-        //             local_texture=global_texture_rotated.clone();
-
-        //             local_texture.repeat.set(width/2, height);
-                    
-        //             break;
-        //         case "material_type_3":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
-        //             // local_texture.repeat.set(width, height);
-        //             local_texture=global_texture.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-        //             break;
-        //         case "material_type_4":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-        //             local_texture=global_texture_rotated.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-                    
-        //             break;
-        //         case "material_type_5":
-        //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
-        //             local_texture=global_texture_testing.clone();
-        //             local_texture.repeat.set(width, height);
-                    
-                    
-        //             break;
-        //     default:
-        //         // code to be executed if expression doesn't match any cases
-        // }
-        // local_texture.wrapS=THREE.RepeatWrapping
-        // local_texture.wrapT=THREE.RepeatWrapping
-        // // let texture=global_texture
-        // let material = new THREE.MeshStandardMaterial({
-        //     map: local_texture,
-        //     color: color,
-        //     // metalness: 0.0,
-        //     // roughness: 0.1,
-        //     // clearcoat: 0.8,
-        //     // clearcoatRoughness: 0.2
-        // });
-
-        
-        
-
-        // let geometry = new RoundedBoxGeometry(
-        //     parseFloat(attributes.width) || 5,
-        //     parseFloat(attributes.height) || 1,
-        //     parseFloat(attributes.depth) || 1, // Assuming depth is always 1, adjust as needed
-        //     parseFloat(attributes.segments) || 2,
-        //     parseFloat(attributes.radius) || 0.005
-        // );
+    
         let material
         let geometry;
 
@@ -1050,33 +918,238 @@ class RoofTopObject extends genericObject {
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
-        this.set(mesh);
+        // this.set(mesh);
+        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
+
+
+        const group = new THREE.Group();
+        let pillarWidth = 0.1; // Example width of a pillar
+        let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
+        
+        // Function to create a pillar
+        function createPillar() {
+            return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
+        }
+        
+        // Create and position pillars at each corner
+        const pillar1 = createPillar();
+        pillar1.position.set(garage_width / 2,0, garage_depth / 2);
+        group.add(pillar1);
+        
+        const pillar2 = createPillar();
+        pillar2.position.set(-garage_width / 2,0, garage_depth / 2);
+        group.add(pillar2);
+        
+        const pillar3 = createPillar();
+        pillar3.position.set(garage_width / 2,0, -garage_depth / 2);
+        group.add(pillar3);
+        
+        const pillar4 = createPillar();
+        pillar4.position.set(-garage_width / 2,0, -garage_depth / 2);
+        group.add(pillar4);
+        
+
+        // Add the group to the scene
+        this.set(group);
+
     }
 
-    // update(attributes) {
-    //     if (!this.model) return;
 
-    //     if (attributes.position_x !== undefined) {
-    //         this.model.position.setX(parseFloat(attributes.position_x));
-    //     }
+}
 
-    //     if (attributes.position_y !== undefined) {
-    //         this.model.position.setY(parseFloat(attributes.position_y));
-    //     }
+class SupportObject extends genericObject {
+    constructor() {
+        super();
+    }
+    create(attributes={}) {
+   
+        let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
+        
+        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+        let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
+ 
+        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        
+        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
 
-    //     if (attributes.position_z !== undefined) {
-    //         this.model.position.setZ(parseFloat(attributes.position_z));
-    //     }
+    
+        let material
+        let geometry;
 
-    //     // Update rotation if needed
-    //     if (attributes.rotation_z !== undefined) {
-    //         this.model.rotation.z = attributes.rotation_z;
-    //     }
-    // }
+        let shape = new THREE.Shape();
+        // shape.moveTo(-width/2,-2.05)
+        // shape.lineTo(width/2,-2.05)
+        // shape.lineTo(width/2,2.05)
+        // shape.lineTo(-width/2,2.05)
+        let recLength=width
+        let recHeight=height
+        shape.moveTo( -recLength/2, -recHeight/2 )
+        shape.lineTo( -recLength/2, recHeight/2 )
+        shape.lineTo( recLength/2, recHeight/2 )
+        shape.lineTo( recLength/2, -recHeight/2 )
+        shape.lineTo( -recLength/2, -recHeight/2 );
+
+       // shape.moveTo( 0, height );  // Move to the first point
+       // shape.lineTo( -1, -1 );  // Draw a line to the second point
+       // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        shape.closePath();  // Close the path to create a triangle
+        
+
+
+        geometry = new THREE.ShapeGeometry( shape );
+        //EXPLANTION
+        geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
+            0, 0, // first vertex UV
+            0, 1, // second vertex UV
+            1, 1, // third vertex UV
+            1, 0  // fourth vertex UV
+          ], 2));
+
+        let local_texture=global_texture;
+
+        local_texture.repeat.set(1, recHeight/2);
+        local_texture.wrapS=THREE.RepeatWrapping
+        local_texture.wrapT=THREE.RepeatWrapping
+                    
+
+      
+        switch(roof_material_type){
+                case "material_type_1":
+                    // texture=global_texture
+                    //  color ="#ee2797";
+                    local_texture=global_texture.clone();
+                    // local_texture.wrapS=THREE.RepeatWrapping
+                    // local_texture.wrapT=THREE.RepeatWrapping
+                    local_texture.repeat.set(1, recHeight/2);
+                    
+                    break;
+                case "material_type_2":
+                    // color ="#2727ee";
+                    // local_texture=global_texture_rotated
+                    
+                    
+                    local_texture=global_texture.clone();
+                    local_texture.rotation = Math.PI / 2;
+
+                    local_texture.repeat.set(1, recHeight/2);
+                    
+                    break;
+                case "material_type_3":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+      
+                    // local_texture.repeat.set(width, height);
+                    local_texture=global_texture.clone();
+                    local_texture.repeat.set(1, recHeight);
+                    
+                    break;
+                case "material_type_4":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+                    local_texture=global_texture.clone();
+                    local_texture.rotation = Math.PI / 2;
+
+                    local_texture.repeat.set(1, recHeight);
+                 
+                    
+                    
+                    break;
+                case "material_type_5":
+                    // local_texture=loader.load('/assets/config/default_1k.jpg');
+                    
+                    
+                    local_texture=global_texture_testing.clone();
+                    local_texture.repeat.set(width, height);
+                    
+                    
+                    break;
+            default:
+                // code to be executed if expression doesn't match any cases
+        }
+
+        // Create a material
+        material = new THREE.MeshStandardMaterial({
+            map:local_texture,
+            
+            color: color ,
+        
+            side:THREE.DoubleSide
+        });
+        
+        // Create a mesh from the geometry and materia
+        
+        //GOBACKTO
+        // material=global_metal_material.clone()
+        // material.bumpMap = material.bumpMap.clone();
+        // material.normalMap = material.normalMap.clone();
+        // material.bumpMap.repeat.set(width, height/2);
+        // material.normalMap.repeat.set(width, height/2);
+        // material.color=new THREE.Color(color)
+        material=select_texture({width:width, height:height, color:color, material_type:roof_material_type})
+        material.side= THREE.DoubleSide
+        
+        const mesh = new THREE.Mesh(geometry, material);
+     
+        //  position_x = Math.random() * 1-0.5;
+        //console.log(position_x);
+
+
+        mesh.position.set(
+            parseFloat(position_x), // Assuming x position is always 0, adjust as needed
+            parseFloat(position_y),
+            parseFloat(position_z),  // Assuming z position is always 0, adjust as needed
+        );
+
+
+        // mesh.rotation.y = 0.70; // Rotate by the given roof angle
+        // this.set(mesh);
+        debugger
+        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
+
+
+        const group = new THREE.Group();
+        let pillarWidth = 0.1; // Example width of a pillar
+        let pillarDisplacement = pillarWidth/2-0.01; // Example width of a pillar
+        let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
+        
+        // Function to create a pillar
+        function createPillar() {
+            return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
+        }
+        
+        // Create and position pillars at each corner
+        const pillar1 = createPillar();
+        pillar1.position.set((garage_width / 2-pillarDisplacement),-garage_height/2, (garage_depth / 2-pillarDisplacement));
+        group.add(pillar1);
+        
+        const pillar2 = createPillar();
+        pillar2.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2, (garage_depth / 2-pillarDisplacement));
+        group.add(pillar2);
+        
+        const pillar3 = createPillar();
+        pillar3.position.set((garage_width / 2-pillarDisplacement),-garage_height/2, -(garage_depth / 2-pillarDisplacement));
+        group.add(pillar3);
+        
+        const pillar4 = createPillar();
+        pillar4.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2, -(garage_depth / 2-pillarDisplacement));
+        group.add(pillar4);
+        
+
+        // Add the group to the scene
+        this.set(group);
+
+    }
+
+
 }
 
 
-
-export {SphereObject, RoofSideLeftObject, RoofSideRightObject,RoofSideSquareObject, RoofTopObject}
+export {SupportObject,SphereObject, RoofSideLeftObject, RoofSideRightObject,RoofSideSquareObject, RoofTopObject}
 
 

@@ -827,7 +827,7 @@ class RoofTopObject extends genericObject {
     }
     create(attributes={}) {
 
-        let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
+        let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_8";
         
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
         let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
@@ -931,8 +931,8 @@ class RoofTopObject extends genericObject {
         // shape.lineTo(width/2,-2.05)
         // shape.lineTo(width/2,2.05)
         // shape.lineTo(-width/2,2.05)
-        let recLength=width
-        let recHeight=height
+        let recLength=width+0.05
+        let recHeight=height+0.05
         shape.moveTo( -recLength/2, -recHeight/2 )
         shape.lineTo( -recLength/2, recHeight/2 )
         shape.lineTo( recLength/2, recHeight/2 )
@@ -944,15 +944,34 @@ class RoofTopObject extends genericObject {
        // shape.lineTo( 1, -1 );  // Draw a line to the third point
         shape.closePath();  // Close the path to create a triangle
         
+        let extrudeSettings = {
+            steps: 10,  // number of points used for extruding
+            depth: 0.1,  // the amount of depth for extrusion
+            bevelEnabled: false,  // whether the edges should be beveled or not
+        };
+        
+        // Create the geometry by extruding the shape
+        geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-
-        geometry = new THREE.ShapeGeometry( shape );
+        // geometry = new THREE.ShapeGeometry( shape );
         //EXPLANTION
         geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
             0, 0, // first vertex UV
             0, 1, // second vertex UV
             1, 1, // third vertex UV
-            1, 0  // fourth vertex UV
+            1, 0,  // fourth vertex UV
+            0, 0, // first vertex UV
+            0, 1, // second vertex UV
+            1, 1, // third vertex UV
+            1, 0,  // fourth vertex UV
+            
+
+            0, 0, // first vertex UV
+            0, 1, // second vertex UV
+            1, 1, // third vertex UV
+            1, 0,  // fourth vertex UV
+         
+            
           ], 2));
 
         let local_texture=global_texture;

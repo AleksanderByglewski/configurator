@@ -317,50 +317,42 @@ class UconfigImplementationWallGui extends genericGui {
             ['object_height', 'Wysokość '+name, vals3],
         ];
         
-        attributes.forEach(([attr, description,vals]) => {
+        // Set default values if not already set
+        this.mediator.state['object_width'] = this.mediator.state['object_width'] || 3;
+        this.mediator.state['object_depth'] = this.mediator.state['object_depth'] || 5;
+        this.mediator.state['object_height'] = this.mediator.state['object_height'] || 2.13;
+
+
+        attributes.forEach(([attr, description, vals]) => {
             const selectLabel = document.createElement('label');
             selectLabel.textContent = description;
             containerDiv.appendChild(selectLabel);
-        
-            // Create a select element
+    
             const selectInput = document.createElement('select');
-        
-            // Define your values
-            let N=10
-            const values = vals
-        
-            // Create options for each value
-            values.forEach(value => {
+    
+            vals.forEach(value => {
                 const option = document.createElement('option');
                 option.value = value;
                 option.text = value.toFixed(2);
+                // Set the option as selected if it matches the state value
+                if (value === this.mediator.state[attr]) {
+                    option.selected = true;
+                }
                 selectInput.appendChild(option);
             });
-        
-            selectInput.value = this.mediator.state[attr] || 0;  // default to 0 if not set, adjust as needed
-        
+    
             selectInput.addEventListener('change', function (e) {
-                this.mediator.state[attr] = e.target.value;
-                this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', { });
+                this.mediator.state[attr] = parseFloat(e.target.value);
+                this.notifyMediator('stateChange', { [attr]: parseFloat(e.target.value) });
+                this.notifyMediator('buildingStep', {});
             }.bind(this));
-        
+    
             containerDiv.appendChild(selectInput);
         });
+    
+        return containerDiv;
 
-        // ... your previous code ...
-
-       
-
-        // const removeModelBtn = document.createElement('button');
-        // removeModelBtn.textContent = "Remove Model";
-        // removeModelBtn.classList.add('remove-model-btn');
-        // removeModelBtn.addEventListener('click', function () {
-        //     // Call notifyMediator with 'recursivelyRemoveModel' event
-        //     this.notifyMediator('recursivelyRemoveModel');
-        // }.bind(this));
-
-        // containerDiv.appendChild(removeModelBtn);
+   
 
 
         return containerDiv;
@@ -452,7 +444,7 @@ class UconfigImplementationWallGui extends genericGui {
             { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
             { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
 
-            { value: '#6d737a',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#4f545a"},
+            { value: '#5a5d61',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#414549"},
             { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
             { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
             { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},

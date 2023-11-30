@@ -331,7 +331,7 @@ class UconfigImplementationRoofGui extends genericGui {
             // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
        
 
-            { value: '#6d737a',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#4f545a"},
+            { value: '#393c3e',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#303234"},
             { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
             { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
             { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
@@ -578,10 +578,10 @@ class UconfigImplementationRoofGui extends genericGui {
              let squareButtons
              if(GLOBAL_ORIENTATION!="SIDEWAYS"){
              squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
+                //  { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
+                //  { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
+                //  { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
+                 { value: 'material_type_9',  display_value:"Blacha T14",  display_image:'/assets/display/material/4.jpg'},
                  { value: 'material_type_8',  display_value:"Blachodachówka",  display_image:'/assets/display/material/8.jpg'},
                 //  { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
                 

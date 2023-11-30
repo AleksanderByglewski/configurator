@@ -38,7 +38,7 @@ class UconfigImplementationGui extends genericGui {
             DoorSystem1.state.state['gate_type']='gate_type_1'
             DoorSystem1.state.state['material_type']="material_type_2"
         }
-
+        DoorSystem1.state.state['door_width']=3.0
 
         DoorSystem1.state.state['name']="Brama frontowa" ;
         targetWall.handleEvent('buildingStep');
@@ -211,7 +211,7 @@ class UconfigImplementationGui extends genericGui {
             
             // Create DoorSystem1 and assign appropriate values based on the selected option
             let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
-            debugger
+            //debugger
             if(!self.mediator.door_type){
     
          
@@ -659,7 +659,7 @@ class UconfigImplementationDoorGui extends genericGui {
     
             
             // Create DoorSystem1 and assign appropriate values based on the selected option
-            debugger
+            //debugger
             let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left

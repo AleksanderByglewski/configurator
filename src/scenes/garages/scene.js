@@ -537,6 +537,10 @@ function populateScene(scene) {
     GroupGarageSystem.status="top_level"
     
     GroupGarageSystem.state.state['object_depth']=4
+
+         GroupGarageSystem.state.state['object_width'] = GroupGarageSystem.state.state['object_width'] || 3;
+        GroupGarageSystem.state.state['object_depth'] = GroupGarageSystem.state.state['object_depth'] || 5;
+        GroupGarageSystem.state.state['object_height'] = GroupGarageSystem.state.state['object_height'] || 2.13;
   }
   advanced_garage_system()
 
@@ -595,9 +599,9 @@ function populateScene(scene) {
 
   function advanced_support_object() {
 
-    RoofSystem1 = createGarageObject(emptySystem, SupportSystem)
+    let RoofSystem1 = createGarageObject(emptySystem, SupportSystem)
     RoofSystem1.state.state['name'] = "Kolory dachu"
-    RoofSystem1.status="main_roof"
+    RoofSystem1.status="support_roof"
     GroupGarageSystem.external_objects.push(RoofSystem1)
     RoofSystem1.external_objects_controllers.push(GroupGarageSystem)
     RoofSystem1.mediator = GroupGarageSystem
