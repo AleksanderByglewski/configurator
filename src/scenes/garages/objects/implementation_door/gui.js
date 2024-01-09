@@ -243,7 +243,7 @@ class UconfigImplementationDoorGui extends genericGui {
              containerDiv.classList.add('squares-container');
      
              const squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1",  display_image:'/assets/display/material/1.jpg'},
+                 { value: 'material_type_1',  display_value:"Blacha typ 1 ",  display_image:'/assets/display/material/1.jpg'},
                  { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
                  { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
                  { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
@@ -717,12 +717,12 @@ class DedicatedDoorGui extends genericGui {
     createMarkupCoverType() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
-
+        debugger
         const squareButtons = [
-            { value: 'material_type_1', display_value: "Blacha typ 1", display_image: '/assets/display/material/1.jpg' },
-            { value: 'material_type_2', display_value: "Blacha typ 2", display_image: '/assets/display/material/2.jpg' },
-            { value: 'material_type_3', display_value: "Blacha typ 3", display_image: '/assets/display/material/3.jpg' },
-            { value: 'material_type_4', display_value: "Blacha typ 4", display_image: '/assets/display/material/4.jpg' },
+            { value: 'material_type_1', display_value: "Blacha pionowa T7", display_image: '/assets/display/material/1.jpg' },
+            { value: 'material_type_2', display_value: "Blacha pozioma T7", display_image: '/assets/display/material/2.jpg' },
+            { value: 'material_type_3', display_value: "Blacha pionowa T17", display_image: '/assets/display/material/3.jpg' },
+            { value: 'material_type_4', display_value: "Blacha pozioma T17", display_image: '/assets/display/material/4.jpg' },
             { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
 
         ];

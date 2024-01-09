@@ -129,7 +129,7 @@ class UconfigsImplementationCanopyController extends UconfigsController {
 
     determineState() {
         //You can get the current state of the object by using the 
-        //debugger
+        
         this.request_an_update()
 
         let received_roof_type = this.state.get('received_roof_type') || 'roof_type_1'
@@ -1330,7 +1330,7 @@ class UconfigsImplementationWallController extends UconfigsController {
         // }
     }
     determineState() {
-        //debugger
+        
         this.request_an_update()
         
         //You can get the current state of the object by using the 

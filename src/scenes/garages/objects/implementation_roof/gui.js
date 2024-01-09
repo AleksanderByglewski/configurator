@@ -159,11 +159,53 @@ class UconfigImplementationRoofGui extends genericGui {
         accordionBodyDiv3.appendChild(this.createMarkupCoverType());
         masterAccordionBody.appendChild(accordionDiv3); // Append to master accordion body
     
+      // Roof cover type accordion
+      let {accordionBodyDiv: accordionBodyDiv4, accordionDiv: accordionDiv4} = generateSimpleContainer.bind(this)('collapseFive', "Pokrycie dachu", true);
+      accordionBodyDiv4.appendChild(this.createMarkupAdditionalElements());
+      masterAccordionBody.appendChild(accordionDiv4); // Append to master accordion body
+  
+
         const masterContainerId = '#master-container-' + this.id; 
         this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', this.id);
     
         this.listenToChanges();
     
+    }
+
+    createMarkupAdditionalElements() {
+        const form = document.createElement('form');
+        form.classList.add('contact-form', 'squares-container--1');
+    
+        const options = [
+            { value: 'Rynny', description: 'Konstrukcja standardowa ocynkowana' },
+            { value: 'Filc pod dachem', description: 'Filc pod dachem' }
+        ];
+    
+        options.forEach(option => {
+            const inputGroupDiv = document.createElement('div');
+            inputGroupDiv.classList.add('input-group', 'mb-2');
+    
+            const inputGroupTextDiv = document.createElement('div');
+            inputGroupTextDiv.classList.add('input-group-text');
+    
+            const checkboxInput = document.createElement('input');
+            checkboxInput.classList.add('form-check-input');
+            checkboxInput.type = 'checkbox';
+            checkboxInput.value = option.value;
+            checkboxInput.name = option.value.toLowerCase().replace(/\s+/g, '-');
+    
+            const formControlDiv = document.createElement('div');
+            formControlDiv.classList.add('form-control');
+            formControlDiv.setAttribute('disabled', '');
+            formControlDiv.textContent = option.description;
+    
+            inputGroupTextDiv.appendChild(checkboxInput);
+            inputGroupDiv.appendChild(inputGroupTextDiv);
+            inputGroupDiv.appendChild(formControlDiv);
+            form.appendChild(inputGroupDiv);
+        });
+    
+        return form;
     }
     createMarkup() {
         const containerDiv = document.createElement('div');

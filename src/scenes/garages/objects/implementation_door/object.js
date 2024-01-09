@@ -480,8 +480,14 @@ class DoorHandleObject extends genericObject {
                
                         const root = gltf.scene;
                         let handle=root.children[0]
+
+                        let handle_elem = root.getObjectByName("handle"); // This gets the child with the name "handle"
+
+                        // Rotate the handle around the Z axis by 180 degrees
+                        handle_elem.rotation.z = Math.PI; // Math.PI radians is equivalent to 180 degrees
+                    
                         handle.position.z = 0.1;
-                        handle.position.x=-0.05*width
+                        handle.position.x=+0.05*width
                         handle.position.y=-0.0*height
                         handle.scale.set(0.01,0.01,0.01)
                         //   scene_outer.add(root);

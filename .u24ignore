@@ -1,0 +1,15 @@
+.git/
+u24context/
+.vscode/
+.expo/
+dist/
+node_modules/
+web-build/
+assets/
+images/
+package.json
+package-lock.json
+assets.zip
+.DS_Store
+docs/database
+vendor

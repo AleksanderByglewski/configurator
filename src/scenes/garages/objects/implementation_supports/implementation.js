@@ -105,7 +105,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         //You can get the current state of the object by using the 
         //Todo
         // this.state.state.position_y=2
-        //debugger
+        
         this.request_an_update()
 
 
@@ -674,7 +674,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
         }
 
-        debugger
+   
         let accessersSupport= [
             new accesser('name', name + "Debug target"),
             new accesser('garage_width', garage_width),
@@ -939,7 +939,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         //Case where the roof falls back
 
         let received_roof_type = this.state.get('roof_type') || 'roof_type_1'
-        //debugger
+        
 
 
         let received_material_type = this.state.get('material_type') || 'material_type_1'
@@ -1413,7 +1413,7 @@ class UconfigsImplementationRoofTopController extends UconfigsController {
         let roof_material_type = this.state.get('roof_material_type') || "material_type_1"
 
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-        //debugger
+        
         const accessersWallFront = [
             new accesser('supers','supers'),
             new accesser('garage_width',garage_width),
@@ -1536,7 +1536,7 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
 
         // this.request_an_update()
 
-        // debugger
+      
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -1564,7 +1564,7 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
         let garage_height = this.state.get('garage_height') || 2.13
         let garage_width = this.state.get('garage_width') || 3.0
         let garage_depth = this.state.get('garage_depth') || 5.0
-        //debugger
+        
         const accessersWallFront = [
         
             new accesser('supers','supers'),
@@ -1682,7 +1682,6 @@ class UconfigsImplementationSupport extends UconfigsController {
 
         // this.request_an_update()
 
-        // debugger
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -1710,7 +1709,7 @@ class UconfigsImplementationSupport extends UconfigsController {
         let garage_height = this.state.get('garage_height') || 2.13
         let garage_width = this.state.get('garage_width') || 3.0
         let garage_depth = this.state.get('garage_depth') || 5.0
-        //debugger
+        
         const accessersWallFront = [
         
             new accesser('supers','supers'),

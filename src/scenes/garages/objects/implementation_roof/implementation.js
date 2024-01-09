@@ -915,7 +915,7 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
         //Case where the roof falls back
 
         let received_roof_type = this.state.get('roof_type') || 'roof_type_1'
-        //debugger
+        
 
 
         let received_material_type = this.state.get('material_type') || 'material_type_1'

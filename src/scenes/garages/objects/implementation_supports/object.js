@@ -625,7 +625,7 @@ class RoofSideSquareObject extends genericObject {
         let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.wall_color) ? attributes.wall_color : "#CCCCCC";
 
-         //debugger
+         
 
         let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
@@ -1107,7 +1107,7 @@ class SupportObject extends genericObject {
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
         // this.set(mesh);
-        debugger
+
         let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
         let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
         let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
