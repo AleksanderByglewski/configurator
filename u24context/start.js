@@ -55,6 +55,7 @@ function shouldIgnore(itemPath, ignorePatterns) {
 }
 
 async function traverseDirectoryBFS(startingDirectory, outputFilePath, ignoreFilePath) {
+  
   const ignorePatterns = await readIgnorePatterns(ignoreFilePath);
   let queue = [{ dir: startingDirectory, path: '' }];
 
@@ -86,6 +87,8 @@ const u24contentDirectory = path.join(startingDirectory, 'u24context');
 const outputFilePath = path.join(u24contentDirectory, 'context.txt');
 const ignoreFilePath = path.join(u24contentDirectory, '.u24ignore'); // .u24ignore should be in the 'u24context' directory
 // startingDirectory  = path.dirname(startingDirectory); // Going a level up as we assume the script is in 'u24context' directory
+
+fs.writeFile(outputFilePath, '');
 
 traverseDirectoryBFS(startingDirectory, outputFilePath, ignoreFilePath).then(() => {
   console.log('BFS traversal and file content output complete.');
