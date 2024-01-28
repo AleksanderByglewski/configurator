@@ -1,0 +1,73 @@
+  .squares-container {
+    /* Container styles */
+  }
+  
+  .squares-container--3 {
+    /* Specific styles for the --3 modifier */
+  }
+  
+  .square-button {
+    position: relative;
+    /* Additional styles */
+  }
+  
+  .square-button .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(0deg, #00000088 16px, #ffffff44 100%);
+  }
+  
+  .square-button .label {
+    position: absolute;
+    bottom: 0;
+    line-height: 1.3;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+  }
+  
+  .square-button .image {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px -5px inset #aef4af ;
+      
+
+    }
+    to {
+      box-shadow: 0 0 10px 5px inset #aef4af;
+
+    }
+  }
+  .accordion-button{
+    border-radius: 0px !important;
+    border-bottom: 1px solid #d3d3d3;
+  }
+  .accordion-button{
+    background-color: rgb(246, 246, 246);
+    pointer-events: none;
+  }
+  .active .accordion-button {
+    background-color: rgb(255, 255, 255);
+    pointer-events: all;
+  }
+  .finished .accordion-button{
+    background-color: rgb(38, 38, 38);
+    color:white
+  }
+  .finished .accordion-body{
+    background-color: rgb(233, 233, 233);
+  }
+  .active .accordion-button{
+    animation: glow 1s 6 alternate;
+}
+  .finished .accordion-button{
+    animation: none;
+    border-bottom: 1px solid #c3c3c3;
+
+  }
