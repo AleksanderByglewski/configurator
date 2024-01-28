@@ -2,22 +2,23 @@
 [x]Początkowa konfiguracja
 []Dachy
 	[]dodatkowe opcje 
-		[]filc pod dachem
+		[x]filc pod dachem
 		[]rynny
+			[]spawn rynen
 []Bramy
-	[]Bramy dwuskrzydłowe
-		[]Klamka po prawej  
-	[]Blacha T17
-	[]Brama segmentowa
-		[]Bardzo szerokie jak na zdjeciu
+	[x]Bramy dwuskrzydłowe
+		[x]Klamka po prawej  
+	[x]Blacha T17
+	[x]Brama segmentowa
+		[x]Bardzo szerokie jak na zdjeciu
 		[]Cofnąć w ścianę 
 		[]Obróbka dookoła tej bramy
 	[]Przetłoczenia
-		[]T17 pion
-		[]T17 poziom
-		[]T7 poziom
-		[]T7 pion
-		[]Brama segmentowa zablokować wybory
+		[x]T17 pion
+		[x]T17 poziom
+		[x]T7 poziom
+		[x]T7 pion
+		[x]Brama segmentowa zablokować wybory
 	[]Przy zmianie szerokośći   
 		[]na 6m dwie bramy
 		[]na 9m trzy bramy
@@ -26,11 +27,11 @@
 		[x]Obróbki na ścianach 
 		[]Obróbki na dachu
 []Okno
-	[]Odbicia na szkle jak ocynk tylko lżej
+	[x]Odbicia na szkle jak ocynk tylko lżej
 []Drzwi
-	[]Typy drzwi
-		[]Prawo ręczny
-		[]Lewo ręczny
+	[x]Typy drzwi
+		[x]Prawo ręczny
+		[x]Lewo ręczny
 []Kontrolery
 	[]Kontrola brama
 		[]Opcja bramy tylniej

@@ -86,8 +86,10 @@ class UconfigsImplementationDoorController extends UconfigsController {
 
         let door_width = parseFloat(this.state.get('door_width')) || 2.23
         let door_height = parseFloat(this.state.get('door_height')) || 2.03
+        let door_type = this.state.get('door_type') || "door_type_1"
 
         let adjust_bottom_height = -0.5 * parseFloat(this.state.get('garage_height')) + 0.5 * door_height + 0.035
+        
         const accessersWallFront = [
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
@@ -95,6 +97,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
             new accesser('material_type', material_type),
             new accesser('door_width', door_width),
             new accesser('gate_type', gate_type),
+            new accesser('door_type', door_type),
 
 
             new accesser('door_height', door_height),
@@ -118,6 +121,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
 
+            new accesser('door_type', door_type),
 
             new accesser('door_width', door_width),
             new accesser('door_height', door_height),
@@ -140,6 +144,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         const accessersCentralLine = [
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
+            new accesser('door_type', door_type),
 
             new accesser('material_type', material_type),
             new accesser('door_width', door_width),

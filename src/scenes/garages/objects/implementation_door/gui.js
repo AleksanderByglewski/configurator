@@ -5,19 +5,19 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { CubeObject, UconfigObject, WallGarageObject, genericGarageObject } from '../base/object'
+import { UconfigController, CubeController, WallGarageController, groupGenericGarageController, genericGarageController } from '../base/controller'
 
 class UconfigImplementationDoorGui extends genericGui {
     constructor() {
         super();
     }
-    generateSep(){
-        const sepElem= document.createElement('hr');
-        sepElem.classList.add('my-2' , 'my-lg-4')
+    generateSep() {
+        const sepElem = document.createElement('hr');
+        sepElem.classList.add('my-2', 'my-lg-4')
         return sepElem
     }
-    generateAccordion(){
+    generateAccordion() {
         const accordionDiv = document.createElement('div');
         accordionDiv.classList.add('accordion');
         accordionDiv.id = 'parent-inputs-accordion-' + this.id;
@@ -39,10 +39,10 @@ class UconfigImplementationDoorGui extends genericGui {
         accordionButton.setAttribute('aria-expanded', 'true');
         accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
-        let name= (attributes && attributes.name) ? attributes.name: "Kontroler drzwi";
+        let name = (attributes && attributes.name) ? attributes.name : "Kontroler drzwi";
 
         accordionButton.textContent = name;
-      
+
         accordionHeaderH3.appendChild(accordionButton);
 
         const accordionCollapseDiv = document.createElement('div');
@@ -61,17 +61,16 @@ class UconfigImplementationDoorGui extends genericGui {
         const inputGroupDiv = document.createElement('div');
         inputGroupDiv.classList.add('input-group', 'align-items-center');
         accordionBodyDiv.appendChild(inputGroupDiv);
-            return {
+        return {
             accordionDiv: accordionDiv,
             accordionBodyDiv: accordionBodyDiv
         };
-        }
-
+    }
     generateInputs(attributes) {
 
-     
 
-        let {accordionBodyDiv, accordionDiv}=generateAccordion.bind(this)()
+
+        let { accordionBodyDiv, accordionDiv } = generateAccordion.bind(this)()
 
         // const squaresElement = 
         // const squaresElement2=
@@ -80,13 +79,13 @@ class UconfigImplementationDoorGui extends genericGui {
         accordionBodyDiv.appendChild(this.generateSep());
 
         accordionBodyDiv.appendChild(this.createMarkup());
-       
+
         accordionBodyDiv.appendChild(this.generateSep());
-      
+
         accordionBodyDiv.appendChild(this.createMarkupCoverType());
 
 
-   
+
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
@@ -115,14 +114,14 @@ class UconfigImplementationDoorGui extends genericGui {
             textInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;
                 this.notifyMediator('stateChange', { [attr]: e.target.value });
-                
+
                 console.log(this.mediator.state.state)
             }.bind(this));
 
             containerDiv.appendChild(textInput);
         });
 
-        const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
+        const attributes = ['position_x', 'position_y', 'position_z', 'rotation_x', 'rotation_y', 'rotation_z', 'width', 'height', 'depth'];
 
         attributes.forEach(attr => {
             const sliderLabel = document.createElement('label');
@@ -138,7 +137,7 @@ class UconfigImplementationDoorGui extends genericGui {
             sliderInput.addEventListener('input', function (e) {
                 this.mediator.state[attr] = e.target.value;
                 this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('buildingStep', {});
             }.bind(this));
 
             const sliderValueDisplay = document.createElement('span');
@@ -153,7 +152,7 @@ class UconfigImplementationDoorGui extends genericGui {
 
         // ... your previous code ...
 
-       
+
 
         const removeModelBtn = document.createElement('button');
         removeModelBtn.textContent = "Remove Model";
@@ -168,27 +167,27 @@ class UconfigImplementationDoorGui extends genericGui {
 
         return containerDiv;
     }
-    createMarkupColors(){
-   const containerDiv = document.createElement('div');
+    createMarkupColors() {
+        const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--8');
 
         const squareButtons = [
-            { value: '#972727',  display_value:"RAL2003",  display_image:'/assets/display/colors/RAL2003'},
-            { value: '#822727',  display_value:"RAL2005",  display_image:'/assets/display/colors/RAL2005'},
-            { value: '#353335',  display_value:"RAL2007",  display_image:'/assets/display/colors/RAL2007'},
-            { value: '#454345',  display_value:"RAL2009",  display_image:'/assets/display/colors/RAL2009'},
-            { value: '#555355',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20011'},
-            { value: '#656365',  display_value:"RAL2011",  display_image:'/assets/display/colors/RAL20013'},
-            { value: '#757375',  display_value:"RAL2015",  display_image:'/assets/display/colors/RAL2015'},
-            { value: '#858385',  display_value:"RAL2017",  display_image:'/assets/display/colors/RAL2017'},
-            { value: '#959395',  display_value:"RAL2019",  display_image:'/assets/display/colors/RAL2019'},
-            { value: '#A5A3A5',  display_value:"RAL2021",  display_image:'/assets/display/colors/RAL2021'},
-            { value: '#B5B3B5',  display_value:"RAL2023",  display_image:'/assets/display/colors/RAL2023'},
-            { value: '#C5C3C5',  display_value:"RAL2025",  display_image:'/assets/display/colors/RAL2025'},
-            { value: '#D5D3D5',  display_value:"RAL2027",  display_image:'/assets/display/colors/RAL2027'},
-            { value: '#E5E3E5',  display_value:"RAL2029",  display_image:'/assets/display/colors/RAL2029'},
-            
-                        
+            { value: '#972727', display_value: "RAL2003", display_image: '/assets/display/colors/RAL2003' },
+            { value: '#822727', display_value: "RAL2005", display_image: '/assets/display/colors/RAL2005' },
+            { value: '#353335', display_value: "RAL2007", display_image: '/assets/display/colors/RAL2007' },
+            { value: '#454345', display_value: "RAL2009", display_image: '/assets/display/colors/RAL2009' },
+            { value: '#555355', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20011' },
+            { value: '#656365', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20013' },
+            { value: '#757375', display_value: "RAL2015", display_image: '/assets/display/colors/RAL2015' },
+            { value: '#858385', display_value: "RAL2017", display_image: '/assets/display/colors/RAL2017' },
+            { value: '#959395', display_value: "RAL2019", display_image: '/assets/display/colors/RAL2019' },
+            { value: '#A5A3A5', display_value: "RAL2021", display_image: '/assets/display/colors/RAL2021' },
+            { value: '#B5B3B5', display_value: "RAL2023", display_image: '/assets/display/colors/RAL2023' },
+            { value: '#C5C3C5', display_value: "RAL2025", display_image: '/assets/display/colors/RAL2025' },
+            { value: '#D5D3D5', display_value: "RAL2027", display_image: '/assets/display/colors/RAL2027' },
+            { value: '#E5E3E5', display_value: "RAL2029", display_image: '/assets/display/colors/RAL2029' },
+
+
         ];
 
         squareButtons.forEach(button => {
@@ -200,7 +199,7 @@ class UconfigImplementationDoorGui extends genericGui {
             // Create the image element
             const imageEl = document.createElement('div');
             imageEl.style.backgroundColor = button.value;
-            imageEl.style.aspectRatio= "1 / 1"
+            imageEl.style.aspectRatio = "1 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv
 
@@ -209,108 +208,108 @@ class UconfigImplementationDoorGui extends genericGui {
             squareDiv.appendChild(textDiv)
 
 
-   
+
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
-                
-              
+
+
 
                 // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
-             
-                this.notifyMediator('changeObject',`${squareDiv.dataset.value}`)
-          
+
+                this.notifyMediator('changeObject', `${squareDiv.dataset.value}`)
+
             }.bind(this));
 
 
 
-            
+
             containerDiv.appendChild(squareDiv);
         });
 
 
-      
 
-        
+
+
         return containerDiv;
     }
-    createMarkupCoverType(){
+    createMarkupCoverType() {
         const containerDiv = document.createElement('div');
-             containerDiv.classList.add('squares-container');
-     
-             const squareButtons = [
-                 { value: 'material_type_1',  display_value:"Blacha typ 1 ",  display_image:'/assets/display/material/1.jpg'},
-                 { value: 'material_type_2',  display_value:"Blacha typ 2",  display_image:'/assets/display/material/2.jpg'},
-                 { value: 'material_type_3',  display_value:"Blacha typ 3",  display_image:'/assets/display/material/3.jpg'},
-                 { value: 'material_type_4',  display_value:"Blacha typ 4",  display_image:'/assets/display/material/4.jpg'},
-                 { value: 'material_type_5',  display_value:"Blacha typ dodatkowa",  display_image:'/assets/display/material/5.jpg'},
-                
-             ];
-     
-             squareButtons.forEach(button => {
-                 const squareDiv = document.createElement('div');
-                 squareDiv.classList.add('square');
-                 // squareDiv.style.backgroundColor = button.color;
-                 squareDiv.dataset.value = button.value;
-     
-                 // Create the image element
-                 const imageEl = document.createElement('img');
-                //  imageEl.style.backgroundColor = button.value;
-                imageEl.src =button.display_image;
+        containerDiv.classList.add('squares-container');
 
-                 imageEl.style.aspectRatio= "1 / 1"
-                 imageEl.alt = button.display_value;  // for accessibility
-                 squareDiv.appendChild(imageEl);  // append the image to the squareDiv
-     
-                 const textDiv = document.createElement('div');
-                 textDiv.textContent = button.display_value;
-                 squareDiv.appendChild(textDiv)
-     
-     
-        
-     
-                 // Attach event listener directly to the squareDiv
-                 squareDiv.addEventListener('click', function (e) {
-                     
-                     // Notify the mediator or perform some action
-                     
-                   
-     
-                     // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
-                     // this.notifyMediator('recursivelyRemoveModel');
-                     // this.notifyMediator('buildingStep');
-                  
-                    const accessers = [
-                        new accesser('material_type', squareDiv.dataset.value),
-                    ]
-                     this.notifyMediator('genericChangeObject',accessers)
-               
-                 }.bind(this));
-     
-     
-     
-                 
-                 containerDiv.appendChild(squareDiv);
-             });
-     
-     
-             // const removeModelBtn = document.createElement('button');
-             // removeModelBtn.textContent = "Remove Model";
-             // removeModelBtn.classList.add('remove-model-btn');
-             // removeModelBtn.addEventListener('click', function() {
-             //     // Call notifyMediator with 'recursivelyRemoveModel' event
-             //     this.notifyMediator('recursivelyRemoveModel');
-             // }.bind(this));
-             
-             // containerDiv.appendChild(removeModelBtn);
-     
-             
-             return containerDiv;
-         }
+        const squareButtons = [
+            { value: 'material_type_1', display_value: "Blacha typ 1 ", display_image: '/assets/display/material/1.jpg' },
+            { value: 'material_type_2', display_value: "Blacha typ 2", display_image: '/assets/display/material/2.jpg' },
+            { value: 'material_type_3', display_value: "Blacha typ 3", display_image: '/assets/display/material/3.jpg' },
+            { value: 'material_type_4', display_value: "Blacha typ 4", display_image: '/assets/display/material/4.jpg' },
+            { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
+
+        ];
+
+        squareButtons.forEach(button => {
+            const squareDiv = document.createElement('div');
+            squareDiv.classList.add('square');
+            // squareDiv.style.backgroundColor = button.color;
+            squareDiv.dataset.value = button.value;
+
+            // Create the image element
+            const imageEl = document.createElement('img');
+            //  imageEl.style.backgroundColor = button.value;
+            imageEl.src = button.display_image;
+
+            imageEl.style.aspectRatio = "1 / 1"
+            imageEl.alt = button.display_value;  // for accessibility
+            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+
+            const textDiv = document.createElement('div');
+            textDiv.textContent = button.display_value;
+            squareDiv.appendChild(textDiv)
+
+
+
+
+            // Attach event listener directly to the squareDiv
+            squareDiv.addEventListener('click', function (e) {
+
+                // Notify the mediator or perform some action
+
+
+
+                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                // this.notifyMediator('recursivelyRemoveModel');
+                // this.notifyMediator('buildingStep');
+
+                const accessers = [
+                    new accesser('material_type', squareDiv.dataset.value),
+                ]
+                this.notifyMediator('genericChangeObject', accessers)
+
+            }.bind(this));
+
+
+
+
+            containerDiv.appendChild(squareDiv);
+        });
+
+
+        // const removeModelBtn = document.createElement('button');
+        // removeModelBtn.textContent = "Remove Model";
+        // removeModelBtn.classList.add('remove-model-btn');
+        // removeModelBtn.addEventListener('click', function() {
+        //     // Call notifyMediator with 'recursivelyRemoveModel' event
+        //     this.notifyMediator('recursivelyRemoveModel');
+        // }.bind(this));
+
+        // containerDiv.appendChild(removeModelBtn);
+
+
+        return containerDiv;
+    }
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {
             const container = this.getContainer(selector);
@@ -360,13 +359,20 @@ class DedicatedDoorGui extends genericGui {
         super();
     }
 
-    
+
     generateSep() {
         const sepElem = document.createElement('hr');
         sepElem.classList.add('my-2', 'my-lg-4')
         return sepElem
     }
     generateInputs(attributes) {
+        // Log the current time
+        let currentTime = new Date().toLocaleTimeString();
+        console.log("Current Time:", currentTime);
+
+        // Generate a random number between 0 and 1, and log it
+        let randomNumber = Math.random();
+        console.log("Random Number:", randomNumber);
 
         function generateAccordion() {
             const accordionDiv = document.createElement('div');
@@ -392,7 +398,7 @@ class DedicatedDoorGui extends genericGui {
             accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
             let name = (attributes && attributes.name) ? attributes.name : "Budowa systemów";
-          
+
             accordionButton.textContent = name;
 
             accordionHeaderH3.appendChild(accordionButton);
@@ -422,26 +428,40 @@ class DedicatedDoorGui extends genericGui {
         let { accordionBodyDiv, accordionDiv } = generateAccordion.bind(this)()
 
         accordionBodyDiv.appendChild(this.createMarkupType());
-
         accordionBodyDiv.appendChild(this.generateSep());
-
-  
         accordionBodyDiv.appendChild(this.createMarkupCoverType());
-
         accordionBodyDiv.appendChild(this.generateSep());
-
         accordionBodyDiv.appendChild(this.createMarkup());
-
         accordionBodyDiv.appendChild(this.generateSep());
 
 
-     
 
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
         this.listenToChanges();
     }
+    rerender() {
+        // Get the accordion body container
+        const accordionBodyDiv = this.getContainer(`#collapseTwo-${this.id} .accordion-body`);
+
+        if (accordionBodyDiv) {
+            // Clear the existing contents of the accordion body
+            accordionBodyDiv.innerHTML = '';
+            let container = document.querySelector(`#collapseTwo-${this.id}`);
+            //Generally it could be just a smaller render function and we would call it again but let it be actually
+            accordionBodyDiv.appendChild(this.createMarkupType());
+            accordionBodyDiv.appendChild(this.generateSep());
+            accordionBodyDiv.appendChild(this.createMarkupCoverType());
+            accordionBodyDiv.appendChild(this.generateSep());
+            accordionBodyDiv.appendChild(this.createMarkup());
+            accordionBodyDiv.appendChild(this.generateSep());
+        }
+
+        // Reattach any necessary event listeners
+        this.listenToChanges();
+    }
+
     createMarkup() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--three');
@@ -451,36 +471,36 @@ class DedicatedDoorGui extends genericGui {
         // console.log(this.mediator.state.state)
 
         let text_attributes = Object.keys(this.mediator.state.state)
-        
+
 
         function getOrderedAttributes(attributes, order) {
             return order.filter(value => attributes.includes(value));
         }
-        function restSplitArrayByValue(array, values){
+        function restSplitArrayByValue(array, values) {
             let arrayWithoutValues = array.filter(item => !values.includes(item));
-            return  arrayWithoutValues 
+            return arrayWithoutValues
         }
 
 
-        
+
         // let text_attributes = [1, 2, 3, 4, 5];
         // let values = ['object_width' ,'position_x'];
         // let label_values=[ 'Szerokość elementu', 'pozycja_x']
-        
+
         // let positionValues=splitArrayByValue(text_attributes,values);
         // text_attributes=restSplitArrayByValue(text_attributes,values);
         //TODO YOU CAN RETURN HERE AND MAKE IT BETTER
         //text_attributes=[]
 
         // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
-  
-        var display_values=['position_x', 'position_y', 'door_height', 'door_width']
-        var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
+
+        var display_values = ['position_x', 'position_y', 'door_height', 'door_width']
+        var display_label_value = ['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
         var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
 
-        let generate_all=this.generateTextInputs(containerDiv,selected_text_attributes, {type:"number", step:"0.1"}, display_label_value)
-        
- 
+        let generate_all = this.generateTextInputs(containerDiv, selected_text_attributes, { type: "number", step: "0.1" }, display_label_value)
+
+
 
         // positionValues.forEach(attr => {
         //     const textLabel = document.createElement('label');
@@ -497,9 +517,9 @@ class DedicatedDoorGui extends genericGui {
         //     // Event listener for input changes
         //     textInput.addEventListener('input', function (e) {
         //         this.mediator.state[attr] = e.target.value;
-               
+
         //         this.notifyMediator('debugStateChange', { [attr]: e.target.value });
-              
+
         //         console.log(this.mediator.state.state)
         //     }.bind(this));
 
@@ -548,7 +568,7 @@ class DedicatedDoorGui extends genericGui {
             // Call notifyMediator with 'recursivelyRemoveModel' event
             this.notifyMediator('unattachModel');
             this.notifyMediator('recursivelyRemoveModel');
-            var element = document.getElementById('id-'+this.id);
+            var element = document.getElementById('id-' + this.id);
             if (element) {
                 element.remove();
             }
@@ -604,7 +624,7 @@ class DedicatedDoorGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -644,8 +664,8 @@ class DedicatedDoorGui extends genericGui {
         const squareButtons = [
             { value: 'gate_type_1', display_value: "Brama uchylna ", display_image: '/assets/display/gate/1.jpg' },
             { value: 'gate_type_2', display_value: "Brama dwudrzwiowa", display_image: '/assets/display/gate/2.jpg' },
-            { value: 'gate_type_3', display_value: "Brama uchylna", display_image: '/assets/display/gate/3.jpg' },
-         
+            { value: 'gate_type_3', display_value: "Brama segmentowa", display_image: '/assets/display/gate/3.jpg' },
+
         ];
 
         squareButtons.forEach(button => {
@@ -672,7 +692,7 @@ class DedicatedDoorGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -686,10 +706,11 @@ class DedicatedDoorGui extends genericGui {
                 // ]
                 // this.notifyMediator('genericChangeObject', accessers)
 
-                this.notifyMediator('stateChange', { 'gate_type': squareDiv.dataset.value});
-                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('stateChange', { 'gate_type': squareDiv.dataset.value });
+                this.notifyMediator('buildingStep', {});
                 this.notifyMediator('hardBuildingStep', {})
-
+        
+                this.rerender()
 
             }.bind(this));
 
@@ -717,15 +738,23 @@ class DedicatedDoorGui extends genericGui {
     createMarkupCoverType() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
-        debugger
-        const squareButtons = [
-            { value: 'material_type_1', display_value: "Blacha pionowa T7", display_image: '/assets/display/material/1.jpg' },
-            { value: 'material_type_2', display_value: "Blacha pozioma T7", display_image: '/assets/display/material/2.jpg' },
-            { value: 'material_type_3', display_value: "Blacha pionowa T17", display_image: '/assets/display/material/3.jpg' },
-            { value: 'material_type_4', display_value: "Blacha pozioma T17", display_image: '/assets/display/material/4.jpg' },
-            { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
 
-        ];
+
+        let squareButtons;
+        if (this.mediator.state.state.gate_type == 'gate_type_3') {
+            containerDiv.classList.add('d-none');
+            return containerDiv;
+        }
+        else {
+            squareButtons = [
+                { value: 'material_type_1', display_value: "Blacha pionowa T7111", display_image: '/assets/display/material/1.jpg' },
+                { value: 'material_type_2', display_value: "Blacha pozioma T7", display_image: '/assets/display/material/2.jpg' },
+                { value: 'material_type_3', display_value: "Blacha pionowa T17", display_image: '/assets/display/material/3.jpg' },
+                { value: 'material_type_4', display_value: "Blacha pozioma T17", display_image: '/assets/display/material/4.jpg' },
+                { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
+
+            ];
+        }
 
         squareButtons.forEach(button => {
             const squareDiv = document.createElement('div');
@@ -751,7 +780,7 @@ class DedicatedDoorGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -759,9 +788,10 @@ class DedicatedDoorGui extends genericGui {
                 // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
-                this.notifyMediator('stateChange', { 'material_type': squareDiv.dataset.value});
-                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('stateChange', { 'material_type': squareDiv.dataset.value });
+                this.notifyMediator('buildingStep', {});
                 this.notifyMediator('hardBuildingStep', {})
+       
 
                 // const accessers = [
                 //     new accesser('material_type', squareDiv.dataset.value),
@@ -839,7 +869,7 @@ class DedicatedGateGui extends genericGui {
         super();
     }
 
-    
+
     generateSep() {
         const sepElem = document.createElement('hr');
         sepElem.classList.add('my-2', 'my-lg-4')
@@ -871,7 +901,7 @@ class DedicatedGateGui extends genericGui {
             accordionButton.setAttribute('aria-controls', 'collapseTwo-' + this.id);
 
             let name = (attributes && attributes.name) ? attributes.name : "Budowa systemów";
-          
+
             accordionButton.textContent = name;
 
             accordionHeaderH3.appendChild(accordionButton);
@@ -904,13 +934,13 @@ class DedicatedGateGui extends genericGui {
 
         // accordionBodyDiv.appendChild(this.generateSep());
 
-  
+
         accordionBodyDiv.appendChild(this.createMarkup());
 
         accordionBodyDiv.appendChild(this.generateSep());
 
 
-     
+
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
@@ -922,39 +952,38 @@ class DedicatedGateGui extends genericGui {
 
 
         // let text_attributes = ['name'];
-        // console.log(this.mediator.state.state)
-
+   
         let text_attributes = Object.keys(this.mediator.state.state)
-        
+
 
         function getOrderedAttributes(attributes, order) {
             return order.filter(value => attributes.includes(value));
         }
-        function restSplitArrayByValue(array, values){
+        function restSplitArrayByValue(array, values) {
             let arrayWithoutValues = array.filter(item => !values.includes(item));
-            return  arrayWithoutValues 
+            return arrayWithoutValues
         }
 
 
-        
+
         // let text_attributes = [1, 2, 3, 4, 5];
         // let values = ['object_width' ,'position_x'];
         // let label_values=[ 'Szerokość elementu', 'pozycja_x']
-        
+
         // let positionValues=splitArrayByValue(text_attributes,values);
         // text_attributes=restSplitArrayByValue(text_attributes,values);
         //TODO YOU CAN RETURN HERE AND MAKE IT BETTER
         //text_attributes=[]
 
         // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
-  
-        var display_values=['position_x', 'position_y', 'door_height', 'door_width']
-        var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
+
+        var display_values = ['position_x', 'position_y', 'door_height', 'door_width']
+        var display_label_value = ['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
         var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
 
-        let generate_all=this.generateTextInputs(containerDiv,selected_text_attributes, {type:"number", step:"0.1"}, display_label_value)
-        
- 
+        let generate_all = this.generateTextInputs(containerDiv, selected_text_attributes, { type: "number", step: "0.1" }, display_label_value)
+
+
 
         // positionValues.forEach(attr => {
         //     const textLabel = document.createElement('label');
@@ -971,9 +1000,9 @@ class DedicatedGateGui extends genericGui {
         //     // Event listener for input changes
         //     textInput.addEventListener('input', function (e) {
         //         this.mediator.state[attr] = e.target.value;
-               
+
         //         this.notifyMediator('debugStateChange', { [attr]: e.target.value });
-              
+
         //         console.log(this.mediator.state.state)
         //     }.bind(this));
 
@@ -1011,7 +1040,16 @@ class DedicatedGateGui extends genericGui {
             containerDiv.appendChild(sliderValueDisplay);
         });
 
-        // ... your previous code ...
+        //this.mediator.state.state s a dictionary what is the 
+        //best way for accessing its variable door
+        //What will happen if the variable does not exist 
+
+        if(this.mediator.state.state.door){
+            containerDiv.appendChild(this.generateSep())
+            containerDiv.appendChild(this.createMarkupDoor())
+         
+        }
+
 
 
 
@@ -1022,7 +1060,7 @@ class DedicatedGateGui extends genericGui {
             // Call notifyMediator with 'recursivelyRemoveModel' event
             this.notifyMediator('unattachModel');
             this.notifyMediator('recursivelyRemoveModel');
-            var element = document.getElementById('id-'+this.id);
+            var element = document.getElementById('id-' + this.id);
             if (element) {
                 element.remove();
             }
@@ -1078,7 +1116,7 @@ class DedicatedGateGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -1111,15 +1149,16 @@ class DedicatedGateGui extends genericGui {
 
         return containerDiv;
     }
-    createMarkupType() {
+    createMarkupDoor() {
         const containerDiv = document.createElement('div');
+        containerDiv.style.gridColumn = '1 / -1';
+        // containerDiv.style.gridColumn = '1 / -1';
         containerDiv.classList.add('squares-container');
-
         const squareButtons = [
-            { value: 'gate_type_1', display_value: "Brama uchylna 2", display_image: '/assets/display/gate/1.jpg' },
-            { value: 'gate_type_2', display_value: "Brama dwudrzwiowa", display_image: '/assets/display/gate/2.jpg' },
-            { value: 'gate_type_3', display_value: "Brama uchylna", display_image: '/assets/display/gate/3.jpg' },
-         
+            { value: 'door_type_1', display_value: "Drzwi praworęczne", display_image: '/assets/display/door/door_left.jpg' },
+            { value: 'door_type_2', display_value: "Drzwi leworęczne", display_image: '/assets/display/door/door_right.jpg' },
+
+
         ];
 
         squareButtons.forEach(button => {
@@ -1146,7 +1185,7 @@ class DedicatedGateGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -1160,8 +1199,85 @@ class DedicatedGateGui extends genericGui {
                 // ]
                 // this.notifyMediator('genericChangeObject', accessers)
 
-                this.notifyMediator('stateChange', { 'gate_type': squareDiv.dataset.value});
-                this.notifyMediator('buildingStep', { });
+                this.notifyMediator('stateChange', { 'door_type': squareDiv.dataset.value });
+                this.notifyMediator('buildingStep', {});
+                this.notifyMediator('hardBuildingStep', {})
+
+
+            }.bind(this));
+
+
+
+
+            containerDiv.appendChild(squareDiv);
+        });
+
+
+        // const removeModelBtn = document.createElement('button');
+        // removeModelBtn.textContent = "Remove Model";
+        // removeModelBtn.classList.add('remove-model-btn');
+        // removeModelBtn.addEventListener('click', function() {
+        //     // Call notifyMediator with 'recursivelyRemoveModel' event
+        //     this.notifyMediator('recursivelyRemoveModel');
+        // }.bind(this));
+
+        // containerDiv.appendChild(removeModelBtn);
+
+
+        return containerDiv;
+    }
+    
+    createMarkupType() {
+        const containerDiv = document.createElement('div');
+        containerDiv.classList.add('squares-container');
+
+        const squareButtons = [
+            { value: 'gate_type_1', display_value: "Brama uchylna 2", display_image: '/assets/display/gate/1.jpg' },
+            { value: 'gate_type_2', display_value: "Brama dwudrzwiowa", display_image: '/assets/display/gate/2.jpg' },
+            { value: 'gate_type_3', display_value: "Brama uchylna", display_image: '/assets/display/gate/3.jpg' },
+
+        ];
+
+        squareButtons.forEach(button => {
+            const squareDiv = document.createElement('div');
+            squareDiv.classList.add('square');
+            // squareDiv.style.backgroundColor = button.color;
+            squareDiv.dataset.value = button.value;
+
+            // Create the image element
+            const imageEl = document.createElement('img');
+            //  imageEl.style.backgroundColor = button.value;
+            imageEl.src = button.display_image;
+
+            imageEl.style.aspectRatio = "1 / 1"
+            imageEl.alt = button.display_value;  // for accessibility
+            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+
+            const textDiv = document.createElement('div');
+            textDiv.textContent = button.display_value;
+            squareDiv.appendChild(textDiv)
+
+
+
+
+            // Attach event listener directly to the squareDiv
+            squareDiv.addEventListener('click', function (e) {
+
+                // Notify the mediator or perform some action
+
+
+
+                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                // this.notifyMediator('recursivelyRemoveModel');
+                // this.notifyMediator('buildingStep');
+
+                // const accessers = [
+                //     new accesser('gate_type', squareDiv.dataset.value),
+                // ]
+                // this.notifyMediator('genericChangeObject', accessers)
+
+                this.notifyMediator('stateChange', { 'gate_type': squareDiv.dataset.value });
+                this.notifyMediator('buildingStep', {});
                 this.notifyMediator('hardBuildingStep', {})
 
 
@@ -1225,7 +1341,7 @@ class DedicatedGateGui extends genericGui {
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-                
+
                 // Notify the mediator or perform some action
 
 
@@ -1306,4 +1422,4 @@ class DedicatedGateGui extends genericGui {
     }
 }
 
- export{UconfigImplementationDoorGui, DedicatedDoorGui, DedicatedGateGui }
+export { UconfigImplementationDoorGui, DedicatedDoorGui, DedicatedGateGui }

@@ -110,7 +110,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
 
         this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
-
+        debugger
         let roof_type = this.state.get('roof_type') || 'roof_type_1'
         //Different default
 

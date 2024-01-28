@@ -54,6 +54,7 @@ class UconfigsImplementationWindowController extends UconfigsController {
 
 
         let door = this.state.get('door') || false
+        let door_type = this.state.get('door_type') || 'door_type_1'
         let gate_type
         if (door) {
             gate_type = this.state.get('gate_type') || 'door_type_1'
@@ -99,7 +100,7 @@ class UconfigsImplementationWindowController extends UconfigsController {
             new accesser('window_depth', window_depth),
             new accesser('stilt_depth', stilt_depth),
             new accesser('gate_type', gate_type),
-
+            new accesser('door_type', door_type),
 
             new accesser('door_height', door_height),
             new accesser('height', door_height),
@@ -129,6 +130,7 @@ class UconfigsImplementationWindowController extends UconfigsController {
             new accesser('sheet_depth', sheet_depth),
             new accesser('door', door),
             new accesser('gate_type', gate_type),
+            new accesser('door_type', door_type),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
@@ -148,7 +150,7 @@ class UconfigsImplementationWindowController extends UconfigsController {
             new accesser('material_type', material_type),
             new accesser('door_width', door_width),
             new accesser('gate_type', gate_type),
-
+            new accesser('door_type', door_type),
 
             new accesser('door_height', door_height),
             new accesser('height', door_height),

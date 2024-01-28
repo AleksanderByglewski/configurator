@@ -538,9 +538,9 @@ function populateScene(scene) {
     
     GroupGarageSystem.state.state['object_depth']=4
 
-         GroupGarageSystem.state.state['object_width'] = GroupGarageSystem.state.state['object_width'] || 3;
-        GroupGarageSystem.state.state['object_depth'] = GroupGarageSystem.state.state['object_depth'] || 5;
-        GroupGarageSystem.state.state['object_height'] = GroupGarageSystem.state.state['object_height'] || 2.13;
+    GroupGarageSystem.state.state['object_width'] = GroupGarageSystem.state.state['object_width'] || 3;
+    GroupGarageSystem.state.state['object_depth'] = GroupGarageSystem.state.state['object_depth'] || 5;
+    GroupGarageSystem.state.state['object_height'] = GroupGarageSystem.state.state['object_height'] || 2.13;
   }
   advanced_garage_system()
 

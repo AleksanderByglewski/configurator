@@ -202,6 +202,9 @@ class DoorObject extends genericObject {
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
         let gate_type = (attributes && attributes.gate_type) ? attributes.gate_type : "gate_type_1";
 
+        let door_type = (attributes && attributes.door_type) ? attributes.door_type : "door_type_1";
+
+
 
         
 
@@ -271,7 +274,6 @@ class DoorObject extends genericObject {
 
 
 }
-
 class DoorHandleObject extends genericObject {
     constructor() {
         super();
@@ -291,7 +293,8 @@ class DoorHandleObject extends genericObject {
 
         let door = (attributes && attributes.door) ? attributes.door : false;
         let gate_type = (attributes && attributes.gate_type) ? attributes.gate_type : false;
-      
+        let door_type = (attributes && attributes.door_type) ? attributes.door_type : "door_type_1";
+
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",
@@ -426,8 +429,8 @@ class DoorHandleObject extends genericObject {
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
 
 
-
-        if(door){
+       
+        if(door && door_type=="door_type_2"){
             gltfLoader.load('/assets/models/door_handle/scene.gltf', (gltf) => {
 
                
@@ -453,8 +456,42 @@ class DoorHandleObject extends genericObject {
                 mesh.add(root.children[0])   
                
             })
-        }   
- 
+        }  
+        else if(door && door_type=="door_type_1"){
+            gltfLoader.load('/assets/models/door_handle_left/scene.gltf', (gltf) => {
+
+               //I would like to search this gltf scene by name and find the element with the name of handle and then 
+               //scale it by 10 times in x diretion
+                const root = gltf.scene;
+                
+                //How can i rotate this object along the z axis
+                let handle_object = root.getObjectByName("handle");
+                
+                
+                handle_object.rotation.z = Math.PI ;
+                 let handle=root.children[0]
+                  handle.position.z = 0.1;
+                  handle.position.x=-0.35*width
+                  handle.position.y=-0.0*height
+                 handle.scale.set(0.01,0.01,0.01)
+                // //debugger
+                //   scene_outer.add(root);
+
+                //console.log(dumpObject(root).join('\n'));
+
+                //   let handle1 = root.getObjectByName('root');
+                //   handle1.name = "hand111"
+
+                //   let object_height = parseFloat(document.querySelector(".num-selector [name='wall-height']").value)
+
+                //   handle1.scale.y = object_height * 0.95;
+                //   //handle1.visible = false;
+                //   handle1.translateY(0.97 * (-object_height / 2))
+
+                mesh.add(root.children[0])   
+               
+            })
+        }    
         else{
             switch(gate_type) {
                 case "gate_type_1":
@@ -519,7 +556,6 @@ class DoorHandleObject extends genericObject {
     }
 
 }
-
 class CentralLineObject extends genericObject {
     constructor() {
         super();

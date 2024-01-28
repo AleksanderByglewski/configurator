@@ -257,9 +257,16 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         let wall_color = (this.state.get('wall_color')) || "#FFFFFF";
 
 
- 
+        let additional_y_displacement=0
 
+        switch (roof_type) {
 
+            case "roof_type_1":
+                //SKIS
+                this.state.state['rotation_y'] = 0
+                additional_y_displacement = -1*roof_top_height * Math.sin(roof_slant)
+             
+        }
 
         let accessersWallFront = [
             new accesser('name', name + "Debug target"),
@@ -269,7 +276,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', 0),
+            new accesser('position_y', additional_y_displacement),
             new accesser('position_z', object_depth / 2),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -284,7 +291,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', 0),
+            new accesser('position_y', additional_y_displacement),
             new accesser('position_z', -garage_depth / 2),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -300,7 +307,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', -object_width / 2),
-            new accesser('position_y', 0),
+            new accesser('position_y', additional_y_displacement),
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('wall_color', wall_color),
@@ -317,7 +324,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', object_width / 2),
-            new accesser('position_y', 0),
+            new accesser('position_y', additional_y_displacement),
             new accesser('position_z', 0),
             new accesser('right_piece', true),
             new accesser('color', object_color),
@@ -336,7 +343,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
             //      new accesser('position_y', object_height+y_displacement/2),
-            new accesser('position_y', y_displacement / 2),
+            new accesser('position_y', y_displacement / 2+additional_y_displacement),
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),

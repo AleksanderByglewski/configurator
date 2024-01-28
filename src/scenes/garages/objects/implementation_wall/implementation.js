@@ -46,7 +46,8 @@ class UconfigsImplementationWallsController extends UconfigsController {
     request_an_update(){
 
         let targeted_parent, accessers, accessers_assign
-  
+
+
         targeted_parent=this.request_find_element('top_level')
         // At this point, targeted_parent is either the top level object or null/undefined
          
@@ -103,7 +104,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
                 new accesser('roof_type'),
                 // new accesser('wall_color'),
         ]
-    
+        //debugger
         let main_object_roof_type
         main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers_assign[0].value)||"roof_type_1";
 
@@ -114,13 +115,15 @@ class UconfigsImplementationWallsController extends UconfigsController {
             //Now prepare the logic for the roof types
             let roof_slant=5.5 * Math.PI / 180
             let roof_height =0.0
+            
             switch (main_object_roof_type) {
 
                 case "roof_type_1":{
 
-                        
+                    //debugger
              
                     roof_height= main_object_depth * Math.sin(roof_slant);
+                    
                     // this.state.state['rotation_y'] = 0
                     // console.log("The roof type is flat.");
                     break;
@@ -333,6 +336,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
 
     determineState() {
         this.request_an_update()
+        //debugger
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -376,11 +380,12 @@ class UconfigsImplementationWallsController extends UconfigsController {
         // object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-
+//debugger
+        let additional_y_displacement = this.state.get('additional_y_displacement') || 0.0
         const accessersWallFront = [
             new accesser('name', name + "_fronts"),
             new accesser('width', object_width),
-            new accesser('height', object_height),
+            new accesser('height', object_height+additional_y_displacement),
             new accesser('sheet_depth', sheet_depth),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
@@ -506,6 +511,18 @@ class UconfigsImplementationWallController extends UconfigsController{
         */
 
         let targeted_parent=this.external_objects_controllers[0]
+        debugger
+        let main_roof= this.request_find_element('top_level').external_objects.find(obj=>obj.status=="main_roof")
+        let received_roof_type = main_roof.state.get('roof_type') || 'roof_type_1'
+        if(received_roof_type=='roof_type_1'){
+            let roof_slant = 5.5 * Math.PI / 180
+            debugger
+            let depth=targeted_parent.state.get('object_depth')||5
+            this.state.state["modifier_height"]=-depth*Math.sin(roof_slant)
+        }
+        else{
+            this.state.state["modifier_height"]=0.0
+        }
 
         const accessers = [
           
@@ -540,7 +557,13 @@ class UconfigsImplementationWallController extends UconfigsController{
         let height = this.state.get('height') || 2.13
         let width = this.state.get('width') || 4.0
         let depth = this.state.get('depth') || 4.0
-        object_height = height
+
+        let modifier_height=this.state.get('modifier_height') || 0.0
+        object_height = height+modifier_height
+
+
+        //debugger
+
         object_width = width
         object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
@@ -554,7 +577,7 @@ class UconfigsImplementationWallController extends UconfigsController{
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
-            new accesser('position_y', 0),
+            new accesser('position_y', modifier_height/2),
             new accesser('position_z', 0),
             new accesser('color', object_color),
             new accesser('position_relative', 'true'),

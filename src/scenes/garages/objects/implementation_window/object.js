@@ -201,7 +201,9 @@ class WindowObject extends genericObject {
 
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
         let gate_type = (attributes && attributes.gate_type) ? attributes.gate_type : "gate_type_1";
-
+        //debugger
+        let door_type = (attributes && attributes.door_type) ? attributes.door_type : "gate_type_1";
+        
         // alert(material_type)
         
 

@@ -213,6 +213,23 @@ class genericGui extends Generic {
     setMenuSelector(selector = '.side-menu') {
         this.menuSelector = ".side-menu"
     }
+
+    rerender() {
+        // Clear the existing contents
+        this.clearContainer();
+        let container = document.querySelector(`#collapseTwo-${this.id}`);
+        container.innerHTML = 'Hello container re-rendered!';
+        // Rerender the GUI elements
+        //this.generateInputs(/* attributes or other necessary parameters */);
+    }
+
+    clearContainer() {
+        const container = this.getContainer(`#collapseTwo-${this.id}`);
+        if (container) {
+            container.innerHTML = '';
+        }
+    }
+
 }
 
 class genericState extends Generic {

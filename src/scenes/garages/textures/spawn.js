@@ -465,7 +465,8 @@ function select_texture(args) {
       material_output.bumpMap = undefined;
       material_output.normalMap = undefined;
       material_output.color = new THREE.Color(0xfbfdff);
-      material_output.metalness = 0.91;
+      material_output.metalness = 0.99;
+      material_output.roughness = 0.125;
       material_output.reflectivity = 1.0;
       material_output.envMapIntensity = 5.0;
       material_output.clearcoat = 1.00;

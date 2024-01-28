@@ -23,6 +23,7 @@ class UconfigsImplementationController extends UconfigsController {
     }
     determineState() {
         //You can get the current state of the object by using the 
+        //debugger
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 3

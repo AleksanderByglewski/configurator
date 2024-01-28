@@ -664,7 +664,7 @@ class UconfigImplementationDoorGui extends genericGui {
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
             DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
-            DoorSystem1.state.state['color']="#A5A3A5"
+            DoorSystem1.state.state['color']="#A5A3A6"
             DoorSystem1.state.state['position_z']=0.003
             if(self.mediator.door_type){
             DoorSystem1.state.state['door']=true

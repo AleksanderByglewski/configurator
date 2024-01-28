@@ -1199,7 +1199,7 @@ include('template-parts/header/head-logged.php');
         // }
 
         // function onPlaceChanged() {
-        //   debugger
+        //   //debugger
         //     var place = autocomplete.getPlace();
         //     if (!place.geometry) {
         //         // User entered the name of a Place that was not suggested and pressed the Enter key, or the Place Details request failed.

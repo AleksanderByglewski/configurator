@@ -192,7 +192,6 @@ class UconfigInvisibleObject extends genericObject {
         this.set(mesh);
     }
 }
-
 class UconfigObject extends genericObject {
     constructor() {
         super();

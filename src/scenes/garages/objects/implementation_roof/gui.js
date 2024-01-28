@@ -160,7 +160,7 @@ class UconfigImplementationRoofGui extends genericGui {
         masterAccordionBody.appendChild(accordionDiv3); // Append to master accordion body
     
       // Roof cover type accordion
-      let {accordionBodyDiv: accordionBodyDiv4, accordionDiv: accordionDiv4} = generateSimpleContainer.bind(this)('collapseFive', "Pokrycie dachu", true);
+      let {accordionBodyDiv: accordionBodyDiv4, accordionDiv: accordionDiv4} = generateSimpleContainer.bind(this)('collapseFive', "Dodatkowe opcje dachu", true);
       accordionBodyDiv4.appendChild(this.createMarkupAdditionalElements());
       masterAccordionBody.appendChild(accordionDiv4); // Append to master accordion body
   
@@ -177,8 +177,9 @@ class UconfigImplementationRoofGui extends genericGui {
         form.classList.add('contact-form', 'squares-container--1');
     
         const options = [
-            { value: 'Rynny', description: 'Konstrukcja standardowa ocynkowana' },
-            { value: 'Filc pod dachem', description: 'Filc pod dachem' }
+            { value: 'felt', description: 'Filc pod dachem' },
+            { value: 'gutters', description: 'Rynny' },
+            
         ];
     
         options.forEach(option => {

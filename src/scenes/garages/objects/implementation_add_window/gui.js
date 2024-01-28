@@ -323,7 +323,6 @@ class UconfigImplementationGui extends genericGui {
         
         return containerDiv;
     }
-
     createMarkupCoverType(){
         const containerDiv = document.createElement('div');
              containerDiv.classList.add('squares-container', 'squares-container--material');
