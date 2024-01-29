@@ -600,7 +600,7 @@ function populateScene(scene) {
   function advanced_support_object() {
 
     let RoofSystem1 = createGarageObject(emptySystem, SupportSystem)
-    RoofSystem1.state.state['name'] = "Kolory dachu"
+    RoofSystem1.state.state['name'] = "metal_work"
     RoofSystem1.status="support_roof"
     GroupGarageSystem.external_objects.push(RoofSystem1)
     RoofSystem1.external_objects_controllers.push(GroupGarageSystem)

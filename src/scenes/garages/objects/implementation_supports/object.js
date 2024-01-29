@@ -776,7 +776,7 @@ class RoofTopObject extends genericObject {
         super();
     }
     create(attributes={}) {
-   
+        
         let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
         
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
@@ -926,10 +926,12 @@ class RoofTopObject extends genericObject {
 
         const group = new THREE.Group();
         let pillarWidth = 0.1; // Example width of a pillar
-        let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
+        
         
         // Function to create a pillar
-        function createPillar() {
+        function createPillar(mo) {
+
+            let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
             return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
         }
         
@@ -965,6 +967,8 @@ class SupportObject extends genericObject {
     }
     create(attributes={}) {
    
+
+        
         let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
         
         let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
@@ -1116,28 +1120,39 @@ class SupportObject extends genericObject {
         const group = new THREE.Group();
         let pillarWidth = 0.1; // Example width of a pillar
         let pillarDisplacement = pillarWidth/2-0.01; // Example width of a pillar
-        let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
         
+        debugger
         // Function to create a pillar
-        function createPillar() {
+        function createPillar(height_modifier) {
+            let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height+height_modifier, pillarWidth);
             return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
         }
         
         // Create and position pillars at each corner
-        const pillar1 = createPillar();
-        pillar1.position.set((garage_width / 2-pillarDisplacement),-garage_height/2, (garage_depth / 2-pillarDisplacement));
+
+        //We need for modifiers FrontLeft, FrontRight, BackLeft, BackRight
+
+        let front_left= (attributes && attributes.front_left) ? parseFloat(attributes.front_left) : 0;
+        let front_right= (attributes && attributes.front_right) ? parseFloat(attributes.front_right) : 0;
+        let back_left= (attributes && attributes.back_left) ? parseFloat(attributes.back_left) : 0;
+        let back_right= (attributes && attributes.back_right) ? parseFloat(attributes.back_right) : 0;
+
+
+
+        const pillar1 = createPillar(front_left);
+        pillar1.position.set((garage_width / 2-pillarDisplacement),-garage_height/2+front_left, (garage_depth / 2-pillarDisplacement));
         group.add(pillar1);
         
-        const pillar2 = createPillar();
-        pillar2.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2, (garage_depth / 2-pillarDisplacement));
+        const pillar2 = createPillar(front_right);
+        pillar2.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2+front_right, (garage_depth / 2-pillarDisplacement));
         group.add(pillar2);
         
-        const pillar3 = createPillar();
-        pillar3.position.set((garage_width / 2-pillarDisplacement),-garage_height/2, -(garage_depth / 2-pillarDisplacement));
+        const pillar3 = createPillar(back_left);
+        pillar3.position.set((garage_width / 2-pillarDisplacement),-garage_height/2+back_left, -(garage_depth / 2-pillarDisplacement));
         group.add(pillar3);
         
-        const pillar4 = createPillar();
-        pillar4.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2, -(garage_depth / 2-pillarDisplacement));
+        const pillar4 = createPillar(back_right);
+        pillar4.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2+back_right, -(garage_depth / 2-pillarDisplacement));
         group.add(pillar4);
         
 

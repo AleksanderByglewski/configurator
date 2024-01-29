@@ -104,7 +104,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
                 new accesser('roof_type'),
                 // new accesser('wall_color'),
         ]
-        //debugger
+        
         let main_object_roof_type
         main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers_assign[0].value)||"roof_type_1";
 
@@ -120,7 +120,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
 
                 case "roof_type_1":{
 
-                    //debugger
+                    
              
                     roof_height= main_object_depth * Math.sin(roof_slant);
                     
@@ -336,7 +336,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
 
     determineState() {
         this.request_an_update()
-        //debugger
+        
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
@@ -380,7 +380,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
         // object_depth = depth
         //let object_angle=parseFloat(this.state.get('object_angle'))||30
         let sheet_depth = parseFloat(this.state.get('sheet_depth')) || 0.0075
-//debugger
+
         let additional_y_displacement = this.state.get('additional_y_displacement') || 0.0
         const accessersWallFront = [
             new accesser('name', name + "_fronts"),
@@ -511,12 +511,12 @@ class UconfigsImplementationWallController extends UconfigsController{
         */
 
         let targeted_parent=this.external_objects_controllers[0]
-        debugger
+        //SKISSUMMARY
         let main_roof= this.request_find_element('top_level').external_objects.find(obj=>obj.status=="main_roof")
         let received_roof_type = main_roof.state.get('roof_type') || 'roof_type_1'
         if(received_roof_type=='roof_type_1'){
             let roof_slant = 5.5 * Math.PI / 180
-            debugger
+            
             let depth=targeted_parent.state.get('object_depth')||5
             this.state.state["modifier_height"]=-depth*Math.sin(roof_slant)
         }
@@ -562,7 +562,7 @@ class UconfigsImplementationWallController extends UconfigsController{
         object_height = height+modifier_height
 
 
-        //debugger
+        
 
         object_width = width
         object_depth = depth

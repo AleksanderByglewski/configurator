@@ -12,6 +12,8 @@ class SimpleController extends UconfigsController {
     constructor() {
         super(); 
         // this.setModel(GarageObjectSupportSquare)
+
+        
         this.setModel(CubeObject)
     }
 }
@@ -35,6 +37,7 @@ class SupportController extends UconfigsController {
         // this.setModel(GarageObjectSupportSquare)
         this.setModel(SupportObject)
     }
+    
 }
 
 class RoofSideSquareController extends UconfigsController {
