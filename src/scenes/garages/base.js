@@ -229,6 +229,12 @@ class genericGui extends Generic {
             container.innerHTML = '';
         }
     }
+    killContainer(){
+        const container = document.querySelector(`#id-${this.id}`);
+        if (container) {
+            container.remove();
+        }
+    }
 
 }
 

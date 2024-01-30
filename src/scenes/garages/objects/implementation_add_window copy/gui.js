@@ -1,22 +1,22 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser } from '../../base.js'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object.js'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller.js'
 
 import { 
     UconfigsImplementationDoorController as DoorSystem,
     UconfigsImplementationGateController as GateSystem,
  
-    } from '../implementation_door/implementation'
+    } from '../implementation_door/implementation.js'
     import { 
     UconfigsImplementationWindowController as WindowSystem,
     
-} from '../implementation_window/implementation'
+} from '../implementation_window/implementation.js'
 
 
 class UconfigImplementationGui extends genericGui {

@@ -20,11 +20,68 @@ class UconfigImplementationGui extends genericGui {
         super();
     }
 
-    initialGeneration(){
+    initialGeneration(width=3){
         const emptySystem = [];
         let targetWall = this.mediator.wall_front;
+        debugger
+        this.mediator.wall_front.external_objects.forEach(object => {
+            // Remove object from its group
+            debugger
+            object.gui.killContainer()
+            // if (object.group) {
+            //     object.group.remove(object);
+            // }
+
+            // // Remove object from the scene
+            // this.mediator.display.scene.remove(object);
+
+            // // Dispose of geometries, materials, and textures
+            // if (object.geometry) {
+            //     object.geometry.dispose();
+            // }
+            // if (object.material) {
+            //     if (Array.isArray(object.material)) {
+            //         object.material.forEach(material => material.dispose());
+            //     } else {
+            //         object.material.dispose();
+            //     }
+            // }
+            // Similar disposal for textures if any
+        });
+
+
+        // Rewrite killing of the objects
+        this.mediator.wall_front.external_objects.forEach(object => {
+            // Remove object from its group
+            if (object.group) {
+                object.group.remove(object);
+            }
+
+            // Remove object from the scene
+            this.mediator.display.scene.remove(object);
+
+            // Dispose of geometries, materials, and textures
+            if (object.geometry) {
+                object.geometry.dispose();
+            }
+            if (object.material) {
+                if (Array.isArray(object.material)) {
+                    object.material.forEach(material => material.dispose());
+                } else {
+                    object.material.dispose();
+                }
+            }
+            // Similar disposal for textures if any
+        });
+
+        // Clear the external_objects array
+        this.mediator.wall_front.external_objects = [];
+
+        
         // Create DoorSystem1 and assign appropriate values based on the selected option
         let DoorSystem1 = this.createGarageObject(emptySystem, GateSystem);
+        let DoorSystem2 = this.createGarageObject(emptySystem, GateSystem);
+        let DoorSystem3 = this.createGarageObject(emptySystem, GateSystem);
         targetWall.external_objects.push(DoorSystem1);
         DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
         DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
@@ -40,9 +97,66 @@ class UconfigImplementationGui extends genericGui {
         }
         DoorSystem1.state.state['door_width']=3.0
 
+
+        if(width>=6 && width<9){
+
+           
+           
+
+            DoorSystem2 = this.createGarageObject(emptySystem, DoorSystem);
+            targetWall.external_objects.push(DoorSystem2);
+            DoorSystem2.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+            DoorSystem2.mediator = targetWall; // Changed to targetWall instead of always wall_left
+            //DoorSystem2.state.state['color']="#C20000"
+            DoorSystem2.state.state['position_z']=-0.001
+            DoorSystem2.state.state['position_x']=+width/2-1.5
+            DoorSystem1.state.state['position_x']=-width/2+1.5;
+
+        }
+         else if(width>=9 ){
+
+            
+
+            DoorSystem2 = this.createGarageObject(emptySystem, DoorSystem);
+            targetWall.external_objects.push(DoorSystem2);
+            DoorSystem2.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+            DoorSystem2.mediator = targetWall; // Changed to targetWall instead of always wall_left
+            //DoorSystem2.state.state['color']="#C20000"
+          
+
+
+
+            DoorSystem3 = this.createGarageObject(emptySystem, DoorSystem);
+            targetWall.external_objects.push(DoorSystem3);
+            DoorSystem3.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+            DoorSystem3.mediator = targetWall; // Changed to targetWall instead of always wall_left
+            //DoorSystem3.state.state['color']="#C20000"
+         
+            DoorSystem3.state.state['position_x']=+width/2-1.5
+            DoorSystem2.state.state['position_x']=-width/2+1.5
+            DoorSystem1.state.state['position_x']=0;
+            
+
+        }
+
+
+
+        
+
+
         DoorSystem1.state.state['name']="Brama frontowa" ;
         targetWall.handleEvent('buildingStep');
         DoorSystem1.handleEvent('generateInputs')
+        if(width>=6){
+            DoorSystem2.state.state['name']="Druga brama frontowa" ;
+            DoorSystem2.handleEvent('generateInputs')
+        }
+        if(width>=9){
+            DoorSystem3.state.state['name']="Trzecia brama frontowa" ;
+            DoorSystem3.handleEvent('generateInputs')
+        }
+       
+  
 
     }
 

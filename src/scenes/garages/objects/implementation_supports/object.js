@@ -1121,7 +1121,7 @@ class SupportObject extends genericObject {
         let pillarWidth = 0.1; // Example width of a pillar
         let pillarDisplacement = pillarWidth/2-0.01; // Example width of a pillar
         
-        debugger
+    
         // Function to create a pillar
         function createPillar(height_modifier) {
             let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height+height_modifier, pillarWidth);
@@ -1131,13 +1131,21 @@ class SupportObject extends genericObject {
         // Create and position pillars at each corner
 
         //We need for modifiers FrontLeft, FrontRight, BackLeft, BackRight
-
+       
         let front_left= (attributes && attributes.front_left) ? parseFloat(attributes.front_left) : 0;
         let front_right= (attributes && attributes.front_right) ? parseFloat(attributes.front_right) : 0;
         let back_left= (attributes && attributes.back_left) ? parseFloat(attributes.back_left) : 0;
         let back_right= (attributes && attributes.back_right) ? parseFloat(attributes.back_right) : 0;
 
 
+      
+        let roof_type= (attributes && attributes.roof_type) ? attributes.roof_type:'roof_type_1';
+     
+        if(roof_type=="roof_type_2" ||roof_type=="roof_type_4" ||roof_type=="roof_type_6"){
+            let save_width=garage_width
+            garage_width=garage_depth
+            garage_depth=save_width
+        } 
 
         const pillar1 = createPillar(front_left);
         pillar1.position.set((garage_width / 2-pillarDisplacement),-garage_height/2+front_left, (garage_depth / 2-pillarDisplacement));

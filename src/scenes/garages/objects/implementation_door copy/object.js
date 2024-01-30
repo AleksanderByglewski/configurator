@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser } from '../../base.js'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 //GOBACKTO
-import { global_metal_material, select_texture } from '../../textures/spawn'
+import { global_metal_material, select_texture } from '../../textures/spawn.js'
 
 const loader = new THREE.TextureLoader();
 const global_texture = loader.load('/assets/config/default_1k.jpg');

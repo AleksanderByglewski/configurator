@@ -1,22 +1,22 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { accesser } from '../../base'
+import { accesser } from '../../base.js'
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
-import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
+import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object.js'
+import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller.js'
 
 import { 
-    UconfigsImplementationDoorController as DoorSystem,
+    UconfigsImplementationGutterController as DoorSystem,
     UconfigsImplementationGateController as GateSystem,
  
-    } from '../implementation_door/implementation'
+    } from '../implementation_gutter/implementation.js'
     import { 
-    UconfigsImplementationWindowController as WindowSystem,
+    UconfigsImplementationGutterController as GutterSystem,
     
-} from '../implementation_window/implementation'
+} from '../implementation_gutter/implementation.js'
 
 
 class UconfigImplementationGui extends genericGui {
@@ -29,7 +29,7 @@ class UconfigImplementationGui extends genericGui {
         
         let targetWall = this.mediator.wall_front;
         // Create DoorSystem1 and assign appropriate values based on the selected option
-        let DoorSystem1 = this.createGarageObject(emptySystem, WindowSystem);
+        let DoorSystem1 = this.createGarageObject(emptySystem, GutterSystem);
         targetWall.external_objects.push(DoorSystem1);
         DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
         DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
@@ -459,7 +459,7 @@ class UconfigImplementationWindowGui extends genericGui {
         const emptySystem = [];
         let targetWall = this.mediator.wall_front;
         // Create DoorSystem1 and assign appropriate values based on the selected option
-        let DoorSystem1 = this.createGarageObject(emptySystem, WindowSystem);
+        let DoorSystem1 = this.createGarageObject(emptySystem, GutterSystem);
         targetWall.external_objects.push(DoorSystem1);
         DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
         DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
@@ -585,7 +585,7 @@ class UconfigImplementationWindowGui extends genericGui {
         let print_elemnt="Brama"
         // Create options for the select element
         if(this.mediator.door_type){
-        print_elemnt="Okno"
+        print_elemnt="Rynna"
         options = ['front', 'left', 'right', 'back'];
         options_mapping={
             "front":"frontowe",
@@ -641,7 +641,7 @@ class UconfigImplementationWindowGui extends genericGui {
     
             
             // Create DoorSystem1 and assign appropriate values based on the selected option
-            let DoorSystem1 = self.createGarageObject(emptySystem, WindowSystem);
+            let DoorSystem1 = self.createGarageObject(emptySystem, GutterSystem);
             targetWall.external_objects.push(DoorSystem1);
             DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
             DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left

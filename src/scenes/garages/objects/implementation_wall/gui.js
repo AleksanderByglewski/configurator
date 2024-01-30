@@ -8,6 +8,7 @@ import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
 import { CubeObject,UconfigObject,WallGarageObject, genericGarageObject } from '../base/object'
 import {UconfigController,CubeController,WallGarageController,groupGenericGarageController,genericGarageController} from '../base/controller'
 
+
 class UconfigImplementationWallGui extends genericGui {
     constructor() {
         super();
@@ -161,6 +162,9 @@ class UconfigImplementationWallGui extends genericGui {
     this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', this.id);
 
     this.listenToChanges();
+
+
+
     }
     createMarkupType(){
         const containerDiv = document.createElement('div');
@@ -322,6 +326,30 @@ class UconfigImplementationWallGui extends genericGui {
         this.mediator.state['object_depth'] = this.mediator.state['object_depth'] || 5;
         this.mediator.state['object_height'] = this.mediator.state['object_height'] || 2.13;
 
+//lets have it dynamic
+        function testCategoryChange(self){
+            debugger
+            self.mediator.omega_gates.gui.initialGeneration( self.mediator.state['object_width'] || 3);
+           
+            // let targetWall = this.mediator.wall_front;
+            // // Create DoorSystem1 and assign appropriate values based on the selected option
+            // let DoorSystem1 = this.createGarageObject(emptySystem, WindowSystem);
+            // targetWall.external_objects.push(DoorSystem1);
+            // DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+            // DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
+            // DoorSystem1.state.state['position_z']=-0.001
+      
+      
+    
+            //Let's make it much simpler for us Fd
+            //If we change the size barrier we will just call delete on gates and click the new ones two times okay. 
+        
+    
+
+
+        }        
+    //lets have it dynamic end
+
 
         attributes.forEach(([attr, description, vals]) => {
             const selectLabel = document.createElement('label');
@@ -343,10 +371,14 @@ class UconfigImplementationWallGui extends genericGui {
     
             selectInput.addEventListener('change', function (e) {
                 this.mediator.state[attr] = parseFloat(e.target.value);
+                testCategoryChange(this)
                 this.notifyMediator('stateChange', { [attr]: parseFloat(e.target.value) });
                 this.notifyMediator('buildingStep', {});
+             
             }.bind(this));
     
+
+
             containerDiv.appendChild(selectInput);
         });
     

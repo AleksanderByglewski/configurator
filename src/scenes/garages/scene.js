@@ -61,6 +61,11 @@ import {
   UconfigsImplementationWindowController as OmegaWindowAdvancedSystem,
 } from './objects/implementation_add_window/implementation'
 
+
+import {
+  UconfigsImplementationGutterController as OmegaGutterAdvancedSystem,
+} from './objects/implementation_add_gutter/implementation'
+
 import {
   UconfigsImplementationController as OmegaCanopySystem,
 } from './objects/implementation_add_canopy/implementation'
@@ -79,6 +84,12 @@ import {
 
   UconfigsImplementationRoofsController as SupportSystem,
   UconfigsImplementationSecondaryRoofsController as SecondarySupportSystem
+} from './objects/implementation_supports/implementation'
+
+import {
+
+  UconfigsImplementationRoofsController as GuttersSystem,
+  UconfigsImplementationSecondaryRoofsController as SecondaryGuttersSystem
 } from './objects/implementation_supports/implementation'
 
 
@@ -532,6 +543,10 @@ function populateScene(scene) {
   ]
 
   let GroupGarageSystem;
+//I would like to add two objects to this instance of the garage system so that they can be referenced inside of the code of the class
+//The class can be initialized further down the line those will be the Omega objects
+
+
   function advanced_garage_system() {
     GroupGarageSystem = createGarageObject(emptySystem, AdvancedWallsSystem)
     GroupGarageSystem.status="top_level"
@@ -607,6 +622,18 @@ function populateScene(scene) {
     RoofSystem1.mediator = GroupGarageSystem
   }
   advanced_support_object()
+
+  function advanced_gutter_object() {
+
+    let RoofSystem1 = createGarageObject(emptySystem, GuttersSystem)
+    RoofSystem1.state.state['name'] = "gutter"
+    RoofSystem1.status="support_roof"
+    GroupGarageSystem.external_objects.push(RoofSystem1)
+    RoofSystem1.external_objects_controllers.push(GroupGarageSystem)
+    RoofSystem1.mediator = GroupGarageSystem
+  }
+  advanced_gutter_object()
+
 
 
 
@@ -746,6 +773,8 @@ function populateScene(scene) {
     OmegaSystems.gui.initialGeneration()
 
 
+    GroupGarageSystem.omega_gates=OmegaSystems;
+
 
 
   }
@@ -819,6 +848,36 @@ function populateScene(scene) {
   }
   generic_attaching_windows()
 
+
+  function generic_attaching_gutters() {
+
+    let OmegaSystems = createGarageObject(emptySystem, OmegaGutterAdvancedSystem);
+
+
+    OmegaSystems.wall_front = GroupGarageSystem.external_objects[0]
+    OmegaSystems.wall_back = GroupGarageSystem.external_objects[1]
+    OmegaSystems.wall_left = GroupGarageSystem.external_objects[2]
+    OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
+
+
+    // let front_wall=GroupGarageSystem.external_objects[1]
+    // DoorSystem1=createGarageObject(emptySystem, DoorSystem)
+    // front_wall.external_objects.push(DoorSystem1)
+    // DoorSystem1.external_objects_controllers.push(front_wall)
+    // DoorSystem1.mediator=front_wall
+
+
+
+    GroupGarageSystem.handleEvent('buildingStep')
+    OmegaSystems.state.state['name'] = "Dodaj rynny"
+    OmegaSystems.door_type = true
+    OmegaSystems.handleEvent('generateInputs')
+
+    // GroupGarageSystem.handleEvent('buildingStep')
+
+
+  }
+  generic_attaching_gutters()
 
 
   function generic_additional_options() {
@@ -1041,8 +1100,16 @@ function generic_contact_form() {
 
 }
 
+//Omega interactions 
+// groupGarageSystem.addOmegaObject("omega1", new OmegaObject("Omega1"));
+// groupGarageSystem.addOmegaObject("omega2", new OmegaObject("Omega2"));
+
+
 
 generic_contact_form()
+
+
+
   function generic_attaching_niche_canopies(){
 
     let OmegaSystems = createGarageObject(emptySystem, OmegaCanopySystem);
@@ -1069,6 +1136,8 @@ generic_contact_form()
 
 
 
+
+  
 
   {
   let geometry = new THREE.BoxGeometry();

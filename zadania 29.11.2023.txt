@@ -13,24 +13,25 @@
 		[x]Bardzo szerokie jak na zdjeciu
 		[]Cofnąć w ścianę 
 		[]Obróbka dookoła tej bramy
-	[]Przetłoczenia
+	[x]Przetłoczenia
 		[x]T17 pion
 		[x]T17 poziom
 		[x]T7 poziom
 		[x]T7 pion
 		[x]Brama segmentowa zablokować wybory
-	[]Przy zmianie szerokośći   
-		[]na 6m dwie bramy
-		[]na 9m trzy bramy
-[]Dodatkowe opcje 
-	[]Obróki 5cm
+	[x]Przy zmianie szerokośći   
+		[x]na 6m dwie bramy
+		[x]na 9m trzy bramy
+		[x]usuwanie bram 
+[x]Dodatkowe opcje 
+	[x]Obróki 5cm
 		[x]Obróbki na ścianach 
-		[]Obróbki na dachu
-[]Okno
+		[x]Obróbki na dachu
+[x]Okno
 	[x]Odbicia na szkle jak ocynk tylko lżej
-[]Drzwi
+[x]Drzwi
 	[x]Typy drzwi
-		[x]Prawo ręczny
+		[x]Prawo ręcznyp
 		[x]Lewo ręczny
 []Kontrolery
 	[]Kontrola brama

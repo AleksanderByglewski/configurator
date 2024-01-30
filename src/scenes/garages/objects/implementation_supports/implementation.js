@@ -99,7 +99,26 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
         ]
 
+
+        
         this.request_update_state(targeted_parent, accessers, accessers_assign)
+
+
+        targeted_parent = this.request_find_element('top_level')
+    //Here is the part with the roof. 
+        targeted_parent = targeted_parent.external_objects.find(element => element.status === "main_roof");
+        accessers = [
+            // new accesser('object_width'),
+            // new accesser('object_depth'),
+            new accesser('roof_type'),
+            // new accesser('wall_color'),
+        ]
+
+        let main_object_roof_type
+        main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers_assign[0].value) || "roof_type_1";
+        this.state.update('roof_type', main_object_roof_type);
+
+        
     }
     determineState() {
         //You can get the current state of the object by using the 
@@ -110,7 +129,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
 
         this.state.update('position_y', parseFloat(this.state.get('object_height')) || 2.13)
-        debugger
+     
         let roof_type = this.state.get('roof_type') || 'roof_type_1'
         //Different default
 
@@ -676,10 +695,12 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
 
         let accessersSupport = [
-            new accesser('name', name + "Debug target"),
+            new accesser('name', name + "Debug target2"),
             new accesser('garage_width', garage_width),
             new accesser('garage_height', garage_height),
             new accesser('garage_depth', garage_depth),
+
+            new accesser('roof_type', roof_type),
             new accesser('segments', 1),
             new accesser('radius', 0.01),
             new accesser('position_x', 0),
@@ -1680,16 +1701,17 @@ class UconfigsImplementationSupport extends UconfigsController {
 
 
         //Here is the part with the roof. 
-        targeted_parent = targeted_parent.external_objects.find(element => element.status === "main_roof");
-        accessers = [
-            // new accesser('object_width'),
-            // new accesser('object_depth'),
-            new accesser('roof_type'),
-            // new accesser('wall_color'),
-        ]
+        // targeted_parent = targeted_parent.external_objects.find(element => element.status === "main_roof");
+        // accessers = [
+        //     // new accesser('object_width'),
+        //     // new accesser('object_depth'),
+        //     new accesser('roof_type'),
+        //     // new accesser('wall_color'),
+        // ]
 
-        let main_object_roof_type
-        main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers_assign[0].value) || "roof_type_1";
+        // let main_object_roof_type
+        // main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers_assign[0].value) || "roof_type_1";
+        // this.state.update('roof_type', main_object_roof_type);
 
     }
     determineState() {
@@ -1711,8 +1733,8 @@ class UconfigsImplementationSupport extends UconfigsController {
         let position_z = this.state.get('position_z') || 0
 
         let height = this.state.get('height') || 2.13
-        let width = this.state.get('width') || 4.0
-        let depth = this.state.get('depth') || 4.0
+        let width = this.state.get('width') || 3.0
+        let depth = this.state.get('depth') || 5.0
         object_height = height
         object_width = width
         object_depth = depth
@@ -1738,7 +1760,7 @@ class UconfigsImplementationSupport extends UconfigsController {
         //The dimension of the top part of the roof 
         let roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
         let y_displacement = roof_top_height * Math.sin(roof_slant)
-
+      
         switch (roof_type) {
             case "roof_type_1":
                 {
@@ -1746,8 +1768,9 @@ class UconfigsImplementationSupport extends UconfigsController {
                     additonal_array=[
                         new accesser('front_left', 0.0),
                         new accesser('front_right', 0.0),
-                        new accesser('back_left', -y_displacement),
-                        new accesser('back_right',-y_displacement),
+                        new accesser('back_left', -y_displacement/2-0.05),
+                        new accesser('back_right',-y_displacement/2-0.05),
+                      
             
                     ]
 
@@ -1755,14 +1778,40 @@ class UconfigsImplementationSupport extends UconfigsController {
                 }
             case "roof_type_2":
                 {
+
+
+                    additonal_array=[
+                        new accesser('front_left', y_displacement/2),
+                        new accesser('front_right', y_displacement/2),
+                        new accesser('back_left', 0),
+                        new accesser('back_right',0),
+            
+                    ]
                     break;
                 }
             case "roof_type_3":
                 {
+
+                    additonal_array=[
+                        new accesser('front_left',  y_displacement/2+ y_displacement/5),
+                        new accesser('front_right', y_displacement/2+ y_displacement/5),
+                        new accesser('back_left',  0),
+                        new accesser('back_right', 0),
+            
+            
+                    ]
                     break;
                 }
             case "roof_type_4":
                 {
+                    additonal_array=[
+                        new accesser('front_left', y_displacement/2),
+                        new accesser('front_right', y_displacement/2),
+                        new accesser('back_left', 0),
+                        new accesser('back_right',0),
+            
+                    ]
+                    break;
                     break;
                 }
             case "roof_type_5":
@@ -1778,6 +1827,7 @@ class UconfigsImplementationSupport extends UconfigsController {
        let accessersWallFront = [
 
             new accesser('supers', 'supers'),
+            new accesser('roof_type', roof_type),
             new accesser('garage_width', garage_width),
             new accesser('garage_height', garage_height),
             new accesser('garage_depth', garage_depth),

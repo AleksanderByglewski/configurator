@@ -66,7 +66,7 @@ class UconfigsController extends genericGarageController {
       
         this.external_objects=[]
         this.external_objects_controllers=[]
-        
+        this.omegaObjects = {};
     }
     request_an_update(){
         /**
@@ -468,6 +468,13 @@ class UconfigsController extends genericGarageController {
             this.group.rotation.z = this.state.get('rotation_z') || 0
         }
     }
+    addOmegaObject(key, omegaObject) {
+        this.omegaObjects[key] = omegaObject;
+    }
+    getOmegaObject(key) {
+        return this.omegaObjects[key];
+    }
+    
 }
 class CubeController extends UconfigsController {
     constructor() {
