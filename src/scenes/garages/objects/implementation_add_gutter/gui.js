@@ -586,8 +586,9 @@ class UconfigImplementationWindowGui extends genericGui {
         // Create options for the select element
         if(this.mediator.door_type){
         print_elemnt="Rynna"
-        options = ['front', 'left', 'right', 'back'];
+        options = ['all','front', 'left', 'right', 'back'];
         options_mapping={
+            "all":"wszystkie",
             "front":"frontowe",
             "left": "lewe",
             "right":"prawe",
@@ -619,47 +620,70 @@ class UconfigImplementationWindowGui extends genericGui {
     
         // Add click event listener to the submit button
         submitButton.addEventListener('click', function() {
-            let targetWall;
             const selectedValue = selectElement.value;
-            switch (selectedValue) {
-                case 'front':
-                    targetWall = self.mediator.wall_front;
-                    break;
-                case 'left':
-                    targetWall = self.mediator.wall_left;
-                    break;
-                case 'right':
-                    targetWall = self.mediator.wall_right;
-                    break;
-                case 'back':
-                    targetWall = self.mediator.wall_back;
-                    break;
-                default:
-                    console.error('Invalid option selected');
-                    return;
+            if (selectedValue === 'all') {
+                // Handle the 'wszystkie' option by iterating over all walls
+                const walls = [
+                    ['wall_front', 'Rynna frontowa'],
+                    ['wall_left', 'Rynna lewa'],
+                    ['wall_right', 'Rynna prawa'],
+                    ['wall_back', 'Rynna tylnia']
+                ];
+                walls.forEach(([key, name]) => {
+                    const targetWall = self.mediator[key];
+                    addDoorSystem(targetWall, name);
+                });
+                
+
+
+           
+            } else {
+                // Existing switch-case logic for individual wall options
+                let targetWall;
+                switch (selectedValue) {
+                    case 'front':
+                        targetWall = self.mediator.wall_front;
+                        break;
+                    case 'left':
+                        targetWall = self.mediator.wall_left;
+                        break;
+                    case 'right':
+                        targetWall = self.mediator.wall_right;
+                        break;
+                    case 'back':
+                        targetWall = self.mediator.wall_back;
+                        break;
+                    default:
+                        console.error('Invalid option selected');
+                        return;
+                }
+                addDoorSystem(targetWall);
             }
     
-            
+           
             // Create DoorSystem1 and assign appropriate values based on the selected option
-            let DoorSystem1 = self.createGarageObject(emptySystem, GutterSystem);
-            targetWall.external_objects.push(DoorSystem1);
-            DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
-            DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
-            DoorSystem1.state.state['color']="#A5A3A5"
-            DoorSystem1.state.state['position_z']=0.003
-            DoorSystem1.state.state['position_y']=1.4
-            DoorSystem1.state.state['door_width']=1.0
-            DoorSystem1.state.state['door_height']=0.6
-            DoorSystem1.state.state['window_depth']=0.025
-            // if(self.mediator.door_type){
-            // DoorSystem1.state.state['door']=true
-            // DoorSystem1.state.state['door_width']=1.13
-            // }
+            function addDoorSystem(targetWall, selected_value) {
+                let DoorSystem1 = self.createGarageObject(emptySystem, GutterSystem);
+                targetWall.external_objects.push(DoorSystem1);
+                DoorSystem1.external_objects_controllers.push(targetWall); // Changed to targetWall instead of always wall_left
+                DoorSystem1.mediator = targetWall; // Changed to targetWall instead of always wall_left
+                DoorSystem1.state.state['color']="#A5A3A5"
+                DoorSystem1.state.state['position_z']=0.003
+                DoorSystem1.state.state['position_y']=1.4
+                DoorSystem1.state.state['door_width']=1.0
+                DoorSystem1.state.state['door_height']=0.6
+                DoorSystem1.state.state['window_depth']=0.025
+                // if(self.mediator.door_type){
+                // DoorSystem1.state.state['door']=true
+                // DoorSystem1.state.state['door_width']=1.13
+                // }
 
+                let name=selected_value? selected_value:print_elemnt+options_mapping[selectedValue];
 
-            DoorSystem1.state.state['name']=print_elemnt+" "+options_mapping[selectedValue]
-            targetWall.handleEvent('buildingStep');
-            DoorSystem1.handleEvent('generateInputs')
+                DoorSystem1.state.state['name']=name
+                targetWall.handleEvent('buildingStep');
+                DoorSystem1.handleEvent('generateInputs')
+            }
         });
     
         containerDiv.appendChild(selectElement);

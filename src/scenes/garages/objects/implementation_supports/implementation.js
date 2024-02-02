@@ -1768,8 +1768,8 @@ class UconfigsImplementationSupport extends UconfigsController {
                     additonal_array=[
                         new accesser('front_left', 0.0),
                         new accesser('front_right', 0.0),
-                        new accesser('back_left', -y_displacement/2-0.05),
-                        new accesser('back_right',-y_displacement/2-0.05),
+                        new accesser('back_left', -y_displacement),
+                        new accesser('back_right',-y_displacement),
                       
             
                     ]
@@ -1779,10 +1779,11 @@ class UconfigsImplementationSupport extends UconfigsController {
             case "roof_type_2":
                 {
 
-
+                    roof_top_height = garage_width * (1 / Math.cos(roof_slant))
+                    y_displacement = roof_top_height * Math.sin(roof_slant)
                     additonal_array=[
-                        new accesser('front_left', y_displacement/2),
-                        new accesser('front_right', y_displacement/2),
+                        new accesser('front_left', y_displacement),
+                        new accesser('front_right', y_displacement),
                         new accesser('back_left', 0),
                         new accesser('back_right',0),
             
@@ -1792,9 +1793,12 @@ class UconfigsImplementationSupport extends UconfigsController {
             case "roof_type_3":
                 {
 
+                    roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
+                    y_displacement = roof_top_height * Math.sin(roof_slant)
+
                     additonal_array=[
-                        new accesser('front_left',  y_displacement/2+ y_displacement/5),
-                        new accesser('front_right', y_displacement/2+ y_displacement/5),
+                        new accesser('front_left',  y_displacement),
+                        new accesser('front_right', y_displacement),
                         new accesser('back_left',  0),
                         new accesser('back_right', 0),
             
@@ -1804,9 +1808,12 @@ class UconfigsImplementationSupport extends UconfigsController {
                 }
             case "roof_type_4":
                 {
+                    roof_top_height = garage_width * (1 / Math.cos(roof_slant))
+                    y_displacement = roof_top_height * Math.sin(roof_slant)
+
                     additonal_array=[
-                        new accesser('front_left', y_displacement/2),
-                        new accesser('front_right', y_displacement/2),
+                        new accesser('front_left', y_displacement),
+                        new accesser('front_right', y_displacement),
                         new accesser('back_left', 0),
                         new accesser('back_right',0),
             

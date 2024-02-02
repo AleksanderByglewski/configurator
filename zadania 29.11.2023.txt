@@ -1,11 +1,11 @@
 [x]Kolory
 [x]Początkowa konfiguracja
-[]Dachy
-	[]dodatkowe opcje 
+[x]Dachy
+	[x]dodatkowe opcje 
 		[x]filc pod dachem
-		[]rynny
-			[]spawn rynen
-[]Bramy
+		[x]rynny
+			[x]spawn rynen
+[x]Bramy
 	[x]Bramy dwuskrzydłowe
 		[x]Klamka po prawej  
 	[x]Blacha T17

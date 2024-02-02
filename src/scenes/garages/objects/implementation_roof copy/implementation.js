@@ -800,6 +800,9 @@ class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementat
             new accesser('wall_color'),
         ]
 
+
+
+        
         this.request_update_state(targeted_parent, accessers, accessers_assign)
 
         //Dont copy this part into different implementations

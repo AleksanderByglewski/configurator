@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Generic, genericGui, genericState, genericObject, genericDisplay, genericController } from '../../base.js'
 import { PlanetGui, PlanetObject, Planet, System } from '../introduction.js'
-import {global_metal_material, select_texture} from '../../textures/spawn.js'
+import { global_metal_material, select_texture } from '../../textures/spawn.js'
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
@@ -19,30 +19,30 @@ const API = {
     offsetY: 0,
     repeatX: 1,
     repeatY: 1,
-    rotation: 0*Math.PI / 4, // positive is counterclockwise
+    rotation: 0 * Math.PI / 4, // positive is counterclockwise
     centerX: 0.0,
     centerY: 0.0,
-    width:10,
-    height2:10
+    width: 10,
+    height2: 10
 };
-let already_created=false
+let already_created = false
 function initGui() {
-    if(already_created) return;
-//     const gui2 = new GUI();
+    if (already_created) return;
+    //     const gui2 = new GUI();
 
-    const folder = gui.addFolder( 'Position' );
+    const folder = gui.addFolder('Position');
 
-    folder.add( API, 'offsetX', 0.0, 1.0 ).name( 'offset.x' )
-    folder.add( API, 'offsetY', 0.0, 1.0 ).name( 'offset.y' )
-    folder.add( API, 'repeatX', 0.25, 10.0 ).name( 'repeat.x' )
-    folder.add( API, 'repeatY', 0.25, 10.0 ).name( 'repeat.y' )
-    folder.add( API, 'rotation', - 2.0, 2.0 ).name( 'rotation' )
-    folder.add( API, 'centerX', 0.0, 1.0 ).name( 'center.x' )
-    folder.add( API, 'centerY', 0.0, 1.0 ).name( 'center.y' )
-    folder.add( API, 'width', 0.0, 10.0 ).name( 'width' )
-    folder.add( API, 'height2', 0.0, 10.0 ).name( 'height' )
+    folder.add(API, 'offsetX', 0.0, 1.0).name('offset.x')
+    folder.add(API, 'offsetY', 0.0, 1.0).name('offset.y')
+    folder.add(API, 'repeatX', 0.25, 10.0).name('repeat.x')
+    folder.add(API, 'repeatY', 0.25, 10.0).name('repeat.y')
+    folder.add(API, 'rotation', - 2.0, 2.0).name('rotation')
+    folder.add(API, 'centerX', 0.0, 1.0).name('center.x')
+    folder.add(API, 'centerY', 0.0, 1.0).name('center.y')
+    folder.add(API, 'width', 0.0, 10.0).name('width')
+    folder.add(API, 'height2', 0.0, 10.0).name('height')
 
-    already_created=true;
+    already_created = true;
 }
 
 
@@ -50,18 +50,18 @@ class SphereObject extends genericObject {
     constructor() {
         super();
     }
-    create(attributes={}) {
+    create(attributes = {}) {
 
-    
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
- 
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",
@@ -69,63 +69,63 @@ class SphereObject extends genericObject {
         //     roughness: 0.1,
         //     clearcoat: 0.8,
         //     clearcoatRoughness: 0.2
-            
-        // });
-     
-        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
-        let local_texture=global_texture
-     
-        let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-        
-        switch(material_type){
-            case "material_type_1":
-                    // texture=global_texture
-                    //  color ="#ee2797";
-                    local_texture=global_texture.clone();
-                    // local_texture.wrapS=THREE.RepeatWrapping
-                    // local_texture.wrapT=THREE.RepeatWrapping
-                    local_texture.repeat.set(width, height/2);
-                    
-                    break;
-                case "material_type_2":
-                    // color ="#2727ee";
-                    // local_texture=global_texture_rotated
-                    
-                    
-                    local_texture=global_texture_rotated.clone();
 
-                    local_texture.repeat.set(width/2, height);
-                    
-                    break;
-                case "material_type_3":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
-                    // local_texture.repeat.set(width, height);
-                    local_texture=global_texture.clone();
-                    local_texture.repeat.set(width, height);
-                    
-                    break;
-                case "material_type_4":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    local_texture=global_texture_rotated.clone();
-                    local_texture.repeat.set(width, height);
-                    
-                    
-                    break;
-                case "material_type_5":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
-                    local_texture=global_texture_testing.clone();
-                    local_texture.repeat.set(width, height);
-                    
-                    
-                    break;
+        // });
+
+        // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
+        let local_texture = global_texture
+
+        let material_type = (attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
+
+        switch (material_type) {
+            case "material_type_1":
+                // texture=global_texture
+                //  color ="#ee2797";
+                local_texture = global_texture.clone();
+                // local_texture.wrapS=THREE.RepeatWrapping
+                // local_texture.wrapT=THREE.RepeatWrapping
+                local_texture.repeat.set(width, height / 2);
+
+                break;
+            case "material_type_2":
+                // color ="#2727ee";
+                // local_texture=global_texture_rotated
+
+
+                local_texture = global_texture_rotated.clone();
+
+                local_texture.repeat.set(width / 2, height);
+
+                break;
+            case "material_type_3":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+                // local_texture.repeat.set(width, height);
+                local_texture = global_texture.clone();
+                local_texture.repeat.set(width, height);
+
+                break;
+            case "material_type_4":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+                local_texture = global_texture_rotated.clone();
+                local_texture.repeat.set(width, height);
+
+
+                break;
+            case "material_type_5":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+
+                local_texture = global_texture_testing.clone();
+                local_texture.repeat.set(width, height);
+
+
+                break;
             default:
-                // code to be executed if expression doesn't match any cases
+            // code to be executed if expression doesn't match any cases
         }
-        local_texture.wrapS=THREE.RepeatWrapping
-        local_texture.wrapT=THREE.RepeatWrapping
+        local_texture.wrapS = THREE.RepeatWrapping
+        local_texture.wrapT = THREE.RepeatWrapping
         // let texture=global_texture
         let material = new THREE.MeshStandardMaterial({
             map: local_texture,
@@ -136,8 +136,8 @@ class SphereObject extends genericObject {
             // clearcoatRoughness: 0.2
         });
 
-        
-        
+
+
 
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,
@@ -149,22 +149,22 @@ class SphereObject extends genericObject {
         let geometry;
 
         geometry = new THREE.BoxGeometry(
-            width+0.01,
-            height+0.01,
-            depth+0.01, // Assuming depth is always 1, adjust as needed
+            width + 0.01,
+            height + 0.01,
+            depth + 0.01, // Assuming depth is always 1, adjust as needed
         );
 
-         geometry = new RoundedBoxGeometry(
+        geometry = new RoundedBoxGeometry(
             width,
-            height ,
-            depth , // Assuming depth is always 1, adjust as needed
+            height,
+            depth, // Assuming depth is always 1, adjust as needed
             parseFloat(attributes.segments) || 1,
             parseFloat(attributes.radius) || 0.005
         );
 
-        
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
@@ -205,29 +205,29 @@ class RoofSideRightObject extends genericObject {
     constructor() {
         super();
         initGui()
-        
+
     }
-    create(attributes={}) {
-       
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+    create(attributes = {}) {
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let wall_color = (attributes && attributes.wall_color) ? attributes.wall_color : "#CCCCCC";
- 
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "#FFFFFF";
-       
+
         let texture_offset = (attributes && attributes.texture_offset) ? attributes.texture_offset : 0;
-   
+
         //texture_offset=API.offsetX
-        
-      
+
+
         // texture_offset=1.25
         // texture_offset=0.125
-     
+
         // var material = new THREE.MeshPhysicalMaterial({
         //     map: texture,
         //     color: attributes.color || "#ffffff",
@@ -235,16 +235,16 @@ class RoofSideRightObject extends genericObject {
         //     roughness: 0.1,
         //     clearcoat: 0.8,
         //     clearcoatRoughness: 0.2
-            
+
         // });
         // debug()
-        
+
 
         // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
         // let local_texture=global_texture
-     
+
         // let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-        
+
         // switch(material_type){
         //     case "material_type_1":
         //             // texture=global_texture
@@ -253,41 +253,41 @@ class RoofSideRightObject extends genericObject {
         //             // local_texture.wrapS=THREE.RepeatWrapping
         //             // local_texture.wrapT=THREE.RepeatWrapping
         //             local_texture.repeat.set(width, height/2);
-                    
+
         //             break;
         //         case "material_type_2":
         //             // color ="#2727ee";
         //             // local_texture=global_texture_rotated
-        
-                    
+
+
         //             local_texture=global_texture_rotated.clone();
 
         //             local_texture.repeat.set(width/2, height);
-                    
+
         //             break;
         //         case "material_type_3":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
+
         //             // local_texture.repeat.set(width, height);
         //             local_texture=global_texture.clone();
         //             local_texture.repeat.set(width, height);
-                    
+
         //             break;
         //         case "material_type_4":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
         //             local_texture=global_texture_rotated.clone();
         //             local_texture.repeat.set(width, height);
-                    
-                    
+
+
         //             break;
         //         case "material_type_5":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
+
+
         //             local_texture=global_texture_testing.clone();
         //             local_texture.repeat.set(width, height);
-                    
-                    
+
+
         //             break;
         //     default:
         //         // code to be executed if expression doesn't match any cases
@@ -304,8 +304,8 @@ class RoofSideRightObject extends genericObject {
         //     // clearcoatRoughness: 0.2
         // });
 
-        
-        
+
+
 
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,
@@ -323,10 +323,10 @@ class RoofSideRightObject extends genericObject {
         // shape.lineTo(-width/2,height)
 
 
-        shape.moveTo(-width/2,0)
-        shape.lineTo(width/2,0)
+        shape.moveTo(-width / 2, 0)
+        shape.lineTo(width / 2, 0)
         //  shape.lineTo(width/2,height/2)
-        shape.lineTo(-width/2,height)
+        shape.lineTo(-width / 2, height)
 
         // shape.moveTo( 0, height );  // Move to the first point
         // shape.lineTo( -1, -1 );  // Draw a line to the second point
@@ -336,16 +336,16 @@ class RoofSideRightObject extends genericObject {
         var uvs = new Float32Array([
             texture_offset, 0.0,  // Maps the (-1, -1) vertex of the model to the bottom-left of the texture
             texture_offset, 1.0,  // Maps the (1, -1) vertex of the model to the bottom-right of the texture
-            1.0+texture_offset, 0.0,  // Maps the (-1, 1) vertex of the model to the top-left of the texture
-            ]);
+            1.0 + texture_offset, 0.0,  // Maps the (-1, 1) vertex of the model to the top-left of the texture
+        ]);
 
 
-       // shape.moveTo( 0, height );  // Move to the first point
-       // shape.lineTo( -1, -1 );  // Draw a line to the second point
-       // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        // shape.moveTo( 0, height );  // Move to the first point
+        // shape.lineTo( -1, -1 );  // Draw a line to the second point
+        // shape.lineTo( 1, -1 );  // Draw a line to the third point
         shape.closePath();  // Close the path to create a triangle
-        
-        geometry = new THREE.ShapeGeometry( shape );
+
+        geometry = new THREE.ShapeGeometry(shape);
         geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
         // Create a material
 
@@ -359,19 +359,19 @@ class RoofSideRightObject extends genericObject {
         //     map:local_texture,
         //     side:THREE.DoubleSide,
         //     color:wall_color});
-        
-        
-                     //GOBACKTO
-       
-                    //  material=select_texture({width:1,height:height,color:color})
-                     material=select_texture({width:width,height:height,color:wall_color, debug:false, material_type:material_type})
-                     material.side= THREE.DoubleSide
-        // Create a mesh from the geometry and materia
-        
 
-        
+
+        //GOBACKTO
+
+        //  material=select_texture({width:1,height:height,color:color})
+        material = select_texture({ width: width, height: height, color: wall_color, debug: false, material_type: material_type })
+        material.side = THREE.DoubleSide
+        // Create a mesh from the geometry and materia
+
+
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
@@ -412,20 +412,20 @@ class RoofSideLeftObject extends genericObject {
     constructor() {
         super();
     }
-    create(attributes={}) {
+    create(attributes = {}) {
 
-    
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let wall_color = (attributes && attributes.wall_color) ? attributes.wall_color : "#FFFFFF";
-       
 
-       
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
 
 
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "#FFFFFF";
@@ -436,16 +436,16 @@ class RoofSideLeftObject extends genericObject {
         //     roughness: 0.1,
         //     clearcoat: 0.8,
         //     clearcoatRoughness: 0.2
-            
+
         // });
         // debug()
-        
+
 
         // let texture=loader.load('/assets/config/default_rotated_1k.jpg');
         // let local_texture=global_texture
-     
+
         // let material_type=(attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-        
+
         // switch(material_type){
         //     case "material_type_1":
         //             // texture=global_texture
@@ -454,41 +454,41 @@ class RoofSideLeftObject extends genericObject {
         //             // local_texture.wrapS=THREE.RepeatWrapping
         //             // local_texture.wrapT=THREE.RepeatWrapping
         //             local_texture.repeat.set(width, height/2);
-                    
+
         //             break;
         //         case "material_type_2":
         //             // color ="#2727ee";
         //             // local_texture=global_texture_rotated
-        
-                    
+
+
         //             local_texture=global_texture_rotated.clone();
 
         //             local_texture.repeat.set(width/2, height);
-                    
+
         //             break;
         //         case "material_type_3":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
+
         //             // local_texture.repeat.set(width, height);
         //             local_texture=global_texture.clone();
         //             local_texture.repeat.set(width, height);
-                    
+
         //             break;
         //         case "material_type_4":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
         //             local_texture=global_texture_rotated.clone();
         //             local_texture.repeat.set(width, height);
-                    
-                    
+
+
         //             break;
         //         case "material_type_5":
         //             // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
+
+
         //             local_texture=global_texture_testing.clone();
         //             local_texture.repeat.set(width, height);
-                    
-                    
+
+
         //             break;
         //     default:
         //         // code to be executed if expression doesn't match any cases
@@ -505,8 +505,8 @@ class RoofSideLeftObject extends genericObject {
         //     // clearcoatRoughness: 0.2
         // });
 
-        
-        
+
+
 
         // let geometry = new RoundedBoxGeometry(
         //     parseFloat(attributes.width) || 5,
@@ -524,59 +524,60 @@ class RoofSideLeftObject extends genericObject {
         // shape.lineTo(width/2,height)
 
 
-		var shape = new THREE.Shape();
-                // shape.moveTo(-width/2,0)
-                // shape.lineTo(width/2,0)
-                // shape.lineTo(width/2,height)
-        
-				shape.moveTo(-width/2,0)
-				shape.lineTo(width/2,0)
-			    //  shape.lineTo(width/2,height/2)
-				shape.lineTo(width/2,height)
-				// shape.moveTo( 0, height );  // Move to the first point
-				// shape.lineTo( -1, -1 );  // Draw a line to the second point
-				// shape.lineTo( 1, -1 );  // Draw a line to the third point
-				shape.closePath();  // Close the path to create a triangle
+        var shape = new THREE.Shape();
+        // shape.moveTo(-width/2,0)
+        // shape.lineTo(width/2,0)
+        // shape.lineTo(width/2,height)
 
-				var uvs = new Float32Array([
-                    0.0, 0.0,  // Maps the (-width/2, 0) vertex of the model to the bottom-left of the texture
-                    1.0, 1.0,  // Maps the (width/2, 0) vertex of the model to the bottom-right of the texture
-                    1.0, 0.0,  // Maps the (width/2, height) vertex of the model to the top-right of the texture
-                    ]);
+        shape.moveTo(-width / 2, 0)
+        shape.lineTo(width / 2, 0)
+        //  shape.lineTo(width/2,height/2)
+        shape.lineTo(width / 2, height)
+        // shape.moveTo( 0, height );  // Move to the first point
+        // shape.lineTo( -1, -1 );  // Draw a line to the second point
+        // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        shape.closePath();  // Close the path to create a triangle
+
+        var uvs = new Float32Array([
+            0.0, 0.0,  // Maps the (-width/2, 0) vertex of the model to the bottom-left of the texture
+            1.0, 1.0,  // Maps the (width/2, 0) vertex of the model to the bottom-right of the texture
+            1.0, 0.0,  // Maps the (width/2, height) vertex of the model to the top-right of the texture
+        ]);
 
         shape.closePath();  // Close the path to create a triangle
-        
-        geometry = new THREE.ShapeGeometry( shape );
-		geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+
+        geometry = new THREE.ShapeGeometry(shape);
+        geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
 
 
         // Create a material
-        let local_texture=loader.load('/assets/config/default_1k.jpg');
-        local_texture.repeat.set(1, 2*height);
+        let local_texture = loader.load('/assets/config/default_1k.jpg');
+        local_texture.repeat.set(1, 2 * height);
         // Create a material
         material = new THREE.MeshStandardMaterial({
-            map:local_texture,
-            side:THREE.DoubleSide,
-            color: wall_color });
-        
-                //GOBACKTO
-                // material=global_metal_material.clone()
-                // material.bumpMap = material.bumpMap.clone();
-                // material.normalMap = material.normalMap.clone();
-                // material.bumpMap.repeat.set(1, height/2);
-                // material.normalMap.repeat.set(1, height/2);
-                // material.color=new THREE.Color(wall_color)
+            map: local_texture,
+            side: THREE.DoubleSide,
+            color: wall_color
+        });
 
-                // material=select_texture({width:width,height:height,color:wall_color})
-                material=select_texture({width:width,height:height,color:wall_color, debug:false, material_type:material_type})
-                 // material=select_texture({width:1,height:1,color:wall_color, debug:true})
-                material.side= THREE.DoubleSide
+        //GOBACKTO
+        // material=global_metal_material.clone()
+        // material.bumpMap = material.bumpMap.clone();
+        // material.normalMap = material.normalMap.clone();
+        // material.bumpMap.repeat.set(1, height/2);
+        // material.normalMap.repeat.set(1, height/2);
+        // material.color=new THREE.Color(wall_color)
+
+        // material=select_texture({width:width,height:height,color:wall_color})
+        material = select_texture({ width: width, height: height, color: wall_color, debug: false, material_type: material_type })
+        // material=select_texture({width:1,height:1,color:wall_color, debug:true})
+        material.side = THREE.DoubleSide
         // Create a mesh from the geometry and materia
-        
 
-        
+
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
@@ -617,22 +618,22 @@ class RoofSideSquareObject extends genericObject {
     constructor() {
         super();
     }
-    create(attributes={}) {
+    create(attributes = {}) {
 
-    
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.wall_color) ? attributes.wall_color : "#CCCCCC";
 
-         
 
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "#FFFFFF";
-    
+
         let material
         let geometry;
 
@@ -642,112 +643,113 @@ class RoofSideSquareObject extends genericObject {
         // shape.lineTo(width/2,height)
         // shape.lineTo(-width/2,height)
 
-		shape.moveTo(-width/2, 0);
-			shape.lineTo(width/2, 0);
-			shape.lineTo(width/2, height);
-			shape.lineTo(-width/2, height);
-			shape.closePath();
+        shape.moveTo(-width / 2, 0);
+        shape.lineTo(width / 2, 0);
+        shape.lineTo(width / 2, height);
+        shape.lineTo(-width / 2, height);
+        shape.closePath();
 
-			let shapeGeometry = new THREE.ShapeGeometry(shape);
+        let shapeGeometry = new THREE.ShapeGeometry(shape);
 
-			let uvs = new Float32Array([
-				0, 0,
-				0, 1,
-				1, 1,
-				1, 0
-			]);
+        let uvs = new Float32Array([
+            0, 0,
+            0, 1,
+            1, 1,
+            1, 0
+        ]);
 
-       // shape.moveTo( 0, height );  // Move to the first point
-       // shape.lineTo( -1, -1 );  // Draw a line to the second point
-       // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        // shape.moveTo( 0, height );  // Move to the first point
+        // shape.lineTo( -1, -1 );  // Draw a line to the second point
+        // shape.lineTo( 1, -1 );  // Draw a line to the third point
         shape.closePath();  // Close the path to create a triangle
-        
-        geometry = new THREE.ShapeGeometry( shape );
+
+        geometry = new THREE.ShapeGeometry(shape);
 
         geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
-        
-                      
-                        
 
-        let local_texture=loader.load('/assets/config/default_1k.jpg');
 
-    
-       
+
+
+        let local_texture = loader.load('/assets/config/default_1k.jpg');
+
+
+
 
         local_texture.repeat.set(1, 1);
-        local_texture.wrapS=THREE.RepeatWrapping
-        local_texture.wrapT=THREE.RepeatWrapping
+        local_texture.wrapS = THREE.RepeatWrapping
+        local_texture.wrapT = THREE.RepeatWrapping
         // Create a material
         material = new THREE.MeshStandardMaterial({
-            map:local_texture,
-            side:THREE.DoubleSide,
-            color: color });
-        
-        // Create a mesh from the geometry and materia
-                //GOBACKTO
-                // material=global_metal_material.clone()
-                // material.bumpMap = material.bumpMap.clone();
-                // material.normalMap = material.normalMap.clone();
-                // material.bumpMap.repeat.set(1, height);
-                // material.normalMap.repeat.set(1, height);
-                // material.bumpMap.offset.set(width/6, width/6);
-                // material.normalMap.offset.set(width/6, width/6);
-                // material.color=new THREE.Color(color)
+            map: local_texture,
+            side: THREE.DoubleSide,
+            color: color
+        });
 
-        material=select_texture({width:width,height:height,color:color, material_type:material_type})
-                
-        material.side= THREE.DoubleSide
-              
-                
-                // Now you can safely modify the repeat values without affecting other materials
-        
-        
+        // Create a mesh from the geometry and materia
+        //GOBACKTO
+        // material=global_metal_material.clone()
+        // material.bumpMap = material.bumpMap.clone();
+        // material.normalMap = material.normalMap.clone();
+        // material.bumpMap.repeat.set(1, height);
+        // material.normalMap.repeat.set(1, height);
+        // material.bumpMap.offset.set(width/6, width/6);
+        // material.normalMap.offset.set(width/6, width/6);
+        // material.color=new THREE.Color(color)
+
+        material = select_texture({ width: width, height: height, color: color, material_type: material_type })
+
+        material.side = THREE.DoubleSide
+
+
+        // Now you can safely modify the repeat values without affecting other materials
+
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
 
-      
 
-        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
-        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
-        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 10;
+
+        let garage_width = (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth = (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height = (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 10;
 
 
         const group = new THREE.Group();
         let pillarWidth = 0.1; // Example width of a pillar
         let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
-        
+
         // Function to create a pillar
         function createPillar() {
             return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
         }
-        
+
         // Create and position pillars at each corner
         const pillar1 = createPillar();
-        pillar1.position.set(garage_width / 2,0, garage_depth / 2);
+        pillar1.position.set(garage_width / 2, 0, garage_depth / 2);
         group.add(pillar1);
-        
+
         const pillar2 = createPillar();
-        pillar2.position.set(-garage_width / 2,0, garage_depth / 2);
+        pillar2.position.set(-garage_width / 2, 0, garage_depth / 2);
         group.add(pillar2);
-        
+
         const pillar3 = createPillar();
-        pillar3.position.set(garage_width / 2,0, -garage_depth / 2);
+        pillar3.position.set(garage_width / 2, 0, -garage_depth / 2);
         group.add(pillar3);
-        
+
         const pillar4 = createPillar();
-        pillar4.position.set(-garage_width / 2,0, -garage_depth / 2);
+        pillar4.position.set(-garage_width / 2, 0, -garage_depth / 2);
         group.add(pillar4);
-        
+
 
         // Add the group to the scene
         this.set(group);
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
-      
+
     }
 
     // update(attributes) {
@@ -775,22 +777,22 @@ class RoofTopObject extends genericObject {
     constructor() {
         super();
     }
-    create(attributes={}) {
-        
-        let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
-        
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
-        let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
- 
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+    create(attributes = {}) {
 
-    
+        let roof_material_type = (attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+        let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
+
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+
         let material
         let geometry;
 
@@ -799,101 +801,101 @@ class RoofTopObject extends genericObject {
         // shape.lineTo(width/2,-2.05)
         // shape.lineTo(width/2,2.05)
         // shape.lineTo(-width/2,2.05)
-        let recLength=width
-        let recHeight=height
-        shape.moveTo( -recLength/2, -recHeight/2 )
-        shape.lineTo( -recLength/2, recHeight/2 )
-        shape.lineTo( recLength/2, recHeight/2 )
-        shape.lineTo( recLength/2, -recHeight/2 )
-        shape.lineTo( -recLength/2, -recHeight/2 );
+        let recLength = width
+        let recHeight = height
+        shape.moveTo(-recLength / 2, -recHeight / 2)
+        shape.lineTo(-recLength / 2, recHeight / 2)
+        shape.lineTo(recLength / 2, recHeight / 2)
+        shape.lineTo(recLength / 2, -recHeight / 2)
+        shape.lineTo(-recLength / 2, -recHeight / 2);
 
-       // shape.moveTo( 0, height );  // Move to the first point
-       // shape.lineTo( -1, -1 );  // Draw a line to the second point
-       // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        // shape.moveTo( 0, height );  // Move to the first point
+        // shape.lineTo( -1, -1 );  // Draw a line to the second point
+        // shape.lineTo( 1, -1 );  // Draw a line to the third point
         shape.closePath();  // Close the path to create a triangle
-        
 
 
-        geometry = new THREE.ShapeGeometry( shape );
+
+        geometry = new THREE.ShapeGeometry(shape);
         //EXPLANTION
         geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
             0, 0, // first vertex UV
             0, 1, // second vertex UV
             1, 1, // third vertex UV
             1, 0  // fourth vertex UV
-          ], 2));
+        ], 2));
 
-        let local_texture=global_texture;
+        let local_texture = global_texture;
 
-        local_texture.repeat.set(1, recHeight/2);
-        local_texture.wrapS=THREE.RepeatWrapping
-        local_texture.wrapT=THREE.RepeatWrapping
-                    
+        local_texture.repeat.set(1, recHeight / 2);
+        local_texture.wrapS = THREE.RepeatWrapping
+        local_texture.wrapT = THREE.RepeatWrapping
 
-      
-        switch(roof_material_type){
-                case "material_type_1":
-                    // texture=global_texture
-                    //  color ="#ee2797";
-                    local_texture=global_texture.clone();
-                    // local_texture.wrapS=THREE.RepeatWrapping
-                    // local_texture.wrapT=THREE.RepeatWrapping
-                    local_texture.repeat.set(1, recHeight/2);
-                    
-                    break;
-                case "material_type_2":
-                    // color ="#2727ee";
-                    // local_texture=global_texture_rotated
-                    
-                    
-                    local_texture=global_texture.clone();
-                    local_texture.rotation = Math.PI / 2;
 
-                    local_texture.repeat.set(1, recHeight/2);
-                    
-                    break;
-                case "material_type_3":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
-                    // local_texture.repeat.set(width, height);
-                    local_texture=global_texture.clone();
-                    local_texture.repeat.set(1, recHeight);
-                    
-                    break;
-                case "material_type_4":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    local_texture=global_texture.clone();
-                    local_texture.rotation = Math.PI / 2;
 
-                    local_texture.repeat.set(1, recHeight);
-                 
-                    
-                    
-                    break;
-                case "material_type_5":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
-                    local_texture=global_texture_testing.clone();
-                    local_texture.repeat.set(width, height);
-                    
-                    
-                    break;
+        switch (roof_material_type) {
+            case "material_type_1":
+                // texture=global_texture
+                //  color ="#ee2797";
+                local_texture = global_texture.clone();
+                // local_texture.wrapS=THREE.RepeatWrapping
+                // local_texture.wrapT=THREE.RepeatWrapping
+                local_texture.repeat.set(1, recHeight / 2);
+
+                break;
+            case "material_type_2":
+                // color ="#2727ee";
+                // local_texture=global_texture_rotated
+
+
+                local_texture = global_texture.clone();
+                local_texture.rotation = Math.PI / 2;
+
+                local_texture.repeat.set(1, recHeight / 2);
+
+                break;
+            case "material_type_3":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+                // local_texture.repeat.set(width, height);
+                local_texture = global_texture.clone();
+                local_texture.repeat.set(1, recHeight);
+
+                break;
+            case "material_type_4":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+                local_texture = global_texture.clone();
+                local_texture.rotation = Math.PI / 2;
+
+                local_texture.repeat.set(1, recHeight);
+
+
+
+                break;
+            case "material_type_5":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+
+                local_texture = global_texture_testing.clone();
+                local_texture.repeat.set(width, height);
+
+
+                break;
             default:
-                // code to be executed if expression doesn't match any cases
+            // code to be executed if expression doesn't match any cases
         }
 
         // Create a material
         material = new THREE.MeshStandardMaterial({
-            map:local_texture,
-            
-            color: color ,
-        
-            side:THREE.DoubleSide
+            map: local_texture,
+
+            color: color,
+
+            side: THREE.DoubleSide
         });
-        
+
         // Create a mesh from the geometry and materia
-        
+
         //GOBACKTO
         // material=global_metal_material.clone()
         // material.bumpMap = material.bumpMap.clone();
@@ -901,11 +903,11 @@ class RoofTopObject extends genericObject {
         // material.bumpMap.repeat.set(width, height/2);
         // material.normalMap.repeat.set(width, height/2);
         // material.color=new THREE.Color(color)
-        material=select_texture({width:width, height:height, color:color, material_type:roof_material_type})
-        material.side= THREE.DoubleSide
-        
+        material = select_texture({ width: width, height: height, color: color, material_type: roof_material_type })
+        material.side = THREE.DoubleSide
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
@@ -919,39 +921,39 @@ class RoofTopObject extends genericObject {
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
         // this.set(mesh);
-        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
-        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
-        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
+        let garage_width = (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth = (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height = (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
 
 
         const group = new THREE.Group();
         let pillarWidth = 0.1; // Example width of a pillar
-        
-        
+
+
         // Function to create a pillar
         function createPillar(mo) {
 
             let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height, pillarWidth);
             return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
         }
-        
+
         // Create and position pillars at each corner
         const pillar1 = createPillar();
-        pillar1.position.set(garage_width / 2,0, garage_depth / 2);
+        pillar1.position.set(garage_width / 2, 0, garage_depth / 2);
         group.add(pillar1);
-        
+
         const pillar2 = createPillar();
-        pillar2.position.set(-garage_width / 2,0, garage_depth / 2);
+        pillar2.position.set(-garage_width / 2, 0, garage_depth / 2);
         group.add(pillar2);
-        
+
         const pillar3 = createPillar();
-        pillar3.position.set(garage_width / 2,0, -garage_depth / 2);
+        pillar3.position.set(garage_width / 2, 0, -garage_depth / 2);
         group.add(pillar3);
-        
+
         const pillar4 = createPillar();
-        pillar4.position.set(-garage_width / 2,0, -garage_depth / 2);
+        pillar4.position.set(-garage_width / 2, 0, -garage_depth / 2);
         group.add(pillar4);
-        
+
 
         // Add the group to the scene
         this.set(group);
@@ -965,24 +967,24 @@ class SupportObject extends genericObject {
     constructor() {
         super();
     }
-    create(attributes={}) {
-   
+    create(attributes = {}) {
 
-        
-        let roof_material_type=(attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
-        
-        let position_x= (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
-        let position_y= (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
-        let position_z= (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
+
+
+        let roof_material_type = (attributes && attributes.roof_material_type) ? attributes.roof_material_type : "material_type_1";
+
+        let position_x = (attributes && attributes.position_x) ? parseFloat(attributes.position_x) : 0;
+        let position_y = (attributes && attributes.position_y) ? parseFloat(attributes.position_y) : 0;
+        let position_z = (attributes && attributes.position_z) ? parseFloat(attributes.position_z) : 0;
         let color = (attributes && attributes.color) ? attributes.color : "#CCCCCC";
- 
-        let width= (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
-        let depth= (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
-        let height= (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        
-        let sheet_depth= (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
 
-    
+        let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
+        let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
+        let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
+
+        let sheet_depth = (attributes && attributes.sheet_depth) ? parseFloat(attributes.sheet_depth) : 10.25;
+
+
         let material
         let geometry;
 
@@ -991,101 +993,101 @@ class SupportObject extends genericObject {
         // shape.lineTo(width/2,-2.05)
         // shape.lineTo(width/2,2.05)
         // shape.lineTo(-width/2,2.05)
-        let recLength=width
-        let recHeight=height
-        shape.moveTo( -recLength/2, -recHeight/2 )
-        shape.lineTo( -recLength/2, recHeight/2 )
-        shape.lineTo( recLength/2, recHeight/2 )
-        shape.lineTo( recLength/2, -recHeight/2 )
-        shape.lineTo( -recLength/2, -recHeight/2 );
+        let recLength = width
+        let recHeight = height
+        shape.moveTo(-recLength / 2, -recHeight / 2)
+        shape.lineTo(-recLength / 2, recHeight / 2)
+        shape.lineTo(recLength / 2, recHeight / 2)
+        shape.lineTo(recLength / 2, -recHeight / 2)
+        shape.lineTo(-recLength / 2, -recHeight / 2);
 
-       // shape.moveTo( 0, height );  // Move to the first point
-       // shape.lineTo( -1, -1 );  // Draw a line to the second point
-       // shape.lineTo( 1, -1 );  // Draw a line to the third point
+        // shape.moveTo( 0, height );  // Move to the first point
+        // shape.lineTo( -1, -1 );  // Draw a line to the second point
+        // shape.lineTo( 1, -1 );  // Draw a line to the third point
         shape.closePath();  // Close the path to create a triangle
-        
 
 
-        geometry = new THREE.ShapeGeometry( shape );
+
+        geometry = new THREE.ShapeGeometry(shape);
         //EXPLANTION
         geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
             0, 0, // first vertex UV
             0, 1, // second vertex UV
             1, 1, // third vertex UV
             1, 0  // fourth vertex UV
-          ], 2));
+        ], 2));
 
-        let local_texture=global_texture;
+        let local_texture = global_texture;
 
-        local_texture.repeat.set(1, recHeight/2);
-        local_texture.wrapS=THREE.RepeatWrapping
-        local_texture.wrapT=THREE.RepeatWrapping
-                    
+        local_texture.repeat.set(1, recHeight / 2);
+        local_texture.wrapS = THREE.RepeatWrapping
+        local_texture.wrapT = THREE.RepeatWrapping
 
-      
-        switch(roof_material_type){
-                case "material_type_1":
-                    // texture=global_texture
-                    //  color ="#ee2797";
-                    local_texture=global_texture.clone();
-                    // local_texture.wrapS=THREE.RepeatWrapping
-                    // local_texture.wrapT=THREE.RepeatWrapping
-                    local_texture.repeat.set(1, recHeight/2);
-                    
-                    break;
-                case "material_type_2":
-                    // color ="#2727ee";
-                    // local_texture=global_texture_rotated
-                    
-                    
-                    local_texture=global_texture.clone();
-                    local_texture.rotation = Math.PI / 2;
 
-                    local_texture.repeat.set(1, recHeight/2);
-                    
-                    break;
-                case "material_type_3":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-      
-                    // local_texture.repeat.set(width, height);
-                    local_texture=global_texture.clone();
-                    local_texture.repeat.set(1, recHeight);
-                    
-                    break;
-                case "material_type_4":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    local_texture=global_texture.clone();
-                    local_texture.rotation = Math.PI / 2;
 
-                    local_texture.repeat.set(1, recHeight);
-                 
-                    
-                    
-                    break;
-                case "material_type_5":
-                    // local_texture=loader.load('/assets/config/default_1k.jpg');
-                    
-                    
-                    local_texture=global_texture_testing.clone();
-                    local_texture.repeat.set(width, height);
-                    
-                    
-                    break;
+        switch (roof_material_type) {
+            case "material_type_1":
+                // texture=global_texture
+                //  color ="#ee2797";
+                local_texture = global_texture.clone();
+                // local_texture.wrapS=THREE.RepeatWrapping
+                // local_texture.wrapT=THREE.RepeatWrapping
+                local_texture.repeat.set(1, recHeight / 2);
+
+                break;
+            case "material_type_2":
+                // color ="#2727ee";
+                // local_texture=global_texture_rotated
+
+
+                local_texture = global_texture.clone();
+                local_texture.rotation = Math.PI / 2;
+
+                local_texture.repeat.set(1, recHeight / 2);
+
+                break;
+            case "material_type_3":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+                // local_texture.repeat.set(width, height);
+                local_texture = global_texture.clone();
+                local_texture.repeat.set(1, recHeight);
+
+                break;
+            case "material_type_4":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+                local_texture = global_texture.clone();
+                local_texture.rotation = Math.PI / 2;
+
+                local_texture.repeat.set(1, recHeight);
+
+
+
+                break;
+            case "material_type_5":
+                // local_texture=loader.load('/assets/config/default_1k.jpg');
+
+
+                local_texture = global_texture_testing.clone();
+                local_texture.repeat.set(width, height);
+
+
+                break;
             default:
-                // code to be executed if expression doesn't match any cases
+            // code to be executed if expression doesn't match any cases
         }
 
         // Create a material
         material = new THREE.MeshStandardMaterial({
-            map:local_texture,
-            
-            color: color ,
-        
-            side:THREE.DoubleSide
+            map: local_texture,
+
+            color: color,
+
+            side: THREE.DoubleSide
         });
-        
+
         // Create a mesh from the geometry and materia
-        
+
         //GOBACKTO
         // material=global_metal_material.clone()
         // material.bumpMap = material.bumpMap.clone();
@@ -1093,11 +1095,11 @@ class SupportObject extends genericObject {
         // material.bumpMap.repeat.set(width, height/2);
         // material.normalMap.repeat.set(width, height/2);
         // material.color=new THREE.Color(color)
-        material=select_texture({width:width, height:height, color:color, material_type:roof_material_type})
-        material.side= THREE.DoubleSide
-        
+        material = select_texture({ width: width, height: height, color: color, material_type: roof_material_type })
+        material.side = THREE.DoubleSide
+
         const mesh = new THREE.Mesh(geometry, material);
-     
+
         //  position_x = Math.random() * 1-0.5;
         //console.log(position_x);
 
@@ -1112,57 +1114,57 @@ class SupportObject extends genericObject {
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
         // this.set(mesh);
 
-        let garage_width= (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
-        let garage_depth= (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
-        let garage_height= (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
+        let garage_width = (attributes && attributes.garage_width) ? parseFloat(attributes.garage_width) : 0;
+        let garage_depth = (attributes && attributes.garage_depth) ? parseFloat(attributes.garage_depth) : 0;
+        let garage_height = (attributes && attributes.garage_height) ? parseFloat(attributes.garage_height) : 0;
 
 
         const group = new THREE.Group();
         let pillarWidth = 0.1; // Example width of a pillar
-        let pillarDisplacement = pillarWidth/2-0.01; // Example width of a pillar
-        
-    
+        let pillarDisplacement = pillarWidth / 2 - 0.01; // Example width of a pillar
+
+
         // Function to create a pillar
         function createPillar(height_modifier) {
-            let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height+height_modifier, pillarWidth);
+            let pillarGeometry = new THREE.BoxGeometry(pillarWidth, garage_height + height_modifier, pillarWidth);
             return new THREE.Mesh(pillarGeometry, material); // Assuming 'material' is defined elsewhere
         }
-        
+
         // Create and position pillars at each corner
 
         //We need for modifiers FrontLeft, FrontRight, BackLeft, BackRight
-       
-        let front_left= (attributes && attributes.front_left) ? parseFloat(attributes.front_left) : 0;
-        let front_right= (attributes && attributes.front_right) ? parseFloat(attributes.front_right) : 0;
-        let back_left= (attributes && attributes.back_left) ? parseFloat(attributes.back_left) : 0;
-        let back_right= (attributes && attributes.back_right) ? parseFloat(attributes.back_right) : 0;
+
+        let front_left = (attributes && attributes.front_left) ? parseFloat(attributes.front_left) : 0;
+        let front_right = (attributes && attributes.front_right) ? parseFloat(attributes.front_right) : 0;
+        let back_left = (attributes && attributes.back_left) ? parseFloat(attributes.back_left) : 0;
+        let back_right = (attributes && attributes.back_right) ? parseFloat(attributes.back_right) : 0;
 
 
-      
-        let roof_type= (attributes && attributes.roof_type) ? attributes.roof_type:'roof_type_1';
-     
-        if(roof_type=="roof_type_2" ||roof_type=="roof_type_4" ||roof_type=="roof_type_6"){
-            let save_width=garage_width
-            garage_width=garage_depth
-            garage_depth=save_width
-        } 
+
+        let roof_type = (attributes && attributes.roof_type) ? attributes.roof_type : 'roof_type_1';
+
+        if (roof_type == "roof_type_2" || roof_type == "roof_type_4" || roof_type == "roof_type_6") {
+            let save_width = garage_width
+            garage_width = garage_depth
+            garage_depth = save_width
+        }
 
         const pillar1 = createPillar(front_left);
-        pillar1.position.set((garage_width / 2-pillarDisplacement),-garage_height/2+front_left, (garage_depth / 2-pillarDisplacement));
+        pillar1.position.set((garage_width / 2 - pillarDisplacement), -garage_height / 2 + front_left/2, (garage_depth / 2 - pillarDisplacement));
         group.add(pillar1);
-        
+
         const pillar2 = createPillar(front_right);
-        pillar2.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2+front_right, (garage_depth / 2-pillarDisplacement));
+        pillar2.position.set(-(garage_width / 2 - pillarDisplacement), -garage_height / 2 + front_right/2, (garage_depth / 2 - pillarDisplacement));
         group.add(pillar2);
-        
+
         const pillar3 = createPillar(back_left);
-        pillar3.position.set((garage_width / 2-pillarDisplacement),-garage_height/2+back_left, -(garage_depth / 2-pillarDisplacement));
+        pillar3.position.set((garage_width / 2 - pillarDisplacement), -garage_height / 2 + back_left/2, -(garage_depth / 2 - pillarDisplacement));
         group.add(pillar3);
-        
+
         const pillar4 = createPillar(back_right);
-        pillar4.position.set(-(garage_width / 2-pillarDisplacement),-garage_height/2+back_right, -(garage_depth / 2-pillarDisplacement));
+        pillar4.position.set(-(garage_width / 2 - pillarDisplacement), -garage_height / 2 + back_right/2, -(garage_depth / 2 - pillarDisplacement));
         group.add(pillar4);
-        
+
 
         // Add the group to the scene
         this.set(group);
@@ -1173,6 +1175,6 @@ class SupportObject extends genericObject {
 }
 
 
-export {SupportObject,SphereObject, RoofSideLeftObject, RoofSideRightObject,RoofSideSquareObject, RoofTopObject}
+export { SupportObject, SphereObject, RoofSideLeftObject, RoofSideRightObject, RoofSideSquareObject, RoofTopObject }
 
 

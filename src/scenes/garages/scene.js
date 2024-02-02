@@ -591,6 +591,13 @@ function populateScene(scene) {
     WallSystem4.mediator = GroupGarageSystem
 
 
+    
+    WallSystem1.state.state['status']='front'
+    WallSystem2.state.state['status']='back'
+    WallSystem3.state.state['status']='left'
+    WallSystem4.state.state['status']='right'
+
+
   }
   advanced_walls_object()
 
@@ -676,7 +683,6 @@ function populateScene(scene) {
     OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
     OmegaSystems.group_controller = GroupGarageSystem
     
-
 
 
     // let front_wall=GroupGarageSystem.external_objects[1]

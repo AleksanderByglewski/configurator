@@ -945,7 +945,7 @@ class RoofTopObject extends genericObject {
         shape.closePath();  // Close the path to create a triangle
         
         let extrudeSettings = {
-            steps: 10,  // number of points used for extruding
+            steps: 1,  // number of points used for extruding
             depth: 0.1,  // the amount of depth for extrusion
             bevelEnabled: false,  // whether the edges should be beveled or not
         };
@@ -955,24 +955,37 @@ class RoofTopObject extends genericObject {
 
         // geometry = new THREE.ShapeGeometry( shape );
         //EXPLANTION
+
+        debugger
+
         geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
-            0, 0, // first vertex UV
-            0, 1, // second vertex UV
-            1, 1, // third vertex UV
-            1, 0,  // fourth vertex UV
-            0, 0, // first vertex UV
-            0, 1, // second vertex UV
-            1, 1, // third vertex UV
-            1, 0,  // fourth vertex UV
+
             
+            0, 0, // first vertex UV
+            0, 1, // second vertex UV
+            1, 1, // third vertex UV
+            1, 0,  // fourth vertex UV
 
             0, 0, // first vertex UV
             0, 1, // second vertex UV
             1, 1, // third vertex UV
             1, 0,  // fourth vertex UV
+            
+            
+
+            0, 0, // first vertex UV
+            0, 1, // second vertex UV
+            0, 0, // third vertex UV
+            1, 1,  // fourth vertex UV
+
+            
+            
+            
          
             
           ], 2));
+
+  
 
         let local_texture=global_texture;
 
