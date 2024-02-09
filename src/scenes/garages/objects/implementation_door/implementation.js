@@ -60,6 +60,8 @@ class UconfigsImplementationDoorController extends UconfigsController {
             gate_type = this.state.get('gate_type') || 'gate_type_1'
         }
 
+
+        object_color = this.state.get('object_color') || '#5a5d61'
         switch(gate_type){
             case "gate_type_1":
                     // object_color =  "#677727"
@@ -120,7 +122,7 @@ class UconfigsImplementationDoorController extends UconfigsController {
         const accessersWallBack = [
             new accesser('name', name + "drzwi"),
             new accesser('width', object_width),
-
+          
             new accesser('door_type', door_type),
 
             new accesser('door_width', door_width),

@@ -648,7 +648,7 @@ class UconfigImplementationWindowGui extends genericGui {
             DoorSystem1.state.state['color']="#A5A3A5"
             DoorSystem1.state.state['position_z']=0.003
             DoorSystem1.state.state['position_y']=1.4
-            DoorSystem1.state.state['door_width']=1.0
+            DoorSystem1.state.state['door_width']=0.8
             DoorSystem1.state.state['door_height']=0.6
             DoorSystem1.state.state['window_depth']=0.025
             // if(self.mediator.door_type){

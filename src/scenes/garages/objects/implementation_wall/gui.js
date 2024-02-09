@@ -328,7 +328,7 @@ class UconfigImplementationWallGui extends genericGui {
 
 //lets have it dynamic
         function testCategoryChange(self){
-            debugger
+
             self.mediator.omega_gates.gui.initialGeneration( self.mediator.state['object_width'] || 3);
            
             // let targetWall = this.mediator.wall_front;

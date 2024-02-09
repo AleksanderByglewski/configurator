@@ -120,7 +120,8 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4
-        let object_color = this.state.get('object_color') || "#888492"
+        //This is the default roof
+        let object_color = this.state.get('object_color') || "#5A5D61"
 
         let texture_type = ""
 

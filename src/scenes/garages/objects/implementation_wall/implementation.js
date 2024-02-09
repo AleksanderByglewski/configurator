@@ -336,7 +336,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
 
     determineState() {
         this.request_an_update()
-        
+        //debugger
         //You can get the current state of the object by using the 
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'

@@ -612,6 +612,7 @@ function populateScene(scene) {
     GroupGarageSystem.external_objects.push(RoofSystem1)
     RoofSystem1.external_objects_controllers.push(GroupGarageSystem)
     RoofSystem1.mediator = GroupGarageSystem
+    
 
 
 
@@ -769,10 +770,15 @@ function populateScene(scene) {
     OmegaSystems.wall_right = GroupGarageSystem.external_objects[3]
     OmegaSystems.door_type = false
     OmegaSystems.state.state['name'] = "Dodaj bramy"
+
+
+    
+    OmegaSystems.globalController = GroupGarageSystem
+
     OmegaSystems.handleEvent('buildingStep')
     OmegaSystems.handleEvent('generateInputs')
 
-
+    
 
 
     // GroupGarageSystem.handleEvent('buildingStep')
@@ -782,6 +788,7 @@ function populateScene(scene) {
     GroupGarageSystem.omega_gates=OmegaSystems;
 
 
+  
 
   }
   generic_attaching_gates()

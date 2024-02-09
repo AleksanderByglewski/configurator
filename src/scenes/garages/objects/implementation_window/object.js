@@ -417,7 +417,7 @@ class LineObject extends genericObject {
         mesh = new THREE.Mesh(geometry, material);
         // Adjust the x-position based on the box's width and the gap.
         // The first box will be on the leftmost side, and the last on the rightmost side.
-        mesh.position.x =-0.5
+        mesh.position.x =-0.4
         mesh.position.y= 0
         group.add(mesh);
 
@@ -425,7 +425,7 @@ class LineObject extends genericObject {
         mesh = new THREE.Mesh(geometry, material);
         // Adjust the x-position based on the box's width and the gap.
         // The first box will be on the leftmost side, and the last on the rightmost side.
-        mesh.position.x =+0.5
+        mesh.position.x =+0.4
         mesh.position.y= 0
         group.add(mesh);
 

@@ -129,7 +129,7 @@ class SphereObject extends genericObject {
         // let texture=global_texture
         let material = new THREE.MeshStandardMaterial({
             map: local_texture,
-            color: color,
+            color: "color",
             // metalness: 0.0,
             // roughness: 0.1,
             // clearcoat: 0.8,
@@ -956,7 +956,7 @@ class RoofTopObject extends genericObject {
         // geometry = new THREE.ShapeGeometry( shape );
         //EXPLANTION
 
-        debugger
+      
 
         geometry.setAttribute('uv', new THREE.Float32BufferAttribute([
 
@@ -1065,6 +1065,7 @@ class RoofTopObject extends genericObject {
         // material.bumpMap.repeat.set(width, height/2);
         // material.normalMap.repeat.set(width, height/2);
         // material.color=new THREE.Color(color)
+  
         material=select_texture({width:width, height:height, color:color, material_type:roof_material_type})
         material.side= THREE.DoubleSide
         

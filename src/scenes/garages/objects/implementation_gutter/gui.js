@@ -74,6 +74,9 @@ class UconfigImplementationDoorGui extends genericGui {
 
         // const squaresElement = 
         // const squaresElement2=
+
+
+        
         accordionBodyDiv.appendChild(this.createMarkupColors());
 
         accordionBodyDiv.appendChild(this.generateSep());

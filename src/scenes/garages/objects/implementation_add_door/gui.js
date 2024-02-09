@@ -23,10 +23,10 @@ class UconfigImplementationGui extends genericGui {
     initialGeneration(width=3){
         const emptySystem = [];
         let targetWall = this.mediator.wall_front;
-        debugger
+        
         this.mediator.wall_front.external_objects.forEach(object => {
             // Remove object from its group
-            debugger
+         
             object.gui.killContainer()
             // if (object.group) {
             //     object.group.remove(object);
@@ -263,8 +263,8 @@ class UconfigImplementationGui extends genericGui {
         const selectElement = document.createElement('select');
         selectElement.classList.add('wall-select');
         
-        let options=['front']
-        let options_mapping={"front":"frontowa"}
+        let options=['front', 'back']
+        let options_mapping={"front":"frontowa", "back":"tylna"}
         let print_elemnt="Brama"
         // Create options for the select element
         if(this.mediator.door_type){
@@ -289,7 +289,7 @@ class UconfigImplementationGui extends genericGui {
     
         // Create a submit button
         const submitButton = document.createElement('button');
-        submitButton.textContent = "Dodaj element 1";
+        submitButton.textContent = "Dodaj element";
         submitButton.classList.add('submit-button');
     
         //Todo make it better
@@ -327,10 +327,64 @@ class UconfigImplementationGui extends genericGui {
             let DoorSystem1 = self.createGarageObject(emptySystem, DoorSystem);
             
             if(!self.mediator.door_type){
-    
-         
-                const emptySystem = [];
-                 
+                //debugger
+                // let targeted_parent = self.mediator.external_objects_controllers[0]
+                // targeted_parent = self.mediator.request_find_element('top_level')
+
+                // const emptySystem = [];
+                let accessers_labels = [];
+                let accessers = []; 
+                let targeted_parent=self.mediator.globalController
+                let localizedState=new genericState()
+
+                accessers = [
+                    new accesser('object_depth'),
+                    new accesser('object_width'),
+                    new accesser('object_height'),
+                ]
+        
+                accessers_labels = [
+                    new accesser('garage_depth'),
+                    new accesser('garage_width'),
+                    new accesser('garage_height'),
+                ]
+                
+                for (let i = 0; i < accessers.length; i++) {
+                    const val = targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+                    localizedState.update(accessers_labels[i].resource_locator, val);
+                }
+
+                //Here is the part with the roof. 
+                targeted_parent = targeted_parent.external_objects.find(element => element.status === "main_roof");
+                accessers = [
+                    // new accesser('object_width'),
+                    // new accesser('object_depth'),
+                    new accesser('roof_type'),
+                    // new accesser('wall_color'),
+                ]
+
+                let main_object_roof_type
+                main_object_roof_type = targeted_parent.state.get(accessers[0].resource_locator, accessers[0].value) || "roof_type_1";
+                localizedState.update('roof_type', main_object_roof_type);
+
+                let roof_type=localizedState.get('roof_type');
+                if(roof_type==="roof_type_1"){
+                    let object_height=localizedState.get('garage_height');
+                    let garage_width=localizedState.get('garage_width')
+                   
+                    let garage_depth=localizedState.get('garage_depth')
+
+                    let roof_slant = 5.5 * Math.PI / 180
+                    let roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
+                    let y_displacement = roof_top_height * Math.sin(roof_slant)
+                    if(object_height-y_displacement<2.01){
+                    alert('Zbyt mała wysokoość tylniej ściany, aby zamontować bramę, zwiększ wysokość garażu'+ 'minimalna wysokość to:' + String((2.0+y_displacement).toFixed(2))+ 'm')
+                    return}
+                }
+
+           
+   
+
                 // Create DoorSystem1 and assign appropriate values based on the selected option
                 let DoorSystem1 = self.createGarageObject(emptySystem, GateSystem);
                 targetWall.external_objects.push(DoorSystem1);
@@ -345,6 +399,9 @@ class UconfigImplementationGui extends genericGui {
         
         
                 DoorSystem1.state.state['name']="Brama frontowa" ;
+
+
+
                 targetWall.handleEvent('buildingStep');
                 DoorSystem1.handleEvent('generateInputs')
             }

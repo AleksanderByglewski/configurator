@@ -374,18 +374,46 @@ class UconfigImplementationRoofGui extends genericGui {
             // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
        
 
-            { value: '#393c3e',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#303234"},
+
+            // { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            // { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+            // { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+
+            { value: '#5a5d61',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#414549"},
             { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
             { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
             { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+
+
+
             { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
             { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
             { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
             { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+
+  
+         
             { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
             { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
             { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+
             { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+
+
+            // { value: '#393c3e',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#303234"},
+            // { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            // { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            // { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+            // { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            // { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            // { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            // { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+            // { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            // { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            // { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+            // { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
         
          
 

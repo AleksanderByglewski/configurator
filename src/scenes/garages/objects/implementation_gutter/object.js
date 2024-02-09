@@ -28,7 +28,7 @@ class GutterObject extends genericObject {
         let width = (attributes && attributes.width) ? parseFloat(attributes.width) : 0;
         let depth = (attributes && attributes.depth) ? parseFloat(attributes.depth) : 0;
         let height = (attributes && attributes.height) ? parseFloat(attributes.height) : 0;
-        debugger
+       
         let modifier_y = (attributes && attributes.modifier_y) ? parseFloat(attributes.modifier_y) : 0;
         let modifier_y_gutter_front = (attributes && attributes.modifier_y_gutter_front) ? parseFloat(attributes.modifier_y_gutter_front) : 0;
         let visibility = (attributes && attributes.visibility) ? attributes.visibility : false;

@@ -24,6 +24,28 @@ class UconfigsImplementationWindowController extends UconfigsController {
         this.external_objects_controllers = []
 
     }
+    request_an_update() {
+        /**
+        *We are targeting the parent, that is the entire system,
+        */
+        //debugger
+        let targeted_parent = this.external_objects_controllers[0]
+
+        const accessers = [
+            new accesser('height'),
+            new accesser('color')
+        ]
+
+        const accessers_labels = [
+            new accesser('garage_height'),
+            new accesser('garage_color'),
+        ]
+
+        for (let i = 0; i < accessers.length; i++) {
+            const val = targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
+            this.state.update(accessers_labels[i].resource_locator, val);
+        }
+    }
     determineState() {
         //You can get the current state of the object by using the 
 
@@ -36,8 +58,14 @@ class UconfigsImplementationWindowController extends UconfigsController {
         let stilt_depth = parseFloat(this.state.get('stilt_depth')) || 0.5
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 2
-        let object_color = this.state.get('color') || "#888492"
+        //debugger
+        let object_color = this.state.get('color') || "#A5A3A5"
+        if(object_color.toUpperCase()=="#A5A3A5")
+        {
+            object_color = this.state.get('garage_color')||"#ED972A"
+            //object color is automatic
 
+        }
 
         let texture_type = ""
         let material_type = this.state.get('material_type') || "material_type_1"
@@ -214,26 +242,7 @@ class UconfigsImplementationWindowController extends UconfigsController {
         return dynamic_accessers
 
     }
-    request_an_update() {
-        /**
-        *We are targeting the parent, that is the entire system,
-        */
 
-        let targeted_parent = this.external_objects_controllers[0]
-
-        const accessers = [
-            new accesser('height'),
-        ]
-
-        const accessers_labels = [
-            new accesser('garage_height'),
-        ]
-
-        for (let i = 0; i < accessers.length; i++) {
-            const val = targeted_parent.state.get(accessers[i].resource_locator, accessers[i].value);
-            this.state.update(accessers_labels[i].resource_locator, val);
-        }
-    }
     adjust_position(garage_height = 2.13, garage_width = 0, garage_depth = 0,) {
         this.state.update('position_y', 0)
 

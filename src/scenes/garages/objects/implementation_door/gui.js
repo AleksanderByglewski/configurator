@@ -246,7 +246,7 @@ class UconfigImplementationDoorGui extends genericGui {
             { value: 'material_type_2', display_value: "Blacha typ 2", display_image: '/assets/display/material/2.jpg' },
             { value: 'material_type_3', display_value: "Blacha typ 3", display_image: '/assets/display/material/3.jpg' },
             { value: 'material_type_4', display_value: "Blacha typ 4", display_image: '/assets/display/material/4.jpg' },
-            { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
+
 
         ];
 
@@ -427,13 +427,15 @@ class DedicatedDoorGui extends genericGui {
 
         let { accordionBodyDiv, accordionDiv } = generateAccordion.bind(this)()
 
+        accordionBodyDiv.appendChild(this.createMarkupColors());
+        accordionBodyDiv.appendChild(this.generateSep());
         accordionBodyDiv.appendChild(this.createMarkupType());
         accordionBodyDiv.appendChild(this.generateSep());
         accordionBodyDiv.appendChild(this.createMarkupCoverType());
         accordionBodyDiv.appendChild(this.generateSep());
         accordionBodyDiv.appendChild(this.createMarkup());
         accordionBodyDiv.appendChild(this.generateSep());
-
+        accordionBodyDiv.appendChild(this.createMarkupColors());
 
 
         const escapedId = '#id-' + this.id + '.input-values';
@@ -450,12 +452,17 @@ class DedicatedDoorGui extends genericGui {
             accordionBodyDiv.innerHTML = '';
             let container = document.querySelector(`#collapseTwo-${this.id}`);
             //Generally it could be just a smaller render function and we would call it again but let it be actually
+            
+            accordionBodyDiv.appendChild(this.createMarkupColors());
+            accordionBodyDiv.appendChild(this.generateSep());
+
             accordionBodyDiv.appendChild(this.createMarkupType());
             accordionBodyDiv.appendChild(this.generateSep());
             accordionBodyDiv.appendChild(this.createMarkupCoverType());
             accordionBodyDiv.appendChild(this.generateSep());
             accordionBodyDiv.appendChild(this.createMarkup());
             accordionBodyDiv.appendChild(this.generateSep());
+            accordionBodyDiv.appendChild(this.createMarkupCoverType());
         }
 
         // Reattach any necessary event listeners
@@ -579,39 +586,151 @@ class DedicatedDoorGui extends genericGui {
 
         return containerDiv;
     }
-    createMarkupColors() {
+  
+    createMarkupColors(){
         const containerDiv = document.createElement('div');
-        containerDiv.classList.add('squares-container');
+        containerDiv.classList.add('squares-container--8', 'grid--colors');
 
         const squareButtons = [
-            { value: '#972727', display_value: "RAL2003", display_image: '/assets/display/colors/RAL2003' },
-            { value: '#822727', display_value: "RAL2005", display_image: '/assets/display/colors/RAL2005' },
-            { value: '#353335', display_value: "RAL2007", display_image: '/assets/display/colors/RAL2007' },
-            { value: '#454345', display_value: "RAL2009", display_image: '/assets/display/colors/RAL2009' },
-            { value: '#555355', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20011' },
-            { value: '#656365', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20013' },
-            { value: '#757375', display_value: "RAL2015", display_image: '/assets/display/colors/RAL2015' },
-            { value: '#858385', display_value: "RAL2017", display_image: '/assets/display/colors/RAL2017' },
-            { value: '#959395', display_value: "RAL2019", display_image: '/assets/display/colors/RAL2019' },
-            { value: '#A5A3A5', display_value: "RAL2021", display_image: '/assets/display/colors/RAL2021' },
-            { value: '#B5B3B5', display_value: "RAL2023", display_image: '/assets/display/colors/RAL2023' },
-            { value: '#C5C3C5', display_value: "RAL2025", display_image: '/assets/display/colors/RAL2025' },
-            { value: '#D5D3D5', display_value: "RAL2027", display_image: '/assets/display/colors/RAL2027' },
-            { value: '#E5E3E5', display_value: "RAL2029", display_image: '/assets/display/colors/RAL2029' },
+            // { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            // { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+       
 
+            { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+            { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+
+            { value: '#5a5d61',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#414549"},
+            { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+
+
+
+            { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+
+  
+         
+            { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+        
+         
 
         ];
-
-        squareButtons.forEach(button => {
+        //'#661d24
+        squareButtons.forEach((button,index) => {
             const squareDiv = document.createElement('div');
             squareDiv.classList.add('square');
             // squareDiv.style.backgroundColor = button.color;
             squareDiv.dataset.value = button.value;
 
             // Create the image element
-            const imageEl = document.createElement('div');
-            imageEl.style.backgroundColor = button.value;
-            imageEl.style.aspectRatio = "1 / 1"
+            let imageEl = document.createElement('div');
+            // imageEl.style.backgroundColor = button.color_value;
+            // imageEl.style.aspectRatio= "2 / 1"
+            
+            let available_wood=false
+            if (available_wood){
+            switch (index) {
+                case 0:
+                    imageEl = document.createElement('img');
+                    // let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.style.objectFit="cover"
+                    imageEl.src = `assets/display/colors/wood/zloty_dab.jpg`; // Construct the image path
+                    break
+                case 1:
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/jasny_orzech.jpg`; // Construct the image path
+                    break
+                case 2:
+                    // For the first three buttons, use an 'img' element with custom image
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ciemny_orzech.jpg`; // Construct the image path
+                    break;
+                case 3:
+                        // For the first three buttons, use an 'img' element with custom image
+                        imageEl = document.createElement('img');
+                        imageEl.style.objectFit="cover"
+                        //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                        imageEl.src = `assets/display/colors/wood/ocynk.jpg`; // Construct the image path
+                        break;
+                default:
+
+               
+
+                    // For the rest, use a 'div' element with background color
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+
+           
+                    break;
+            }
+            
+            }
+            else{
+                if(index==squareButtons.length-1){
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+                }
+                else{
+
+
+                imageEl = document.createElement('div');
+                imageEl.style.backgroundColor = button.color_value;
+
+
+                const descText = document.createElement('div');
+                descText.textContent = button.additonal_desc;
+                descText.style.position = 'absolute';
+                descText.style.color = button.font_color;
+                descText.style.fontWeight = 'normal';
+                descText.style.fontSize = '14px';
+                // descText.style.transform=t
+                descText.style.top = '0px'; // Adjust as needed
+                descText.style.right= '5px'; // Adjust as needed
+                imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                imageEl.appendChild(descText);
+                }
+            }
+            imageEl.style.aspectRatio= "2 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv
 
@@ -620,26 +739,30 @@ class DedicatedDoorGui extends genericGui {
             squareDiv.appendChild(textDiv)
 
 
-
+   
 
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
-
+                
                 // Notify the mediator or perform some action
-
-
+                
+              
 
                 // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
-
-                this.notifyMediator('changeObject', `${squareDiv.dataset.value}`)
-
+                    //this.mediator.state[attr] = e.target.value;
+                    // this.notifyMediator('requestParentAssistance', { })
+             
+                    this.notifyMediator('stateChange', { 'object_color': squareDiv.dataset.value});
+                    this.notifyMediator('stateChange', { 'wall_color': squareDiv.dataset.value});
+                    this.notifyMediator('buildingStep', { });
+          
             }.bind(this));
 
 
 
-
+            
             containerDiv.appendChild(squareDiv);
         });
 
@@ -651,16 +774,17 @@ class DedicatedDoorGui extends genericGui {
         //     // Call notifyMediator with 'recursivelyRemoveModel' event
         //     this.notifyMediator('recursivelyRemoveModel');
         // }.bind(this));
-
+        
         // containerDiv.appendChild(removeModelBtn);
 
-
+        
         return containerDiv;
     }
+
     createMarkupType() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
-
+        containerDiv.classList.add( 'squares-container--4');
         const squareButtons = [
             { value: 'gate_type_1', display_value: "Brama uchylna ", display_image: '/assets/display/gate/1.jpg' },
             { value: 'gate_type_2', display_value: "Brama dwudrzwiowa", display_image: '/assets/display/gate/2.jpg' },
@@ -738,7 +862,8 @@ class DedicatedDoorGui extends genericGui {
     createMarkupCoverType() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
-
+        
+        containerDiv.classList.add( 'squares-container--4');
 
         let squareButtons;
         if (this.mediator.state.state.gate_type == 'gate_type_3') {
@@ -751,7 +876,7 @@ class DedicatedDoorGui extends genericGui {
                 { value: 'material_type_2', display_value: "Blacha pozioma T7", display_image: '/assets/display/material/2.jpg' },
                 { value: 'material_type_3', display_value: "Blacha pionowa T17", display_image: '/assets/display/material/3.jpg' },
                 { value: 'material_type_4', display_value: "Blacha pozioma T17", display_image: '/assets/display/material/4.jpg' },
-                { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
+            
 
             ];
         }
@@ -930,7 +1055,6 @@ class DedicatedGateGui extends genericGui {
 
         let { accordionBodyDiv, accordionDiv } = generateAccordion.bind(this)()
 
-        // accordionBodyDiv.appendChild(this.createMarkupType());
 
         // accordionBodyDiv.appendChild(this.generateSep());
 
@@ -1047,7 +1171,8 @@ class DedicatedGateGui extends genericGui {
         if(this.mediator.state.state.door){
             containerDiv.appendChild(this.generateSep())
             containerDiv.appendChild(this.createMarkupDoor())
-         
+            containerDiv.appendChild(this.createMarkupCoverType())
+            containerDiv.appendChild(this.createMarkupColors());
         }
 
 
@@ -1306,16 +1431,25 @@ class DedicatedGateGui extends genericGui {
 
     createMarkupCoverType() {
         const containerDiv = document.createElement('div');
+        containerDiv.style.gridColumn = '1 / -1';
         containerDiv.classList.add('squares-container');
 
-        const squareButtons = [
-            { value: 'material_type_1', display_value: "Blacha typ 1", display_image: '/assets/display/material/1.jpg' },
-            { value: 'material_type_2', display_value: "Blacha typ 2", display_image: '/assets/display/material/2.jpg' },
-            { value: 'material_type_3', display_value: "Blacha typ 3", display_image: '/assets/display/material/3.jpg' },
-            { value: 'material_type_4', display_value: "Blacha typ 4", display_image: '/assets/display/material/4.jpg' },
-            { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
 
-        ];
+        let squareButtons;
+        if (this.mediator.state.state.gate_type == 'gate_type_3') {
+            containerDiv.classList.add('d-none');
+            return containerDiv;
+        }
+        else {
+            squareButtons = [
+                { value: 'material_type_1', display_value: "Blacha pionowa T7111", display_image: '/assets/display/material/1.jpg' },
+                { value: 'material_type_2', display_value: "Blacha pozioma T7", display_image: '/assets/display/material/2.jpg' },
+                { value: 'material_type_3', display_value: "Blacha pionowa T17", display_image: '/assets/display/material/3.jpg' },
+                { value: 'material_type_4', display_value: "Blacha pozioma T17", display_image: '/assets/display/material/4.jpg' },
+                { value: 'material_type_5', display_value: "Blacha typ dodatkowa", display_image: '/assets/display/material/5.jpg' },
+
+            ];
+        }
 
         squareButtons.forEach(button => {
             const squareDiv = document.createElement('div');
@@ -1349,11 +1483,15 @@ class DedicatedGateGui extends genericGui {
                 // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
                 // this.notifyMediator('recursivelyRemoveModel');
                 // this.notifyMediator('buildingStep');
+                this.notifyMediator('stateChange', { 'material_type': squareDiv.dataset.value });
+                this.notifyMediator('buildingStep', {});
+                this.notifyMediator('hardBuildingStep', {})
+       
 
-                const accessers = [
-                    new accesser('material_type', squareDiv.dataset.value),
-                ]
-                this.notifyMediator('genericChangeObject', accessers)
+                // const accessers = [
+                //     new accesser('material_type', squareDiv.dataset.value),
+                // ]
+                // this.notifyMediator('genericChangeObject', accessers)
 
             }.bind(this));
 
@@ -1375,6 +1513,154 @@ class DedicatedGateGui extends genericGui {
         // containerDiv.appendChild(removeModelBtn);
 
 
+        return containerDiv;
+    }
+
+    createMarkupColors(){
+        const containerDiv = document.createElement('div');
+        containerDiv.style.gridColumn = '1 / -1';
+        containerDiv.classList.add('squares-container--8', 'grid--colors');
+
+        const squareButtons = [
+            { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+            { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+
+            { value: '#5a5d61',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#414549"},
+            { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+
+
+
+            { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+
+  
+         
+            { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+          
+        
+         
+
+        ];
+        //'#661d24
+        squareButtons.forEach((button,index) => {
+            const squareDiv = document.createElement('div');
+            squareDiv.classList.add('square');
+            // squareDiv.style.backgroundColor = button.color;
+            squareDiv.dataset.value = button.value;
+
+            // Create the image element
+            let imageEl = document.createElement('div');
+            // imageEl.style.backgroundColor = button.color_value;
+
+            switch (index) {
+                case 0:
+                    imageEl = document.createElement('img');
+                    // let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.style.objectFit="cover"
+                    imageEl.src = `assets/display/colors/wood/zloty_dab.jpg`; // Construct the image path
+                    break
+                case 1:
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/jasny_orzech.jpg`; // Construct the image path
+                    break
+                case 2:
+                    // For the first three buttons, use an 'img' element with custom image
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ciemny_orzech.jpg`; // Construct the image path
+                    break;
+                case 3:
+                        // For the first three buttons, use an 'img' element with custom image
+                        imageEl = document.createElement('img');
+                        imageEl.style.objectFit="cover"
+                        //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                        imageEl.src = `assets/display/colors/wood/ocynk.jpg`; // Construct the image path
+                        break;
+                default:
+
+               
+
+                    // For the rest, use a 'div' element with background color
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+                    break;
+            }
+        
+
+            imageEl.style.aspectRatio= "2 / 1"
+            imageEl.alt = button.display_value;  // for accessibility
+            squareDiv.appendChild(imageEl);  // append the image to the squareDiv
+
+            const textDiv = document.createElement('div');
+            textDiv.textContent = button.display_value;
+            squareDiv.appendChild(textDiv)
+
+
+   
+
+            // Attach event listener directly to the squareDiv
+            squareDiv.addEventListener('click', function (e) {
+                
+                // Notify the mediator or perform some action
+                
+              
+
+                // this.notifyMediator('changeState',{color:`${squareDiv.dataset.value}`})
+                // this.notifyMediator('recursivelyRemoveModel');
+                // this.notifyMediator('buildingStep');
+                    //this.mediator.state[attr] = e.target.value;
+                    // this.notifyMediator('requestParentAssistance', { })
+             
+                    this.notifyMediator('stateChange', { 'object_color': squareDiv.dataset.value});
+                    
+                    this.notifyMediator('stateChange', { 'wall_color': squareDiv.dataset.value});
+                    this.notifyMediator('buildingStep', { });
+          
+            }.bind(this));
+
+
+
+            
+            containerDiv.appendChild(squareDiv);
+        });
+
+
+        // const removeModelBtn = document.createElement('button');
+        // removeModelBtn.textContent = "Remove Model";
+        // removeModelBtn.classList.add('remove-model-btn');
+        // removeModelBtn.addEventListener('click', function() {
+        //     // Call notifyMediator with 'recursivelyRemoveModel' event
+        //     this.notifyMediator('recursivelyRemoveModel');
+        // }.bind(this));
+        
+        // containerDiv.appendChild(removeModelBtn);
+
+        
         return containerDiv;
     }
     insertContent(element, selector = "*", classes = "attribute-values", id = "") {

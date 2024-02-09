@@ -130,6 +130,7 @@ class UconfigImplementationDoorGui extends genericGui {
             containerDiv.appendChild(sliderLabel);
 
             const sliderInput = document.createElement('input');
+     
             sliderInput.type = 'range';
             sliderInput.min = -10; // You can set min/max/default values according to your needs
             sliderInput.max = 10;
@@ -432,6 +433,11 @@ class DedicatedDoorGui extends genericGui {
 
 
      
+        accordionBodyDiv.appendChild(this.createMarkupColors());
+
+        accordionBodyDiv.appendChild(this.generateSep());
+
+
         const escapedId = '#id-' + this.id + '.input-values';
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
@@ -901,6 +907,9 @@ class DedicatedGateGui extends genericGui {
 
         accordionBodyDiv.appendChild(this.generateSep());
 
+        accordionBodyDiv.appendChild(this.createMarkupColors());
+
+        accordionBodyDiv.appendChild(this.generateSep());
 
      
         const escapedId = '#id-' + this.id + '.input-values';
@@ -977,6 +986,7 @@ class DedicatedGateGui extends genericGui {
         // const attributes = ['position_x', 'position_y', 'position_z','rotation_x','rotation_y', 'rotation_z',  'width', 'height', 'depth'];
         const attributes = []
         attributes.forEach(attr => {
+   
             const sliderLabel = document.createElement('label');
             sliderLabel.textContent = attr;
             containerDiv.appendChild(sliderLabel);
@@ -1028,36 +1038,136 @@ class DedicatedGateGui extends genericGui {
     createMarkupColors() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');
-
+        containerDiv.classList.add('squares-container--8', 'grid--colors');
         const squareButtons = [
-            { value: '#972727', display_value: "RAL2003", display_image: '/assets/display/colors/RAL2003' },
-            { value: '#822727', display_value: "RAL2005", display_image: '/assets/display/colors/RAL2005' },
-            { value: '#353335', display_value: "RAL2007", display_image: '/assets/display/colors/RAL2007' },
-            { value: '#454345', display_value: "RAL2009", display_image: '/assets/display/colors/RAL2009' },
-            { value: '#555355', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20011' },
-            { value: '#656365', display_value: "RAL2011", display_image: '/assets/display/colors/RAL20013' },
-            { value: '#757375', display_value: "RAL2015", display_image: '/assets/display/colors/RAL2015' },
-            { value: '#858385', display_value: "RAL2017", display_image: '/assets/display/colors/RAL2017' },
-            { value: '#959395', display_value: "RAL2019", display_image: '/assets/display/colors/RAL2019' },
-            { value: '#A5A3A5', display_value: "RAL2021", display_image: '/assets/display/colors/RAL2021' },
-            { value: '#B5B3B5', display_value: "RAL2023", display_image: '/assets/display/colors/RAL2023' },
-            { value: '#C5C3C5', display_value: "RAL2025", display_image: '/assets/display/colors/RAL2025' },
-            { value: '#D5D3D5', display_value: "RAL2027", display_image: '/assets/display/colors/RAL2027' },
-            { value: '#E5E3E5', display_value: "RAL2029", display_image: '/assets/display/colors/RAL2029' },
+            // { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            // { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+       
 
+       
+
+            // { value: '#ED972A',  display_value:"Złoty dąb",font_color:"white", additonal_desc:'' ,color_value:"#ED972A"},
+            
+            // { value: '#C76E3C',  display_value:"Jasny orzech",font_color:"white", additonal_desc:'' ,color_value:"#C76E3C"},
+            // { value: '#925f50',  display_value:"Ciemny Orzech",font_color:"white", additonal_desc:'' ,color_value:"#623B2F"},
+            // { value: '#c6eaff',  display_value:"Ocynk",font_color:"white", additonal_desc:'' ,color_value:"#c6e9fd"},
+
+            { value: '#5a5d61',  display_value:"Grafit",font_color:"white", additonal_desc:'RAL7016' ,color_value:"#414549"},
+            { value: '#476242',  display_value:"Ciemny zielony",font_color:"white", additonal_desc:'RAL6005' ,color_value:"#0d5733"},
+            { value: '#785756',  display_value:"Ciemny brąz",font_color:"white", additonal_desc:'RAL8017' ,color_value:"#653d3c"},
+            { value: '#d2ba92',  display_value:"Piasek",font_color:"black", additonal_desc:'RAL1012' ,color_value:"#c6ae88"},
+
+
+
+            { value: '#bebdbd',  display_value:"Srebrny",font_color:"white", additonal_desc:'RAL9006' ,color_value:"#a8a8a8"},
+            { value: '#5e7d58',  display_value:"Jasny zielony",font_color:"white", additonal_desc:'RAL6020' ,color_value:"#00a35e"},
+            { value: '#b66e4f',  display_value:"Jasny brąz",font_color:"white", additonal_desc:'RAL8004' ,color_value:"#b25228"},
+            { value: '#fafafa',  display_value:"Biały",font_color:"black", additonal_desc:'RAL9010' ,color_value:"#fafafa"},
+
+  
+         
+            { value: '#4d4f50',  display_value:"Czarny",font_color:"white", additonal_desc:'RAL9005' ,color_value:"#1c1e1f"},
+            { value: '#a0394c',  display_value:"Jasna wiśnia",font_color:"white", additonal_desc:'RAL3011' ,color_value:"#a62926"},
+            { value: '#79363a',  display_value:"Wiśnia",font_color:"white", additonal_desc:'RAL3005' ,color_value:"#781e27"},
+            { value: '',  display_value:"Automatyczny",font_color:"white", additonal_desc:'' ,color_value:"Automatyczny"},
+        
+         
 
         ];
-
-        squareButtons.forEach(button => {
+        //'#661d24
+        squareButtons.forEach((button,index) => {
             const squareDiv = document.createElement('div');
             squareDiv.classList.add('square');
             // squareDiv.style.backgroundColor = button.color;
             squareDiv.dataset.value = button.value;
 
             // Create the image element
-            const imageEl = document.createElement('div');
-            imageEl.style.backgroundColor = button.value;
-            imageEl.style.aspectRatio = "1 / 1"
+            let imageEl = document.createElement('div');
+            // imageEl.style.backgroundColor = button.color_value;
+            // imageEl.style.aspectRatio= "2 / 1"
+            
+            let available_wood=false
+            if (available_wood){
+            switch (index) {
+                case 0:
+                    imageEl = document.createElement('img');
+                    // let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.style.objectFit="cover"
+                    imageEl.src = `assets/display/colors/wood/zloty_dab.jpg`; // Construct the image path
+                    break
+                case 1:
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/jasny_orzech.jpg`; // Construct the image path
+                    break
+                case 2:
+                    // For the first three buttons, use an 'img' element with custom image
+                    imageEl = document.createElement('img');
+                    imageEl.style.objectFit="cover"
+                    //let formattedDisplayValue = button.display_value.toLowerCase().replace(/\s+/g, '_');
+                    imageEl.src = `assets/display/colors/wood/ciemny_orzech.jpg`; // Construct the image path
+                    break;
+                case 3:
+                        // For the first three buttons, use an 'img' element with custom image
+                        imageEl = document.createElement('div');
+                        imageEl.style.backgroundColor = "#fff";
+                        break;
+                default:
+
+               
+
+                    // For the rest, use a 'div' element with background color
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = button.color_value;
+
+
+                    const descText = document.createElement('div');
+                    descText.textContent = button.additonal_desc;
+                    descText.style.position = 'absolute';
+                    descText.style.color = button.font_color;
+                    descText.style.fontWeight = 'normal';
+                    descText.style.fontSize = '14px';
+                    // descText.style.transform=t
+                    descText.style.top = '0px'; // Adjust as needed
+                    descText.style.right= '5px'; // Adjust as needed
+                    imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                    imageEl.appendChild(descText);
+
+           
+                    break;
+            }
+            
+            }
+            else{
+                if(index==squareButtons.length-1){
+                    imageEl = document.createElement('div');
+                    imageEl.style.backgroundColor = "#fff";
+                  
+                }
+                else{
+
+
+                imageEl = document.createElement('div');
+                imageEl.style.backgroundColor = button.color_value;
+
+
+                const descText = document.createElement('div');
+                descText.textContent = button.additonal_desc;
+                descText.style.position = 'absolute';
+                descText.style.color = button.font_color;
+                descText.style.fontWeight = 'normal';
+                descText.style.fontSize = '14px';
+                // descText.style.transform=t
+                descText.style.top = '0px'; // Adjust as needed
+                descText.style.right= '5px'; // Adjust as needed
+                imageEl.style.position = 'relative'; // To position descText absolutely within squareDiv
+                imageEl.appendChild(descText);
+                }
+            }
+            imageEl.style.aspectRatio= "2 / 1"
             imageEl.alt = button.display_value;  // for accessibility
             squareDiv.appendChild(imageEl);  // append the image to the squareDiv
 
@@ -1066,8 +1176,10 @@ class DedicatedGateGui extends genericGui {
             squareDiv.appendChild(textDiv)
 
 
+   
 
-
+            // Attach event listener directly to the squareDiv
+   
             // Attach event listener directly to the squareDiv
             squareDiv.addEventListener('click', function (e) {
                 
@@ -1085,9 +1197,10 @@ class DedicatedGateGui extends genericGui {
 
 
 
-
+            
             containerDiv.appendChild(squareDiv);
         });
+
 
 
         // const removeModelBtn = document.createElement('button');
@@ -1179,7 +1292,6 @@ class DedicatedGateGui extends genericGui {
 
         return containerDiv;
     }
-
     createMarkupCoverType() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container');

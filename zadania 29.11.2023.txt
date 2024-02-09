@@ -35,9 +35,9 @@
 		[x]Lewo ręczny
 []Kontrolery
 	[]Kontrola brama
-		[]Opcja bramy tylniej
-		[]Opcja koloru bramy
-		[]Opcje przetłoczenia bram
+		[x]Opcja bramy tylniej
+		[x]Opcja koloru bramy
+		[x]Opcje przetłoczenia bram
 		[]Suwak przesuwanie
 		[] brama uchylna
 			[]4m szeroka max 2m szeroka min
@@ -52,22 +52,21 @@
 			[]wkładamy przycisk  Dodaj bramy
 			[]wkładamy przycisk usuń bramę
 	[]Kontrola drzwi
-		[]Opcja koloru drzwi
-		[]Opcje przetłoczenia drzwi
-				[]T17 pion
-				[]T17 poziom
-				[]T7 poziom
-				[]T7 pion 
+		[x]Opcja koloru drzwi
+		[x]Opcje przetłoczenia drzwi
+				[x]T17 pion
+				[x]T17 poziom
+				[x]T7 poziom
+				[x]T7 pion 
 		[]wkładamy przycisk  Dodaj kolejne
 		[]suwak
 	[]Kontrola okien
 		[]Opcja koloru okno
-			[]Automatyczny kolor
-			[]Wszystkie kolory oprócz ocynku
-			[]Wymiary okna
-				[]80 szerokość
+			[x]Automatyczny kolor
+			[x]Wszystkie kolory oprócz ocynku
+			[x]Wymiary okna
+				[x]80 szerokość
 		[]wkładamy przycisk  dodaj następne okna 
-		[]zmienić
 	[]Kontrola wiaty
 		[]minimalny 50cm
 		[]tylko jeden suwak zawsze 
@@ -107,10 +106,10 @@
 				[]antracyt do Rali
 				[]brąz do drewna i do Brązowych kolorów
 	[]Dodatkowe opcje niewidoczna
-		[]Konstrukcja standardowa ocynkowana (usunąć)
-		[]Konstrukcja z profili zamkniętych ocynkowanych 
-			[](na pierwszym miejscu)
-			[]zaznaczone podstawowo
+		[x]Konstrukcja standardowa ocynkowana (usunąć)
+		[x]Konstrukcja z profili zamkniętych ocynkowanych 
+			[x](na pierwszym miejscu)
+			[x]zaznaczone podstawowo
 		[]Dodatkowa opcja Automat do bramy 
 			[]po kliknięciu automat do bramy + wtedy garaż minimum 2.33m
 			[]przeźroczyste jeżeli nie brama uchylna
@@ -119,8 +118,8 @@
 			[]po kliknięciu automat do bramy + wtedy garaż minimum 2.33m
 			[]przeźroczyste jeżeli nie brama uchylna
 			[]info po prawej stronie po najechaniu "oppcja dostępna tylko przy bramach uchylnych"
-		[]Dodatkowa opcja przystosowanie do rynny
-		[]Kotwiczenie na sam dół
+		[x]Dodatkowa opcja przystosowanie do rynny
+		[x]Kotwiczenie na sam dół
 	[]Wnęka
 		[]Dodać wszystkie opcje wnęk aby omówić to następnym 
 		[]Pamiętać o suwakach

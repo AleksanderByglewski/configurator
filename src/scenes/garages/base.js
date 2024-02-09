@@ -44,68 +44,92 @@ class genericGui extends Generic {
      * @param {Array} array - Array of attributes. Attributes can be strings or objects with properties to set on the input elements.
      * @param {Object} options - Options object to set the attributes of the input elements.
      */
-    generateTextInputs(containerDiv, array , options = {}, labels=undefined) {
-        array.forEach((attr,index) => {
+    generateTextInputs(containerDiv, array, options = {}, labels = undefined) {
+        array.forEach((attr, index) => {
             const textLabel = document.createElement('label');
             const attributeName = typeof attr === 'object' ? attr.name : attr;
-           
-            textLabel.textContent = attributeName;
-            if(labels!==undefined){
-            textLabel.textContent = labels[index]
-            };
+    
+            textLabel.textContent = labels !== undefined ? labels[index] : attributeName;
             containerDiv.appendChild(textLabel);
-
+    
             const filler = document.createElement('div');
             containerDiv.appendChild(filler);
-
+    
             const textInput = document.createElement('input');
             // Apply all properties from options object to the text input
             Object.keys(options).forEach(optionKey => {
                 textInput[optionKey] = options[optionKey];
             });
-            
-
+    
             // Create increment and decrement buttons
             const incrementButton = document.createElement('button');
             incrementButton.textContent = '▲'; // Use a suitable arrow symbol or an icon
             incrementButton.addEventListener('click', () => {
                 textInput.value = (parseFloat(textInput.value || 0) + 0.1).toFixed(2); // Increment the value
                 textInput.dispatchEvent(new Event('input')); // Trigger the input event
+                slider.value = textInput.value; // Sync with slider
             });
-
+    
             const decrementButton = document.createElement('button');
             decrementButton.textContent = '▼'; // Use a suitable arrow symbol or an icon
             decrementButton.addEventListener('click', () => {
                 textInput.value = (parseFloat(textInput.value || 0) - 0.1).toFixed(2); // Decrement the value
                 textInput.dispatchEvent(new Event('input')); // Trigger the input event
+                slider.value = textInput.value; // Sync with slider
             });
-
-
+    
             filler.appendChild(decrementButton);
             filler.appendChild(incrementButton);
-
-            textInput.value = this.mediator.state.state[attributeName] || '';  // default to empty string if not set
-
-            textInput.addEventListener('input', function (e) {
-                this.mediator.state.state[attr] = e.target.value;
-                //this.notifyMediator('stateChange', { [attr]: e.target.value });
-                this.notifyMediator('buildingStep', {});
     
+            textInput.value = this.mediator.state.state[attributeName] || ''; // Default to empty string if not set
+            textInput.addEventListener('input', function(e) {
+                this.mediator.state.state[attributeName] = e.target.value;
+                this.notifyMediator('buildingStep', {});
+                slider.value = textInput.value; // Sync with slider
             }.bind(this));
-        
-            // Event listener for input changes
-            // textInput.addEventListener('input', function (e) {
-            //     this.mediator.state.state[attributeName] = parseFloat(e.target.value);
-
-            //     this.notifyMediator('debugStateChange', { [attributeName]: e.target.value });
-
-            //     console.log(this.mediator.state.state);
-            // }.bind(this));
-
+    
             containerDiv.appendChild(textInput);
+    
+            // Create the slider
+            const slider = document.createElement('input');
+            slider.type = 'range';
+            slider.min = options.min || '0'; // Default minimum
+            slider.max = options.max || '100'; // Default maximum
+            slider.step = options.step || '0.1'; // Default step
+            slider.value = this.mediator.state.state[attributeName] || 0; // Sync with text input value
+    
+            // Update text input when slider value changes
+            slider.addEventListener('input', () => {
+                textInput.value = slider.value;
+                textInput.dispatchEvent(new Event('input')); // Trigger the input event
+            });
+    
+            // It's a good idea to wrap the slider in a div for styling or layout purposes
+            const sliderWrapper = document.createElement('div');
+            sliderWrapper.appendChild(slider);
+            sliderWrapper.classList.add("container__range")
+            containerDiv.appendChild(sliderWrapper);
+
+            const sliderHTML = `
+            <div class="range-slider" data-start-min="450" data-min="0" data-max="1000" data-step="1">
+              <div class="range-slider-ui"></div>
+              <input class="form-control range-slider-value-min" type="hidden">
+            </div>
+            `
+            // Update text input when slider value changes
+            // slider.addEventListener('input', () => {
+            //     textInput.value = slider.value;
+            //     textInput.dispatchEvent(new Event('input')); // Trigger the input event
+            // });
+    
+            // It's a good idea to wrap the slider in a div for styling or layout purposes
+            const sliderWrapper2 = document.createElement('div');
+            sliderWrapper2.innerHTML = sliderHTML;
+            sliderWrapper2.classList.add("container__range");
+            containerDiv.appendChild(sliderWrapper2);
+
         });
     }
-
 
     insertContent(content, selector = "*", classes = "attribute-values", id = "") {
         this.waitForDOM(() => {

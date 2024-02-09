@@ -31,7 +31,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
         */
 
         let targeted_parent = this.external_objects_controllers[0]
-        debugger
+      
         let accessers = [
             new accesser('height'),
             new accesser('width'),
@@ -53,7 +53,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
 
 
 
-        debugger
+   
         targeted_parent = this.request_find_element('top_level')
 
         accessers = [
@@ -94,7 +94,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
 
 
         this.request_an_update()
-        debugger
+       
         let name = this.state.get('name') || 'Wall'
         let object_type = this.state.get('object_type') || 'flat'
         let object_width = parseFloat(this.state.get('object_width')) || 1.90
@@ -168,7 +168,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
         let modifier_position_y = 0
         let roof_slant = 5.5 * Math.PI / 180
         let visibility = true
-        debugger
+    
         switch (roof_type) {
             case "roof_type_1":
                 switch (status) {
@@ -204,7 +204,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
                         visibility = true
                         break;
                     case "right":
-                        debugger
+                       
                         visibility = true
                         let roof_top_height = (garage_width) * (1 / Math.cos(roof_slant))
                         let roof_height = roof_top_height * Math.sin(roof_slant);
@@ -245,7 +245,7 @@ class UconfigsImplementationGutterController extends UconfigsController {
                         break;
                     case "left":
                         visibility = true
-                        debugger
+                    
                         let roof_top_height = (garage_width) * (1 / Math.cos(roof_slant))
                         let roof_height = roof_top_height * Math.sin(roof_slant);
                         modifier_y = +1 * roof_height

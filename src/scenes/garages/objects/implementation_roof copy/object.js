@@ -127,14 +127,18 @@ class SphereObject extends genericObject {
         local_texture.wrapS=THREE.RepeatWrapping
         local_texture.wrapT=THREE.RepeatWrapping
         // let texture=global_texture
-        let material = new THREE.MeshStandardMaterial({
-            map: local_texture,
-            color: color,
-            // metalness: 0.0,
-            // roughness: 0.1,
-            // clearcoat: 0.8,
-            // clearcoatRoughness: 0.2
-        });
+        let material = select_texture({ width: width, height: height, color: "#c6eaff", material_type:  "material_type_4" })
+        material.side = THREE.DoubleSide
+
+
+        //  material = new THREE.MeshStandardMaterial({
+        //     map: local_texture,
+        //     color: color,
+        //     // metalness: 0.0,
+        //     // roughness: 0.1,
+        //     // clearcoat: 0.8,
+        //     // clearcoatRoughness: 0.2
+        // });
 
         
         
@@ -1019,7 +1023,7 @@ class RoofTopObject extends genericObject {
         material = new THREE.MeshStandardMaterial({
             map:local_texture,
             
-            color: color ,
+            color: "#fff" ,
         
             side:THREE.DoubleSide
         });
@@ -1033,7 +1037,7 @@ class RoofTopObject extends genericObject {
         // material.bumpMap.repeat.set(width, height/2);
         // material.normalMap.repeat.set(width, height/2);
         // material.color=new THREE.Color(color)
-        material=select_texture({width:width, height:height, color:color, material_type:roof_material_type})
+        // material=select_texture({width:width, height:height, color:c6eaff, material_type:roof_material_type})
         material.side= THREE.DoubleSide
         
         const mesh = new THREE.Mesh(geometry, material);

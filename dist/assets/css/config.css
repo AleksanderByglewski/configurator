@@ -81,3 +81,12 @@ form.contact-form {
 .gallery-item{
     cursor: pointer;
 }
+
+.container__range{
+    grid-column: 1/-1;
+  }
+  
+.container__range input{
+    width:100%;
+  }
+  

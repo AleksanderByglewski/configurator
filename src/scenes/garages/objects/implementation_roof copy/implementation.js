@@ -120,7 +120,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         let object_width = parseFloat(this.state.get('object_width')) || 3
         let object_height = parseFloat(this.state.get('object_height')) || 2.13
         let object_depth = parseFloat(this.state.get('object_depth')) || 4
-        let object_color = this.state.get('object_color') || "#888492"
+        let object_color = this.state.get('object_color') || "#5a5d61"
 
         let texture_type = ""
 
@@ -134,7 +134,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         if (GLOBAL_ORIENTATION == "SIDEWAYS") {
             roof_material_type = this.state.get('roof_material_type') || "material_type_7"
         }
-
+       
         let position_x = this.state.get('position_x') || 0
         let position_y = this.state.get('position_y') || 2.13
         let position_z = this.state.get('position_z') || 0

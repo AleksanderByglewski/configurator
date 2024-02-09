@@ -42,7 +42,7 @@ class SphereObject extends genericObject {
         let local_texture = global_texture
 
         let material_type = (attributes && attributes.material_type) ? attributes.material_type : "material_type_1";
-
+        
         switch (material_type) {
             case "material_type_1":
                 // texture=global_texture
@@ -206,7 +206,7 @@ class DoorObject extends genericObject {
 
 
 
-        
+        //debugger
 
 
         // local_texture.repeat.set(1, height);

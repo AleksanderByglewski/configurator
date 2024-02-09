@@ -110,14 +110,16 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
         ];
         
         const formFields = [
-            { label: 'Konstrukcja standardowa ocynkowana', value: 'Rynny',type:"checkbox" , name:'rynny' },
+            // { label: 'Konstrukcja standardowa ocynkowana', value: 'Rynny',type:"checkbox" , name:'rynny' },
+            { label: 'Konstrukcja z profili zamkniętych ocynkowanych', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady', checked: true  },
             { label: 'Konstrukcja z profili zamkniętych pomalowanych farbą podkładową', value: 'Automatyka', type:"checkbox",  name:'automatyka' },
-            { label: 'Konstrukcja z profili zamkniętych ocynkowanych', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
+      
             { label: 'Przystosowanie bramy uchylnej pod automat', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
             { label: 'Obróbka blacharska', value: 'Obróbka blacharska',type:"checkbox", name:'dodatkowe spady'  },
             { label: 'Filc pod dachem', value: 'Filc pod dachem',type:"checkbox", name:'dodatkowe spady'  },
+           
+            { label: 'Przystosowanie pod rynny', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
             { label: 'Kotwiczenie', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
-            { label: 'Rynny', value: 'Dodatkowe spady',type:"checkbox", name:'dodatkowe spady'  },
             
         ];
     
@@ -148,6 +150,7 @@ class UconfigImplementationAdditonalOptionsGui extends genericGui {
                 input.classList.add('form-check-input');
                 input.type = 'checkbox';
                 input.value = field.value;
+                input.checked = field.checked;
                 input.name = field.value.toLowerCase().replace(/\s+/g, '-');  // Example to generate name attribute
         
                 inputGroupTextDiv.appendChild(input);
