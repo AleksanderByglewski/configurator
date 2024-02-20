@@ -30,7 +30,7 @@ function attach_shadows(scene) {
 function initScene() {
   // Initialization and population of the scene
   const scene = new THREE.Scene();
-  let root =populateScene(scene);
+  let root = populateScene(scene);
 
   // Camera and renderer setup
   const camera = setupCamera();
@@ -54,7 +54,7 @@ function initScene() {
     sideMenu.appendChild(enableShadowsButton);
   }
 
-  initializeRaycaster(scene, camera,root)
+  initializeRaycaster(scene, camera, root)
   // Handling of the screen size change
   window.addEventListener('resize', handleResize(camera, renderer, composer));
 }
@@ -63,8 +63,8 @@ function main() {
   initScene();
   draggableUI();
 }
-function initializeRaycaster(scene, camera,root) {
- 
+function initializeRaycaster(scene, camera, root) {
+
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   function logAllDescendants(object, prefix = '') {
@@ -89,72 +89,76 @@ function initializeRaycaster(scene, camera,root) {
   let previouslyIntersected = new Map();
 
   function onMouseEvent(event) {
-
-
-
     // Use this function to list all descendants of the scene
-
     // Convert mouse position to NDC
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     // Update the raycaster with the camera and mouse position
     raycaster.setFromCamera(mouse, camera);
-
     // Calculate objects intersected by the ray
     //const allObjects = getAllDescendants(scene);
 
-    const intersects = raycaster.intersectObjects(scene.children, true);
+    let intersects = raycaster.intersectObjects(scene.children, true);
     //SB
-    //This only intersects the direct children of the scene most likely we would like it to intersect all of the descendants in this scene
-    //  debugger
-    //  const intersects = raycaster.intersectObjects(allObjects, true);
+    //So now we have got the entire traversaln figured out 
+    //We will probably need to call the gui calls now instead of coloring the children but that is okay for now
+    function findInteractableAncestor(object) {
 
-
+      while (object !== null && object !== scene) {
+          // Safely check if userData exists and has interactionGroup property set to true
+          
+          if (object.userData?.interactionGroup === true) {
+              return object; // Found the interactable group
+          }
+          object = object.parent; // Move up in the hierarchy
+      }
+      return null; // No interactable ancestor found
+  }
     // Handle intersects (e.g., log intersected object names)
     function updateIntersections() {
-      let intersects = raycaster.intersectObjects(scene.children, true);
-    
-      // New map for currently intersected objects
-      let currentlyIntersected = new Map();
-      if (intersects.length > 0) {
-
-        intersects = [intersects[0]];
-        //But if it belongs to the group i would like to get all the parents of this element 
-        //And then hit the parent that is actually initializing this bastard
+      let intersects_proposition = raycaster.intersectObjects(scene.children, true);
+      
+      intersects=[]
+      if (intersects_proposition.length > 0) {
+        // Assume the first intersected object is the one we're interested in
+        //intersects = [intersects_proposition[0]];
         debugger
-        console.log(root)
+        let ans=findInteractableAncestor(intersects_proposition[0].object)
+        intersects =ans ? [ans] : [];
       }
-      // Change color of newly intersected objects and store their original colors
+
+      console.log(intersects)
+      // New map for currently intersected objects
+      for (let uuid of previouslyIntersected.keys()) {
+        previouslyIntersected.get(uuid).intersected = false;
+      }
+
+      // Handle current intersections
       intersects.forEach((intersect) => {
-        
-        console.log(intersect.object.uuid);
-        console.log(intersect.object)
-        intersect.object.traverse((child) => {
-          if (child.material && !previouslyIntersected.has(child.uuid)) {
-            // Store the original color
-            previouslyIntersected.set(child.uuid, child.material.color.clone());
-            // Change the material color to red
+        const object = intersect;
+        object.traverse((child) => {
+          if (child.isMesh) {
+            if (!previouslyIntersected.has(child.uuid)) {
+              // Store original color and mark as intersected
+              previouslyIntersected.set(child.uuid, { color: child.material.color.clone(), intersected: true });
+            } else {
+              previouslyIntersected.get(child.uuid).intersected = true;
+            }
+            // Change color to red
             child.material.color.set(0xff0000);
           }
         });
-        // Mark it as currently intersected
-        currentlyIntersected.set(intersect.object.uuid, true);
-        //This can detect the internal id's by getting first the top handle
-        //and afterwards traversing it down it technically should be a three js group 
-        //so all of the methods should work
       });
-    
-      // Revert color of objects that are no longer intersected
-      previouslyIntersected.forEach((originalColor, uuid) => {
-        if (!currentlyIntersected.has(uuid)) {
+
+      // Revert color of no longer intersected objects
+      previouslyIntersected.forEach((value, uuid) => {
+        if (!value.intersected) {
           const object = scene.getObjectByProperty('uuid', uuid);
-          if (object && object.material) {
-            object.material.color.copy(originalColor);
-            object.material.needsUpdate = true;
+          if (object) {
+            object.material.color.copy(value.color);
+            previouslyIntersected.delete(uuid); // Optional: remove from map to keep it clean
           }
-          // Remove from map after reverting color
-          previouslyIntersected.delete(uuid);
         }
       });
     }
