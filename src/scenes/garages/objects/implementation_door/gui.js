@@ -358,6 +358,9 @@ class DedicatedDoorGui extends genericGui {
     constructor() {
         super();
     }
+    callMe(){
+        alert("calling, not you XD; the program")
+    }
 
 
     generateSep() {

@@ -30,7 +30,7 @@ function attach_shadows(scene) {
 function initScene() {
   // Initialization and population of the scene
   const scene = new THREE.Scene();
-  populateScene(scene);
+  let root =populateScene(scene);
 
   // Camera and renderer setup
   const camera = setupCamera();
@@ -54,7 +54,7 @@ function initScene() {
     sideMenu.appendChild(enableShadowsButton);
   }
 
-  initializeRaycaster(scene, camera)
+  initializeRaycaster(scene, camera,root)
   // Handling of the screen size change
   window.addEventListener('resize', handleResize(camera, renderer, composer));
 }
@@ -63,15 +63,12 @@ function main() {
   initScene();
   draggableUI();
 }
-function initializeRaycaster(scene, camera) {
+function initializeRaycaster(scene, camera,root) {
+ 
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   function logAllDescendants(object, prefix = '') {
-    if (object.children.length === 9) {
 
-      console.log("hi")
-      //debugger;
-    }
     object.children.forEach((child) => {
       console.log(`${prefix}${child.name} - Type: ${child.type}`);
       logAllDescendants(child, prefix + '  ');
@@ -116,14 +113,23 @@ function initializeRaycaster(scene, camera) {
 
     // Handle intersects (e.g., log intersected object names)
     function updateIntersections() {
-      const intersects = raycaster.intersectObjects(scene.children, true);
+      let intersects = raycaster.intersectObjects(scene.children, true);
     
       // New map for currently intersected objects
       let currentlyIntersected = new Map();
-    
+      if (intersects.length > 0) {
+
+        intersects = [intersects[0]];
+        //But if it belongs to the group i would like to get all the parents of this element 
+        //And then hit the parent that is actually initializing this bastard
+        debugger
+        console.log(root)
+      }
       // Change color of newly intersected objects and store their original colors
       intersects.forEach((intersect) => {
+        
         console.log(intersect.object.uuid);
+        console.log(intersect.object)
         intersect.object.traverse((child) => {
           if (child.material && !previouslyIntersected.has(child.uuid)) {
             // Store the original color
@@ -134,6 +140,9 @@ function initializeRaycaster(scene, camera) {
         });
         // Mark it as currently intersected
         currentlyIntersected.set(intersect.object.uuid, true);
+        //This can detect the internal id's by getting first the top handle
+        //and afterwards traversing it down it technically should be a three js group 
+        //so all of the methods should work
       });
     
       // Revert color of objects that are no longer intersected
@@ -165,6 +174,9 @@ function initializeRaycaster(scene, camera) {
       // Your code to be executed when the 'S' key is pressed
     }
   }
+  //We will do it like this we will keep the external uids in the scene object which is easily accessible by everyone 
+  //Lets call them config_objects
+  //Then in the config objects we will do some things so let's do it
 
   // Add the event listener for the 'keydown' event
   window.addEventListener('keydown', handleKeyPress);

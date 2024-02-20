@@ -18,6 +18,7 @@ class UconfigsImplementationController extends UconfigsController {
         this.gui = new UconfigImplementationGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+     
         this.external_objects=[]
         this.external_objects_controllers=[]
         
@@ -111,6 +112,7 @@ class UconfigsImplementationDoorController extends UconfigsImplementationControl
         this.gui = new UconfigImplementationDoorGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+   
         this.external_objects=[]
         this.external_objects_controllers=[]
         

@@ -23,6 +23,7 @@ class UconfigsImplementationWallsController extends UconfigsController {
         //this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+        this.group.name="top_level_controller"
         this.external_objects=[]
         this.external_objects_controllers=[]
         
