@@ -123,7 +123,7 @@ function initializeRaycaster(scene, camera, root) {
       if (intersects_proposition.length > 0) {
         // Assume the first intersected object is the one we're interested in
         //intersects = [intersects_proposition[0]];
-        debugger
+        
         let ans=findInteractableAncestor(intersects_proposition[0].object)
         intersects =ans ? [ans] : [];
       }
