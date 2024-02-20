@@ -530,7 +530,7 @@ function populateScene(scene) {
   const floor = new THREE.Mesh(geometry, material);
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
-  floor.name="floor"
+  floor.name="floor_special"
   scene.background=new THREE.Color(0x97DEFB);
   // scene.background=new THREE.Color(0x000000);
   scene.fog = new THREE.Fog(0xffffff, 10, 100);
@@ -1171,11 +1171,13 @@ generic_contact_form()
 
   }
   addShadows(scene)
+  //initializeRaycaster(scene);
   value.light=directionalLight
   return value
 
 
 }
+
 
 
 export { populateScene }
