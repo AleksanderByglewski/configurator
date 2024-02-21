@@ -19,6 +19,7 @@ export class accesser {
 
 class Generic {
     constructor() {
+        this.id = uuidv4();
         this.mediator = null;
     }
 
@@ -403,12 +404,13 @@ class genericObject extends Generic {
 }
 
 class genericDisplay extends Generic {
-    constructor(scene = undefined) {
+    constructor(mediator ,scene = undefined) {
         super()
         this.scene = scene
+        this.mediator=mediator
     }
     add_to_scene(model) {
-        
+
         this.scene.add(model)
     }
     remove_from_scene(model){
@@ -425,11 +427,16 @@ class genericDisplay extends Generic {
 class genericController extends Generic {
     constructor() {
         super();
-        this.gui = new genericGui();
+        this.gui = new genericGui(this);
         this.state = new genericState();
         this.model = new genericObject();
         this.display = new genericDisplay();
+        //But maybe it will not be necessary we can control it 
+        //Let's make tht connection of the external uuid and the internal uuid let's push it to the scene
+
+
     }
+ 
 
     handleEvent(event, data) {
         switch (event) {

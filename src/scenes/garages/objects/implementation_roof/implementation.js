@@ -36,6 +36,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
         this.gui = new UconfigImplementationRoofGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+        
         this.external_objects = []
         this.external_objects_controllers = []
 
