@@ -984,9 +984,15 @@ class DedicatedGateGui extends genericGui {
         var display_label_value = ['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
         var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
 
+
+        let options={min:4, max:2}
+        if (this.mediator.state.state.gate_type == 'gate_type_3') {
+         
+        }
+
         let generate_all = this.generateTextInputs(containerDiv, selected_text_attributes, { type: "number", step: "0.1" }, display_label_value)
 
-
+        
 
         // positionValues.forEach(attr => {
         //     const textLabel = document.createElement('label');

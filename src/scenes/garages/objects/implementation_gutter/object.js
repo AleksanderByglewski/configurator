@@ -55,6 +55,7 @@ class GutterObject extends genericObject {
     
         // Create the container mesh with the invisible material
         const containerMesh = new THREE.Mesh(geometry, invisibleMaterial);
+        containerMesh.name="gutters"
         //const containerMesh = new THREE.Mesh(geometry, debugMaterial);
         containerMesh.position.set(parseFloat(position_x), parseFloat(position_y+modifier_y), parseFloat(position_z));
     

@@ -368,7 +368,9 @@ class UconfigImplementationGui extends genericGui {
                 localizedState.update('roof_type', main_object_roof_type);
 
                 let roof_type=localizedState.get('roof_type');
-                if(roof_type==="roof_type_1"){
+                debugger
+                if(roof_type==="roof_type_1" && targetWall.state.state.status=="back"){
+                    
                     let object_height=localizedState.get('garage_height');
                     let garage_width=localizedState.get('garage_width')
                    
@@ -378,7 +380,7 @@ class UconfigImplementationGui extends genericGui {
                     let roof_top_height = garage_depth * (1 / Math.cos(roof_slant))
                     let y_displacement = roof_top_height * Math.sin(roof_slant)
                     if(object_height-y_displacement<2.01){
-                    alert('Zbyt mała wysokoość tylniej ściany, aby zamontować bramę, zwiększ wysokość garażu'+ 'minimalna wysokość to:' + String((2.0+y_displacement).toFixed(2))+ 'm')
+                    alert('Zbyt mała wysokość tylniej ściany, aby zamontować bramę, zwiększ wysokość garażu'+ ' minimalna wysokość to: ' + String((2.0+y_displacement).toFixed(2))+ 'm')
                     return}
                 }
 

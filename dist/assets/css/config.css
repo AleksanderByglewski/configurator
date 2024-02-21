@@ -89,4 +89,14 @@ form.contact-form {
 .container__range input{
     width:100%;
   }
-  
+      
+  .noUi-value.noUi-value-horizontal.noUi-value-sub {
+    display: none !important;
+}
+[data-pips] .range-slider-ui {
+    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
+}
+.noUi-handle.noUi-handle-lower {
+    transform: translate(5px, 0px);
+}

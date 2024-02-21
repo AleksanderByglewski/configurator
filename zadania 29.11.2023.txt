@@ -38,16 +38,15 @@
 		[x]Opcja bramy tylniej
 		[x]Opcja koloru bramy
 		[x]Opcje przetłoczenia bram
-		[]Suwak przesuwanie
-		[] brama uchylna
-			[]4m szeroka max 2m szeroka min
-			[]2.5m wysokość max 2m wysoka min
- 			[]suwaki
-		[]dwuskrzydłowa
-			[]4m szerokość max 140 szerokość min	
-			[]4m wysokośc max 2m min wysoka
-			[]suwaki 
-		[]Suwak wysokość do 2.50m ()
+		[x]Suwak przesuwanie
+		[x] brama uchylna
+			[x]4m szeroka max 2m szeroka min
+			[x]2.5m wysokość max 2m wysoka min
+ 			[x]suwaki
+		[x]dwuskrzydłowa
+			[x]4m szerokość max 140 szerokość min	
+			[x]4m wysokośc max 2m min wysoka
+			[x]suwaki 
 		[]Brama frontowa 
 			[]wkładamy przycisk  Dodaj bramy
 			[]wkładamy przycisk usuń bramę
@@ -59,7 +58,7 @@
 				[x]T7 poziom
 				[x]T7 pion 
 		[]wkładamy przycisk  Dodaj kolejne
-		[]suwak
+		[x]suwak
 	[]Kontrola okien
 		[]Opcja koloru okno
 			[x]Automatyczny kolor

@@ -949,11 +949,11 @@ class DedicatedGateGui extends genericGui {
 
         // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
   
-        var display_values=['position_x', 'position_y', 'door_height', 'door_width']
-        var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
+        var display_values=['position_x', 'position_y']
+        var display_label_value=['przesunięcie x', 'przesunięcie y (pewnie skasować)']
         var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
 
-        let generate_all=this.generateTextInputs(containerDiv,selected_text_attributes, {type:"number", step:"0.1"}, display_label_value)
+        let generate_all=this.generateTextInputs(containerDiv,selected_text_attributes, {min:-1.5+0.6,max:1.5-0.6,type:"number", step:"0.1"}, display_label_value)
         
  
 

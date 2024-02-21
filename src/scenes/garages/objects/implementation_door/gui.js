@@ -501,13 +501,41 @@ class DedicatedDoorGui extends genericGui {
 
         // let inputs=this.generateTextInputs(containerDiv,positionValues, {type:"number", step:"0.1"},label_values)
 
-        var display_values = ['position_x', 'position_y', 'door_height', 'door_width']
-        var display_label_value = ['przesunięcie x', 'przesunięcie y (pewnie skasować)', 'wysokość obiektu', 'szerokość obiektu']
+        let options_x={min:0.0001,max:0.0001, type: "number", step: "0.1" }
+        let options_height={min:2.0,max:2.5, type: "number", step: "0.1" }
+        let options_width={min:2,max:4.0, type: "number", step: "0.1" }
+        if (this.mediator.state.state.gate_type == 'gate_type_2') {
+          
+        let options_x={min:0.0001,max:0.0001, type: "number", step: "0.1" }
+        let options_height={min:2.0,max:2.5, type: "number", step: "0.1" }
+        let options_width={min:1.4,max:4.0, type: "number", step: "0.1" }
+        }
+        if (this.mediator.state.state.gate_type == 'gate_type_3') {
+          
+            let options_x={min:0.0001,max:0.0001, type: "number", step: "0.1" }
+            let options_height={min:2.0,max:2.5, type: "number", step: "0.1" }
+            let options_width={min:2.0,max:4.0, type: "number", step: "0.1" }
+        }
+
+
+        var display_values = ['position_x', ]
+        var display_label_value = ['przesunięcie od środka']
         var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
+        this.generateTextInputs(containerDiv, selected_text_attributes, {min:0.0001,max:0.0001, type: "number", step: "0.1" }, display_label_value)
+        
+        var display_values = ['door_height']
+        var display_label_value = [ 'wysokość bramy' ]
+        var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
+     
+        this.generateTextInputs(containerDiv, selected_text_attributes, {min:2.0,max:2.5, type: "number", step: "0.1" }, display_label_value)
 
-        let generate_all = this.generateTextInputs(containerDiv, selected_text_attributes, { type: "number", step: "0.1" }, display_label_value)
 
-
+        
+        var display_values = ['door_width']
+        var display_label_value = [ 'szerokość bramy']
+        var selected_text_attributes = getOrderedAttributes(text_attributes, display_values);
+     
+        this.generateTextInputs(containerDiv, selected_text_attributes, {min:2.0,max:4.0, type: "number", step: "0.1" }, display_label_value)
 
         // positionValues.forEach(attr => {
         //     const textLabel = document.createElement('label');

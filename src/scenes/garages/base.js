@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import noUiSlider from 'nouislider';
+
 const gui = new GUI();
 let GLOBAL_ORIENTATION
 let CANOPIES_AUTOMATIC
@@ -38,6 +40,72 @@ class genericGui extends Generic {
         this.id = uuidv4();
     }
 
+     initializeCustomSlider(containerDiv, options = {}) {
+        const sliderHTML = `
+        <div class="range-slider" data-pips="true">
+          <div class="range-slider-ui"></div>
+          <div class="d-flex align-items-center">
+          
+    
+            <div class="mx-1 px-2 fs-xs">—</div>
+        
+          </div>
+        </div>
+        `;
+    
+        // Append the slider HTML
+        const sliderWrapper = document.createElement('div');
+        sliderWrapper.innerHTML = sliderHTML;
+        sliderWrapper.classList.add("container__range");
+        containerDiv.appendChild(sliderWrapper);
+
+
+        const sliderElement = sliderWrapper.querySelector('.range-slider-ui');
+        
+
+        
+        // Initialize noUiSlider with corrected options
+        noUiSlider.create(sliderElement, {
+            start: 0, // Starting value
+            range: { min: options.min, max: options.max }, // Range from 0 to 5
+            step: 0.1, // Move by 0.1
+            tooltips: true,
+            format: {
+                // Format the tooltip display and the value formatting from and to the slider
+                to: function(value) {
+                    // Round the value to 1 decimal place and return
+                    return value;
+                },
+                from: function(value) {
+                    // Convert the formatted value back to a float
+                    return value;
+                }
+            },
+            pips: {
+                mode: 'steps',
+                density: 10 // Adjust density to control the number of pips shown
+            }
+            
+        });
+    
+        //valuesSlider.noUiSlider.set(['7', '28']);
+
+        // Setup synchronization between noUiSlider and input fields
+        sliderElement.noUiSlider.on('update', function (values) {
+            // sliderWrapper.querySelector('.range-slider-value-min').value = Math.round(values[0]);
+           
+        });
+
+        return {
+        
+            sliderElement: sliderElement, // The noUiSlider instance
+            minInput: sliderWrapper.querySelector('.range-slider-value-min'), // Min value input
+    
+        };
+    
+        // Add event listeners to input fields if needed...
+    }
+
     /**
      * Generates text inputs and appends them to a container div.
      *
@@ -46,13 +114,22 @@ class genericGui extends Generic {
      */
     generateTextInputs(containerDiv, array, options = {}, labels = undefined) {
         array.forEach((attr, index) => {
+            let sep=document.createElement('hr')
+            sep.classList.add('mb-4')
+            sep.style.gridColumn="1/-1"
+            containerDiv.appendChild(sep);
             const textLabel = document.createElement('label');
+           
             const attributeName = typeof attr === 'object' ? attr.name : attr;
     
             textLabel.textContent = labels !== undefined ? labels[index] : attributeName;
+            textLabel.classList.add('d-flex', 'align-items-center')
+            textLabel.style.gridColumn="1/3"
+        
             containerDiv.appendChild(textLabel);
     
             const filler = document.createElement('div');
+            filler.classList.add('d-none')
             containerDiv.appendChild(filler);
     
             const textInput = document.createElement('input');
@@ -85,37 +162,20 @@ class genericGui extends Generic {
             textInput.addEventListener('input', function(e) {
                 this.mediator.state.state[attributeName] = e.target.value;
                 this.notifyMediator('buildingStep', {});
-                slider.value = textInput.value; // Sync with slider
+               // slider.value = textInput.value; // Sync with slider
             }.bind(this));
     
             containerDiv.appendChild(textInput);
     
             // Create the slider
             const slider = document.createElement('input');
-            slider.type = 'range';
-            slider.min = options.min || '0'; // Default minimum
-            slider.max = options.max || '100'; // Default maximum
-            slider.step = options.step || '0.1'; // Default step
-            slider.value = this.mediator.state.state[attributeName] || 0; // Sync with text input value
+            slider.classList.add('d-none')
+            // slider.type = 'range';
+            // slider.min = options.min || '0'; // Default minimum
+            // slider.max = options.max || '100'; // Default maximum
+            // slider.step = options.step || '0.1'; // Default step
+            // slider.value = this.mediator.state.state[attributeName] || 0; // Sync with text input value
     
-            // Update text input when slider value changes
-            slider.addEventListener('input', () => {
-                textInput.value = slider.value;
-                textInput.dispatchEvent(new Event('input')); // Trigger the input event
-            });
-    
-            // It's a good idea to wrap the slider in a div for styling or layout purposes
-            const sliderWrapper = document.createElement('div');
-            sliderWrapper.appendChild(slider);
-            sliderWrapper.classList.add("container__range")
-            containerDiv.appendChild(sliderWrapper);
-
-            const sliderHTML = `
-            <div class="range-slider" data-start-min="450" data-min="0" data-max="1000" data-step="1">
-              <div class="range-slider-ui"></div>
-              <input class="form-control range-slider-value-min" type="hidden">
-            </div>
-            `
             // Update text input when slider value changes
             // slider.addEventListener('input', () => {
             //     textInput.value = slider.value;
@@ -123,11 +183,33 @@ class genericGui extends Generic {
             // });
     
             // It's a good idea to wrap the slider in a div for styling or layout purposes
-            const sliderWrapper2 = document.createElement('div');
-            sliderWrapper2.innerHTML = sliderHTML;
-            sliderWrapper2.classList.add("container__range");
-            containerDiv.appendChild(sliderWrapper2);
-
+            const sliderWrapper = document.createElement('div');
+            sliderWrapper.appendChild(slider);
+            sliderWrapper.classList.add("container__range")
+            containerDiv.appendChild(sliderWrapper);
+            const { sliderElement, minInput } = this.initializeCustomSlider(containerDiv, {
+                // start: 0, // Default or dynamic values
+                 min: options.min ||0,
+                 max: options.max ||3,
+                 step:options.step||0.1
+                // step: 0.1
+                // Add any other options needed
+            });
+            let isFirstUpdate = true;
+            sliderElement.noUiSlider.on('update', function (values, handle) {
+                const value = parseFloat(values[handle]).toFixed(1); // 
+                console.log(value)
+                // Assuming textInput is the input you want to update:
+                textInput.value = value; // Update the text input value
+                if (!isFirstUpdate) {
+                    textInput.dispatchEvent(new Event('input')); // Trigger the input event for synchronization
+                } else {
+                    isFirstUpdate = false; // Update the flag after the first call
+                }
+            });
+    
+            
+            
         });
     }
 

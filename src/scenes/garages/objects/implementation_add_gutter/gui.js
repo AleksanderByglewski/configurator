@@ -146,7 +146,8 @@ class UconfigImplementationGui extends genericGui {
 
    
         const escapedId = '#id-' + this.id + '.input-values';
-        this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
+        const customGutter=".custom-gutter"
+        this.insertContent(accordionDiv, customGutter, 'input-values', this.id);
 
         this.listenToChanges();
     }
@@ -568,12 +569,15 @@ class UconfigImplementationWindowGui extends genericGui {
 
    
         const escapedId = '#id-' + this.id + '.input-values';
+        const customGutter=".custom-gutter"
+        
         this.insertContent(accordionDiv, escapedId, 'input-values', this.id);
 
         this.listenToChanges();
     }
     createMarkup() {
         const containerDiv = document.createElement('div');
+        containerDiv.classList.add('rynna-click')
         containerDiv.classList.add('squares-container--three');
     
         // Create a select element

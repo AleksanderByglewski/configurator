@@ -134,7 +134,7 @@ class UconfigImplementationRoofGui extends genericGui {
 
 
         }
-
+     
         // let {accordionBodyDiv, accordionDiv}=
         // generateAccordion.bind(this)('collapseTwo',"Wybór dachu")
 
@@ -156,12 +156,14 @@ class UconfigImplementationRoofGui extends genericGui {
     
         // Roof cover type accordion
         let {accordionBodyDiv: accordionBodyDiv3, accordionDiv: accordionDiv3} = generateSimpleContainer.bind(this)('collapseFour', "Pokrycie dachu", true);
+
         accordionBodyDiv3.appendChild(this.createMarkupCoverType());
         masterAccordionBody.appendChild(accordionDiv3); // Append to master accordion body
     
       // Roof cover type accordion
       let {accordionBodyDiv: accordionBodyDiv4, accordionDiv: accordionDiv4} = generateSimpleContainer.bind(this)('collapseFive', "Dodatkowe opcje dachu", true);
       accordionBodyDiv4.appendChild(this.createMarkupAdditionalElements());
+      accordionBodyDiv4.classList.add('custom-gutter')
       masterAccordionBody.appendChild(accordionDiv4); // Append to master accordion body
   
 
@@ -176,38 +178,120 @@ class UconfigImplementationRoofGui extends genericGui {
         const form = document.createElement('form');
         form.classList.add('contact-form', 'squares-container--1');
     
+        let self=this
         const options = [
             { value: 'felt', description: 'Filc pod dachem' },
             { value: 'gutters', description: 'Rynny' },
-            
         ];
-    
+        
         options.forEach(option => {
+           
             const inputGroupDiv = document.createElement('div');
             inputGroupDiv.classList.add('input-group', 'mb-2');
-    
+        
             const inputGroupTextDiv = document.createElement('div');
             inputGroupTextDiv.classList.add('input-group-text');
-    
+        
             const checkboxInput = document.createElement('input');
             checkboxInput.classList.add('form-check-input');
             checkboxInput.type = 'checkbox';
             checkboxInput.value = option.value;
             checkboxInput.name = option.value.toLowerCase().replace(/\s+/g, '-');
-    
+        
+            // Check if the option is 'gutters' and add an event listener
+            if (option.value === 'gutters') {
+                checkboxInput.addEventListener('change', (event) => {
+                    // When the checkbox is checked
+                    if (event.target.checked) {
+                        // Perform actions for when 'gutters' is enabled
+                        document.querySelector('.rynna-click .submit-button').click();
+                        console.log(`Checkbox for ${option.description} is now checked.`);
+                        const textsToHide = ['Rynna lewa', 'Rynna prawa', 'Rynna frontowa', 'Rynna tylnia'];
+
+                        // Select all .accordion-button elements within .accordion
+                        const buttons = document.querySelectorAll('.accordion .accordion-button');
+                    
+                        // Iterate through the buttons
+                        buttons.forEach(button => {
+                            // Check if the button's text includes any of the specified texts
+                            const shouldHide = textsToHide.some(text => button.textContent.includes(text));
+                    
+                            // If a match is found, hide the button
+                            if (shouldHide) {
+                                button.style.display = 'none';
+                            }
+                        });
+                    } else {
+                        // Perform actions for when 'gutters' is disabled
+                        console.log(`Checkbox for ${option.description} is now unchecked.`);
+                        // Call the function you want to run when 'gutters' is disabled
+                     
+                        const textsToHide = ['Rynna lewa', 'Rynna prawa', 'Rynna frontowa', 'Rynna tylnia'];
+
+                        // Select all .accordion-button elements within .accordion
+                        const buttons = document.querySelectorAll('.accordion .accordion-button');
+                    
+                        // Iterate through the buttons
+                        buttons.forEach(button => {
+                            // Check if the button's text includes any of the specified texts
+                            const shouldHide = textsToHide.some(text => button.textContent.includes(text));
+                    
+                            // If a match is found, hide the button
+                            if (shouldHide) {
+                                button.style.display = 'none';
+                            }
+                        });
+                        yourFunctionToRunWhenGuttersIsDisabled(self.mediator.display.scene);
+                    }
+                });
+            }
+            function yourFunctionToRunWhenGuttersIsDisabled(scene) {
+                // Your logic here
+                console.log("Running specific logic for when gutters is disabled.");
+                // Example: Remove all objects named 'gutters' from the scene
+                removeAllObjectsByName(scene, 'gutters');
+            }
+            
+            function removeAllObjectsByName(scene, name) {
+                const removableObjects = [];
+                scene.traverse((object) => {
+                    if (object.name === name) {
+                        removableObjects.push(object);
+                    }
+                });
+                removableObjects.forEach(object => {
+                    if (object.parent) {
+                        object.parent.remove(object);
+                        // Dispose of geometries, materials, and textures if necessary
+                        if (object.geometry) object.geometry.dispose();
+                        if (object.material) {
+                            if (Array.isArray(object.material)) {
+                                object.material.forEach(material => material.dispose());
+                            } else {
+                                object.material.dispose();
+                            }
+                        }
+                        if (object.material && object.material.map) object.material.map.dispose();
+                    }
+                });}
             const formControlDiv = document.createElement('div');
             formControlDiv.classList.add('form-control');
             formControlDiv.setAttribute('disabled', '');
             formControlDiv.textContent = option.description;
-    
+        
             inputGroupTextDiv.appendChild(checkboxInput);
             inputGroupDiv.appendChild(inputGroupTextDiv);
             inputGroupDiv.appendChild(formControlDiv);
-            form.appendChild(inputGroupDiv);
+            form.appendChild(inputGroupDiv); // Assuming you're appending to the body for this example
         });
-    
+
+        
+   
         return form;
     }
+
+    
+          
     createMarkup() {
         const containerDiv = document.createElement('div');
         containerDiv.classList.add('squares-container--three');

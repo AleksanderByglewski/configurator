@@ -223,12 +223,13 @@ class UconfigImplementationGui extends genericGui {
         // Create options for the select element
         if(this.mediator.door_type){
         print_elemnt="Drzwi"
-        options = ['front', 'left', 'right', 'back'];
+        options = ['left', 'right', 'back','front'] ;
         options_mapping={
-            "front":"frontowe",
+            
             "left": "lewe",
             "right":"prawe",
-            "back":"tylnie"
+            "back":"tylnie",
+            "front":"frontowe",
                     }
         }
 
