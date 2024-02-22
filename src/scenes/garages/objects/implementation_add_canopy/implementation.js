@@ -21,7 +21,11 @@ class UconfigsImplementationController extends UconfigsController {
         this.setModel(UconfigInvisibleObject)
         this.gui = new UconfigImplementationGui();
         this.gui.set_mediator(this)
+     
+
         this.group = new THREE.Group()
+
+
         this.external_objects=[]
         this.external_objects_controllers=[]
         

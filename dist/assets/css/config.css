@@ -100,3 +100,8 @@ form.contact-form {
 .noUi-handle.noUi-handle-lower {
     transform: translate(5px, 0px);
 }
+.focused-raycaster{
+    -webkit-box-shadow: inset 0px 0px 28px 5px rgba(136, 192, 227, 1);
+    -moz-box-shadow: inset 0px 0px 28px 5px rgba(136, 192, 227, 1);
+    box-shadow: inset 0px 0px 28px 5px rgba(136, 192, 227, 1);
+}

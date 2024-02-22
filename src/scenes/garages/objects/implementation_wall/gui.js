@@ -21,8 +21,10 @@ class UconfigImplementationWallGui extends genericGui {
     generateInputs(attributes) {
 
             function generateAccordion(who_to_collapse="collapseTwo", pass_name="Kontroler", show=false, master=false){
+                
                     const accordionDiv = document.createElement('div');
                     accordionDiv.classList.add('accordion');
+                    // accordionDiv.id = 'parent-inputs-accordion-' + this.id;
                     accordionDiv.id = 'parent-inputs-accordion-' + this.id;
             
                     const accordionItemDiv = document.createElement('div');
@@ -69,6 +71,7 @@ class UconfigImplementationWallGui extends genericGui {
             
                     const inputGroupDiv = document.createElement('div');
                     inputGroupDiv.classList.add('input-group', 'align-items-center');
+                   
                     accordionBodyDiv.appendChild(inputGroupDiv);
                         return {
                         accordionDiv: accordionDiv,
@@ -142,7 +145,8 @@ class UconfigImplementationWallGui extends genericGui {
         
     // Create a master accordion
     let masterAccordionName = "Kontrola Garażu"; // The name of the master accordion
-    let {accordionBodyDiv: masterAccordionBody, accordionDiv: masterAccordionDiv} = generateAccordion.bind(this)('collapseMaster', masterAccordionName, true);
+   
+    let {accordionBodyDiv: masterAccordionBody, accordionDiv: masterAccordionDiv} = generateAccordion.bind(this)('collapseMaster', masterAccordionName, false);
     
     let pass_name = (attributes && attributes.name) ? attributes.name : "Wymiary garażu";
     let {accordionBodyDiv, accordionDiv} = generateSimpleContainer.bind(this)('collapseTwo', pass_name, true);
@@ -158,8 +162,9 @@ class UconfigImplementationWallGui extends genericGui {
     masterAccordionBody.appendChild(accordionDiv3); // Append to master accordion body
 
     // Now, you insert the masterAccordionDiv (which contains all the accordions) to the DOM
-    const masterContainerId = '#master-container-' + this.id; // Change this to the actual selector of where you want the master accordion to go
-    this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', this.id);
+    let masterContainerId = '#master-' + this.id; // Change this to the actual selector of where you want the master accordion to go
+    
+    this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', 'just-walls');
 
     this.listenToChanges();
 

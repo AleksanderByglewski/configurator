@@ -106,26 +106,166 @@ function initializeRaycaster(scene, camera, root) {
     function findInteractableAncestor(object) {
 
       while (object !== null && object !== scene) {
-          // Safely check if userData exists and has interactionGroup property set to true
-          
-          if (object.userData?.interactionGroup === true) {
-              return object; // Found the interactable group
-          }
-          object = object.parent; // Move up in the hierarchy
+        // Safely check if userData exists and has interactionGroup property set to true
+
+        if (object.userData?.interactionGroup === true) {
+          return object; // Found the interactable group
+        }
+        object = object.parent; // Move up in the hierarchy
       }
       return null; // No interactable ancestor found
-  }
+    }
+    function findSiblings(object) {
+      const siblings = [];
+     
+      const interactableAncestor = findInteractableAncestor(object);
+
+      // Check if the interactableAncestor has userData defined
+      if (interactableAncestor && interactableAncestor.userData) {
+        // Now check if interactionGroupName is set within userData
+        if ('targetedInteractionGroupName' in interactableAncestor.userData) {
+          const interactionGroupName = interactableAncestor.userData.targetedInteractionGroupName;
+
+          function findAllMatchingObjects(sceneObject, interactionGroupName, foundObjects) {
+            sceneObject.children.forEach(child => {
+              // Ensure child has userData and interactionGroupName matches
+              if (child.userData && child.userData.interactionGroupName === interactionGroupName) {
+                foundObjects.push(child);
+              }
+              findAllMatchingObjects(child, interactionGroupName, foundObjects);
+            });
+          }
+
+          const allMatchingObjects = [];
+          findAllMatchingObjects(scene, interactionGroupName, allMatchingObjects);
+          return allMatchingObjects
+          return allMatchingObjects.filter(sibling => sibling !== interactableAncestor);
+        }
+      }
+
+      return siblings; // Return empty array if checks fail
+    }
+    function focusGui(guiId) {
+      // Find the side menu container
+      const sideMenu = document.querySelector('.side-menu');
+    
+      // Use the guiId to find the specific GUI element within the side menu
+      const guiElement = sideMenu.querySelector(`#id-${guiId}`);
+      
+      const existingFocusedRaycaster = document.querySelector('.focused-raycaster');
+      if (existingFocusedRaycaster) {
+        existingFocusedRaycaster.classList.remove('focused-raycaster');
+      }
+      // Check if the event is a click
+    
+      // Check if the GUI element exists
+      if (guiElement) {
+        // Scroll the GUI element into view within the side menu
+        
+        // Get the current scale value from the element's style.transform
+        let scaleValue = parseFloat(guiElement.style.transform.replace('scale(', '').replace(')', '')) || 1;
+        guiElement.querySelector('.accordion-button').classList.add('focused-raycaster');
+        // Increase the scale value by 0.001
+        //scaleValue += 0.001;
+        
+        // Apply the new scale value as inline style
+        // guiElement.style.transform = `scale(${scaleValue})`;
+    
+        // Ensure the transition is smooth
+        
+      }
+    }
+    function unwrapGui(guiId) {
+      // Find the side menu container
+      const sideMenu = document.querySelector('.side-menu');
+    
+      // Use the guiId to find the specific GUI element within the side menu
+      const guiElement = sideMenu.querySelector(`#id-${guiId}`);
+      
+      // const existingFocusedRaycaster = document.querySelector('.focused-raycaster');
+      // if (existingFocusedRaycaster) {
+      //   existingFocusedRaycaster.classList.remove('focused-raycaster');
+      // }
+      // Check if the event is a click
+    
+      // Check if the GUI element exists
+      if (guiElement) {
+        // Scroll the GUI element into view within the side menu
+    
+    
+        // Find the accordion button within guiElement
+        const accordionButton = guiElement.querySelector('.accordion-button');
+    
+        // Check if the accordion button exists and is marked as 'collapsed'
+        if (accordionButton) {
+          // Programmatically click the accordion button to uncollapse the target accordion
+          accordionButton.click();
+        }
+        if (accordionButton &&  !accordionButton.classList.contains('collapsed')) {
+        
+        setTimeout(() => {
+          guiElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+        }, 150); // 500 milliseconds delay
+      }
+        guiElement.querySelector('.accordion-button').classList.add('focused-raycaster');
+        // Optional: Increase scale and apply new scale value as inline style if needed
+        // let scaleValue = parseFloat(guiElement.style.transform.replace('scale(', '').replace(')', '')) || 1;
+        // scaleValue += 0.001;
+        // guiElement.style.transform = `scale(${scaleValue})`;
+      }
+    }
+
+    function unfocusGui(){
+      const existingFocusedRaycaster = document.querySelector('.focused-raycaster');
+      if (existingFocusedRaycaster) {
+        existingFocusedRaycaster.classList.remove('focused-raycaster');
+      }
+    }
     // Handle intersects (e.g., log intersected object names)
     function updateIntersections() {
       let intersects_proposition = raycaster.intersectObjects(scene.children, true);
-      
-      intersects=[]
+
+      intersects = []
       if (intersects_proposition.length > 0) {
         // Assume the first intersected object is the one we're interested in
         //intersects = [intersects_proposition[0]];
+
+        let ans = findInteractableAncestor(intersects_proposition[0].object)
+        let ans2 = findSiblings(intersects_proposition[0].object)
+
+
         
-        let ans=findInteractableAncestor(intersects_proposition[0].object)
-        intersects =ans ? [ans] : [];
+      
+        unfocusGui()
+
+        // Determine if 'ans' has a guiLink and 'targetedInteractionGroupName' is not defined
+        if (ans !== null && ans.userData?.guiLink) {
+          
+          if (event.type === 'click') {
+            unwrapGui(ans.userData.guiLink); // Call the hello function
+          }
+          focusGui(ans.userData.guiLink); // Call focusGui if guiLink exists
+         
+        }
+
+
+
+        if (ans != null && 'userData' in ans) {
+          if ('targetedInteractionGroupName' in ans.userData) {
+            intersects = ans ? [...ans2] : [];
+          }
+          else {
+            intersects = ans ? [ans, ...ans2] : [];
+          }
+        }
+        else {
+          intersects = ans ? [ans, ...ans2] : [];
+        }
+        // intersects = ans ? [ans,...ans2] : [];
+        // intersects = ans ? [...ans2] : [];
+
+
       }
 
       console.log(intersects)
@@ -186,5 +326,7 @@ function initializeRaycaster(scene, camera, root) {
   window.addEventListener('keydown', handleKeyPress);
   // Attach event listener for mouse move or click
   window.addEventListener('mousemove', onMouseEvent);
+  window.addEventListener('click', onMouseEvent);
+
 }
 document.addEventListener("DOMContentLoaded", main);

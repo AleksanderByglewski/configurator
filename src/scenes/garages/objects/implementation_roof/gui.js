@@ -141,7 +141,7 @@ class UconfigImplementationRoofGui extends genericGui {
 
 
         let masterAccordionName = "Kontrola Dachu"; // The name for the master accordion
-        let {accordionBodyDiv: masterAccordionBody, accordionDiv: masterAccordionDiv} = generateAccordion.bind(this)('collapseMaster', masterAccordionName, true);
+        let {accordionBodyDiv: masterAccordionBody, accordionDiv: masterAccordionDiv} = generateAccordion.bind(this)('collapseMaster', masterAccordionName, false);
     
         // Roof type accordion
         let {accordionBodyDiv, accordionDiv} = generateSimpleContainer.bind(this)('collapseTwo', "Wybór dachu", true);
@@ -168,7 +168,7 @@ class UconfigImplementationRoofGui extends genericGui {
   
 
         const masterContainerId = '#master-container-' + this.id; 
-        this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', this.id);
+        this.insertContent(masterAccordionDiv, masterContainerId, 'master-accordion', 'just-roofs');
     
         this.listenToChanges();
     

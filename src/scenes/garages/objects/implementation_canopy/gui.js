@@ -550,7 +550,7 @@ class UconfigCanopyUserGui extends UconfigUserGui {
         }.bind(this));
 
         containerDiv.appendChild(removeModelBtn);
-
+      
 
         return containerDiv;
     }

@@ -20,6 +20,13 @@ class UconfigsImplementationDoorController extends UconfigsController {
         this.gui = new DedicatedGateGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+
+        this.group.userData.interactionGroup = true; // This marks the group for collective interaction
+        this.group.userData.guiLink = this.gui.id; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        // this.group.userData.interactionGroupName="doors"
+        // this.group.userData.targetedInteractionGroupName="doors"
+        
         this.external_objects = []
         this.external_objects_controllers = []
 
@@ -249,8 +256,10 @@ class UconfigsImplementationGateController extends UconfigsImplementationDoorCon
         this.group = new THREE.Group()
         this.group.userData.interactionGroup = true; // This marks the group for collective interaction
         this.group.userData.guiLink = this.gui.id; // This links the group to a specific GUI element
-        this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI 
         this.group.name="DoorController"
+        this.group.userData.interactionGroupName="doors"
+        this.group.userData.targetedInteractionGroupName="doors"
         this.external_objects = []
         this.external_objects_controllers = []
     }

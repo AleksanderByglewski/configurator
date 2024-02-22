@@ -384,6 +384,7 @@ class RoofSideRightObject extends genericObject {
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
+        mesh.userData.interactionGroupName="walls"
         this.set(mesh);
     }
 
@@ -589,6 +590,7 @@ class RoofSideLeftObject extends genericObject {
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
+        mesh.userData.interactionGroupName="walls"
         this.set(mesh);
     }
 
@@ -797,6 +799,7 @@ class RoofSideSquareObject extends genericObject {
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
+        mesh.userData.interactionGroupName="walls"
         this.set(mesh);
     }
 
@@ -1083,6 +1086,7 @@ class RoofTopObject extends genericObject {
 
 
         // mesh.rotation.y = 0.70; // Rotate by the given roof angle
+        
         this.set(mesh);
     }
 

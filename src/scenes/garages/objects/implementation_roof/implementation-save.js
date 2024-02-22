@@ -542,7 +542,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                     y_displacement = roof_top_height * Math.sin(roof_slant) / 2
 
                     accessersWallLeft = [
-                        new accesser('name', name + "left"),
+                        new accesser('name', name + "_left"),
                         new accesser('width', roof_object_depth),
                         new accesser('height', roof_height / 2),
                         new accesser('sheet_depth', sheet_depth),
@@ -559,7 +559,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                     ]
                     var GOBACKTO_variable = 1
                     accessersWallRight = [
-                        new accesser('name', name + "right"),
+                        new accesser('name', name + "_right"),
                         new accesser('wall_color', "#FF0000"),
                         new accesser('width', roof_object_depth),
                         new accesser('height', roof_height / 2),
@@ -620,7 +620,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                     ]
 
                     accessersWallLeft2 = [
-                        new accesser('name', name + "left"),
+                        new accesser('name', name + "_left"),
                         new accesser('width', roof_object_depth),
                         new accesser('height', roof_height / 2),
                         new accesser('sheet_depth', sheet_depth),
@@ -637,7 +637,7 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 
                     ]
                     accessersWallRight2 = [
-                        new accesser('name', name + "right"),
+                        new accesser('name', name + "_right"),
                         new accesser('wall_color', "#FF0000"),
                         new accesser('width', roof_object_depth),
                         new accesser('height', roof_height / 2),
@@ -677,6 +677,8 @@ class UconfigsImplementationRoofsController extends UconfigsController {
                     break
                 }
 
+                
+
         }
 
 
@@ -695,6 +697,12 @@ class UconfigsImplementationRoofsController extends UconfigsController {
             accessersObject.push(added_accesser);
         });
 
+        accessersWallFront.push(new accesser("gui_interaction", "front"))
+        accessersWallBack.push(new accesser("gui_interaction", "back"))
+        accessersWallLeft.push(new accesser("gui_interaction", "left"))
+        accessersWallLeft2.push(new accesser("gui_interaction", "left"))
+        accessersWallRight.push(new accesser("gui_interaction", "right"))
+        accessersWallRight2.push(new accesser("gui_interaction", "right"))
 
 
         return {
@@ -782,6 +790,10 @@ class UconfigsImplementationRoofsController extends UconfigsController {
 class UconfigsImplementationSecondaryRoofsController extends UconfigsImplementationRoofsController {
     constructor() {
         super()
+        //@TODO
+        this.group.userData.interactionGroup = true; // This marks the group for collective interaction
+        this.group.userData.guiLink = this.gui.id; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI elemen
     }
 
     request_an_update() {
@@ -1182,8 +1194,13 @@ class UconfigsImplementationRoofSupportSideLeftController extends UconfigsContro
         super()
         this.setModel(UconfigInvisibleObject)
         this.gui = new UconfigDebugGui();
-        this.gui.set_mediator(this)
+        this.gui.set_mediator(this)        
         this.group = new THREE.Group()
+        this.group.userData.interactionGroup = true; // This marks the group for collective interaction
+        this.group.userData.guiLink = 'just-walls'; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        
+        this.group.userData.targetedInteractionGroupName="walls"
         this.external_objects = []
         this.external_objects_controllers = []
 
@@ -1272,6 +1289,11 @@ class UconfigsImplementationRoofSupportSideRightController extends UconfigsContr
         this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+        this.group.userData.interactionGroup = true; // This marks the group for collective interaction
+        this.group.userData.guiLink = 'just-walls'; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        
+        this.group.userData.targetedInteractionGroupName="walls"
         this.external_objects = []
         this.external_objects_controllers = []
 
@@ -1363,8 +1385,10 @@ class UconfigsImplementationRoofTopController extends UconfigsController {
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
         this.group.userData.interactionGroup = true; // This marks the group for collective interaction
-        this.group.userData.guiLink = this.gui.id; // This links the group to a specific GUI element
+        this.group.userData.guiLink = 'just-roofs'; // This links the group to a specific GUI element
         this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        this.group.userData.interactionGroupName="roof_top"
+        this.group.userData.targetedInteractionGroupName="roof_top"
         this.external_objects = []
         this.external_objects_controllers = []
 
@@ -1457,6 +1481,11 @@ class UconfigsImplementationRoofSupportSideSquareController extends UconfigsCont
         this.gui = new UconfigDebugGui();
         this.gui.set_mediator(this)
         this.group = new THREE.Group()
+        this.group.userData.interactionGroup = true; // This marks the group for collective interaction
+        this.group.userData.guiLink = 'just-walls'; // This links the group to a specific GUI element
+        this.group.userData.selfLink = this.id; // This links the group to a specific GUI element
+        
+        this.group.userData.targetedInteractionGroupName="walls"
         this.external_objects = []
         this.external_objects_controllers = []
 
